@@ -1,0 +1,1528 @@
+{
+  "version": 1,
+  "captured": "2026-10-18",
+  "entries": [
+    {
+      "id": "2026-10-12",
+      "date": "2026-10-12",
+      "title": "At the studio",
+      "en": "2026.10.12 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Studio documentation",
+      "summary": "Photographs from a session at Horizon Studio.",
+      "notes": "Seven photographs document this studio session. The record preserves the date and location; no further process note was attached.",
+      "poster": "assets/logs/2026-10-12/hero.jpg",
+      "video": null,
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-10-12/image-001.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 01",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-10-12/image-002.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 02",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-10-12/image-003.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 03",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-10-12/image-004.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 04",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-10-12/image-005.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 05",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-10-12/image-006.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 06",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-10-12/image-007.jpg",
+          "kind": "image",
+          "alt": "At the studio — record 07",
+          "width": 360,
+          "height": 480
+        }
+      ]
+    },
+    {
+      "id": "2026-10-08",
+      "date": "2026-10-08",
+      "title": "First usability test",
+      "en": "2026.10.08 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Usability testing",
+      "summary": "The first usability test, recorded at Horizon Studio.",
+      "notes": "The session note identifies this as the first usability test. Four video records are collected here.",
+      "poster": "assets/logs/2026-10-08/hero.jpg",
+      "video": "assets/logs/2026-10-08/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-10-08/image-001.jpg",
+          "kind": "video",
+          "alt": "First usability test — record 01",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-10-08/clip-001.mp4",
+          "duration": "0:16"
+        },
+        {
+          "image": "assets/logs/2026-10-08/image-002.jpg",
+          "kind": "video",
+          "alt": "First usability test — record 02",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-10-08/clip-002.mp4",
+          "duration": "0:16"
+        },
+        {
+          "image": "assets/logs/2026-10-08/image-003.jpg",
+          "kind": "video",
+          "alt": "First usability test — record 03",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-10-08/clip-003.mp4",
+          "duration": "0:19"
+        },
+        {
+          "image": "assets/logs/2026-10-08/image-004.jpg",
+          "kind": "video",
+          "alt": "First usability test — record 04",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-10-08/clip-004.mp4",
+          "duration": "0:16"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-30",
+      "date": "2026-09-30",
+      "title": "Testing the immersive space",
+      "en": "2026.09.30 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Interaction & immersive content",
+      "summary": "Floor interaction and immersive content tests in the studio.",
+      "notes": "This session brought together floor interaction and immersive content tests at Horizon Studio. The photographs and films below are the records from that day.",
+      "poster": "assets/logs/2026-09-30/hero.jpg",
+      "video": "assets/logs/2026-09-30/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-09-30/image-001.jpg",
+          "kind": "video",
+          "alt": "Testing the immersive space — record 01",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-30/clip-001.mp4",
+          "duration": "0:18"
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-002.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 02",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-003.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 03",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-004.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 04",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-005.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 05",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-006.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 06",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-007.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 07",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-008.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 08",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-009.jpg",
+          "kind": "image",
+          "alt": "Testing the immersive space — record 09",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-010.jpg",
+          "kind": "video",
+          "alt": "Testing the immersive space — record 10",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-30/clip-010.mp4",
+          "duration": "0:23"
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-011.jpg",
+          "kind": "video",
+          "alt": "Testing the immersive space — record 11",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-30/clip-011.mp4",
+          "duration": "0:09"
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-012.jpg",
+          "kind": "video",
+          "alt": "Testing the immersive space — record 12",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-30/clip-012.mp4",
+          "duration": "0:26"
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-013.jpg",
+          "kind": "video",
+          "alt": "Testing the immersive space — record 13",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-30/clip-013.mp4",
+          "duration": "0:10"
+        },
+        {
+          "image": "assets/logs/2026-09-30/image-014.jpg",
+          "kind": "video",
+          "alt": "Testing the immersive space — record 14",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-30/clip-014.mp4",
+          "duration": "0:10"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-29",
+      "date": "2026-09-29",
+      "title": "Finding the mood",
+      "en": "2026.09.29 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Visual direction",
+      "summary": "Checking the mood of a revised concept.",
+      "notes": "The team recorded a mood check for the revised concept at Horizon Studio. Twenty-one photographs make up this session.",
+      "poster": "assets/logs/2026-09-29/hero.jpg",
+      "video": null,
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-09-29/image-001.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 01",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-002.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 02",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-003.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 03",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-004.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 04",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-005.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 05",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-006.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 06",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-007.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 07",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-008.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 08",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-009.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 09",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-010.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 10",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-011.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 11",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-012.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 12",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-013.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 13",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-014.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 14",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-015.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 15",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-016.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 16",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-017.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 17",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-018.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 18",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-019.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 19",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-020.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 20",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-29/image-021.jpg",
+          "kind": "image",
+          "alt": "Finding the mood — record 21",
+          "width": 480,
+          "height": 270
+        }
+      ]
+    },
+    {
+      "id": "2026-09-23",
+      "date": "2026-09-23",
+      "title": "Aligning the space",
+      "en": "2026.09.23 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Warping & sound",
+      "summary": "Studio warping work and sound tests.",
+      "notes": "Warping work and sound tests were recorded at Horizon Studio. This session contains photographs and two films.",
+      "poster": "assets/logs/2026-09-23/hero.jpg",
+      "video": "assets/logs/2026-09-23/clip-003.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-09-23/image-001.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 01",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-002.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 02",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-003.jpg",
+          "kind": "video",
+          "alt": "Aligning the space — record 03",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-23/clip-003.mp4",
+          "duration": "0:21"
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-004.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 04",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-005.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 05",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-006.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 06",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-007.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 07",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-008.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 08",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-009.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 09",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-010.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 10",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-011.jpg",
+          "kind": "video",
+          "alt": "Aligning the space — record 11",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-23/clip-011.mp4",
+          "duration": "0:13"
+        },
+        {
+          "image": "assets/logs/2026-09-23/image-012.jpg",
+          "kind": "image",
+          "alt": "Aligning the space — record 12",
+          "width": 221,
+          "height": 480
+        }
+      ]
+    },
+    {
+      "id": "2026-09-22",
+      "date": "2026-09-22",
+      "title": "Inside the horizon",
+      "en": "2026.09.22 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Video demos & interaction",
+      "summary": "Video demos and interaction tests at Horizon Studio.",
+      "notes": "A collection of video demos and interaction tests recorded in the studio. Eight films and thirty-six photographs bring together the experiments from this day.",
+      "poster": "assets/logs/2026-09-22/hero.jpg",
+      "video": "assets/logs/2026-09-22/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-09-22/image-001.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 01",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-001.mp4",
+          "duration": "0:17"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-002.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 02",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-002.mp4",
+          "duration": "0:16"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-003.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 03",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-003.mp4",
+          "duration": "0:06"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-004.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 04",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-004.mp4",
+          "duration": "0:20"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-005.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 05",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-005.mp4",
+          "duration": "0:14"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-006.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 06",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-006.mp4",
+          "duration": "0:27"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-007.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 07",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-007.mp4",
+          "duration": "0:09"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-008.jpg",
+          "kind": "video",
+          "alt": "Inside the horizon — record 08",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-22/clip-008.mp4",
+          "duration": "0:19"
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-009.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 09",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-010.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 10",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-011.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 11",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-012.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 12",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-013.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 13",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-014.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 14",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-015.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 15",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-016.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 16",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-017.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 17",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-018.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 18",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-019.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 19",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-020.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 20",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-021.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 21",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-022.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 22",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-023.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 23",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-024.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 24",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-025.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 25",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-026.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 26",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-027.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 27",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-028.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 28",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-029.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 29",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-030.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 30",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-031.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 31",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-032.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 32",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-033.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 33",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-034.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 34",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-035.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 35",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-036.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 36",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-037.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 37",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-038.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 38",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-039.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 39",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-040.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 40",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-041.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 41",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-042.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 42",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-043.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 43",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-09-22/image-044.jpg",
+          "kind": "image",
+          "alt": "Inside the horizon — record 44",
+          "width": 480,
+          "height": 270
+        }
+      ]
+    },
+    {
+      "id": "2026-09-17",
+      "date": "2026-09-17",
+      "title": "Mapping the first gestures",
+      "en": "2026.09.17 · Horizon Studio",
+      "place": "Horizon Studio",
+      "focus": "Interaction & mapping",
+      "summary": "Interaction development and projection mapping tests.",
+      "notes": "Interaction development and mapping were tested at Horizon Studio. Four films and five photographs document this session.",
+      "poster": "assets/logs/2026-09-17/hero.jpg",
+      "video": "assets/logs/2026-09-17/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-09-17/image-001.jpg",
+          "kind": "video",
+          "alt": "Mapping the first gestures — record 01",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-17/clip-001.mp4",
+          "duration": "0:07"
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-002.jpg",
+          "kind": "video",
+          "alt": "Mapping the first gestures — record 02",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-17/clip-002.mp4",
+          "duration": "0:26"
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-003.jpg",
+          "kind": "video",
+          "alt": "Mapping the first gestures — record 03",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-17/clip-003.mp4",
+          "duration": "0:18"
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-004.jpg",
+          "kind": "image",
+          "alt": "Mapping the first gestures — record 04",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-005.jpg",
+          "kind": "image",
+          "alt": "Mapping the first gestures — record 05",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-006.jpg",
+          "kind": "video",
+          "alt": "Mapping the first gestures — record 06",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-17/clip-006.mp4",
+          "duration": "0:11"
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-007.jpg",
+          "kind": "image",
+          "alt": "Mapping the first gestures — record 07",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-008.jpg",
+          "kind": "image",
+          "alt": "Mapping the first gestures — record 08",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-09-17/image-009.jpg",
+          "kind": "image",
+          "alt": "Mapping the first gestures — record 09",
+          "width": 480,
+          "height": 360
+        }
+      ]
+    },
+    {
+      "id": "2026-09-08",
+      "date": "2026-09-08",
+      "title": "Developing the tests",
+      "en": "2026.09.08 · Campus",
+      "place": "Campus",
+      "focus": "Development",
+      "summary": "Test development on campus.",
+      "notes": "An on-campus development session, recorded through five films and a photograph.",
+      "poster": "assets/logs/2026-09-08/hero.jpg",
+      "video": "assets/logs/2026-09-08/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-09-08/image-001.jpg",
+          "kind": "video",
+          "alt": "Developing the tests — record 01",
+          "width": 640,
+          "height": 213,
+          "video": "assets/logs/2026-09-08/clip-001.mp4",
+          "duration": "0:34"
+        },
+        {
+          "image": "assets/logs/2026-09-08/image-002.jpg",
+          "kind": "video",
+          "alt": "Developing the tests — record 02",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-08/clip-002.mp4",
+          "duration": "0:11"
+        },
+        {
+          "image": "assets/logs/2026-09-08/image-003.jpg",
+          "kind": "video",
+          "alt": "Developing the tests — record 03",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-08/clip-003.mp4",
+          "duration": "0:04"
+        },
+        {
+          "image": "assets/logs/2026-09-08/image-004.jpg",
+          "kind": "video",
+          "alt": "Developing the tests — record 04",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-08/clip-004.mp4",
+          "duration": "0:21"
+        },
+        {
+          "image": "assets/logs/2026-09-08/image-005.jpg",
+          "kind": "video",
+          "alt": "Developing the tests — record 05",
+          "width": 640,
+          "height": 360,
+          "video": "assets/logs/2026-09-08/clip-005.mp4",
+          "duration": "1:06"
+        },
+        {
+          "image": "assets/logs/2026-09-08/image-006.jpg",
+          "kind": "image",
+          "alt": "Developing the tests — record 06",
+          "width": 480,
+          "height": 360
+        }
+      ]
+    },
+    {
+      "id": "2026-08-18",
+      "date": "2026-08-18",
+      "title": "Early experiments",
+      "en": "2026.08.18 · Campus",
+      "place": "Campus",
+      "focus": "Early testing",
+      "summary": "An early testing session on campus.",
+      "notes": "Two photographs from the early tests on campus.",
+      "poster": "assets/logs/2026-08-18/hero.jpg",
+      "video": null,
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-08-18/image-001.jpg",
+          "kind": "image",
+          "alt": "Early experiments — record 01",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-18/image-002.jpg",
+          "kind": "image",
+          "alt": "Early experiments — record 02",
+          "width": 480,
+          "height": 360
+        }
+      ]
+    },
+    {
+      "id": "2026-08-17",
+      "date": "2026-08-17",
+      "title": "A visit to Le Space",
+      "en": "2026.08.17 · Le Space",
+      "place": "Le Space",
+      "focus": "Field research",
+      "summary": "A field visit to Le Space.",
+      "notes": "A field visit recorded through one film and twenty photographs.",
+      "poster": "assets/logs/2026-08-17/hero.jpg",
+      "video": "assets/logs/2026-08-17/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-08-17/image-001.jpg",
+          "kind": "video",
+          "alt": "A visit to Le Space — record 01",
+          "width": 360,
+          "height": 640,
+          "video": "assets/logs/2026-08-17/clip-001.mp4",
+          "duration": "0:09"
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-002.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 02",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-003.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 03",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-004.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 04",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-005.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 05",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-006.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 06",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-007.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 07",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-008.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 08",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-009.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 09",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-010.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 10",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-011.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 11",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-012.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 12",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-013.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 13",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-014.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 14",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-015.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 15",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-016.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 16",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-017.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 17",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-018.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 18",
+          "width": 358,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-019.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 19",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-020.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 20",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-08-17/image-021.jpg",
+          "kind": "image",
+          "alt": "A visit to Le Space — record 21",
+          "width": 360,
+          "height": 480
+        }
+      ]
+    },
+    {
+      "id": "2026-07-24",
+      "date": "2026-07-24",
+      "title": "Looking, listening, learning",
+      "en": "2026.07.24 · ARTE MUSEUM",
+      "place": "ARTE MUSEUM",
+      "focus": "Field research",
+      "summary": "A field visit to ARTE MUSEUM.",
+      "notes": "Thirty-five records from a field visit to ARTE MUSEUM: four films and thirty-one photographs.",
+      "poster": "assets/logs/2026-07-24/hero.jpg",
+      "video": "assets/logs/2026-07-24/clip-001.mp4",
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-07-24/image-001.jpg",
+          "kind": "video",
+          "alt": "Looking, listening, learning — record 01",
+          "width": 361,
+          "height": 640,
+          "video": "assets/logs/2026-07-24/clip-001.mp4",
+          "duration": "0:02"
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-002.jpg",
+          "kind": "video",
+          "alt": "Looking, listening, learning — record 02",
+          "width": 360,
+          "height": 640,
+          "video": "assets/logs/2026-07-24/clip-002.mp4",
+          "duration": "0:07"
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-003.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 03",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-004.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 04",
+          "width": 270,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-005.jpg",
+          "kind": "video",
+          "alt": "Looking, listening, learning — record 05",
+          "width": 360,
+          "height": 640,
+          "video": "assets/logs/2026-07-24/clip-005.mp4",
+          "duration": "0:08"
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-006.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 06",
+          "width": 480,
+          "height": 270
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-007.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 07",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-008.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 08",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-009.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 09",
+          "width": 270,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-010.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 10",
+          "width": 270,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-011.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 11",
+          "width": 270,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-012.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 12",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-013.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 13",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-014.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 14",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-015.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 15",
+          "width": 480,
+          "height": 224
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-016.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 16",
+          "width": 224,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-017.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 17",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-018.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 18",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-019.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 19",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-020.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 20",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-021.jpg",
+          "kind": "video",
+          "alt": "Looking, listening, learning — record 21",
+          "width": 361,
+          "height": 640,
+          "video": "assets/logs/2026-07-24/clip-021.mp4",
+          "duration": "0:21"
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-022.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 22",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-023.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 23",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-024.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 24",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-025.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 25",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-026.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 26",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-027.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 27",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-028.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 28",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-029.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 29",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-030.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 30",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-031.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 31",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-032.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 32",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-033.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 33",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-034.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 34",
+          "width": 360,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-24/image-035.jpg",
+          "kind": "image",
+          "alt": "Looking, listening, learning — record 35",
+          "width": 480,
+          "height": 360
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13",
+      "date": "2026-07-13",
+      "title": "Where the journey begins",
+      "en": "2026.07.13 · Not recorded",
+      "place": "Not recorded",
+      "focus": "Early testing",
+      "summary": "Photographs from an early testing session.",
+      "notes": "Seven photographs remain from this early testing session. The location was not recorded.",
+      "poster": "assets/logs/2026-07-13/hero.jpg",
+      "video": null,
+      "source": "https://dmd-snooze.vercel.app/",
+      "media": [
+        {
+          "image": "assets/logs/2026-07-13/image-001.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 01",
+          "width": 480,
+          "height": 332
+        },
+        {
+          "image": "assets/logs/2026-07-13/image-002.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 02",
+          "width": 373,
+          "height": 480
+        },
+        {
+          "image": "assets/logs/2026-07-13/image-003.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 03",
+          "width": 480,
+          "height": 250
+        },
+        {
+          "image": "assets/logs/2026-07-13/image-004.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 04",
+          "width": 480,
+          "height": 248
+        },
+        {
+          "image": "assets/logs/2026-07-13/image-005.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 05",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-07-13/image-006.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 06",
+          "width": 480,
+          "height": 360
+        },
+        {
+          "image": "assets/logs/2026-07-13/image-007.jpg",
+          "kind": "image",
+          "alt": "Where the journey begins — record 07",
+          "width": 480,
+          "height": 360
+        }
+      ]
+    }
+  ]
+}

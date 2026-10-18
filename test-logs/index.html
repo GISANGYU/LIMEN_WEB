@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SNOOZE — Test Logs</title>
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <a class="skip" href="#panel">Skip to motion settings</a>
+  <canvas id="stage" aria-label="Interactive infinite gallery"></canvas>
+  <header><button class="brand" id="home" aria-label="Reset gallery position">LIMEN<span>by SNOOZE</span></button><nav aria-label="Main navigation"><button id="gallery-nav">Test logs</button><button id="theme" aria-pressed="true">Dark mode</button><button id="toggle" aria-expanded="false" aria-controls="panel" aria-label="Motion settings">••</button></nav></header>
+  <div class="gallery-nav"><span id="content-count">Sessions 12</span><span>2026.07 — 2026.10</span><button id="add-images" hidden>Add images ＋</button></div>
+  <main id="gallery-surface" tabindex="0" aria-label="Infinite gallery. Explore with wheel, drag or arrow keys.">
+    <ol id="text-list" class="sr-only" aria-label="Test log sessions"></ol>
+  </main>
+  <aside id="panel" hidden aria-label="Motion settings">
+    <div class="panel-head"><div><small>Explore the motion</small><h2>Motion settings</h2></div><button id="close" aria-label="Motion settings close">✕</button></div>
+    <label class="select-row">Motion preset<select id="preset"><option value="reference">Reference · Waves and folds</option><option value="limen">LIMEN · Gentle waves</option><option value="still">Still · Effects off</option></select></label>
+    <div id="ranges"></div>
+    <div class="switches"><label><input id="single" type="checkbox"> Single column</label><label><input id="pause" type="checkbox"> Pause waves</label><label><input id="wire" type="checkbox"> Wireframe</label></div>
+    <label class="file-label" for="images">Replace images <span>＋</span></label><input id="images" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+    <p class="help">PNG · JPG · WebP / Up to 12 images<br>Images stay in this browser.</p>
+    <div class="actions"><button id="reset">Reset</button><button id="export">Export settings ↓</button></div>
+    <p class="help" id="status" role="status">Loading test logs…</p>
+  </aside>
+  <footer><span>Scroll / Drag <span class="arrow">↕</span></span><span id="progress">∞</span><span class="study">SNOOZE / FIELD NOTES</span></footer>
+  <dialog id="entry-detail" aria-labelledby="entry-title">
+    <div class="entry-nav"><span class="entry-brand">SNOOZE<span>LIMEN / FIELD NOTES</span></span><button id="entry-back">↙ Back to test logs</button></div>
+    <div class="entry-shell">
+      <div class="entry-kicker"><span id="entry-number">FIELD NOTES</span><time id="entry-date-top"></time></div>
+      <figure id="entry-hero"><div id="entry-hero-media"></div></figure>
+      <div class="entry-scroll-note"><span>SCROLL FOR THE PROCESS ↓</span><span>AN ONGOING EXPLORATION</span></div>
+      <article class="entry-story">
+        <aside class="entry-facts" aria-label="Session information"><dl><div><dt>Date</dt><dd id="entry-date"></dd></div><div><dt>Location</dt><dd id="entry-place"></dd></div><div><dt>Focus</dt><dd id="entry-focus"></dd></div><div><dt>Archive</dt><dd id="entry-count"></dd></div></dl></aside>
+        <div class="entry-copy"><p class="entry-eyebrow">THE PROCESS / SNOOZE</p><h1 id="entry-title"></h1><p id="entry-summary"></p><div class="entry-rule"></div><h2>Notes from the session</h2><p id="entry-notes"></p></div>
+      </article>
+      <section class="entry-evidence-section" aria-labelledby="entry-evidence-title"><div class="entry-section-head"><h2 id="entry-evidence-title">From that day.</h2><span id="entry-evidence-count"></span></div><div id="entry-evidence"></div></section>
+      <div class="entry-next"><p>KEEP FOLLOWING THE PROCESS / <span id="entry-next-date"></span></p><button id="entry-next"></button></div>
+      <div class="entry-end"><span>SNOOZE / LIMEN</span><span>Archive notes describe work in progress at the time.</span></div>
+    </div>
+  </dialog>
+  <div class="error" id="error" role="alert" hidden></div>
+  <noscript>Enable JavaScript to explore this demo.</noscript>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LIMEN · Loading</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2302030a'/><circle cx='8' cy='8' r='2.2' fill='%23f2ffcc'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #02030a;
+    --ink: rgba(226, 234, 246, 0.92);
+    --ink-dim: rgba(200, 212, 230, 0.62);
+    --track: rgba(200, 214, 236, 0.18);
+    --fill: rgba(236, 242, 252, 0.95);
+    --serif: "Cormorant Garamond", "Times New Roman", serif;
+    --sans: "Inter", "Pretendard", "Apple SD Gothic Neo", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); overflow: hidden; }
+  body { color: var(--ink); font-family: var(--serif); -webkit-font-smoothing: antialiased; }
+
+  .loader { position: fixed; inset: 0; transition: opacity 1.2s ease; }
+  .loader.is-out { opacity: 0; }
+
+  #gl, .bg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #gl { touch-action: none; }
+  .bg { object-fit: cover; background: var(--bg); }
+  .bg[hidden], #gl[hidden] { display: none; }
+
+  /* 가장자리를 눌러 빛이 가운데로 모이게 (영상판과 같은 비네트) */
+  .veil {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 75% 70% at 50% 48%, transparent 45%, rgba(1, 2, 6, 0.55) 100%),
+      linear-gradient(to bottom, transparent 62%, rgba(1, 2, 6, 0.45) 100%);
+  }
+  /* 그레인은 아주 약하게만: 바탕 검정을 띄우지 않도록 */
+  .grain {
+    position: absolute; inset: -50%; pointer-events: none; opacity: 0.025; mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation: grain 0.9s steps(4) infinite;
+  }
+  @keyframes grain {
+    0% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); }
+    50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } 100% { transform: translate(0, 0); }
+  }
+  .fade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .8s ease; }
+  .fade.on { opacity: 1; }
+
+  .index {
+    position: absolute;
+    top: max(28px, 4.2vh); left: max(28px, 3.4vw);
+    font-size: clamp(14px, 1.15vw, 20px); letter-spacing: 0.14em;
+    color: var(--ink); font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  .hud {
+    position: absolute; left: 50%; bottom: max(13vh, 72px);
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+    width: clamp(200px, 17vw, 340px);
+  }
+  /* 진행률이 빛 위에서도 읽히도록 HUD 뒤만 살짝 어둡게 */
+  .hud::before {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 190%; height: 260%;
+    transform: translate(-50%, -50%); z-index: -1; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(1, 2, 6, 0.62), rgba(1, 2, 6, 0));
+  }
+  .pct {
+    font-size: clamp(17px, 1.35vw, 24px); letter-spacing: 0.06em;
+    font-variant-numeric: lining-nums tabular-nums;
+    margin-bottom: clamp(10px, 1.1vh, 16px);
+  }
+  .bar { position: relative; width: 100%; height: 1px; background: var(--track); }
+  .bar-fill {
+    position: absolute; left: 0; top: 0; height: 100%; width: 100%;
+    background: var(--fill); transform-origin: left center; transform: scaleX(0);
+    box-shadow: 0 0 6px rgba(190, 215, 255, 0.55);
+  }
+  .bar-head {
+    position: absolute; top: 50%; left: 0; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px;
+    border-radius: 50%; background: #fff; box-shadow: 0 0 8px 2px rgba(180, 210, 255, 0.7);
+  }
+  .label {
+    margin-top: clamp(14px, 1.7vh, 22px);
+    font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 0.34em; padding-left: 0.34em;
+    text-transform: uppercase; color: var(--ink-dim); white-space: nowrap;
+  }
+
+  /* 진행선 아래 준비 문구: 글자마다 아래에서 올라오며 선명해지고, 위로 올라가며 흐려져 사라진다 */
+  .tip {
+    margin-top: clamp(16px, 2vh, 24px); height: 1.6em; line-height: 1.6em;
+    font-family: "Noto Serif KR", var(--serif); font-weight: 300;
+    font-size: clamp(11px, 0.82vw, 14px); letter-spacing: 0.08em;
+    color: var(--ink-dim); white-space: nowrap; text-align: center;
+  }
+  .tip span { display: inline-block; opacity: 0; will-change: transform, filter, opacity; }
+
+  /* 첫 등장: 준비 문구와 같은 결로 흐릿하게 아래에서 올라오며 선명해진다 (진행률 → 진행선 → 타이틀 → 번호) */
+  /* 첫 등장은 스크립트가 장면 시계로 그린다 (introUI). 그 전까지는 숨김 */
+  .pct, .bar, .label, .index { opacity: 0; filter: blur(10px); transform: translateY(12px); will-change: opacity, filter, transform; }
+
+  /* ── 잠금해제: 100%가 되면 진행선이 위아래로 벌어져 슬라이더가 된다 ── */
+  .unlock { position: absolute; left: 50%; top: 0; width: 0; height: 0; }
+  .unlock[hidden] { display: none; }
+  .unlock-track {
+    position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+    width: 2px; height: 2px; border-radius: 999px; overflow: hidden;
+    border: 1px solid rgba(226, 236, 252, 0.85); background: rgba(2, 3, 10, 0.5);
+    touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;
+  }
+  .unlock-track.is-drag { cursor: grabbing; }
+  .unlock-fx { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+  .unlock-text {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    font-family: var(--sans); font-weight: 500; font-size: clamp(16px, 1.25vw, 21px);
+    letter-spacing: 0.42em; padding-left: 0.42em; white-space: nowrap; pointer-events: none;
+    color: rgba(226, 234, 246, 0.82);
+  }
+  .unlock-knob {
+    position: absolute; left: 4px; top: 50%; border-radius: 50%; outline: none;
+    display: grid; place-items: center; background: #e9eef7; color: #0a0d18;
+  }
+  .unlock-knob:focus-visible { box-shadow: 0 0 0 2px rgba(242, 255, 204, 0.6); }
+  /* >> : 밀어야 할 방향을 알려 주도록 살짝 오른쪽으로 밀렸다 돌아온다 */
+  .unlock-knob svg { width: 44%; height: 44%; animation: nudge 1.6s ease-in-out infinite; }
+  .unlock-knob svg path:last-child { animation: chev 1.6s ease-in-out infinite; }
+  .unlock-track.is-drag .unlock-knob svg, .unlock-track.is-drag .unlock-knob svg path { animation: none; }
+  @keyframes nudge { 0%, 100% { transform: translateX(-1px); } 50% { transform: translateX(3px); } }
+  @keyframes chev { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+  .unlock-hint {
+    position: absolute; left: 0; top: 0; transform: translateX(-50%);
+    font-family: var(--sans); font-weight: 400; font-size: clamp(12px, 0.85vw, 14px);
+    letter-spacing: 0.24em; padding-left: 0.24em;
+    text-transform: uppercase; color: var(--ink-dim); white-space: nowrap; opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grain, .unlock-knob svg, .unlock-knob svg path { animation: none; }
+  }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<main class="loader" id="loader" aria-busy="true">
+  <canvas id="gl"></canvas>
+  <video class="bg" id="bg" muted playsinline preload="none" hidden></video>
+  <div class="veil"></div>
+  <div class="grain"></div>
+  <div class="fade" id="fade"></div>
+
+  <div class="index" id="index" aria-hidden="true">01</div>
+
+  <div class="hud" role="progressbar" aria-label="LIMEN 로딩" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="hud">
+    <div class="pct" id="pct">0%</div>
+    <div class="bar"><div class="bar-fill" id="fill"></div><div class="bar-head" id="head"></div></div>
+    <div class="label">Entering Limen</div>
+    <div class="tip" id="tip" aria-hidden="true"></div>
+    <div class="unlock" id="unlock" hidden>
+      <div class="unlock-track" id="utrack">
+        <canvas class="unlock-fx" id="ufx"></canvas>
+        <span class="unlock-text" id="utext">SNOOZE</span>
+        <div class="unlock-knob" id="uknob" role="slider" tabindex="-1" aria-label="밀어서 잠금해제"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6l6 6-6 6"/><path d="M12 6l6 6-6 6"/></svg></div>
+      </div>
+      <div class="unlock-hint" id="uhint">Slide to unlock</div>
+    </div>
+  </div>
+</main>
+
+<!-- 진행·완료·대체를 맡는 컨트롤러. 모듈(three.js)이 실패해도 이 스크립트만으로 로딩은 끝난다. -->
+<script>
+(() => {
+  const DURATION = 15.25;
+  const params = new URLSearchParams(location.search);
+  const NEXT = params.get('next') || '';
+  const LOOP = params.has('loop');
+  const FIXED = params.has('time') ? Math.max(0, Math.min(DURATION, Number(params.get('time')) || 0)) : null;
+  const MANUAL = params.has('manual');
+  const $ = (id) => document.getElementById(id);
+  const loader = $('loader'), hud = $('hud'), pctEl = $('pct'), fill = $('fill'), headEl = $('head'),
+        indexEl = $('index'), fade = $('fade'), video = $('bg'), canvas = $('gl');
+
+  const S = window.LIMEN = {
+    duration: DURATION, t: FIXED ?? 0, clock: 0, mode: 'pending', error: null, render: null,
+    resetRequested: true, completeCount: 0, fixed: FIXED, manual: MANUAL,
+    // 실제 로딩 진행률(0~1). 사이트가 LIMEN.setProgress(p) / LIMEN.done() 으로 알려 준다.
+    // 아무도 부르지 않으면 1 로 보고 애니메이션 길이(15.25초)만큼만 기다린다.
+    load: params.has('wait') || params.has('demoload') ? 0 : 1
+  };
+  const DEMO_LOAD = params.has('demoload') ? Math.max(1, Number(params.get('demoload')) || 25) : 0;
+  S.setProgress = (p) => { S.load = Math.max(S.load, Math.min(1, Math.max(0, Number(p) || 0))); };
+  S.done = () => { S.load = 1; };
+  let shown = 0, finished = false, waitStart = performance.now(), last = performance.now();
+
+  function renderUI(p) {
+    const n = Math.floor(p * 100 + 1e-6);
+    pctEl.textContent = n + '%';
+    indexEl.textContent = String(Math.min(10, Math.floor(n / 10) + 1)).padStart(2, '0');
+    fill.style.transform = `scaleX(${p})`;
+    headEl.style.left = (p * 100) + '%';
+    hud.setAttribute('aria-valuenow', n);
+  }
+
+  // ── 준비 문구 ─────────────────────────────────────────────
+  // 한 문구 = 등장 1초 → 머묾 2.5초 → 사라짐 1초. 시계(S.clock)에서 바로 계산하므로 프레임이 밀려도 박자가 안 밀린다.
+  const TIPS = ['4면 맵핑 싱크 맞추는 중', '키넥트 카메라 위치 조정 중', '스피커 볼륨 조절 중',
+                '영상 렌더링 중', '케이블 정리하는 중', '관객 인식 테스트 중'];
+  const TIP_IN = 1.0, TIP_HOLD = 2.5, TIP_OUT = 1.0, TIP_CYCLE = TIP_IN + TIP_HOLD + TIP_OUT;
+  const CHAR_DUR = 0.6, TIP_START = 0.4;
+  const tipEl = $('tip');
+  let tipIndex = -1, tipSpans = [], tipBase = 0, finishClock = 0;
+  const easeOut = (x) => 1 - Math.pow(1 - x, 3), easeIn = (x) => x * x * x;
+  const clamp01 = (x) => Math.min(1, Math.max(0, x));
+  function setTip(i) {
+    tipIndex = i;
+    tipEl.textContent = '';
+    tipSpans = Array.from(TIPS[i % TIPS.length]).map((ch) => {
+      const sp = document.createElement('span');
+      sp.textContent = ch === ' ' ? ' ' : ch;
+      tipEl.appendChild(sp); return sp;
+    });
+  }
+  function renderTip() {
+    const local0 = S.clock - tipBase - TIP_START;
+    if (S.mode === 'pending' || local0 < 0) { tipSpans.forEach((sp) => { sp.style.opacity = 0; }); return; }
+    const k = Math.floor(local0 / TIP_CYCLE), local = local0 - k * TIP_CYCLE;
+    if (k !== tipIndex) setTip(k);
+    const n = tipSpans.length, stg = (TIP_IN - CHAR_DUR) / Math.max(1, n - 1);
+    const fadeAll = finished ? clamp01(1 - (S.clock - finishClock) / 0.6) : 1;   // 완료되면 0.6초에 걸쳐 걷힌다
+    tipSpans.forEach((sp, i) => {
+      let o, b, y;
+      if (local < TIP_IN + TIP_HOLD) {
+        const p = easeOut(clamp01((local - i * stg) / CHAR_DUR));
+        o = p; b = 10 * (1 - p); y = 12 * (1 - p);
+      } else {
+        const q = easeIn(clamp01((local - TIP_IN - TIP_HOLD - i * stg) / CHAR_DUR));
+        o = 1 - q; b = 10 * q; y = -10 * q;
+      }
+      sp.style.opacity = (o * fadeAll).toFixed(3);
+      sp.style.filter = b > 0.05 ? `blur(${b.toFixed(2)}px)` : 'none';
+      sp.style.transform = `translateY(${y.toFixed(2)}px)`;
+    });
+  }
+  S.tips = TIPS;
+
+  // ── 첫 등장: 진행률 → 진행선 → 타이틀 → 번호 순으로 흐릿하게 올라오며 선명해진다 ──
+  // 준비 문구와 같은 결(아래 12px·흐림 10px·투명 → 제자리·선명). 장면 시계로 계산해 시작 직후 끊김에 밀리지 않는다.
+  const INTRO = [[pctEl, 0.15], [document.querySelector('.bar'), 0.35], [document.querySelector('.label'), 0.55], [indexEl, 0.75]];
+  const INTRO_DUR = 1.6;
+  let introDone = false;
+  function introUI() {
+    if (introDone) return;
+    const c = S.mode === 'pending' ? -1 : S.clock;
+    let all = true;
+    for (const [el, delay] of INTRO) {
+      const p = easeOut(clamp01((c - delay) / INTRO_DUR));
+      if (p < 1) all = false;
+      el.style.opacity = p.toFixed(3);
+      el.style.filter = p < 0.995 ? `blur(${(10 * (1 - p)).toFixed(2)}px)` : 'none';
+      el.style.transform = `translateY(${(12 * (1 - p)).toFixed(2)}px)`;
+    }
+    introDone = all;
+  }
+
+  function complete() {
+    finished = true; finishClock = S.clock;
+    S.completeCount++;
+    loader.setAttribute('aria-busy', 'false');
+    window.dispatchEvent(new CustomEvent('limen:loaded'));
+    if (window.parent !== window) window.parent.postMessage({ type: 'limen:loaded' }, '*');
+    if (LOOP) {
+      setTimeout(() => fade.classList.add('on'), 800);
+      setTimeout(() => {
+        S.t = 0; shown = 0; finished = false; S.resetRequested = true; tipBase = S.clock; tipIndex = -1;
+        loader.setAttribute('aria-busy', 'true');
+        if (S.mode === 'video') { video.currentTime = 0; video.play().catch(() => {}); }
+        fade.classList.remove('on');
+      }, 1600);
+    } else {
+      U.phase = 'reveal';   // 자동으로 넘어가지 않는다: 잠금해제 슬라이더를 밀어야 들어간다
+    }
+  }
+
+  // ── 잠금해제 ─────────────────────────────────────────────
+  // 100% → 숫자·문구가 걷히고 진행선이 위아래로 벌어져 유리 슬라이더가 된다 → SNOOZE 를 밀면
+  // 씬의 중심으로 카메라가 전진하며 페이드아웃 → 메인(index) 페이지. 모든 박자는 S.clock 에서 계산한다.
+  const DEST = NEXT || 'home.html';
+  const STAY = params.has('stay');            // 시험용: 전환 뒤 이동하지 않음
+  const DIVE = 3.6;                           // 카메라 전진 시간(초)
+  const unlockEl = $('unlock'), track = $('utrack'), knob = $('uknob'), utext = $('utext'), uhint = $('uhint'),
+        fxCanvas = $('ufx'), barEl = document.querySelector('.bar'), labelEl = document.querySelector('.label');
+  const U = { phase: 'off', pos: 0, keyTarget: 0, dragging: false, ready: false, unlockClock: 0, burst: 0,
+              W: 0, H: 0, travel: 0, kx: 0, kvx: 0, startX: 0, startPos: 0 };
+  const easeInOut = (x) => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const smooth = (a, b, x) => { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+  const blurIn = (el, p, y = 12) => {     // 첫 등장·준비 문구와 같은 결
+    el.style.opacity = p.toFixed(3);
+    el.style.filter = p < 0.995 ? `blur(${(10 * (1 - p)).toFixed(2)}px)` : 'none';
+    el.style.transform = el === uhint ? `translate(-50%, ${(y * (1 - p)).toFixed(2)}px)` : `translateY(${(y * (1 - p)).toFixed(2)}px)`;
+  };
+  const blurOut = (el, q) => {
+    el.style.opacity = (1 - q).toFixed(3);
+    el.style.filter = q > 0.005 ? `blur(${(10 * q).toFixed(2)}px)` : 'none';
+    el.style.transform = el === uhint ? `translate(-50%, ${(-10 * q).toFixed(2)}px)` : `translateY(${(-10 * q).toFixed(2)}px)`;
+  };
+
+  // 채워지는 자리의 파티클: 손잡이가 지나온 왼쪽에만 있다. 집이 손잡이 위치에 비례해 늘어나므로
+  // 손잡이를 밀면 별들이 뒤늦게 딸려 오고, 손잡이 둘레로 비켜 흐른다. 놓으면 함께 되감긴다.
+  const FX_COLORS = [[242, 255, 204, 3], [82, 255, 158, 3], [31, 199, 255, 3], [255, 209, 56, 1.4], [26, 97, 235, 1.6], [219, 255, 140, 2]];
+  const fx = { ctx: null, sprites: [], parts: [], dpr: 1 };
+  let fxSeed = 7; const frnd = () => ((fxSeed = (fxSeed * 1664525 + 1013904223) >>> 0) / 4294967296);
+  function buildFx() {
+    const W = U.W, H = U.H, dpr = fx.dpr = Math.min(2, window.devicePixelRatio || 1);
+    fxCanvas.width = Math.round(W * dpr); fxCanvas.height = Math.round(H * dpr);
+    fxCanvas.style.width = W + 'px'; fxCanvas.style.height = H + 'px';
+    fx.ctx = fxCanvas.getContext('2d');
+    fx.sprites = FX_COLORS.map(([r, g, b]) => {
+      const c = document.createElement('canvas'); c.width = c.height = 32;
+      const x = c.getContext('2d'), gr = x.createRadialGradient(16, 16, 0, 16, 16, 16);
+      gr.addColorStop(0, 'rgba(255,255,250,1)'); gr.addColorStop(0.12, `rgba(${r},${g},${b},0.95)`);
+      gr.addColorStop(0.35, `rgba(${r},${g},${b},0.28)`); gr.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      x.fillStyle = gr; x.fillRect(0, 0, 32, 32); return c;
+    });
+    const totalW = FX_COLORS.reduce((a, c) => a + c[3], 0);
+    const N = matchMedia('(pointer: coarse)').matches || innerWidth < 700 ? 70 : 110;
+    const k0 = 4 + (H - 8) / 2;
+    fx.parts = Array.from({ length: N }, () => {
+      let pick = frnd() * totalW, c = 0; while (pick > FX_COLORS[c][3]) { pick -= FX_COLORS[c][3]; c++; }
+      const f = Math.sqrt(frnd()), hy = H / 2 + (frnd() - 0.5) * H * 0.72;   // 손잡이 쪽에 더 많이
+      return { f, hy, x: f * k0, y: hy, vx: 0, vy: 0, c, s: 0.35 + 1.5 * Math.pow(frnd(), 3), ph: frnd(), sp: frnd() };
+    });
+  }
+
+  function stepFx(dt, alphaAll) {
+    const ctx = fx.ctx; if (!ctx) return;
+    const W = U.W, H = U.H, kx = U.kx, ky = H / 2, kr = (H - 8) / 2 + 7, c = S.clock;
+    const sub = Math.max(1, Math.ceil(dt / (1 / 120))), h = dt / sub;
+    for (const p of fx.parts) {
+      const tx = p.f * (kx - 6) + 3 * Math.sin(c * 0.7 + p.ph * 6.28), ty = p.hy + 2.4 * Math.sin(c * 0.9 + p.ph * 9.1);
+      const stiff = 90 + 230 * p.sp, damp = 1.25 * Math.sqrt(stiff);   // 별마다 따라오는 속도가 달라 꼬리처럼 늘어진다
+      for (let k = 0; k < sub; k++) {
+        let ax = (tx - p.x) * stiff - p.vx * damp, ay = (ty - p.y) * stiff - p.vy * damp;
+        const dx = p.x - kx, dy = p.y - ky, d = Math.hypot(dx, dy) + 1e-3;
+        if (d < kr) { const f = 1 - d / kr; ax += dx / d * 2600 * f + U.kvx * 2.2 * f; ay += dy / d * 2600 * f; }
+        if (U.burst > 0) { ax += 2400 * U.burst; ay += (p.hy - H / 2) * 6 * U.burst; }
+        p.vx += ax * h; p.vy += ay * h;
+        const sp = Math.hypot(p.vx, p.vy); if (sp > 900) { p.vx *= 900 / sp; p.vy *= 900 / sp; }
+        p.x += p.vx * h; p.y += p.vy * h;
+      }
+    }
+    ctx.setTransform(fx.dpr, 0, 0, fx.dpr, 0, 0);
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, W, H);
+    const show = alphaAll * Math.min(1, U.pos * 8);
+    if (show <= 0.001) return;
+    // 채워진 자리: 트랙 왼쪽 끝 ~ 손잡이 오른쪽 끝까지의 둥근 띠
+    const end = Math.min(W, kx + (H - 8) / 2);
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(0, 0, end, H, H / 2); ctx.clip();
+    const g = ctx.createLinearGradient(0, 0, end, 0);
+    g.addColorStop(0, `rgba(26,97,235,${(0.10 * show).toFixed(3)})`);
+    g.addColorStop(1, `rgba(82,255,158,${(0.22 * show).toFixed(3)})`);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, end, H);
+    ctx.globalCompositeOperation = 'lighter';
+    for (const p of fx.parts) {
+      const tw = 0.6 + 0.4 * Math.sin(c * (1.1 + p.sp * 2.2) + p.ph * 40);
+      const a = Math.min(1, show * (0.45 + 0.45 * tw) * (1 - U.burst));
+      if (a < 0.01) continue;
+      const sz = 7 * p.s;
+      ctx.globalAlpha = a;
+      ctx.drawImage(fx.sprites[p.c], p.x - sz / 2, p.y - sz / 2, sz, sz);
+    }
+    ctx.restore();
+  }
+
+  function layoutUnlock() {
+    const bw = barEl.offsetWidth;
+    // 진행선보다 조금 넓게 (264~380px), 화면 양옆 16px 여백 안에서
+    U.W = Math.round(Math.min(innerWidth - 32, Math.max(bw, Math.min(400, Math.max(290, innerWidth * 0.22)))));
+    U.H = Math.round(Math.min(66, Math.max(56, innerHeight * 0.064)));
+    U.travel = U.W - U.H;
+    unlockEl.style.top = (barEl.offsetTop + 0.5) + 'px';
+    uhint.style.top = (U.H / 2 + 20) + 'px';
+    knob.style.width = knob.style.height = (U.H - 8) + 'px';
+    knob.style.marginTop = (-(U.H - 8) / 2) + 'px';
+    utext.style.left = ((U.H - 4) / 2 + U.W / 2) + 'px';   // 손잡이를 뺀 나머지 폭의 가운데
+    buildFx();
+  }
+  addEventListener('resize', () => { if (U.phase !== 'off') layoutUnlock(); });
+
+  // 끌기: 트랙 어디를 잡아도 손잡이가 상대 이동한다 (터치에서 놓치지 않게)
+  track.addEventListener('pointerdown', (e) => {
+    if (!U.ready || U.phase !== 'ready') return;
+    U.dragging = true; U.startX = e.clientX; U.startPos = U.pos;
+    track.setPointerCapture(e.pointerId); track.classList.add('is-drag'); e.preventDefault();
+  });
+  track.addEventListener('pointermove', (e) => {
+    if (!U.dragging) return;
+    U.pos = clamp01(U.startPos + (e.clientX - U.startX) / U.travel);
+    if (U.pos >= 0.995) { endDrag(); unlock(); }
+  });
+  const endDrag = () => { if (!U.dragging) return; U.dragging = false; track.classList.remove('is-drag'); if (U.pos > 0.86) unlock(); };
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', () => { U.dragging = false; track.classList.remove('is-drag'); });
+  knob.addEventListener('keydown', (e) => {
+    if (U.phase !== 'ready') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') U.keyTarget = Math.min(1, U.keyTarget + 0.34);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') U.keyTarget = Math.max(0, U.keyTarget - 0.34);
+    else if (e.key === 'Enter' || e.key === ' ' || e.key === 'End') U.keyTarget = 1;
+    else return;
+    e.preventDefault();
+    if (U.keyTarget >= 1) unlock();
+  });
+
+  function unlock() {
+    if (U.phase !== 'ready') return;
+    U.phase = 'unlocking'; U.unlockClock = S.clock; U.dragging = false;
+    knob.setAttribute('aria-valuenow', '100');
+    window.dispatchEvent(new CustomEvent('limen:unlock'));
+    if (window.parent !== window) window.parent.postMessage({ type: 'limen:unlock' }, '*');
+  }
+  S.unlock = () => { if (U.phase === 'ready') unlock(); };
+  S.slider = U; S.sliderFx = fx;
+  S.dive = 0;
+
+  function renderUnlock(dt) {
+    if (U.phase === 'off') return;
+    const c = S.clock - finishClock;
+    if (U.phase === 'reveal' && unlockEl.hidden) { unlockEl.hidden = false; layoutUnlock(); }
+    // 1) 진행률 숫자·타이틀이 흐려지며 걷힌다
+    const qOut = easeIn(clamp01((c - 0.35) / 0.7));
+    blurOut(pctEl, qOut); blurOut(labelEl, easeIn(clamp01((c - 0.45) / 0.7)));
+    barEl.style.opacity = (1 - smooth(0.55, 0.95, c)).toFixed(3);
+    // 2) 진행선이 위아래로 벌어지며 유리 트랙이 된다
+    const e = easeInOut(clamp01((c - 0.55) / 1.0));
+    const bw = barEl.offsetWidth;
+    track.style.width = (bw + (U.W - bw) * e).toFixed(1) + 'px';
+    track.style.height = (2 + (U.H - 2) * e).toFixed(2) + 'px';
+    track.style.borderColor = `rgba(226,236,252,${(0.85 - 0.63 * e).toFixed(3)})`;
+    track.style.opacity = (smooth(0.5, 0.62, c)).toFixed(3);
+    // 3) 손잡이·SNOOZE·파티클이 흐릿하게 나타난다
+    const q = easeOut(clamp01((c - 1.25) / 0.9));
+    if (!U.ready && c > 1.3) {
+      U.ready = true; U.phase = U.phase === 'reveal' ? 'ready' : U.phase;
+      knob.tabIndex = 0;   // Tab 으로 초점을 주면 키보드로도 밀 수 있다
+    }
+    // 손잡이 위치: 끄는 중엔 손가락을 따르고, 놓으면 제자리로 스프링 복귀
+    let u = 0;
+    if (U.phase === 'unlocking') {
+      u = S.clock - U.unlockClock;
+      U.pos += (1 - U.pos) * (1 - Math.exp(-dt * 16));
+    } else if (!U.dragging) {
+      U.pos += (U.keyTarget - U.pos) * (1 - Math.exp(-dt * 9));
+    }
+    const kx = 4 + (U.H - 8) / 2 + U.pos * U.travel;
+    U.kvx = dt > 0 ? (kx - U.kx) / dt : 0; U.kx = kx;
+    knob.style.transform = `translateX(${(U.pos * U.travel).toFixed(2)}px)`;
+    knob.style.opacity = q.toFixed(3);
+    knob.style.filter = q < 0.995 ? `blur(${(8 * (1 - q)).toFixed(2)}px)` : 'none';
+    if (U.phase === 'ready') knob.setAttribute('aria-valuenow', String(Math.round(U.pos * 100)));
+    utext.style.opacity = (q * clamp01(1 - U.pos * 1.7)).toFixed(3);
+    const hintIn = easeOut(clamp01((c - 1.6) / 1.0));
+    // 4) 잠금해제: 슬라이더가 흐려지며 걷히고, 별들이 오른쪽으로 쏟아진다
+    const gone = U.phase === 'unlocking' ? easeIn(clamp01((u - 0.12) / 0.75)) : 0;
+    U.burst = U.phase === 'unlocking' ? smooth(0.0, 0.5, u) : 0;
+    if (gone > 0) {
+      blurOut(track, gone); track.style.transform = `translate(-50%, calc(-50% - ${(10 * gone).toFixed(2)}px))`;
+      blurOut(uhint, Math.max(gone, 1 - hintIn)); blurOut(indexEl, gone);
+    } else blurIn(uhint, hintIn);
+    stepFx(dt, q);
+    // 5) 씬의 중심으로 전진하며 페이드아웃 → 메인 페이지
+    if (U.phase === 'unlocking') {
+      const d = clamp01((u - 0.2) / DIVE);
+      S.dive = d;
+      fade.style.transition = 'none';
+      fade.style.opacity = smooth(0.55, 1.0, d).toFixed(3);
+      if (S.mode === 'video') video.style.transform = `scale(${(1 + 0.6 * d * d).toFixed(3)})`;
+      if (u > 0.2 + DIVE + 0.15 && !U.left) {
+        U.left = true;
+        window.dispatchEvent(new CustomEvent('limen:enter'));
+        if (!STAY) location.replace(DEST);
+      }
+    }
+  }
+  // 뒤로 가기로 페이드된 화면이 되살아나면 처음부터
+  addEventListener('pageshow', (e) => { if (e.persisted) location.reload(); });
+
+  function step(dt) {
+    if (S.mode === 'pending') {
+      if (performance.now() - waitStart > 9000) S.useVideo('three.js initialization timed out');
+    } else if (S.fixed !== null) {
+      S.t = S.fixed;
+    } else {
+      // 장면 시계는 15.25초에서 멈춘다. 그 뒤로는 마지막 장면이 계속 살아 움직인다(S.clock).
+      S.t = Math.min(DURATION, S.t + dt);
+    }
+    if (S.mode !== 'pending') S.clock += dt;
+    if (S.mode !== 'pending' && !loader.classList.contains('is-ready')) loader.classList.add('is-ready');
+    introUI();
+    if (DEMO_LOAD) S.setProgress(S.clock / DEMO_LOAD);
+    // 게이지 = 애니메이션 진행과 실제 로딩 중 낮은 쪽. 로딩이 늦으면 마지막 장면에서 기다린다.
+    const p = S.mode === 'pending' ? 0 : Math.min(S.t / DURATION, S.load);
+    shown = MANUAL ? p : shown + (p - shown) * 0.25;
+    if (p >= 1 && 1 - shown < 0.002) shown = 1;
+    renderUI(shown);
+    renderTip();
+    renderUnlock(dt);
+    if (S.render) S.render(dt);
+    if (shown >= 1 && !finished && S.fixed === null) complete();
+  }
+
+  S.advance = (dt) => step(dt);
+  S.seek = (t) => { S.fixed = null; S.t = Math.max(0, Math.min(DURATION, t)); finished = false; S.resetRequested = true; };
+  S.isFinished = () => finished;
+
+  S.useVideo = (reason) => {
+    if (S.mode === 'video') return;
+    S.mode = 'video'; S.error = reason || null; S.render = null;
+    canvas.hidden = true; video.hidden = false;
+    video.src = '../assets/loading.mp4';
+    video.play().catch(() => {});
+  };
+
+  function tick(now) {
+    const dt = Math.min(0.1, Math.max(0, (now - last) / 1000)); last = now;
+    if (!MANUAL) step(dt);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  window.addEventListener('pagehide', () => { S.render = null; });
+})();
+</script>
+
+<!-- 파티클 씬 (src/scene.js 에서 생성: tools/build.py) -->
+<script type="module">
+import * as THREE from 'three';
+import { GPUComputationRenderer } from 'three/addons/misc/GPUComputationRenderer.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const S = window.LIMEN;
+try {
+  const params = new URLSearchParams(location.search);
+  if (params.has('fallback')) throw new Error('Requested video fallback');
+
+  const canvas = document.getElementById('gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
+  if (!renderer.capabilities.isWebGL2) throw new Error('WebGL 2 unavailable');
+  if (!renderer.extensions.has('EXT_color_buffer_float')) throw new Error('Float render targets unavailable');
+  renderer.setClearColor(0x000000, 1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const coarse = matchMedia('(pointer: coarse)').matches || innerWidth < 700;
+  const quality = params.get('quality') || (coarse ? 'low' : 'high');
+  const SIM_W = 256, SIM_H = quality === 'low' ? 192 : 512;  // 49,152 / 131,072
+  const COUNT = SIM_W * SIM_H;
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, quality === 'low' ? 1.5 : 2));
+
+  // ───────────────────────── 줄기 8개: 사방에서 z −100 의 한 점으로 ─────────────────────────
+  // 각 줄기는 먼 앞쪽(z +70~+130)의 넓은 고리에서 출발해 반지름이 줄어드는 나선·물결을 그리며
+  // 모이는 점 C = (0, 0, −100) 으로 빨려 들어간다. 줄기 0 은 카메라의 오른쪽 뒤에서 출발한다.
+  const NF = 8;
+  const CZ = -100;
+  const Z0    = [104,  80,  60,  95,  50,  75,  40,  88];
+  const R0    = [  9,  30,  28,  26,  34,  30,  26,  32];
+  const TH0   = [-0.25, 2.3, 4.1, 1.2, 5.2, 3.2, 0.7, 4.8];
+  const TURN  = [0.30, -0.9, 0.6, -1.3, 1.1, -0.5, 1.4, -0.8];   // 나선 회전 수 (부호 = 방향)
+  const WAVEA = [2.2, 4.0, 3.0, 1.5, 3.5, 2.5, 1.2, 3.8];        // 물결 진폭
+  const WAVEF = [1.5, 2.5, 2.0, 3.0, 1.8, 2.2, 3.5, 2.0];        // 물결 횟수
+  const START = [0.0, 0.9, 1.7, 2.5, 3.3, 4.1, 4.9, 5.7];
+  const DUR   = [9.4, 9.0, 8.8, 8.6, 8.6, 8.6, 8.8, 8.8];         // 도착 9.6 ~ 14.5초
+  const WIDTH = [1.4, 1.6, 1.5, 1.3, 1.7, 1.5, 1.3, 1.6];
+  const WEIGHT = [0.12, 0.11, 0.11, 0.10, 0.11, 0.10, 0.10, 0.10, 0.15]; // 마지막 = 모인 점의 성운
+
+  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  // 머리의 진행: 처음부터 꽤 빠르고(카메라를 추월), 가까워질수록 더 빨라진다(빨려 듦)
+  const headS = (f, t) => { const u = Math.min(1, Math.max(0, (t - START[f]) / DUR[f])); return u * (0.55 + 0.45 * u); };
+  function path(f, s, t) {   // GLSL path()와 같은 계산
+    s = Math.min(1, Math.max(0, s));
+    const z = Z0[f] + (CZ - Z0[f]) * s;
+    const fade = 1 - s;
+    let r = R0[f] * Math.pow(fade, 1.25);
+    r += WAVEA[f] * Math.sin(s * WAVEF[f] * 6.2831853 + f * 1.3 - t * 0.6) * fade;
+    const th = TH0[f] + TURN[f] * 6.2831853 * s + 0.15 * Math.sin(t * 0.2 + f);
+    return [r * Math.cos(th), r * Math.sin(th) * 0.8 + 1.2 * Math.sin(s * 5.0 + f) * fade, z];
+  }
+
+  // ───────────────────────── 카메라: 첫 줄기를 따라 전진 + 틸트업 ─────────────────────────
+  // 시작: 첫 줄기 머리의 왼쪽 앞(머리가 오른쪽 뒤에서 나를 추월한다). 곡선(베지어)을 따라
+  // 앞으로만 나아가며 아래로 내려가고, 시선은 모이는 점을 올려다본다(틸트업).
+  const camAmt = reduced ? 0.3 : 1;
+  const BZ = [[2, -1, 100], [6, -2, 55], [4, -8, 0], [0, -11, -50]];
+  const bez = (u) => {
+    const a = 1 - u, w = [a * a * a, 3 * a * a * u, 3 * a * u * u, u * u * u];
+    return new THREE.Vector3(...[0, 1, 2].map((k) => w.reduce((acc, wi, i) => acc + wi * BZ[i][k], 0)));
+  };
+  // 0→1: 부드럽게 출발해 곧 속도가 붙고, 끝에서 천천히 멈춘다 (페이드가 끝을 덮는다)
+  const diveEase = (d) => { const a = d * d * (3 - 2 * d); return 0.55 * a + 0.45 * (1 - Math.pow(1 - d, 1.6)) * Math.min(1, d * 4); };
+  function camAt(t) {
+    const u = Math.min(1, Math.max(0, t / 15.25));
+    const e0 = 0.35 * u + 0.65 * (u * u * (3 - 2 * u));          // 처음부터 앞으로 움직이고, 끝은 천천히
+    const e = reduced ? 0.15 * e0 : e0;
+    const pos = bez(e);
+    const swim = Math.sin(Math.PI * u);
+    pos.x += swim * camAmt * 0.5 * Math.sin(t * 2 * Math.PI * 0.09);
+    pos.y += swim * camAmt * 0.35 * Math.sin(t * 2 * Math.PI * 0.07 + 1.3);
+    const ahead = pos.clone().add(new THREE.Vector3(6, -1.5, -30));
+    const target = ahead.lerp(new THREE.Vector3(0, 0, CZ), smooth(0.5, 9.0, t));
+    // 마지막 장면에 머무는 동안에도 아주 느리게 떠 있는 듯 흔들린다 (14초부터 서서히)
+    const idle = smooth(14.0, 15.25, t) * camAmt, c = S.clock;
+    pos.x += idle * 0.35 * Math.sin(c * 0.31); pos.y += idle * 0.22 * Math.sin(c * 0.23 + 1.0);
+    let roll = camAmt * (0.06 * swim * Math.sin(t * 2 * Math.PI * 0.08 + 0.6) - 0.03 * swim) + idle * 0.012 * Math.sin(c * 0.19);
+    // 잠금해제 뒤: 모인 점(소용돌이 중심)으로 전진한다. 천천히 출발해 빨려 들듯 가속하고, 중심 바로 앞에서 멈춘다
+    const dv = S.dive || 0;
+    if (dv > 0) {
+      const e = diveEase(dv);
+      const C = new THREE.Vector3(0, 0, CZ);
+      const stop = C.clone().add(pos.clone().sub(C).normalize().multiplyScalar(2.2));
+      pos.lerp(stop, e);
+      target.lerp(C, Math.min(1, e * 1.6));
+      roll += camAmt * 0.45 * e * e;      // 소용돌이 방향으로 살짝 감기며
+    }
+    return { pos, target, roll };
+  }
+
+  // ───────────────────────── 입자 씨앗 ─────────────────────────
+  let rs = 2048; const rnd = () => ((rs = (rs * 1664525 + 1013904223) >>> 0) / 4294967296);
+  const seedA = new Float32Array(COUNT * 4), seedB = new Float32Array(COUNT * 4);
+  const cum = []; WEIGHT.reduce((acc, w, i) => (cum[i] = acc + w, acc + w), 0);
+  const total = cum[cum.length - 1];
+  for (let i = 0; i < COUNT; i++) {
+    const pick = rnd() * total; let f = 0; while (f < cum.length - 1 && pick > cum[f]) f++;
+    seedA[i*4] = f; seedA[i*4+1] = rnd(); seedA[i*4+2] = rnd(); seedA[i*4+3] = rnd();
+    seedB[i*4] = rnd(); seedB[i*4+1] = rnd(); seedB[i*4+2] = rnd(); seedB[i*4+3] = rnd();
+  }
+  const dataTex = (arr) => { const t = new THREE.DataTexture(arr, SIM_W, SIM_H, THREE.RGBAFormat, THREE.FloatType); t.needsUpdate = true; return t; };
+
+  const shared = {
+    uZ0: { value: Z0 }, uR0: { value: R0 }, uTh0: { value: TH0 }, uTurn: { value: TURN },
+    uWaveA: { value: WAVEA }, uWaveF: { value: WAVEF }, uStart: { value: START }, uDur: { value: DUR }, uWidth: { value: WIDTH },
+    uTime: { value: 0 }, uClock: { value: 0 }, uDt: { value: 1/60 }, uReset: { value: 1 },
+    tSeedA: { value: dataTex(seedA) }, tSeedB: { value: dataTex(seedB) },
+    uRayO: { value: new THREE.Vector3() }, uRayD: { value: new THREE.Vector3(0, 0, -1) },
+    uMouseVel: { value: new THREE.Vector3() },
+    uStir: { value: 0 }, uGather: { value: 0 }, uMouseOn: { value: 0 }, uRadius: { value: 0.09 },
+    uFlowAmt: { value: reduced ? 0.35 : 1 }
+  };
+
+  const COMMON = /* glsl */`
+    #define NF 8
+    #define CZ -100.0
+    uniform float uZ0[NF], uR0[NF], uTh0[NF], uTurn[NF], uWaveA[NF], uWaveF[NF], uStart[NF], uDur[NF], uWidth[NF];
+    uniform float uTime, uClock;   // uTime = 장면 시계(15.25초에서 멈춤), uClock = 움직임 시계(계속 흐름)
+    uniform sampler2D tSeedA, tSeedB;
+    float hash11(float n){ return fract(sin(n) * 43758.5453123); }
+    vec3 path(int f, float s, float t){
+      s = clamp(s, 0.0, 1.0);
+      float z = mix(uZ0[f], CZ, s);
+      float fade = 1.0 - s;
+      float r = uR0[f] * pow(fade, 1.25);
+      r += uWaveA[f] * sin(s * uWaveF[f] * 6.2831853 + float(f) * 1.3 - t * 0.6) * fade;
+      float th = uTh0[f] + uTurn[f] * 6.2831853 * s + 0.15 * sin(t * 0.2 + float(f));
+      return vec3(r * cos(th), r * sin(th) * 0.8 + 1.2 * sin(s * 5.0 + float(f)) * fade, z);
+    }
+    float arriveT(int f){ return uStart[f] + uDur[f]; }
+    // 입자가 태어나는 시각 = 머리가 그 자리를 지나는 시각 (headS 의 역함수)
+    float birthT(int f, float s, float r2){
+      if (f >= NF) return 9.6 + pow(r2, 0.8) * 5.4;   // 소용돌이는 첫 줄기가 도착한 뒤에 태어난다
+      float u = (-0.55 + sqrt(0.3025 + 1.8 * s)) / 0.9;
+      return uStart[f] + u * uDur[f];
+    }
+    // 모인 점 둘레를 도는 궤도 (안쪽일수록 빠르게)
+    vec3 orbit(float r1, float r2, float b1, float t, float scale){
+      float rad = (1.2 + 7.5 * pow(r1, 1.6)) * scale;
+      float ang = r2 * 6.2831853 + t * 0.9 / (0.35 + rad * 0.18);
+      vec3 p = vec3(cos(ang) * rad, sin(ang) * rad * 0.55, (b1 - 0.5) * rad * 0.5);
+      p.yz = mat2(0.94, -0.34, 0.34, 0.94) * p.yz;
+      return vec3(0.0, 0.0, CZ) + p;
+    }
+    vec3 homePos(vec4 a, vec4 b, float t, float age){
+      int f = int(a.x + 0.5);
+      if (f >= NF) return orbit(a.z, a.w, b.x, uClock, 0.6 + 0.4 * smoothstep(9.0, 15.0, t));
+      // 태어난 뒤에도 줄기를 따라 모이는 점 쪽으로 천천히 흘러간다 (빨려 듦)
+      float s = min(a.y + 0.035 * age, 1.0);
+      vec3 c = path(f, s, uClock);
+      vec3 T = normalize(path(f, s + 0.004, uClock) - path(f, s - 0.004, uClock) + 1e-5);
+      vec3 N = normalize(cross(T, abs(T.y) > 0.9 ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 1.0, 0.0)));
+      vec3 Bn = cross(T, N);
+      float ang = a.w * 6.2831853 + b.y * 3.0;
+      float spread = (0.28 + 0.72 * smoothstep(0.0, 3.5, age)) * (1.0 - 0.8 * s);
+      vec3 p = c + (N * cos(ang) + Bn * sin(ang)) * uWidth[f] * pow(a.z, 1.8) * spread * 2.0;
+      // 끝에 닿은 입자는 모인 점의 궤도로 넘어간다
+      float into = smoothstep(0.86, 1.0, s);
+      return mix(p, orbit(a.z, a.w + float(f) * 0.13, b.x, uClock, 0.8), into);
+    }
+  `;
+
+  const FLOW = /* glsl */`
+    vec3 curlA(vec3 q, float k1, float k2, float a){
+      return vec3(k2*cos(q.y*k2+a*1.1+2.0) - k1*cos(q.z*k1+a*0.9+1.0),
+                  k2*cos(q.z*k2+a*0.8+4.0) - k1*cos(q.x*k1+a*1.2+3.0),
+                  k2*cos(q.x*k2+a*1.3+5.0) - k1*cos(q.y*k1+a*0.7));
+    }
+    vec3 flow(vec3 p, float t){
+      mat3 R = mat3(0.80, 0.36, -0.48, -0.60, 0.48, -0.64, 0.0, 0.80, 0.60);
+      vec3 q = R * p * 0.16;
+      return (curlA(q, 1.3, 2.1, t*0.21) * 0.6 + curlA(R * q * 1.9, 1.7, 2.9, t*0.33) * 0.3) * 6.0;
+    }
+  `;
+
+  const velocityShader = COMMON + FLOW + /* glsl */`
+    uniform float uDt, uReset, uStir, uGather, uMouseOn, uRadius, uFlowAmt;
+    uniform vec3 uRayO, uRayD, uMouseVel;
+    void main(){
+      vec2 uv = gl_FragCoord.xy / resolution.xy;
+      vec4 a = texture2D(tSeedA, uv), b = texture2D(tSeedB, uv);
+      vec3 pos = texture2D(texturePosition, uv).xyz;
+      vec3 vel = texture2D(textureVelocity, uv).xyz;
+      int f = int(a.x + 0.5);
+      float age = uTime - birthT(f, a.y, a.w);
+      if (uReset > 0.5 || age < 0.0) { gl_FragColor = vec4(0.0); return; }
+      vec3 home = homePos(a, b, uTime, age);
+      float mature = smoothstep(0.0, 3.5, age);
+      float bind = (f >= NF ? 2.6 : mix(9.0, 2.4, mature)) * mix(1.0, 0.5, a.z);
+      vec3 acc = (home - pos) * bind - vel * mix(3.2, 1.4, mature);
+      float nearC = 1.0 - smoothstep(0.0, 30.0, length(pos - vec3(0.0, 0.0, CZ)));
+      acc += flow(pos, uClock) * mix(0.05, 0.30, smoothstep(0.0, 5.0, age)) * (0.4 + a.z) * uFlowAmt * (1.0 - 0.7 * nearC);
+      if (uMouseOn > 0.001) {
+        vec3 rel = pos - uRayO;
+        float along = max(dot(rel, uRayD), 0.5);
+        vec3 perp = rel - uRayD * along;
+        float d = length(perp), R = uRadius * along;          // 화면에서 보이는 반경이 깊이와 무관하게
+        float inf = 1.0 - smoothstep(0.0, R, d); inf *= inf;
+        vec3 outw = perp / max(d, 1e-3);
+        acc += (outw * 2.4 + uMouseVel * 3.2) * R * 16.0 * inf * uStir * uMouseOn * (0.6 + b.x);
+        // 멈춘 커서: 커서 쪽으로 빨려 들며 돈다
+        float inf2 = 1.0 - smoothstep(0.0, R * 1.9, d);
+        acc += (-perp * 5.0 + cross(uRayD, -perp) * 3.0) * inf2 * uGather * uMouseOn;
+      }
+      vel += acc * uDt;
+      gl_FragColor = vec4(vel, 1.0);
+    }
+  `;
+  const positionShader = COMMON + /* glsl */`
+    uniform float uDt, uReset;
+    void main(){
+      vec2 uv = gl_FragCoord.xy / resolution.xy;
+      vec4 a = texture2D(tSeedA, uv), b = texture2D(tSeedB, uv);
+      vec3 pos = texture2D(texturePosition, uv).xyz;
+      vec3 vel = texture2D(textureVelocity, uv).xyz;
+      int f = int(a.x + 0.5);
+      float age = uTime - birthT(f, a.y, a.w);
+      if (uReset > 0.5 || age < 0.0) pos = homePos(a, b, uTime, max(age, 0.0));
+      else pos += vel * uDt;
+      gl_FragColor = vec4(pos, 1.0);
+    }
+  `;
+
+  const gpu = new GPUComputationRenderer(SIM_W, SIM_H, renderer);
+  gpu.setDataType(THREE.FloatType);
+  const posVar = gpu.addVariable('texturePosition', positionShader, gpu.createTexture());
+  const velVar = gpu.addVariable('textureVelocity', velocityShader, gpu.createTexture());
+  gpu.setVariableDependencies(posVar, [posVar, velVar]);
+  gpu.setVariableDependencies(velVar, [posVar, velVar]);
+  Object.assign(posVar.material.uniforms, shared);
+  Object.assign(velVar.material.uniforms, shared);
+  const gpuError = gpu.init();
+  if (gpuError) throw new Error(gpuError);
+
+  // ───────────────────────── 장면 ─────────────────────────
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 1200);
+
+  const PALETTE = /* glsl */`
+    vec3 lin(vec3 c){ return pow(c, vec3(2.2)); }
+    vec3 pal(float d){
+      vec3 deep = lin(vec3(0.10,0.38,0.92)), cyan = lin(vec3(0.12,0.78,1.0)), jade = lin(vec3(0.32,1.0,0.62)),
+           gold = lin(vec3(1.0,0.82,0.22)), pearl = lin(vec3(0.95,1.0,0.80));
+      if (d < 0.30) return mix(deep, cyan, d / 0.30);
+      if (d < 0.62) return mix(cyan, jade, (d - 0.30) / 0.32);
+      if (d < 0.90) return mix(jade, gold, (d - 0.62) / 0.28);
+      return mix(gold, pearl, clamp((d - 0.90) / 0.25, 0.0, 1.0));
+    }
+    float hudMask(vec4 clip){
+      vec2 ndc = clip.xy / clip.w;
+      return (1.0 - smoothstep(0.20, 0.34, abs(ndc.x))) * (1.0 - smoothstep(-0.66, -0.46, ndc.y));
+    }
+  `;
+  const STAR_FRAG = /* glsl */`
+    varying vec3 vCol; varying float vA;
+    void main(){
+      vec2 p = gl_PointCoord - 0.5; float r = length(p) * 2.0;
+      if (r > 1.0) discard;
+      float core = exp(-r * r * 64.0);
+      float halo = exp(-r * r * 6.5) * (1.0 - r) * 0.2;
+      vec3 c = vCol * (halo + core * 0.85) + vec3(core * core * 0.5);
+      gl_FragColor = vec4(c * vA, 1.0);
+    }
+  `;
+  const additive = { transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending };
+
+  const uSizeScale = { value: 1 };
+  const refs = new Float32Array(COUNT * 2);
+  for (let i = 0; i < COUNT; i++) { refs[i*2] = (i % SIM_W + 0.5) / SIM_W; refs[i*2+1] = (Math.floor(i / SIM_W) + 0.5) / SIM_H; }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(COUNT * 3), 3));
+  pGeo.setAttribute('ref', new THREE.BufferAttribute(refs, 2));
+  const pMat = new THREE.ShaderMaterial({
+    uniforms: { ...shared, tPos: { value: null }, uSizeScale }, ...additive,
+    vertexShader: COMMON + PALETTE + /* glsl */`
+      attribute vec2 ref;
+      uniform sampler2D tPos;
+      uniform float uSizeScale, uMouseOn, uRadius;
+      uniform vec3 uRayO, uRayD;
+      varying vec3 vCol; varying float vA;
+      void main(){
+        vec4 a = texture2D(tSeedA, ref), b = texture2D(tSeedB, ref);
+        int f = int(a.x + 0.5);
+        float age = uTime - birthT(f, a.y, a.w);
+        vec3 pos = texture2D(tPos, ref).xyz;
+        vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+        gl_Position = projectionMatrix * mv;
+        if (age < 0.0 || -mv.z < 0.3) { vA = 0.0; gl_PointSize = 0.0; gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
+        float depth = -mv.z;
+        float r3 = b.x;
+        bool firefly = r3 > 0.975;
+        float core = (0.7 + 3.6 * pow(r3, 9.0)) * (firefly ? 1.6 : 1.0);
+        vec3 rel = pos - uRayO; float along = max(dot(rel, uRayD), 0.5);
+        float near = (1.0 - smoothstep(0.0, uRadius * along * 1.4, length(rel - uRayD * along))) * uMouseOn;
+        float puff = 1.0 + 0.9 * smoothstep(1.0, 7.0, age) * a.z;
+        core *= (1.0 + 0.5 * near) * puff;
+        float px = clamp(core * 52.0 / depth * uSizeScale, 0.7, 18.0);
+        gl_PointSize = max(px * 4.0, 3.0);
+        float young = exp(-age * 0.9);
+        float base = 0.42 * (1.0 + 1.1 * young) * (1.0 - 0.45 * a.z) * mix(1.0, 0.72, smoothstep(0.0, 9.0, age));
+        // 모이는 점에 가까울수록 밝게
+        float distC = length(pos - vec3(0.0, 0.0, CZ));
+        float glowC = 1.0 - smoothstep(1.5, 18.0, distC);
+        base *= 1.0 + 0.9 * glowC;
+        if (f >= NF) base *= 0.45 + 0.55 * smoothstep(8.0, 15.0, uTime);
+        base /= 1.0 + 2.2 * pow(r3, 9.0);
+        base *= smoothstep(0.0, 0.45, age) / (puff * puff);
+        base *= 1.0 + 1.8 * near;
+        base *= 1.0 - 0.6 * hudMask(gl_Position);
+        base *= smoothstep(0.3, 4.0, depth) * mix(1.0, 0.55, smoothstep(60.0, 220.0, depth));
+        vA = base;
+        float d = (0.25 + 0.75 * exp(-age * 0.28)) * (1.0 - 0.7 * a.z);
+        d = max(d, glowC * (0.7 + 0.3 * (1.0 - a.z)));
+        if (f >= NF) d = 0.35 + 0.65 * pow(1.0 - a.z, 1.3);
+        d = clamp(d + 0.25 * near, 0.0, 1.0);
+        vCol = pal(d);
+        if (firefly) vCol = mix(vCol, lin(vec3(0.86, 1.0, 0.55)), 0.45);
+        if (b.z > 0.93 && f < NF) vCol = mix(vCol, lin(vec3(0.58, 0.46, 1.0)), 0.3 * smoothstep(1.5, 5.0, age));
+      }
+    `,
+    fragmentShader: STAR_FRAG
+  });
+  const particles = new THREE.Points(pGeo, pMat);
+  particles.frustumCulled = false;
+  scene.add(particles);
+
+  // 먼 먼지별: 아주 성기고 어둡게
+  const DUST = quality === 'low' ? 900 : 1800;
+  const dPos = new Float32Array(DUST * 3), dSeed = new Float32Array(DUST);
+  for (let i = 0; i < DUST; i++) {
+    const u = rnd() * 2 - 1, th = rnd() * Math.PI * 2, r = 260 + rnd() * 320, sq = Math.sqrt(1 - u * u);
+    dPos[i*3] = sq * Math.cos(th) * r; dPos[i*3+1] = u * r * 0.7; dPos[i*3+2] = sq * Math.sin(th) * r + CZ * 0.5;
+    dSeed[i] = rnd();
+  }
+  const dGeo = new THREE.BufferGeometry();
+  dGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+  dGeo.setAttribute('seed', new THREE.BufferAttribute(dSeed, 1));
+  const dMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: shared.uClock, uSizeScale }, ...additive,
+    vertexShader: PALETTE + /* glsl */`
+      attribute float seed; uniform float uTime, uSizeScale; varying vec3 vCol; varying float vA;
+      void main(){
+        vec4 mv = modelViewMatrix * vec4(position, 1.0); gl_Position = projectionMatrix * mv;
+        gl_PointSize = max((0.7 + 2.2 * pow(seed, 12.0)) * 4.0 * uSizeScale, 3.0);
+        float tw = 0.75 + 0.25 * sin(uTime * (0.6 + seed * 1.4) + seed * 40.0);
+        vA = (0.10 + 0.32 * pow(seed, 6.0)) * tw * smoothstep(0.0, 2.5, uTime + seed * 2.0);
+        vCol = mix(lin(vec3(0.78, 0.88, 1.0)), lin(vec3(0.10, 0.38, 0.92)), fract(seed * 7.3) * 0.5);
+      }
+    `,
+    fragmentShader: STAR_FRAG
+  });
+  const dust = new THREE.Points(dGeo, dMat); dust.frustumCulled = false; scene.add(dust);
+
+  // 반딧불이: 카메라가 지나가는 길 앞뒤 공간에 흩어져 천천히 떠다니며 제각각 반짝인다.
+  // 가까이 스치는 것은 크고 흐리게(초점 밖), 먼 것은 작은 점으로 → 깊이감
+  const FF = quality === 'low' ? 200 : 460;
+  const fPos = new Float32Array(FF * 3), fSeed = new Float32Array(FF * 4);
+  for (let i = 0; i < FF; i++) {
+    const c = bez(rnd() * 1.08);
+    const ang = rnd() * Math.PI * 2, rad = 2.5 + Math.pow(rnd(), 0.8) * 34;
+    fPos[i*3] = c.x + Math.cos(ang) * rad; fPos[i*3+1] = c.y + Math.sin(ang) * rad * 0.7; fPos[i*3+2] = c.z + (rnd() - 0.5) * 30;
+    fSeed[i*4] = rnd(); fSeed[i*4+1] = rnd(); fSeed[i*4+2] = rnd(); fSeed[i*4+3] = rnd();
+  }
+  const fGeo = new THREE.BufferGeometry();
+  fGeo.setAttribute('position', new THREE.BufferAttribute(fPos, 3));
+  fGeo.setAttribute('seed4', new THREE.BufferAttribute(fSeed, 4));
+  const fMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: shared.uClock, uSizeScale }, ...additive,
+    vertexShader: PALETTE + /* glsl */`
+      attribute vec4 seed4; uniform float uTime, uSizeScale; varying vec3 vCol; varying float vA; varying float vBlur;
+      float h(float n){ return fract(sin(n) * 43758.5453); }
+      void main(){
+        float t = uTime;
+        vec3 p = position + vec3(sin(t*0.31 + seed4.x*30.0) * 1.6 + sin(t*0.13 + seed4.y*11.0) * 2.4,
+                                 sin(t*0.27 + seed4.y*20.0) * 1.1 + sin(t*0.11 + seed4.z*9.0) * 1.8,
+                                 sin(t*0.19 + seed4.z*14.0) * 1.8);
+        vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv;
+        float depth = -mv.z;
+        if (depth < 0.4) { vA = 0.0; gl_PointSize = 0.0; return; }
+        // 반짝임: 지수 간격으로 켜졌다 꺼진다 (유니티 반딧불이 씬과 같은 성격)
+        float period = 1.6 + seed4.w * 3.2;
+        float k = floor((t + seed4.x * 9.0) / period);
+        float ph = fract((t + seed4.x * 9.0) / period);
+        float on = h(k * 7.1 + seed4.y * 91.0) > 0.35 ? 1.0 : 0.25;
+        float flash = smoothstep(0.0, 0.12, ph) * (1.0 - smoothstep(0.35, 0.9, ph)) * on;
+        float glow = 0.18 + 0.82 * flash;
+        float sz = (90.0 + 60.0 * seed4.y) / depth * uSizeScale;
+        vBlur = smoothstep(9.0, 2.5, depth);          // 가까울수록 초점 밖으로 흐리게
+        gl_PointSize = clamp(sz * (1.0 + 2.5 * vBlur), 3.0, 90.0 * uSizeScale);
+        vA = glow * (1.1 - 0.75 * vBlur) * smoothstep(0.0, 1.5, t + seed4.z) * (1.0 - 0.6 * hudMask(gl_Position));
+        vA *= mix(1.0, 0.5, smoothstep(40.0, 140.0, depth));
+        vCol = mix(lin(vec3(0.86, 1.0, 0.55)), pal(0.55 + 0.4 * seed4.z), 0.5);
+      }
+    `,
+    fragmentShader: /* glsl */`
+      varying vec3 vCol; varying float vA; varying float vBlur;
+      void main(){
+        float r = length(gl_PointCoord - 0.5) * 2.0; if (r > 1.0) discard;
+        float sharp = exp(-r * r * mix(40.0, 6.0, vBlur));
+        float halo = exp(-r * r * 5.0) * (1.0 - r) * 0.25;
+        gl_FragColor = vec4((vCol * (sharp + halo) + vec3(sharp * sharp * 0.3 * (1.0 - vBlur))) * vA, 1.0);
+      }
+    `
+  });
+  const fireflies = new THREE.Points(fGeo, fMat); fireflies.frustumCulled = false; scene.add(fireflies);
+
+  // 줄기 머리(대표 별): 이동하는 동안 밝고, 모이는 점에 닿으면 그 안으로 사그라든다
+  const hPos = new Float32Array(NF * 3), hAmt = new Float32Array(NF);
+  const hGeo = new THREE.BufferGeometry();
+  hGeo.setAttribute('position', new THREE.BufferAttribute(hPos, 3));
+  hGeo.setAttribute('amt', new THREE.BufferAttribute(hAmt, 1));
+  const hMat = new THREE.ShaderMaterial({
+    uniforms: { uSizeScale }, ...additive,
+    vertexShader: PALETTE + /* glsl */`
+      attribute float amt; uniform float uSizeScale; varying vec3 vCol; varying float vA;
+      void main(){
+        vec4 mv = modelViewMatrix * vec4(position, 1.0); gl_Position = projectionMatrix * mv;
+        float depth = -mv.z;
+        if (depth < 0.5) { vA = 0.0; gl_PointSize = 0.0; return; }
+        gl_PointSize = clamp(1600.0 / depth * uSizeScale, 10.0, 120.0 * uSizeScale) * (0.6 + 0.4 * amt);
+        vA = amt * 1.6; vCol = pal(0.97);
+      }
+    `,
+    fragmentShader: /* glsl */`
+      varying vec3 vCol; varying float vA;
+      void main(){ float r = length(gl_PointCoord - 0.5) * 2.0; if (r > 1.0) discard;
+        float core = exp(-r * r * 140.0), halo = exp(-r * r * 9.0) * (1.0 - r) * 0.16;
+        gl_FragColor = vec4((vCol * (core + halo) + vec3(core * 0.6)) * vA, 1.0); }
+    `
+  });
+  const heads = new THREE.Points(hGeo, hMat); heads.frustumCulled = false; scene.add(heads);
+
+  // 모이는 점: 처음엔 아주 희미한 씨앗. 줄기가 하나씩 닿을 때마다 밝아지고 마지막엔 십자 별빛
+  const uArrive = { value: 0 };
+  const cGeo = new THREE.BufferGeometry();
+  cGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array([0, 0, CZ]), 3));
+  const cMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: shared.uTime, uSizeScale, uArrive }, ...additive,
+    vertexShader: /* glsl */`
+      uniform float uSizeScale;
+      void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); gl_Position = projectionMatrix * mv;
+        gl_PointSize = clamp(11000.0 / max(-mv.z, 1.0), 60.0, 700.0) * uSizeScale; }
+    `,
+    fragmentShader: /* glsl */`
+      uniform float uTime, uArrive;
+      void main(){
+        vec2 p = (gl_PointCoord - 0.5) * 2.0;
+        float ign = 0.12 * smoothstep(0.3, 2.0, uTime) + 0.88 * uArrive;
+        float r2 = dot(p, p);
+        float point = exp(-r2 * 2600.0) * 2.6;
+        float glow = exp(-r2 * 260.0) * 0.45 + exp(-r2 * 30.0) * 0.07 + exp(-r2 * 6.0) * 0.015 * uArrive;
+        float vStreak = exp(-p.x * p.x * 900.0) * exp(-p.y * p.y * 3.0) * 0.35 * uArrive;
+        float hStreak = exp(-p.y * p.y * 1400.0) * exp(-p.x * p.x * 6.0) * 0.14 * uArrive;
+        vec3 c = vec3(0.98, 1.0, 0.86) * point + vec3(0.95, 0.86, 0.55) * glow + vec3(0.62, 0.9, 0.85) * (vStreak + hStreak);
+        gl_FragColor = vec4(c * ign, 1.0);
+      }
+    `
+  });
+  const corePt = new THREE.Points(cGeo, cMat); corePt.frustumCulled = false; scene.add(corePt);
+
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.5, 0.55, 0.38);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+
+  let baseFov = 55;
+  function resize() {
+    const w = innerWidth, h = innerHeight, aspect = w / h;
+    camera.aspect = aspect;
+    const minH = 70 * Math.PI / 180;   // 세로 화면에서도 가로 화각 70° 이상
+    camera.fov = baseFov = Math.max(55, 2 * Math.atan(Math.tan(minH / 2) / aspect) * 180 / Math.PI);
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false); composer.setSize(w, h); bloom.resolution.set(w, h);
+    uSizeScale.value = (h * renderer.getPixelRatio()) / 1080 * (55 / camera.fov);
+  }
+  resize(); addEventListener('resize', resize);
+
+  // ───────────────────────── 마우스·터치 (v05와 같은 성격) ─────────────────────────
+  const ndc = new THREE.Vector2(), ray = new THREE.Raycaster();
+  let pointerIn = false, mouseOn = 0, stir = 0, gather = 0, still = 0;
+  const prevN = new THREE.Vector2(), nVel = new THREE.Vector2();
+  let havePrev = false;
+  function onMove(e) {
+    if (e.pointerType === 'touch' && e.buttons === 0 && e.type !== 'pointerdown') return;
+    ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    pointerIn = true;
+  }
+  addEventListener('pointermove', onMove, { passive: true });
+  addEventListener('pointerdown', onMove, { passive: true });
+  const off = () => { pointerIn = false; havePrev = false; };
+  addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') off(); });
+  addEventListener('pointercancel', off);
+  document.documentElement.addEventListener('pointerleave', off);
+  addEventListener('blur', off);
+  S.debugPointer = (x, y, on = true) => { ndc.set(x, y); pointerIn = on; if (!on) havePrev = false; };
+
+  const right = new THREE.Vector3(), upv = new THREE.Vector3();
+  function updatePointer(dt) {
+    mouseOn += ((pointerIn && !(S.dive > 0) ? 1 : 0) - mouseOn) * (1 - Math.exp(-dt * 6));
+    ray.setFromCamera(ndc, camera);
+    shared.uRayO.value.copy(ray.ray.origin); shared.uRayD.value.copy(ray.ray.direction);
+    // 커서 속도는 화면 좌표로 재고, 카메라의 오른쪽·위 방향으로 바꿔 넘긴다
+    if (pointerIn) {
+      if (havePrev && dt > 0) nVel.lerp(ndc.clone().sub(prevN).divideScalar(Math.max(dt, 1 / 240)).clampLength(0, 8), 1 - Math.exp(-dt * 12));
+      prevN.copy(ndc); havePrev = true;
+    } else nVel.multiplyScalar(Math.exp(-dt * 6));
+    const speed = nVel.length();
+    right.setFromMatrixColumn(camera.matrixWorld, 0); upv.setFromMatrixColumn(camera.matrixWorld, 1);
+    shared.uMouseVel.value.copy(right).multiplyScalar(nVel.x).addScaledVector(upv, nVel.y).multiplyScalar(1 / Math.max(1, speed));
+    stir += (Math.min(1, speed / 1.2) - stir) * (1 - Math.exp(-dt * (speed > stir * 1.2 ? 10 : 2.5)));
+    still = speed < 0.12 && pointerIn ? still + dt : 0;
+    gather += ((still > 0.35 ? 1 : 0) - gather) * (1 - Math.exp(-dt * (still > 0.35 ? 0.9 : 5)));
+    shared.uStir.value = stir * (reduced ? 0.4 : 1);
+    shared.uGather.value = gather * (reduced ? 0.4 : 1);
+    shared.uMouseOn.value = mouseOn;
+  }
+
+  // ───────────────────────── 렌더 루프 (컨트롤러가 부른다) ─────────────────────────
+  const SIM_DT = 1 / 60; let acc = 0;
+  const fwd = new THREE.Vector3(), up = new THREE.Vector3();
+  function placeCamera(t) {
+    const c = camAt(t);
+    camera.position.copy(c.pos);
+    // 전진하는 동안 화각을 넓혀 속도감 (끝에서 +24%)
+    const fov = baseFov * (1 + 0.24 * diveEase(S.dive || 0));
+    if (Math.abs(camera.fov - fov) > 1e-4) { camera.fov = fov; camera.updateProjectionMatrix(); }
+    bloom.strength = 0.5 + 0.55 * diveEase(S.dive || 0);
+    fwd.subVectors(c.target, c.pos).normalize();
+    up.set(0, 1, 0).applyAxisAngle(fwd, c.roll);
+    camera.up.copy(up); camera.lookAt(c.target);
+    camera.updateMatrixWorld();
+  }
+  function updateHeads(t) {
+    let arrived = 0;
+    for (let f = 0; f < NF; f++) {
+      hPos.set(path(f, headS(f, t), S.clock), f * 3);
+      const arr = START[f] + DUR[f];
+      hAmt[f] = smooth(START[f], START[f] + 0.6, t) * (1 - smooth(arr - 0.5, arr + 0.6, t)) * (f === 0 ? 1 : 0.8);
+      arrived += smooth(arr - 0.8, arr + 1.2, t);
+    }
+    uArrive.value = arrived / NF;
+    hGeo.attributes.position.needsUpdate = true; hGeo.attributes.amt.needsUpdate = true;
+  }
+
+  S.render = (dt) => {
+    const t = S.t;
+    shared.uTime.value = t; shared.uClock.value = S.clock;
+    placeCamera(t);
+    updatePointer(dt);
+    if (S.resetRequested) {
+      shared.uReset.value = 1; shared.uDt.value = SIM_DT; gpu.compute(); gpu.compute();
+      shared.uReset.value = 0; S.resetRequested = false; acc = 0;
+    } else {
+      acc += Math.min(dt, 0.1);
+      let n = 0;
+      while (acc >= SIM_DT && n < 6) { shared.uDt.value = SIM_DT; gpu.compute(); acc -= SIM_DT; n++; }
+      if (n === 6) acc = 0;
+    }
+    pMat.uniforms.tPos.value = gpu.getCurrentRenderTarget(posVar).texture;
+    updateHeads(t);
+    composer.render();
+  };
+  S.camAt = camAt; S.path = path; S.headS = headS; S.count = COUNT;
+  S.renderer = { quality, count: COUNT };
+  try {
+    const gl = renderer.getContext(), ext = gl.getExtension('WEBGL_debug_renderer_info');
+    if (ext) S.renderer.gpu = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+  } catch (e) {}
+  canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); S.useVideo('WebGL context lost'); });
+  S.mode = 'particles';
+} catch (err) {
+  console.error(err);
+  S.useVideo(err.message);
+}
+</script>
+</body>
+</html>

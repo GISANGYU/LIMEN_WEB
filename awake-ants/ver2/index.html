@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>AWAKE · 개미</title>
+	<link rel="icon" href="data:,">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script type="importmap">{ "imports": { "three": "../../shared/vendor/three.module.min.js" } }</script>
+</head>
+<body>
+	<canvas id="gl"></canvas>
+
+	<header class="header">
+		<span class="header__mark">LIMEN</span>
+		<span class="header__tag">AWAKE · 테스트 ver2</span>
+		<button class="btn-round sound js-sound" aria-label="소리 켜고 끄기">
+			<i></i><i></i><i></i><i></i><i></i>
+		</button>
+	</header>
+
+	<!-- 시작 화면: 들어가기 버튼이 소리 잠금을 푼다 -->
+	<section class="intro js-intro">
+		<h1 class="intro__title">
+			<span class="t-italic">다시 보는</span>
+			<span class="t-title">개미</span>
+		</h1>
+		<p class="intro__text">흩어진 점들이 길을 따라 모이는 장면을 다시 봅니다.</p>
+		<button class="btn-pill js-enter"><span>들어가기</span><svg viewBox="0 0 201 59" fill="none"><path d="M199 26c1 15-10 26-25 26-31 0-77 0-97-1-15 0-34 1-49 1C13 53 1 41 1 27 1 13 12 2 26 2h148c13 0 24 10 25 24Z" stroke="currentColor"/></svg></button>
+		<p class="intro__note">소리가 납니다 · 나레이션은 가안</p>
+	</section>
+
+	<!-- 챕터 카드 -->
+	<section class="card js-card">
+		<p class="card__sub">LIMEN · 개미</p>
+		<div class="card__title"><span class="t-italic">따라 걷는</span><span class="t-title">개미</span></div>
+		<p class="card__instr js-instr"></p>
+	</section>
+
+	<div class="subtitles js-subtitles" aria-live="polite"></div>
+
+	<!-- 진행 링 + 건너뛰기 -->
+	<div class="progress">
+		<svg viewBox="0 0 88 89" fill="none">
+			<path class="progress__bg" d="M79.7 40.7c5.8 21.9-8 36.4-33.5 43.3C27 89.2 14 70 9 51.3 3.5 27.5 21.5 13.3 40.8 8 60 2.8 72.8 14.8 79.7 40.7Z"/>
+			<path class="progress__fg js-progress" d="M79.7 40.7c5.8 21.9-8 36.4-33.5 43.3C27 89.2 14 70 9 51.3 3.5 27.5 21.5 13.3 40.8 8 60 2.8 72.8 14.8 79.7 40.7Z"/>
+		</svg>
+		<span class="progress__label">개미</span>
+	</div>
+	<button class="skip js-skip">장면 건너뛰기</button>
+
+	<!-- 끝 화면 -->
+	<section class="end js-end">
+		<p class="end__q">무엇을 따라갔을까?</p>
+		<p class="end__text">내가 고른 방향은 정말 나만의 선택일까?</p>
+		<button class="btn-pill js-restart"><span>다시 보기</span><svg viewBox="0 0 201 59" fill="none"><path d="M199 26c1 15-10 26-25 26-31 0-77 0-97-1-15 0-34 1-49 1C13 53 1 41 1 27 1 13 12 2 26 2h148c13 0 24 10 25 24Z" stroke="currentColor"/></svg></button>
+	</section>
+
+	<pre class="debug js-debug" hidden></pre>
+
+	<script type="module" src="js/main.js"></script>
+</body>
+</html>

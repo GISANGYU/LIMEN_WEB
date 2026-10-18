@@ -1,0 +1,2734 @@
+{
+ "source": "symphonyofvines.unseen.co state.json / Chapter two-one",
+ "note": "로컬 테스트용 수치. 공개 배포 전 팀 확정 수치로 교체할 것.",
+ "length": 42.02,
+ "tracks": [
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "position",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 11.933,
+     "v": -0.8719595364796269,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": -0.26634630431987344,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "position",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 11.933,
+     "v": -4.944084547826847,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": -1.4975491092356765,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "position",
+    "z"
+   ],
+   "kf": [
+    {
+     "t": 11.933,
+     "v": 5.156280136253998,
+     "h": [
+      0.5,
+      1,
+      0.5763673505818936,
+      0.0017419505701512794
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 14.9,
+     "v": 3.983373696052136,
+     "h": [
+      0.5443395983794334,
+      0.3857434461839706,
+      0.09088093104156542,
+      0.40697786903023087
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": 2.04291906130773,
+     "h": [
+      0.45,
+      0.94,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "rotation",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 11.933,
+     "v": 0.33869111999840373,
+     "h": [
+      0.5,
+      1,
+      0.4043095718366446,
+      0.01774212391724142
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 17,
+     "v": 0.7348843888864477,
+     "h": [
+      0.5771596977670432,
+      0.5876496080709359,
+      0.25,
+      0.46
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 24.967,
+     "v": 1.1190709979494748,
+     "h": [
+      0.45,
+      0.94,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "rotation",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 17,
+     "v": -0.07610573480308533,
+     "h": [
+      0.5,
+      1,
+      0.455,
+      0.03
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 24.967,
+     "v": -0.07610573480308533,
+     "h": [
+      0.515,
+      0.955,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "rotation",
+    "z"
+   ],
+   "kf": [
+    {
+     "t": 17,
+     "v": -0.028000195760587557,
+     "h": [
+      0.5,
+      1,
+      0.455,
+      0.03
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 24.967,
+     "v": -0.028000195760587557,
+     "h": [
+      0.515,
+      0.955,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Settings",
+   "path": [
+    "activeCamera"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": "camera1",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 0.133,
+     "v": "camera2",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": "camera1",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": "camera1",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": "camera2",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 2",
+   "path": [
+    "transforms",
+    "position",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": -1.0979542437677359,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": -0.92,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": 1.4020457562322641,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 1.3732978849463855,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": 0.48375393871936034,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 2",
+   "path": [
+    "transforms",
+    "position",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": -8.520020314718924,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": -5,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": -2.6200203147189285,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": -3.717916039092237,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": -1.0688517434388758,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 2",
+   "path": [
+    "transforms",
+    "position",
+    "z"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 2.969812640761112,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 2.969812640761112,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": 5.769812640761117,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 3.8847781476789525,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": 7.743739498061866,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 2",
+   "path": [
+    "transforms",
+    "rotation",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 1.1693031608478077,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 1.1693031608478077,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": 0.3893031608478077,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.37909610218642964,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": 0.13427047879515494,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 2",
+   "path": [
+    "transforms",
+    "rotation",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": -0.030738384157529546,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": -0.000738384157529548,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": 0.11926161584247043,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.11699196165924954,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": 0.06255223335708578,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Cameras / Camera 2",
+   "path": [
+    "transforms",
+    "rotation",
+    "z"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.0014060494098902627,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.0014060494098902627,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.8,
+     "v": 0.031406049409890266,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": -0.17535650896336472,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": 0.7122964849848195,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "linesPosition",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 11.933,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "linesPosition",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "linesPosition",
+    "z"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 8.000000000000222,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 10.600000000000021,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uReset"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 0.033,
+     "v": false,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.967,
+     "v": false,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": false,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.867,
+     "v": false,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uDecay"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.05999999999999983,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.05999999999999992,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uHeight"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.23500000000002863,
+     "h": [
+      0.55,
+      0.95,
+      0.25,
+      0.46
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 23.867,
+     "v": 0.39100000000002877,
+     "h": [
+      0.45,
+      0.94,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.39100000000002877,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uSpeed"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 2.7999999999999954,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 2.020000000000005,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 2.020000000000005,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 2.020000000000005,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uPointerRadius"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.1399999999999993,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.1399999999999993,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.1399999999999993,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.1399999999999993,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uFrequency"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.41400000000002724,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.7730000000000276,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.7730000000000276,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.3630000000000272,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uAmplitude"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.13000000000000037,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.3980000000000003,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.3980000000000003,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.3980000000000003,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uRoughness"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 4.359000000000007,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 2,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 2,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 2,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uDetail"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 4.90000000000031,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 31.200000000000326,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 31.200000000000326,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 4.000000000000297,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uNoiseTranslation",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 99.5500000000007,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 101.40000000000053,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 101.40000000000053,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 101.40000000000053,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uNoiseTranslation",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 51.989999999999796,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 50.75999999999994,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 50.75999999999994,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 50.75999999999994,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uPathSpread"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 2.5389999999999993,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.2,
+     "h": [
+      0.99,
+      0.509,
+      0.455,
+      0.03
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 22.333,
+     "v": 2.699999999999999,
+     "h": [
+      0.515,
+      0.955,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 2.699999999999999,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.6599999999999979,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 41.967,
+     "v": 4.139999999999975,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uColor1"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": {
+      "r": 0.7686307334936313,
+      "g": 0.47451562507074335,
+      "b": 0.25882940603776117,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": {
+      "r": 0.7686307235321709,
+      "g": 0.47451563462301577,
+      "b": 0.2588295117467154,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": {
+      "r": 0.7686307135707102,
+      "g": 0.47451564417528774,
+      "b": 0.2588296174556353,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": {
+      "r": 0.7686307135707102,
+      "g": 0.47451564417528774,
+      "b": 0.2588296174556353,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uColor2"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": {
+      "r": 0.803921602926146,
+      "g": 0.6470588042779597,
+      "b": 0.4392154842208084,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": {
+      "r": 0.8039215857767987,
+      "g": 0.6470588139036862,
+      "b": 0.4392155852476667,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": {
+      "r": 0.803921568627451,
+      "g": 0.6470588235294118,
+      "b": 0.4392156862745098,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": {
+      "r": 0.803921568627451,
+      "g": 0.6470588235294118,
+      "b": 0.4392156862745098,
+      "a": 1
+     },
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uLineLength"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 2.042186307055184,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 5,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 5,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 2.3500000000000147,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uLineWidth"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.32999999999999974,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.33,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.33,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.33,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uBrightness"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 3.1099999999999812,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 1.9,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 1.9,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 1.8700000000000025,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uFadeStrength"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0.01699999999999989,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0.01599999999999989,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0.01599999999999989,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0.015999999999999875,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uStartOffset",
+    "x"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uStartOffset",
+    "y"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": -20,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uStartOffset",
+    "z"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uAlpha"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 10.867,
+     "v": 1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 0,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 12,
+     "v": 1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": 1,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uEnablePointer"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": false,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 3,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 27.833,
+     "v": true,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Audio",
+   "path": [
+    "file"
+   ],
+   "kf": [
+    {
+     "t": 4.233,
+     "v": "none",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 5.433,
+     "v": "chapter-2-1",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 12,
+     "v": "none",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 15.167,
+     "v": "chapter-2-2",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 20.967,
+     "v": "none",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 29.367,
+     "v": "chapter-2-3",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 33.1,
+     "v": "none",
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uFogNear_D"
+   ],
+   "kf": [
+    {
+     "t": 11.933,
+     "v": 3.7900000000000165,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uFogFar_D"
+   ],
+   "kf": [
+    {
+     "t": 0,
+     "v": 13.529999999999976,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 11.933,
+     "v": 4.360000000000021,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0.5
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 20.4,
+     "v": 7.449999999999993,
+     "h": [
+      0.5,
+      0.5,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    },
+    {
+     "t": 27.767,
+     "v": 7.449999999999993,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "hold",
+     "conn": true
+    },
+    {
+     "t": 28.367,
+     "v": 44.830000000000034,
+     "h": [
+      0.5,
+      1,
+      0.5,
+      0
+     ],
+     "type": "bezier",
+     "conn": true
+    }
+   ]
+  }
+ ],
+ "static": [
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "position",
+    "x"
+   ],
+   "v": -1.0807956514310808
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "position",
+    "y"
+   ],
+   "v": -2.0576915883069256
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "transforms",
+    "position",
+    "z"
+   ],
+   "v": 4.34153354378852
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "near"
+   ],
+   "v": 0.1
+  },
+  {
+   "obj": "Cameras / Camera 1",
+   "path": [
+    "fov"
+   ],
+   "v": 57.85714285714283
+  },
+  {
+   "obj": "Cameras / Settings",
+   "path": [
+    "cameraMotionPosFrequency"
+   ],
+   "v": 0.0899999999999998
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uFadeStrength"
+   ],
+   "v": 0.01599999999999989
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uLineLength"
+   ],
+   "v": 1.5800000000000005
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uLineWidth"
+   ],
+   "v": 0.15999999999999978
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uNoiseTranslation",
+    "y"
+   ],
+   "v": 50
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uBrightness"
+   ],
+   "v": 3.5300000000000122
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uDetail"
+   ],
+   "v": 36.80000000000021
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uPathSpread"
+   ],
+   "v": 2.450000000000033
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uReset"
+   ],
+   "v": false
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uDecay"
+   ],
+   "v": 0.025
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uPointerRadius"
+   ],
+   "v": 0.1399999999999993
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uRoughness"
+   ],
+   "v": 1.3430000000000075
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uFrequency"
+   ],
+   "v": 1.4690000000000218
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uAmplitude"
+   ],
+   "v": 0.3980000000000003
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uHeight"
+   ],
+   "v": 0
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uColor2"
+   ],
+   "v": {
+    "r": 0.803921568627451,
+    "g": 0.6470588235294118,
+    "b": 0.4392156862745098,
+    "a": 1
+   }
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uStartOffset",
+    "y"
+   ],
+   "v": -20
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uEnableMouse"
+   ],
+   "v": true
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "uniforms",
+    "uEnablePointer"
+   ],
+   "v": true
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "linesPosition",
+    "x"
+   ],
+   "v": 16.79999999999998
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "linesPosition",
+    "z"
+   ],
+   "v": 7.400000000000177
+  },
+  {
+   "obj": "Contour Lines",
+   "path": [
+    "linesPosition",
+    "y"
+   ],
+   "v": 16.59999999999997
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uDebugFog"
+   ],
+   "v": false
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uFogFar_D"
+   ],
+   "v": 5.320000000000011
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uFogNear_D"
+   ],
+   "v": 3.7900000000000165
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uEnableFog"
+   ],
+   "v": true
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uSolidFogColor"
+   ],
+   "v": {
+    "r": 0,
+    "g": 0,
+    "b": 0,
+    "a": 1
+   }
+  },
+  {
+   "obj": "Global Settings",
+   "path": [
+    "uniforms",
+    "uFogStrength_H"
+   ],
+   "v": 0
+  }
+ ]
+}

@@ -1,0 +1,103 @@
+{
+	"note": "ver2 나레이션 가안 (AI 제안, 팀 확정 전). 음성은 영어(speech_en), 자막은 한국어(text). 줄 사이 5.5초 이상.",
+	"voice": {
+		"engine": "higgsfield text2speech_v2 · elevenlabs",
+		"preset": "Alistair",
+		"voice_id": "d9d5c263-f84e-4752-97b5-3750fcc6fd2f",
+		"language": "en (자막은 text = 한국어)",
+		"speed": "1배, 쉼은 문장 속 '...'",
+		"ko_archive": "audio/ko/ (한국어 0.88배판)"
+	},
+	"cues": [
+		{
+			"id": "n01",
+			"t": 2.0,
+			"dur": 5.88,
+			"src": "audio/n01.mp3",
+			"text": "심연의 어둠 속. 가장 먼저 깨어나는 것은, 아주 작은 존재들입니다.",
+			"source": "1-01 작은 존재들이 따로 움직이기 시작",
+			"speech_en": "In the darkness of the abyss... the first to awaken are the smallest of beings."
+		},
+		{
+			"id": "n02",
+			"t": 16.0,
+			"dur": 6.84,
+			"src": "audio/n02.mp3",
+			"text": "저마다 다른 자리에서, 저마다의 걸음으로. 아직 아무도, 길을 알지 못하죠.",
+			"source": "1-01",
+			"speech_en": "Each from a different place... each at its own pace. None of them yet knows the way."
+		},
+		{
+			"id": "n03",
+			"t": 30.0,
+			"dur": 5.56,
+			"src": "audio/n03.mp3",
+			"text": "그런데 누군가 지나간 자리에는, 보이지 않는 흔적이 남습니다.",
+			"source": "개미의 길(페로몬) · 따라감",
+			"speech_en": "And yet... wherever someone has passed, an unseen trace remains."
+		},
+		{
+			"id": "n04",
+			"t": 46.0,
+			"dur": 7.08,
+			"src": "audio/n04.mp3",
+			"text": "깨어난 개미들은 그 흔적을 더듬어, 하나둘 같은 쪽으로 걷게 되죠.",
+			"source": "1-02 줄지어 걷기",
+			"speech_en": "The awakened ants feel their way along that trace... and one by one, they begin to walk the same way."
+		},
+		{
+			"id": "n05",
+			"t": 59.0,
+			"dur": 8.36,
+			"src": "audio/n05.mp3",
+			"text": "앞을 가로막는 것이 있어도, 개미들은 멈추지 않습니다. 잠시 돌아갈 뿐, 흐름은 다시 이어지니까요.",
+			"source": "1-03 우회한 점들의 합류",
+			"speech_en": "Even when something blocks their path, the ants do not stop... They simply go around, and the flow carries on."
+		},
+		{
+			"id": "n06",
+			"t": 75.0,
+			"dur": 4.52,
+			"src": "audio/n06.mp3",
+			"text": "흩어져 있던 걸음들은, 어느새 하나의 방향을 갖게 됩니다.",
+			"source": "1-04 정면 중앙으로",
+			"speech_en": "Steps that were once scattered... somehow come to share a single direction."
+		},
+		{
+			"id": "n07",
+			"t": 87.5,
+			"dur": 5.25,
+			"src": "audio/n07.mp3",
+			"text": "그리고 모두가 향한 그 한가운데에, 둥근 문이 열리죠.",
+			"source": "1-05 흐름 안으로 들어갈 문",
+			"speech_en": "And at the very center, where they were all headed... a round door opens."
+		},
+		{
+			"id": "n08",
+			"t": 100.0,
+			"dur": 6.35,
+			"src": "audio/n08.mp3",
+			"text": "문 너머의 흐름은 소용돌이가 되어, 작은 몸들을 더 깊은 곳으로 이끕니다.",
+			"source": "회오리 · 정해진 방향으로 이끌림",
+			"speech_en": "Beyond the door, the flow becomes a whirlpool... drawing the small bodies deeper and deeper."
+		},
+		{
+			"id": "n09",
+			"t": 114.0,
+			"dur": 4.68,
+			"src": "audio/n09.mp3",
+			"text": "개미들은 묻지 않습니다. 이 길이 처음, 누구의 것이었는지.",
+			"source": "따라감에 대한 질문",
+			"speech_en": "The ants never ask... whose path this was, in the beginning."
+		},
+		{
+			"id": "n10",
+			"t": 126.0,
+			"dur": 3.63,
+			"src": "audio/n10.mp3",
+			"text": "당신이 고른 방향은, 정말 당신만의 것이었을까요?",
+			"source": "AWAKE 마지막 질문",
+			"speech_en": "The direction you chose... was it truly your own?"
+		}
+	]
+}

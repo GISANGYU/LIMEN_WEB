@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIMEN · HERO proto v01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="gl"></canvas>
+
+<!-- 유리 굴절: 로고가 드러날 때만 세기를 올린다 -->
+<svg class="defs" width="0" height="0" aria-hidden="true">
+  <filter id="glass" x="-20%" y="-60%" width="140%" height="220%">
+    <feTurbulence id="glassNoise" type="fractalNoise" baseFrequency="0.006 0.05" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap id="glassDisp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<div class="stage">
+  <h1 id="logo">LIMEN</h1>
+  <i class="rule" id="rule"></i>
+  <!-- 가안: 무드 이미지 문구 그대로. 팀 확정 문구로 바꿀 것 -->
+  <p class="caption" id="caption"><span>BETWEEN</span><span>REALITIES</span><span>AND</span><span>CHOICES</span></p>
+</div>
+
+<div class="ui" id="ui">
+  <a class="brand" href="#">LIMEN</a>
+  <nav class="side">
+    <a href="#"><b>01</b>ABOUT</a>
+    <a href="#"><b>02</b>TECHNOLOGY</a>
+    <a href="#"><b>03</b>MEMBER</a>
+    <a href="#"><b>04</b>ARCHIVE</a>
+  </nav>
+  <div class="scroll">SCROLL<i></i></div>
+</div>
+
+<main>
+  <section class="hero-space"></section>
+  <section class="next"><p>다음 섹션 · QUESTION 자리</p></section>
+</main>
+
+<script type="module" src="main.js"></script>
+</body>
+</html>

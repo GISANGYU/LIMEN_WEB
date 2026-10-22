@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN</title>
+<meta name="description" content="LIMEN — SNOOZE 몰입형 인터랙티브 미디어아트 · 계원예술대학교 정보관 8층 호라이즌 스튜디오">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Cormorant+SC:wght@400;500&family=Noto+Serif+KR:wght@200;300&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+
+<!-- ============ 공통: 상단 바 · 진행 표시 · 커서 · 그레인 ============ -->
+<header class="hd">
+  <a class="hd-logo" href="#hero" data-hover>LIMEN</a>
+  <span class="hd-sub">EXHIBITION &amp;<br>WEB EXPERIENCE</span>
+  <!-- AWAKE 는 관람 후 전시장 PC 전용 → 메뉴에 넣지 않는다 (02 웹표현기준 5장) -->
+  <nav class="hd-nav">
+    <a href="#" data-hover>ABOUT</a>
+    <a href="#" data-hover>TECHNOLOGY</a>
+    <a href="#" data-hover>ARCHIVE</a>
+  </nav>
+</header>
+
+<ol class="rail" id="rail">
+  <li data-to="hero"><i></i><span>HERO</span></li>
+  <li data-to="slogan"><i></i><span>SLOGAN</span></li>
+  <li data-to="member"><i></i><span>MEMBER</span></li>
+  <li data-to="space"><i></i><span>SPACE</span></li>
+  <li data-to="visit"><i></i><span>VISIT</span></li>
+</ol>
+<div class="corner-coord">37.3925°N<br>126.9568°E</div>
+<div class="corner-year">SNOOZE<br>2026</div>
+
+<div class="cursor" id="cursor"><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+
+<main>
+
+<!-- ============ 1 HERO — 로고 + 마우스 오로라 · 수면 ============ -->
+<section class="hero" id="hero">
+  <div class="hero-sticky">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-logo" id="heroLogo">
+      <h1 class="logo" aria-label="LIMEN"><span>L</span><span>I</span><span>M</span><span>E</span><span>N</span></h1>
+      <i class="logo-line"></i>
+      <p class="logo-sub">BETWEEN<br>REALITY<br>AND<br>DREAM</p>
+    </div>
+    <p class="hero-hint" id="heroHint">MOVE · SCROLL</p>
+  </div>
+</section>
+
+<!-- ============ 2 SLOGAN → SCENES 영상 (스티키) ============ -->
+<section class="slogan" id="slogan">
+  <div class="slogan-sticky">
+    <div class="slogan-copy" id="sloganCopy">
+      <p class="label">BETWEEN REALITY AND DREAM</p>
+      <!-- 요청 문구. 공식 슬로건 “흐름 속에서, 나의 선택을 마주하다.” — SLOGAN 문구는 팀 결정 항목 (README 참고) -->
+      <h2 class="slogan-title" id="sloganTitle">내가 선택했던 순간을 다시 만나다.</h2>
+      <p class="slogan-body" id="sloganBody">
+        <span>수많은 흐름이 겹쳐지는 순간, 우리는 저마다의 방향을 향해 움직입니다.</span>
+        <span>그 끝에서 마주하는 선택의 흔적을 따라갑니다.</span>
+      </p>
+    </div>
+
+    <div class="reel" id="reel">
+      <video id="reelVideo" src="media/scenes.mp4" poster="media/scenes_poster.jpg" muted loop autoplay playsinline preload="auto"></video>
+      <div class="reel-ui">
+        <span class="reel-tag">SCENE PREVIEW</span>
+        <span class="reel-tc" id="reelTc">00:00:00</span>
+        <span class="reel-name" id="reelName"></span>
+        <span class="reel-note">* 장면 미리보기 가안 — 개발 렌더 · 테스트 녹화 편집</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 MEMBER — 드래그 · 호버 · 수면 반사 ============ -->
+<section class="member" id="member">
+  <canvas class="member-canvas" id="memberCanvas"></canvas>
+  <div class="member-head">
+    <p class="label">TEAM SNOOZE</p>
+    <h2 class="sec-title">MEMBER</h2>
+    <p class="sec-desc">알람의 스누즈처럼 깨어남을 잠시 미루고,<br>꿈에 남아 자신의 선택을 돌아보는 세계를 만듭니다.</p>
+  </div>
+  <div class="member-info" id="memberInfo">
+    <span class="mi-no" id="miNo">01</span>
+    <span class="mi-name" id="miName"></span>
+    <span class="mi-team" id="miTeam"></span>
+  </div>
+  <p class="member-hint">DRAG · HOVER</p>
+</section>
+
+<!-- ============ 4 SPACE — 도면 → 3D 공간 · 장비 호버 ============ -->
+<section class="space" id="space">
+  <div class="space-sticky" id="spStage">
+    <div class="sp-draw" id="spDraw">
+      <canvas id="spCanvas"></canvas>
+      <svg id="spSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <svg id="spTag" class="sp-tag-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="sp-chip" id="spChip"><i></i><span></span></div>
+    </div>
+    <div class="sp-head">
+      <p class="label">LUCID DREAM · SPACE</p>
+      <h2 class="sp-h">네 면이 하나의 꿈이 되는 방</h2>
+      <p class="sp-phase" id="spPhase"><b>01</b><span>GRID · 작도</span></p>
+    </div>
+    <aside class="sp-side">
+      <p class="sp-year">HORIZON STUDIO</p>
+      <p class="sp-meta">계원예술대학교 정보관 8층<br>정면 7.2 × 4m · 옆면 4 × 4m · 바닥 7.2 × 4m</p>
+      <ol class="sp-list" id="spList"></ol>
+      <p class="sp-cap" id="spCap"></p>
+    </aside>
+    <div class="sp-progress"><i id="spBar"></i></div>
+  </div>
+</section>
+
+<!-- ============ 5 VISIT — 디자인관 → 정보관 8층 ============ -->
+<section class="visit" id="visit">
+  <div class="visit-sticky">
+    <canvas class="visit-canvas" id="visitCanvas"></canvas>
+    <div class="visit-labels" id="visitLabels"></div>
+    <div class="visit-head">
+      <p class="label">HOW TO GET HERE</p>
+      <h2 class="sec-title">VISIT</h2>
+    </div>
+    <ol class="visit-steps" id="visitSteps">
+      <li><b>01</b><span>디자인관에서 출발</span><em>건물 앞 길로 나옵니다</em></li>
+      <li><b>02</b><span>정보관 방향으로</span><em>길을 따라 동쪽으로 걷습니다</em></li>
+      <li><b>03</b><span>정보관 도착</span><em>엘리베이터를 타고</em></li>
+      <li><b>04</b><span>8층 호라이즌 스튜디오</span><em>LIMEN이 시작되는 곳</em></li>
+    </ol>
+    <dl class="visit-info">
+      <dt>PLACE</dt><dd>계원예술대학교 정보관 8층<br>호라이즌 스튜디오</dd>
+      <dt>BY TRANSIT</dt><dd>인덕원역 4번 출구 → 셔틀</dd>
+      <dt>DATE</dt><dd class="tbd">일시 · 회차 추후 공지</dd>
+      <dt>ENTRY</dt><dd>회차 진행 중 추가 입장 불가</dd>
+    </dl>
+    <p class="visit-note">캠퍼스맵을 단순화한 그림입니다 · 축척과 입구 위치는 현장과 다를 수 있습니다</p>
+    <div class="visit-progress"><i id="visitBar"></i></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER — 사람 실루엣 유령 ============ -->
+<!-- 문구는 피그마 푸터 정리본으로 교체 예정 (README 참고) -->
+<footer class="ft" id="footer">
+  <canvas class="ft-canvas" id="ftCanvas"></canvas>
+  <video id="ghostVideo" src="media/ghost.mp4" muted loop autoplay playsinline preload="auto" hidden></video>
+  <div class="ft-inner">
+    <p class="ft-q">내가 고른 방향은 정말 나만의 선택일까?</p>
+    <h2 class="ft-word">LIMEN</h2>
+    <div class="ft-cols">
+      <div><p class="label">EXHIBITION</p><p>계원예술대학교 정보관 8층<br>호라이즌 스튜디오<br><span class="tbd">일시 추후 공지</span></p></div>
+      <div><p class="label">TEAM SNOOZE</p><p>영상팀 김현기 · 배정훈 · 심혜민<br>UI · UX팀 이채연 · 유기상 · 조가연 · 김노은</p></div>
+      <div><p class="label">MENU</p><p><a href="#" data-hover>ABOUT</a><br><a href="#" data-hover>TECHNOLOGY</a><br><a href="#" data-hover>ARCHIVE</a></p></div>
+    </div>
+    <div class="ft-bottom"><span>© 2026 SNOOZE · Kaywon University of Art &amp; Design</span><a href="#hero" data-hover>BACK TO TOP ↑</a></div>
+  </div>
+</footer>
+
+</main>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

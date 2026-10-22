@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIMEN</title>
+<meta name="description" content="LIMEN — SNOOZE 몰입형 인터랙티브 미디어아트 · 계원예술대학교 정보관 8층 호라이즌 스튜디오">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Bodoni+Moda:opsz,wght@6..96,400&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+KR:wght@200;300&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+<!-- 레이아웃 기준: 피그마 ‘main 무드 및 콘텐츠’(node 245-728, 1920 폭). 좌표는 --u = 100vw/1920 단위로 옮겼다 -->
+
+<header class="hd">
+  <a class="hd-l" href="#top" data-hover>L</a>
+  <nav class="hd-nav">
+    <a href="#slogan" data-hover data-scramble>Question</a>
+    <a href="#scenes" data-hover data-scramble>Scenes</a>
+    <a href="#member" data-hover data-scramble>Team</a>
+    <a href="#space" data-hover data-scramble>Space</a>
+    <a href="#visit" data-hover data-scramble>Visit</a>
+  </nav>
+</header>
+
+<div class="cursor" id="cursor"><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+
+<main>
+
+<!-- ============ 1 HERO + 2 SLOGAN — 한 장의 빛 배경(피그마 0~2096) 위. 배경은 WebGL: 천처럼 흐르고 커서가 지나간 자리가 물처럼 일렁인다 ============ -->
+<section class="top" id="top">
+  <div class="pin-wrap"><canvas class="top-canvas" id="heroCanvas"></canvas></div>
+  <div class="hero" id="hero">
+    <h1 class="logo" id="heroLogo" aria-label="LIMEN"><span><b>L</b></span><span><b>I</b></span><span><b>M</b></span><span><b>E</b></span><span><b>N</b></span></h1>
+    <p class="hero-sub" data-words-intro>현실과 꿈이 맞닿는 순간, 우리는 또 다른 세계의 경계에 머무릅니다.</p>
+    <div class="hero-row">
+      <span data-scramble-in>AN IMMERSIVE EXHIBITION</span>
+      <span data-scramble-in>SCROLL TO EXPLORE <i class="arr">↓</i></span>
+      <span data-scramble-in>LIMEN / 2026</span>
+    </div>
+  </div>
+  <div class="slogan" id="slogan">
+    <!-- 요청 · 피그마 문구. 공식 슬로건 “흐름 속에서, 나의 선택을 마주하다.” — SLOGAN 문구는 팀 결정 항목 -->
+    <h2 class="slogan-title" data-words>내가 선택했던 순간을 다시 만나다.</h2>
+    <p class="slogan-body" data-words>수많은 흐름이 겹쳐지는 순간, 우리는 저마다의 방향을 향해 움직입니다. 그 끝에서 마주하는 선택의 흔적을 따라갑니다.</p>
+  </div>
+</section>
+
+<!-- ============ 분위기 전환 — 단어쌍 렌즈(참고 영상) → 영상 카드가 올라와 화면을 채움(greymac) → FLOW · AWARENESS · CHOICE 라벨이 카드 위에서 자란다 ============ -->
+<section class="shift" id="shift">
+  <div class="pin-wrap pin-top" aria-hidden="true"><div class="shift-pin">
+    <span class="sl" id="slF">FLOW</span>
+    <span class="sl" id="slA">AWARENESS</span>
+    <span class="sl" id="slC">CHOICE</span>
+  </div></div>
+  <ul class="pairs" id="pairs">
+    <li><span>DREAM</span><span>REALITY</span></li>
+    <li><span>VEIL</span><span>LUCID</span></li>
+    <li><span>FLOW</span><span>DRIFT</span></li>
+    <li><span>INSTINCT</span><span>INFLUENCE</span></li>
+    <li><span>PERCEPTION</span><span>DIRECTION</span></li>
+    <li><span>AWARENESS</span><span>BOUNDARY</span></li>
+    <li><span>UNCONSCIOUS</span><span>CHOICE</span></li>
+    <li><span>ECHO</span><span>TRACE</span></li>
+    <li><span>SHIFT</span><span>DISSOLVE</span></li>
+    <li><span>SUSPEND</span><span>AWAKENING</span></li>
+    <li><span>BETWEEN</span><span>AFTERIMAGE</span></li>
+    <li><span>UNSEEN</span><span>THRESHOLD</span></li>
+    <li><span>MEMORY</span><span>AWAKE</span></li>
+  </ul>
+  <p class="pairs-foot">FLOW&nbsp;&nbsp;/&nbsp;&nbsp;AWARENESS&nbsp;&nbsp;/&nbsp;&nbsp;CHOICE</p>
+  <div class="card-stage" id="cardStage">
+    <div class="card-sticky">
+      <div class="card" id="card">
+        <video id="reelVideo" src="media/scenes.mp4" poster="media/figma/card_flow.jpg" muted loop autoplay playsinline preload="auto"></video>
+        <div class="card-tint"></div>
+        <p class="card-cap" id="cardCap">빛을 따라 움직이고, 그 흐름을 돌아보다.</p>
+        <div class="card-ui" id="cardUi"><span class="reel-tag">SCENE PREVIEW</span><span class="reel-tc" id="reelTc">00:00:00</span><span class="reel-name" id="reelName"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 / THE INVISIBLE INFLUENCE ============ -->
+<section class="influence" id="influence">
+  <p class="tag">01 / THE INVISIBLE INFLUENCE</p>
+  <h2 class="inf-title" data-words>보이지 않는 흐름, 선택이 되는 순간.</h2>
+  <figure class="inf-img" data-reveal><img src="media/figma/mid_image.jpg" alt=""></figure>
+  <p class="inf-p1" data-words>우리는 스스로 선택한다고 생각하지만, 그 방향에는 타인과 환경의 흐름이 함께 스며들어 있습니다.</p>
+  <p class="inf-p2" data-words>LIMEN은 그 영향을 거부하기보다, 공간과 서로 영향을 주고받으며 선택이 형성되는 과정을 알아차리는 경험입니다.</p>
+  <div class="inf-row"><span>FLOW</span><span>AWARENESS</span><span>CHOICE</span></div>
+</section>
+
+<!-- ============ FLOW · AWARENESS · CHOICE / 바라보던 흐름 안으로 ============ -->
+<section class="enter" id="enter">
+  <div class="faw" id="faw"><span>FLOW</span><span>AWARENESS</span><span>CHOICE</span></div>
+  <h2 class="ent-title" data-words>바라보던 흐름 안으로 들어서다.</h2>
+  <i class="ent-rule" data-rule></i>
+  <p class="ent-p1" data-words>네 면을 감싸는 빛과 움직임 속에서 관객은 공간의 흐름에 반응하고, 자신의 움직임으로 그 흐름에 영향을 줍니다.</p>
+  <p class="ent-p2" data-words>공간을 따라 움직이는 동안, 나의 선택에 스며든 영향을 마주합니다.</p>
+  <p class="tag ent-tag">FROM EXPERIENCE TO SPACE</p>
+</section>
+
+<!-- ============ 03 [ SCENES ] Fragments of a dream. ============ -->
+<section class="scenes" id="scenes">
+  <p class="tag sc-no">03</p>
+  <p class="tag sc-label">[ SCENES ]</p>
+  <h2 class="sc-title" data-split-chars>Fragments of a dream.</h2>
+  <figure class="frag f1" data-speed="0.10"><div class="fr-img"><img src="media/figma/fragment_1.jpg" alt=""></div><figcaption>01 / THE THRESHOLD</figcaption></figure>
+  <figure class="frag f2" data-speed="-0.06"><div class="fr-img"><img src="media/figma/fragment_2.jpg" alt=""></div><figcaption>02 / FLOW</figcaption></figure>
+  <figure class="frag f3" data-speed="0.0"><div class="fr-img"><img src="media/figma/fragment_3.jpg" alt=""></div><figcaption>03 / A MOMENT OF CHOICE</figcaption></figure>
+  <figure class="frag f4" data-speed="-0.12"><div class="fr-img"><img src="media/figma/fragment_4.jpg" alt=""></div><figcaption>04 / AWARENESS</figcaption></figure>
+  <figure class="frag f5" data-speed="0.08"><div class="fr-img"><img src="media/figma/fragment_5.jpg" alt=""></div><figcaption>05 / AFTERIMAGE</figcaption></figure>
+  <a class="sc-all" href="#" data-hover data-scramble>EXPLORE ALL SCENES</a>
+</section>
+
+<!-- ============ 이하 MEMBER · SPACE · VISIT — 피그마에서 아직 비어 있는 구간(9207~21420). v01 구현을 같은 무드로 유지 ============ -->
+<section class="member" id="member">
+  <canvas class="member-canvas" id="memberCanvas"></canvas>
+  <div class="member-head">
+    <p class="tag">04 / TEAM SNOOZE</p>
+    <h2 class="sec-title">MEMBER</h2>
+    <p class="sec-desc" data-words>알람의 스누즈처럼 깨어남을 잠시 미루고, 꿈에 남아 자신의 선택을 돌아보는 세계를 만듭니다.</p>
+  </div>
+  <div class="member-info" id="memberInfo">
+    <span class="mi-no" id="miNo">01</span>
+    <span class="mi-name" id="miName"></span>
+    <span class="mi-team" id="miTeam"></span>
+  </div>
+  <p class="member-hint">DRAG · HOVER</p>
+</section>
+
+<section class="space" id="space">
+  <div class="space-sticky" id="spStage">
+    <div class="sp-draw" id="spDraw">
+      <canvas id="spCanvas"></canvas>
+      <svg id="spSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <svg id="spTag" class="sp-tag-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="sp-chip" id="spChip"><i></i><span></span></div>
+    </div>
+    <div class="sp-head">
+      <p class="tag">05 / EXHIBITION SPACE</p>
+      <h2 class="sp-h">네 면이 하나의 꿈이 되는 방</h2>
+      <p class="sp-phase" id="spPhase"><b>01</b><span>GRID · 작도</span></p>
+    </div>
+    <aside class="sp-side">
+      <p class="sp-year">HORIZON STUDIO</p>
+      <p class="sp-meta">계원예술대학교 정보관 8층<br>정면 7.2 × 4m · 옆면 4 × 4m · 바닥 7.2 × 4m</p>
+      <ol class="sp-list" id="spList"></ol>
+      <p class="sp-cap" id="spCap"></p>
+    </aside>
+    <div class="sp-progress"><i id="spBar"></i></div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="visit-sticky">
+    <canvas class="visit-canvas" id="visitCanvas"></canvas>
+    <div class="visit-labels" id="visitLabels"></div>
+    <div class="visit-head">
+      <p class="tag">06 / HOW TO GET HERE</p>
+      <h2 class="sec-title">VISIT</h2>
+    </div>
+    <ol class="visit-steps" id="visitSteps">
+      <li><b>01</b><span>디자인관에서 출발</span><em>건물 앞 길로 나옵니다</em></li>
+      <li><b>02</b><span>정보관 방향으로</span><em>길을 따라 동쪽으로 걷습니다</em></li>
+      <li><b>03</b><span>정보관 도착</span><em>엘리베이터를 타고</em></li>
+      <li><b>04</b><span>8층 호라이즌 스튜디오</span><em>LIMEN이 시작되는 곳</em></li>
+    </ol>
+    <dl class="visit-info">
+      <dt>PLACE</dt><dd>계원예술대학교 정보관 8층<br>호라이즌 스튜디오</dd>
+      <dt>BY TRANSIT</dt><dd>인덕원역 4번 출구 → 셔틀</dd>
+      <dt>DATE</dt><dd class="tbd">일시 · 회차 추후 공지</dd>
+      <dt>ENTRY</dt><dd>회차 진행 중 추가 입장 불가</dd>
+    </dl>
+    <p class="visit-note">캠퍼스맵을 단순화한 그림입니다 · 축척과 입구 위치는 현장과 다를 수 있습니다</p>
+    <div class="visit-progress"><i id="visitBar"></i></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER — 피그마 문구 · 배치 + uncommon.nl 식 배경 영상(위쪽 페이드, 흐린 실루엣) ============ -->
+<footer class="ft" id="footer">
+  <div class="ft-bg">
+    <canvas class="ft-canvas" id="ftCanvas"></canvas>
+    <video id="ghostVideo" src="media/ghost_one.mp4" muted loop autoplay playsinline preload="auto" hidden></video>
+  </div>
+  <div class="ft-content">
+    <h2 class="ft-title"><span class="t1">BETWEEN</span><span class="t2">REALITY</span><span class="t3">&amp; DREAM.</span></h2>
+    <i class="ft-line"></i>
+    <div class="ft-cols">
+      <div><p class="ft-logo">LIMEN</p>
+        <a href="#top" data-hover data-scramble>HOME ↗</a><a href="#" data-hover data-scramble>ABOUT ↗</a><a href="#member" data-hover data-scramble>COLLECTIVE ↗</a></div>
+      <div><p class="ft-h">EXPLORE</p>
+        <a href="#slogan" data-hover data-scramble>QUESTION</a><a href="#shift" data-hover data-scramble>FILM</a><a href="#enter" data-hover data-scramble>FLOW / AWARENESS / CHOICE</a><a href="#space" data-hover data-scramble>EXHIBITION SPACE</a></div>
+      <div><p class="ft-h">THE COLLECTIVE</p>
+        <span>SNOOZE</span><span>PLANNING / DESIGN / DEVELOPMENT</span><span>EIGHT PERSPECTIVES</span><span>ONE SHARED EXPERIENCE</span></div>
+      <div><p class="ft-h">MEET LIMEN</p>
+        <span>계원예술대학교</span><span>졸업전시 2026</span><a href="#visit" data-hover data-scramble>EXHIBITION INFORMATION ↗</a></div>
+    </div>
+    <i class="ft-line ft-line2"></i>
+    <div class="ft-bottom"><span class="ft-logo sm">LIMEN</span><span>AN IMMERSIVE EXHIBITION</span><span class="ft-copy">© 2026 SNOOZE / LIMEN</span><a href="#top" data-hover data-scramble>BACK TO TOP ↑</a></div>
+  </div>
+</footer>
+
+</main>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

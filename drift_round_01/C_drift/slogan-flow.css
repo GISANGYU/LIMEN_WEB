@@ -1,0 +1,16 @@
+.slogan-flow{position:relative;height:300vh;z-index:1;--quiet:0}
+.slogan-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;padding:0 var(--pad)}
+.slogan-meta,.slogan-foot{position:absolute;left:var(--pad);right:var(--pad);display:flex;justify-content:space-between;font:500 10px/1.5 var(--sans);letter-spacing:.19em;color:#a9bccb}
+.slogan-meta{top:112px}.slogan-foot{bottom:64px;opacity:calc(1 - var(--quiet))}
+.slogan-type{position:relative;width:100%;--light-x:20%;--glass:0;transform:translateY(-2vh)}
+.slogan-type h2,.slogan-refraction{font:450 clamp(46px,6.25vw,120px)/1.32 'Pretendard Variable',sans-serif;letter-spacing:-.065em;word-break:keep-all}
+.slogan-type h2{color:#edf2ed}
+.slogan-refraction{position:absolute;inset:0;color:#d6fcf2;pointer-events:none;opacity:var(--glass);filter:url(#sloganGlass);transform:translateX(6px);mask-image:linear-gradient(90deg,transparent calc(var(--light-x) - 4%),#000 calc(var(--light-x) - 1%),#000 calc(var(--light-x) + 1%),transparent calc(var(--light-x) + 4%));-webkit-mask-image:linear-gradient(90deg,transparent calc(var(--light-x) - 4%),#000 calc(var(--light-x) - 1%),#000 calc(var(--light-x) + 1%),transparent calc(var(--light-x) + 4%))}
+.slogan-filter{position:absolute;pointer-events:none}
+/* The incoming video sits over the final, quiet part of the pinned slogan. */
+.film{margin-top:-60vh;z-index:2;background:linear-gradient(transparent 0, #080f20 100vh);height:334vh}
+.film-heading{height:24vh;justify-content:center;align-items:flex-end;text-align:right}
+.film-heading .lbl{margin-bottom:12px;font-weight:500;letter-spacing:.2em;color:#a9bccb}
+.film-heading h2{font-size:clamp(32px,3.1vw,60px);color:#e8efec}
+.film-cue{display:none}
+@media(prefers-reduced-motion:reduce){.slogan-refraction{display:none}.slogan-type{transform:none}}

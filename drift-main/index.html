@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIMEN — DRIFT main</title>
+    <meta
+      name="description"
+      content="조합 C: monopo 그라데이션·스티키 프로젝트 + skarlo 리퀴파이 + gate108/shopify 나비 + dogstudio 목록·쇼릴 + studio10b 드래그 지도 + helloshivam 유체"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&family=Heebo:wght@200;300;500&family=Instrument+Serif&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./_shared/vendor/three.module.min.js"
+        }
+      }
+    </script>
+  </head>
+  <body data-theme="night">
+    <canvas id="grad" class="grad"></canvas>
+    <header class="c-Header">
+      <!-- 왼쪽 LIMEN = INDEX(이 페이지, 맨 위로) · 오른쪽 = 서브페이지 4개 (02 웹표현기준: ABOUT · TECHNOLOGY · ARCHIVE · AWAKE).
+           서브페이지 파일은 아직 없음 — 만들면 아래 href 그대로 쓴다. AWAKE 는 관람 후 전시장 PC 용 -->
+      <a class="logo" href="./" data-goto="intro">LIMEN</a>
+      <nav>
+        <a href="about.html">About</a
+        ><a href="technology.html">Technology</a
+        ><a href="archive.html">Archive</a
+        ><a href="awake.html">Awake</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- 01 HERO — monopo PixiIntro: gradient + title lines with vw indents + foot rising -->
+      <section class="c-PixiIntro" id="intro">
+        <h1 class="c-PixiIntro-title">
+          <span class="ln l1">Limen, a dream</span>
+          <span class="ln l2">between reality</span>
+          <span class="ln l3">and ch<i>o</i><i>i</i>ce.</span>
+        </h1>
+        <div class="c-PixiIntro-foot">
+          <div class="foot-item">
+            <strong>Graduation Exhibition</strong
+            ><span>계원예술대학교 2026</span>
+          </div>
+          <div class="foot-item">
+            <strong>Four-wall immersive</strong
+            ><span>정면 · 좌 · 우 · 바닥</span>
+          </div>
+          <div class="foot-item">
+            <strong>Team SNOOZE</strong><span>영상 · UI/UX</span>
+          </div>
+          <div class="foot-scroll"><i></i></div>
+        </div>
+      </section>
+
+      <!-- 02 SLOGAN — 공식 슬로건 → 양끝으로 갈라지고 단어 짝이 흐름 → 장면이 차오름 (slogan.js, 참고 영상: 슬로건텍스트다음 분위기전환…mp4) -->
+      <section class="slogan" id="slogan">
+        <div class="sg-sticky">
+          <div class="sg-mask"><ul class="sg-pairs" id="sgPairs" aria-hidden="true"></ul></div>
+          <p class="lbl sg-lbl">Slogan</p>
+          <h2 class="sg-title">
+            <span class="sg-half" id="sgL">흐름 속에서,</span>
+            <span class="sg-half" id="sgR">나의 선택을 마주하다.</span>
+          </h2>
+          <div class="sg-bar"><i id="sgBar"></i></div>
+        </div>
+      </section>
+
+      <!-- 02b SCENES — greymac showreel: a rounded card rises from the bottom and grows to fill the screen while pinned
+       (.framer-o2y241 sticky, border-radius 50px, translateY → 0 · scale .4 → 1; inner video counter-scaled 2.5 → 1) -->
+      <section class="film" id="film">
+        <div class="film-sticky">
+          <div class="reel-card" id="reelCard">
+            <div class="reel-media" id="reelMedia">
+              <video
+                src="media/reel.mp4"
+                muted
+                loop
+                playsinline
+                autoplay
+                preload="auto"
+              ></video>
+            </div>
+            <div class="reel-shade"></div>
+            <div class="reel-ui" id="reelUi">
+              <p class="lbl">Fragments of a dream</p>
+              <a class="reel-link" href="#" id="openReel"
+                >Watch the<br />scenes<span class="play">▶</span></a
+              >
+              <p class="film-copy">
+                빛을 따라 움직이고, 그 흐름을 돌아보다. 개미 · 반딧불이 ·
+                사람·군중 — 네 면 위로 이어지는 장면들의 가안 편집본입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 MEMBER — greymac Panel (border-radius 50px, z-index 3) scrolls up over the pinned reel.
+       dogstudio home-cases list; hovering a name crossfades that member's video behind the filter -->
+      <section class="team" id="team">
+        <div class="team-bg"><div class="themes" id="themes"></div></div>
+        <div class="center">
+          <p class="lbl">Team SNOOZE — 07 members</p>
+          <p class="film-copy team-copy">
+            알람의 스누즈처럼 깨어남을 잠시 미루고, 꿈에 남아 자신의 선택을
+            돌아보는 세계를 만듭니다.
+          </p>
+          <ul class="cases" id="cases"></ul>
+        </div>
+        <div class="line rot45 b"><span class="line-anim"></span></div>
+      </section>
+
+      <!-- 04 SPACE — LIMEN_WEB ver1(studio) · ver2(limen_launch) 도면: 스크롤로 SVG 도면이 그려지고 → 같은 카메라의
+       three.js 모델이 차오르고 → 스크롤마다 장비 01~07 을 차례로 포커스, 01 에서 네 면 영상 시연 (space.js · studio.js) -->
+      <section class="space" id="space">
+        <div class="space-sticky" id="spStage">
+          <div class="sp-draw" id="spDraw">
+            <canvas id="spCanvas"></canvas>
+            <svg id="spSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+            <svg id="spTag" class="sp-tag-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div class="sp-chip" id="spChip">
+              <span class="c-n"></span><span class="c-t"></span><span class="c-s"></span><span class="c-d"></span>
+            </div>
+          </div>
+          <div class="sp-head">
+            <p class="lbl">Exhibition Space — Horizon Studio</p>
+            <h2 class="sp-h">네 면이 하나의<br />꿈이 되는 방</h2>
+          </div>
+          <div class="sp-phase">
+            <div class="sp-count"><span class="mask"><b id="spNo">01</b></span>/05</div>
+            <p class="sp-name" id="spPhaseName">Grid</p>
+            <p class="sp-cap" id="spCap"></p>
+          </div>
+          <aside class="sp-side">
+            <p class="sp-meta">
+              <strong>계원예술대학교 정보관 8층</strong>
+              <span>정면 7.2 × 4m · 옆면 4 × 4m · 바닥 7.2 × 4m</span>
+            </p>
+            <ol class="sp-list" id="spList"></ol>
+            <p class="sp-hint">Scroll — 장비를 차례로 보여 줍니다</p>
+          </aside>
+          <div class="sp-progress"><i id="spBar"></i></div>
+          <video id="spVideo" src="media/reel.mp4" muted loop playsinline preload="metadata" hidden></video>
+        </div>
+      </section>
+
+      <!-- 05 VISIT — studio10b drag-to-explore (orbit damping .05, rotateSpeed 1, autoRotate .5) -->
+      <section class="visit" id="visit">
+        <canvas id="map3d"></canvas>
+        <div class="v-left">
+          <p class="lbl">How to get here</p>
+          <h2>디자인관에서<br />정보관 8층까지.</h2>
+          <ol class="v-steps" id="vsteps"></ol>
+        </div>
+        <dl class="v-info" id="vinfo"></dl>
+        <p class="v-hint">
+          Click and drag to explore the campus · 캠퍼스맵을 단순화한 모형입니다
+        </p>
+      </section>
+
+      <!-- 06 FOOTER — helloshivam fluid (exact config) + one-size typography -->
+      <section class="fluid" id="footer">
+        <canvas id="fluid"></canvas>
+        <div class="f-grid">
+          <div class="f-heading">
+            <p>LIMEN — Designer, dreamer, and chooser.</p>
+            <p class="dim">내가 고른 방향은 정말 나만의 선택일까?</p>
+          </div>
+          <div class="f-menu">
+            <a href="#intro" data-goto="intro">Intro</a
+            ><a href="#film" data-goto="film">Scenes</a
+            ><a href="#team" data-goto="team">Team SNOOZE</a
+            ><a href="#visit" data-goto="visit">Visit</a>
+          </div>
+        </div>
+        <div class="f-bottom">
+          <p>계원예술대학교 정보관 8층 호라이즌 스튜디오 · 일시 추후 공지</p>
+          <p class="dim">
+            영상팀 김현기 · 배정훈 · 심혜민 / UI · UX팀 이채연 · 유기상 · 조가연
+            · 김노은 — © 2026 SNOOZE
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- dogstudio .showreel overlay -->
+    <div class="showreel" id="showreel">
+      <div class="showreel-backdrop" data-close></div>
+      <div class="showreel-wrapper">
+        <video
+          id="reelBig"
+          src="media/reel.mp4"
+          playsinline
+          loop
+          controls
+        ></video
+        ><button class="showreel-close" data-close>Close ✕</button>
+      </div>
+    </div>
+
+    <script src="./_shared/vendor/lenis.min.js"></script>
+    <script src="./_shared/vendor/gsap.min.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -63,9 +63,10 @@
         </div>
       </section>
 
-      <!-- 02 SLOGAN — 공식 슬로건이 켜진 뒤 블러되며 위로 사라진다 → 약 30vh 뒤 SCENES 카드가 올라옴 (slogan.js, 참고 영상: 슬로건텍스트다음 분위기전환…mp4) -->
+      <!-- 02 SLOGAN — 공식 슬로건이 켜진 뒤 블러되며 위로 사라지고 → 단어 짝이 물결치듯 흘러 지나간 뒤 약 30vh 뒤 SCENES 카드가 올라옴 (slogan.js, 참고 영상: 슬로건텍스트다음 분위기전환…mp4) -->
       <section class="slogan" id="slogan">
         <div class="sg-sticky">
+          <div class="sg-mask"><ul class="sg-pairs" id="sgPairs" aria-hidden="true"></ul></div>
           <p class="lbl sg-lbl">Slogan</p>
           <h2 class="sg-title">
             <span class="sg-half" id="sgL">흐름 속에서,</span>

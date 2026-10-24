@@ -86,7 +86,9 @@ function frame(now) {
     const p = ease.cubicOut(clamp(invLerp(vh, -vh * .8, rFi.top)));
     const s = S0 + (1 - S0) * p, rad = 50 * (1 - p * .2);
     reelCard.style.transform = `translateY(${((1 - p) * 8).toFixed(2)}vh) scale(${s.toFixed(4)})`;
-    reelCard.style.borderRadius = `${(rad / s).toFixed(1)}px ${(rad / s).toFixed(1)}px ${(50 * (1 - p) / s).toFixed(1)}px ${(50 * (1 - p) / s).toFixed(1)}px`;
+    const rT = (rad / s).toFixed(1), rB = (50 * (1 - p) / s).toFixed(1);
+    reelCard.style.borderRadius = `${rT}px ${rT}px ${rB}px ${rB}px`;
+    reelCard.style.clipPath = `inset(0 round ${rT}px ${rT}px ${rB}px ${rB}px)`;   // 둥근 잘라내기를 한 번 더 — 영상 층이 모서리를 무시하지 못하게
     reelMedia.style.transform = `scale(${(1 / s).toFixed(4)})`;   // window opens on a video that keeps its size (greymac inner 2.5 → 1)
     const u = clamp(invLerp(.7, 1, p)), cover = clamp(invLerp(-vh, -vh * 2, rFi.top));
     reelUi.style.opacity = (u * (1 - cover)).toFixed(3); reelUi.style.transform = `translateY(${((1 - u) * 30).toFixed(1)}px)`;

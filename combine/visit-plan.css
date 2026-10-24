@@ -1,0 +1,69 @@
+#visit.visit-plan{position:relative;height:500vh;background:#080f20;color:#d6e2ee;border-radius:50px 50px 0 0;z-index:2}
+.visit-pin{position:sticky;top:0;height:100vh;min-height:640px;overflow:hidden;border-radius:50px 50px 0 0;background:radial-gradient(ellipse at 40% 48%,#182d48 0%,#0b172a 44%,#080f20 78%)}
+.visit-pin::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 50%,#080f2033);z-index:0}
+.visit-heading{position:absolute;left:var(--pad);top:96px;z-index:2;pointer-events:none}
+.visit-heading h2{font-family:var(--heebo);font-size:clamp(30px,2.35vw,46px);font-weight:200;line-height:1.25;letter-spacing:-.055em}
+.visit-heading h2 i{font-style:normal;color:#83a5ba}
+.visit-diagram{position:absolute;left:1%;right:27%;top:150px;bottom:98px;z-index:1}
+#visitSvg{width:100%;height:100%;overflow:visible}
+#visitSvg path,#visitSvg polygon,#visitSvg line,#visitSvg circle{vector-effect:non-scaling-stroke}
+#visitSvg text{font-family:var(--sans);fill:#8ca7bc;font-weight:400}
+#visitSvg .vp-grid{fill:none;stroke:#6487a4;stroke-width:.5;opacity:.14}
+#visitSvg .vp-guide{fill:none;stroke:#728fa6;stroke-width:.6;stroke-dasharray:3 7;opacity:.3}
+#visitSvg .vp-road{fill:none;stroke:#7f9bb1;stroke-width:1;stroke-linejoin:round;opacity:.3}
+#visitSvg .vp-road-bed{fill:none;stroke:#668297;stroke-width:13;stroke-linejoin:round;opacity:.055}
+#visitSvg .vp-roof{fill:#183046;fill-opacity:.35;stroke:#a3bed1;stroke-width:.8}
+#visitSvg .vp-side{fill:#284660;fill-opacity:.14;stroke:#779ab5;stroke-width:.55}
+#visitSvg .vp-key .vp-roof{stroke:#c5e7e6;fill:#336276;fill-opacity:.23;stroke-width:1.2}
+#visitSvg .vp-label{font-size:14px;letter-spacing:.04em;fill:#bed1de}
+#visitSvg .vp-caption{font-size:10px;letter-spacing:.16em;fill:#7093a9}
+#visitSvg .vp-small-label{font-size:11px;fill:#7b9aad}
+#visitSvg .vp-route-track{fill:none;stroke:#8dcac6;stroke-width:1;stroke-dasharray:2 6;opacity:.3}
+#visitSvg .vp-route{fill:none;stroke:#b2eee0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px #92dfd14d)}
+#visitSvg .vp-dot{fill:#e0fff2;stroke:#a5e5d7;stroke-width:1}
+#visitSvg .vp-dot-ring{fill:none;stroke:#aae6d9;stroke-width:1;opacity:.4}
+#visitSvg .vp-start{fill:#0b1e30;stroke:#b2eee0;stroke-width:1.1}
+#visitSvg .vp-floor{fill:#203e55;fill-opacity:.1;stroke:#849fb5;stroke-width:.8}
+#visitSvg .vp-floor-top{fill:#86c7be;fill-opacity:.12;stroke:#b2eee0;stroke-width:1.4}
+#visitSvg .vp-floor-number{font-size:11px;letter-spacing:.08em}
+#visitSvg .vp-top-number{fill:#b2eee0;font-size:14px}
+#visitSvg .vp-lift-track{fill:none;stroke:#82a2b5;stroke-width:1;stroke-dasharray:3 5;opacity:.5}
+#visitSvg .vp-lift{fill:none;stroke:#b2eee0;stroke-width:2;filter:drop-shadow(0 0 6px #92dfd16b)}
+#visitSvg .vp-arrival text{fill:#b2eee0}
+#visitSvg .vp-destination{font-family:var(--heebo);font-size:36px;letter-spacing:-.025em;font-weight:200}
+#visitSvg .vp-floor-count{font-family:var(--heebo);font-size:88px;font-weight:200;fill:#d4ebe8;letter-spacing:-.06em}
+#visitSvg .vp-floor-count-small{font-family:var(--heebo);font-size:25px;fill:#8dbbbd;font-weight:200}
+.visit-aside{position:absolute;top:112px;right:var(--pad);width:22%;max-width:355px;z-index:2}
+.visit-stage{display:flex;align-items:center;gap:22px;margin:28px 0 25px;min-height:57px}
+#visitStageNumber{font-family:var(--heebo);font-size:56px;line-height:1;font-weight:200;letter-spacing:-.07em;color:#b2eee0}
+#visitStageLabel{font-size:9px;letter-spacing:.18em;color:#6e96aa;margin-bottom:8px}
+#visitStageTitle{font-weight:300;font-size:18px;letter-spacing:-.045em;word-break:keep-all}
+.visit-stops{list-style:none;padding:0;margin:0;border-top:1px solid #7d9cb12b}
+.visit-stops li{position:relative;display:flex;gap:17px;align-items:center;border-bottom:1px solid #7d9cb12b;padding:15px 0;color:#68869c;transition:color .3s}
+.visit-stops li b{font-size:10px;font-weight:400;width:15px}
+.visit-stops li>span{font-size:15px;display:flex;flex-direction:column;gap:5px}
+.visit-stops li small{font-size:10px;color:#5f7d91;font-weight:400}
+.visit-stops li i{margin-left:auto;width:5px;height:5px;border:1px solid #506b80;border-radius:50%;transition:background .3s}
+.visit-stops .is-past{color:#95b3c2}
+.visit-stops .is-current{color:#b2eee0}
+.visit-stops .is-current i{background:#b2eee0;border-color:#b2eee0;box-shadow:0 0 14px #91cfbf66}
+.visit-address{margin-top:27px}
+.visit-address>p{font-size:9px;letter-spacing:.2em;color:#6f95a9;margin-bottom:9px}
+.visit-address h3{font-size:23px;font-weight:300;letter-spacing:-.05em;margin-bottom:8px}
+.visit-address em{font-family:var(--heebo);font-size:30px;font-weight:200;font-style:normal;color:#b2eee0;margin-left:10px}
+.visit-address>span{font-size:12px;line-height:1.65;color:#99b1c2}
+.visit-info{margin-top:21px;padding-top:15px;border-top:1px solid #7d9cb12b}
+.visit-info>div{display:flex;justify-content:space-between;gap:12px;margin:8px 0}
+.visit-info dt{font-size:8px;letter-spacing:.1em;color:#648599}
+.visit-info dd{font-size:10px;color:#9db3c3;text-align:right}
+.visit-bottom{position:absolute;bottom:28px;left:var(--pad);right:var(--pad);z-index:3}
+.visit-progress{height:1px;background:#68819940}
+.visit-progress span{display:block;height:100%;background:#9bd9cd;transform:scaleX(0);transform-origin:left}
+.visit-bottom-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:19px;font-size:10px;color:#7796aa;letter-spacing:.08em}
+#visitMode{color:#b4dcd6}
+.visit-bottom-divider{margin:0 17px;color:#48697f}
+#visitHint{color:#9cb6c5;font-size:11px;letter-spacing:0}
+.visit-note{font-size:10px;color:#617d91;margin-top:12px}
+@media(max-height:820px){.visit-heading{top:85px}.visit-aside{top:90px}.visit-stage{margin:20px 0 18px}.visit-stops li{padding:11px 0}.visit-address{margin-top:20px}.visit-info{margin-top:14px}.visit-diagram{top:150px;bottom:105px}}
+@media(max-height:700px){.visit-stops li{padding:8px 0}.visit-stage{margin:12px 0}.visit-address{margin-top:15px}.visit-info{padding-top:8px;margin-top:9px}.visit-aside>.space-eyebrow{margin-bottom:12px}.visit-bottom{bottom:20px}}
+@media(prefers-reduced-motion:reduce){.visit-stops li,.visit-stops li i{transition:none}}

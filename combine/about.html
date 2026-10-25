@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIMEN — ABOUT</title>
+    <meta
+      name="description"
+      content="ABOUT — 일상의 선택에서 시작된 질문. LIMEN의 기획 배경, 세인(das Man), FLOW · AWARENESS · CHOICE, 자각몽, 팀명 SNOOZE, 관객 여정과 장면 개요"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&family=Heebo:wght@200;300;500&family=Instrument+Serif&display=swap"
+      rel="stylesheet"
+    />
+    <!-- INDEX 와 같은 토큰 · 헤더 · 히어로 · 푸터를 그대로 쓰고, ABOUT 구간만 about.css -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="footer-film.css" />
+    <link rel="stylesheet" href="about.css" />
+  </head>
+  <body data-theme="night" data-page="about">
+    <canvas id="grad" class="grad"></canvas>
+    <header class="c-Header">
+      <!-- AWAKE 는 관람 후 전시장 PC 전용이라 관람 전 메뉴에 두지 않는다 (02 웹표현기준 5장) -->
+      <a class="logo" href="index.html">LIMEN</a>
+      <nav>
+        <a href="about.html" aria-current="page">About</a
+        ><a href="technology.html">Technology</a
+        ><a href="archive.html">Archive</a>
+      </nav>
+    </header>
+
+    <main class="ab">
+      <!-- 00 HERO — INDEX 히어로(monopo PixiIntro)와 같은 그라디언트 · 줄 들여쓰기 · 발판 -->
+      <section class="c-PixiIntro ab-hero" id="top">
+        <p class="lbl ab-hero-lbl">About · LIMEN</p>
+        <h1 class="c-PixiIntro-title">
+          <span class="ln l1">A threshold</span>
+          <span class="ln l2">between dream</span>
+          <span class="ln l3">and reality.</span>
+        </h1>
+        <p class="ab-hero-copy">
+          일상의 선택이 외부의 정보, 타인의 판단, 사회적 흐름에<br />
+          어떤 영향을 받는지 탐구하는 몰입형 인터랙티브 미디어아트.
+        </p>
+        <div class="c-PixiIntro-foot">
+          <div class="foot-item"><strong>Limen /ˈliːmen/</strong><span>리멘 · 경계, 문턱</span></div>
+          <div class="foot-item"><strong>Team SNOOZE</strong><span>깨어남을 잠시 유예하다</span></div>
+          <div class="foot-item"><strong>Flow · Awareness · Choice</strong><span>흐름 · 자각 · 선택</span></div>
+          <div class="foot-scroll"><i></i></div>
+        </div>
+      </section>
+
+      <!-- 01 ORIGIN — 통합 p.5 3.1 일상적인 선택의 구조 -->
+      <section class="ab-sec ab-origin" id="origin">
+        <p class="lbl rv">01 / Where it begins</p>
+        <div class="ab-origin-grid">
+          <h2 class="ab-h split">우리는 무엇을 보고<br />선택하고 있을까요?</h2>
+          <div class="ab-origin-copy">
+            <p class="ab-p rv">
+              처음 가 보는 동네에서 음식점을 찾을 땐 별점과 리뷰를 확인하고, 물건을 살 땐 추천 순위와 다른 사람의
+              평가를 참고합니다. 불확실함을 줄여 주는 고마운 기준이지만, 그 기준이 내 판단에 얼마나 스며드는지는
+              잘 의식하지 못합니다.
+            </p>
+            <p class="ab-p rv">
+              처음엔 내 취향대로 고르려 했는데, 다른 사람의 평가를 거듭 마주하며 마음이 달라지기도 합니다. LIMEN은
+              이런 일상의 장면에서 출발합니다.
+            </p>
+          </div>
+        </div>
+        <blockquote class="ab-quote rv">
+          <span class="q">“</span>내가 지금 이 선택을 하는 이유를<br />나는 얼마나 알고 있을까?<span class="q">”</span>
+        </blockquote>
+      </section>
+
+      <!-- 02 SIGNALS — 고정된 흐름선 도면. 스크롤하면 신호(리뷰 · 순위 · 주변)가 하나씩 켜지며 각자의 선이 그쪽으로 휘고 모인다 (about.js initSignals) -->
+      <section class="ab-signals" id="signals">
+        <div class="ab-pin">
+          <div class="sig-draw">
+            <svg id="sigSvg" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+          </div>
+          <div class="sig-head">
+            <p class="lbl">02 / The signals around us</p>
+            <h2 class="ab-h2">내가 선택한 걸까,<br />자연스럽게 따라간 걸까.</h2>
+          </div>
+          <div class="sig-phase" aria-hidden="true">
+            <div class="sig-count"><span class="mask"><b id="sigNo">00</b></span>/03</div>
+            <p class="sig-name" id="sigName">Each its own way</p>
+          </div>
+          <p class="sig-notice" id="sigNotice">
+            중요한 것은 영향을 받았는지가 아니라,<br />그 영향이 내 선택에 어떻게 작용했는지 알아차리는 것.
+          </p>
+          <aside class="sig-side">
+            <p class="sig-meta"><strong>선택에 스며드는 신호</strong><span>스크롤하면 신호가 하나씩 켜집니다</span></p>
+            <ol class="sig-list" id="sigList">
+              <li>
+                <span class="no">01</span><span class="tt">Review · 리뷰와 추천</span>
+                <div class="ds">
+                  <b>좋다는 말에 마음이 기울고.</b>
+                  <i>직접 경험하기 전부터, 다른 사람의 평가가 기대를 만듭니다.</i>
+                  <em>좋은 리뷰를 보기 전에도, 같은 것을 골랐을까요?</em>
+                </div>
+              </li>
+              <li>
+                <span class="no">02</span><span class="tt">Ranking · 인기와 순위</span>
+                <div class="ds">
+                  <b>많이 고른 쪽이 더 좋아 보이고.</b>
+                  <i>익숙한 인기 순위와 추천은 선택의 기준이 되기도 합니다.</i>
+                  <em>순위가 보이지 않았다면, 무엇이 먼저 눈에 들어왔을까요?</em>
+                </div>
+              </li>
+              <li>
+                <span class="no">03</span><span class="tt">Others · 주변의 선택</span>
+                <div class="ds">
+                  <b>주변이 향하는 쪽으로, 나도 모르게.</b>
+                  <i>주변 사람들이 고르는 방향이 자연스럽게 나의 기준이 되기도 합니다.</i>
+                  <em>주변의 선택을 보기 전, 나의 마음은 어디를 향했을까요?</em>
+                </div>
+              </li>
+            </ol>
+            <p class="sig-legend"><i></i>민트 선 = 나의 선택</p>
+          </aside>
+          <div class="sig-progress"><i id="sigBar"></i></div>
+        </div>
+      </section>
+
+      <!-- 03 POINT OF VIEW — 통합 p.3 1.2 핵심 메시지 · p.5 3.2 세인(das Man) -->
+      <section class="ab-sec ab-dasman" id="perspective">
+        <div class="ab-drift" aria-hidden="true">
+          <p class="drift-row" data-dir="-1">‘보통은 이렇게 한다’ · ‘다들 이것을 선택한다’ · ‘보통은 이렇게 한다’ · ‘다들 이것을 선택한다’ ·</p>
+          <p class="drift-row" data-dir="1">‘다들 이것을 선택한다’ · ‘보통은 이렇게 한다’ · ‘다들 이것을 선택한다’ · ‘보통은 이렇게 한다’ ·</p>
+        </div>
+        <p class="lbl rv">03 / Our point of view</p>
+        <h2 class="ab-h reading">선택의 결과보다,<br />선택이 만들어지는 과정.</h2>
+        <div class="ab-two">
+          <p class="ab-p rv">
+            출발점은 하이데거의 <b>세인(das Man)</b>입니다. 누가 직접 명령하지 않아도 ‘보통은 이렇게 한다’, ‘다들 이것을
+            선택한다’는 기준이 자연스럽게 판단에 스며듭니다. 오늘날의 추천 알고리즘과 리뷰, 인기 순위, 유행에서도 비슷한
+            구조를 발견할 수 있습니다.
+          </p>
+          <p class="ab-p rv">
+            LIMEN은 이 영향을 부정하지 않습니다. 영향을 받는 것은 잘못이 아니고, 남들과 다른 선택이 정답도 아닙니다.
+            같은 선택이라도 어떤 영향을 받아 그곳에 닿았는지 알아차리는 데에 의미가 있습니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- 04 KEYWORDS — 통합 p.3 1.3. 세 단어는 단계가 아니라 전체를 관통하는 개념 → 번호를 매기지 않고 나란히 둔다 -->
+      <section class="ab-sec ab-keys" id="keywords">
+        <p class="lbl rv">04 / Keywords</p>
+        <ul class="key-list">
+          <li class="key rv">
+            <svg class="glyph g-flow" viewBox="0 0 200 110" aria-hidden="true">
+              <g class="waves">
+                <path d="M-80 25 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" />
+                <path d="M-80 45 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" />
+                <path class="me" d="M-80 65 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" />
+                <path d="M-80 85 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" />
+              </g>
+            </svg>
+            <h3 class="key-word">Flow</h3>
+            <p class="key-kr">흐름</p>
+            <p class="ab-p">우리는 주변의 행동과 사회적 환경, 외부의 신호에 영향을 받는 흐름 속에 존재합니다.</p>
+          </li>
+          <li class="key rv">
+            <svg class="glyph g-aware" viewBox="0 0 200 110" aria-hidden="true">
+              <path class="pass" d="M0 30 C60 30 70 55 100 55 S140 80 200 80" />
+              <path class="pass" d="M0 80 C60 80 70 55 100 55 S140 30 200 30" />
+              <circle class="ring r1" cx="100" cy="55" r="16" />
+              <circle class="ring r2" cx="100" cy="55" r="30" />
+              <circle class="dot" cx="100" cy="55" r="4" />
+            </svg>
+            <h3 class="key-word">Awareness</h3>
+            <p class="key-kr">자각</p>
+            <p class="ab-p">나의 행동이 외부의 영향을 받으며, 동시에 주변에도 영향을 미친다는 관계를 알아차립니다.</p>
+          </li>
+          <li class="key rv">
+            <svg class="glyph g-choice" viewBox="0 0 200 110" aria-hidden="true">
+              <path class="trunk" d="M0 55 H90" />
+              <path class="br b1" d="M90 55 C130 55 140 22 200 22" />
+              <path class="br b2" d="M90 55 H200" />
+              <path class="br b3" d="M90 55 C130 55 140 88 200 88" />
+              <circle class="fork" cx="90" cy="55" r="4" />
+            </svg>
+            <h3 class="key-word">Choice</h3>
+            <p class="key-kr">선택</p>
+            <p class="ab-p">그 관계를 인식한 상태에서, 자신의 선택을 다시 바라봅니다.</p>
+          </li>
+        </ul>
+        <p class="key-note rv">세 단어는 차례로 지나가는 단계가 아니라, 작품 전체를 관통하는 개념입니다.</p>
+      </section>
+
+      <!-- 05 LUCID DREAM — 통합 p.4 2.3 왜 자각몽인가 · ‘자각은 통제가 아니다’ -->
+      <section class="ab-sec ab-lucid" id="lucid">
+        <p class="lbl rv">05 / Why a lucid dream</p>
+        <div class="lucid-grid">
+          <div>
+            <h2 class="ab-h split">꿈속에서,<br />꿈임을 알아차리는 일.</h2>
+            <p class="ab-p rv">
+              자각몽은 꿈을 꾸는 도중 자신이 꿈속에 있다는 사실을 아는 상태입니다. 꿈속 사건을 자연스럽게 받아들이듯,
+              우리는 현실에서도 주변의 정보와 익숙한 기준을 따라 움직입니다.
+            </p>
+            <p class="ab-p rv">
+              무엇의 영향을 받고 있는지 알아차리는 순간, 같은 상황이 다른 관점으로 보이기 시작합니다.
+            </p>
+          </div>
+          <figure class="lucid-fig rv">
+            <div class="lucid-img"><img src="about/threshold.jpg" alt="콘셉트 이미지: 회색 벽의 문턱 너머로 이어지는 어두운 공간과 옅은 보랏빛" loading="lazy" width="1122" height="1402" /></div>
+            <figcaption class="lbl">Concept image · Threshold</figcaption>
+          </figure>
+        </div>
+
+        <!-- 자각은 통제가 아니다 — 커서(관객) 가까운 흐름만 반응하고, 전체 흐름은 스스로 계속 움직인다 (about.js initField) -->
+        <div class="field-panel rv" id="fieldPanel">
+          <svg id="fieldSvg" viewBox="0 0 1400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+          <div class="field-copy">
+            <p class="lbl">Awareness is not control</p>
+            <h3 class="ab-h3">자각은 통제가 아닙니다.</h3>
+            <p class="ab-p">
+              관객은 공간에 영향을 주지만, 공간도 자기만의 흐름과 반응을 가집니다. 영향을 받는 동시에 주는 존재라는
+              관계를 알아차리는 것 — 그것이 LIMEN이 말하는 자각입니다.
+            </p>
+          </div>
+          <p class="field-hint">커서를 움직여 보세요 · 가까운 흐름은 반응하지만, 전체 흐름은 스스로 움직입니다 <span>(웹 개념 시연)</span></p>
+        </div>
+      </section>
+
+      <!-- 06 THE NAME — 통합 p.4 2.1 SNOOZE · 2.2 LIMEN -->
+      <section class="ab-sec ab-name" id="name">
+        <p class="lbl rv">06 / The name</p>
+        <div class="name-stage" id="nameStage" aria-label="LIMEN">
+          <span class="nm-tag nm-dream" aria-hidden="true">Dream</span>
+          <span class="nm-word nm-top" aria-hidden="true">LIMEN</span>
+          <span class="nm-word nm-bot" aria-hidden="true">LIMEN</span>
+          <i class="nm-line" aria-hidden="true"></i>
+          <span class="nm-tag nm-real" aria-hidden="true">Reality</span>
+        </div>
+        <div class="name-grid">
+          <div class="rv">
+            <p class="name-pr">/ˈliːmen/ · 리멘 · 경계, 문턱</p>
+            <p class="ab-p">
+              꿈과 현실의 경계이자, 나의 행동과 선택에 작용하는 영향을 알아차리는 인식의 문턱. 환경에서 완전히 벗어나는
+              경험이 아니라, 그 안에 머문 채 자신의 상태를 새로운 관점으로 알아차리는 경험입니다.
+            </p>
+          </div>
+          <div class="rv">
+            <p class="name-pr">Team SNOOZE · 깨어남을 잠시 유예하다</p>
+            <p class="ab-p">
+              알람이 울릴 때 깨어남을 잠시 미루고 꿈속에 더 머물게 하는 ‘다시 알림’에서 온 이름입니다. 현실로의 깨어남을
+              잠시 유예하고 꿈속에 남아, 관객이 자신의 선택을 되돌아볼 수 있는 자각몽의 세계를 만듭니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 JOURNEY · 08 SCENES — VISIT 와 같은 남색 패널 (통합 p.6 4.2 관객 여정 · 02 웹표현기준 2장 장면 표) -->
+      <section class="ab-panel" id="journey">
+        <div class="ab-sec">
+          <p class="lbl rv">07 / Journey</p>
+          <h2 class="ab-h split">전시 전에 만나고,<br />전시장에서 겪고, 관람 후에 돌아봅니다.</h2>
+          <ol class="jr-list" id="jrList">
+            <li class="jr here">
+              <span class="jr-dot"></span>
+              <p class="jr-when">관람 전 <em>지금 여기</em></p>
+              <h3>사전 웹사이트</h3>
+              <p class="ab-p">작품의 분위기를 먼저 만나고, 전시장으로 향하는 길.</p>
+            </li>
+            <li class="jr">
+              <span class="jr-dot"></span>
+              <p class="jr-when">전시장</p>
+              <h3>LUCID DREAM</h3>
+              <p class="ab-p">네 면의 몰입 영상과 움직임 인터랙션 속에서 외부의 영향과 나의 반응을 겪습니다.</p>
+            </li>
+            <li class="jr">
+              <span class="jr-dot"></span>
+              <p class="jr-when">관람 후</p>
+              <h3>AWAKE</h3>
+              <p class="ab-p">본 장면의 의미를 다시 살피고, 내가 내린 선택을 돌아봅니다. 관람을 마친 뒤 전시장에서 만납니다.</p>
+            </li>
+          </ol>
+          <p class="jr-note rv">관람 중 센서가 읽은 개인의 이동 기록은 저장하거나 보여주지 않습니다.</p>
+        </div>
+
+        <div class="ab-sec ab-scenes" id="scenes">
+          <p class="lbl rv">08 / Scenes</p>
+          <div class="sc-head">
+            <h2 class="ab-h split">하나의 흐름으로<br />이어지는 장면들.</h2>
+            <p class="ab-p rv">장면의 자세한 의미는 관람을 마친 뒤 AWAKE에서 이어집니다. 여기서는 이름과 결만 먼저 건넵니다.</p>
+          </div>
+          <div class="sc-flow" id="scFlow">
+            <svg class="sc-svg" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true">
+              <path class="sc-track" id="scTrack" pathLength="1" />
+              <path class="sc-line" id="scLine" pathLength="1" />
+              <path class="sc-pulse" id="scPulse" pathLength="1" />
+            </svg>
+            <ol class="sc-list" id="scList">
+              <li class="live" data-y="62"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>개미</b><span class="en">Ant</span><span class="mean">첫 장면</span></span></button></li>
+              <li class="live" data-y="38"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>반딧불이</b><span class="en">Firefly</span><span class="mean">동조</span></span></button></li>
+              <li data-y="58"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>나방</b><span class="en">Moth</span><span class="mean">외부 신호에 의한 유도</span></span></button></li>
+              <li data-y="34"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>거미</b><span class="en">Spider</span><span class="mean">의식 이전의 반응</span></span></button></li>
+              <li data-y="60"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>기억 회상</b><span class="en">Memory</span><span class="mean">여러 관점에서 다시 보기</span></span></button></li>
+              <li class="live" data-y="40"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>사람·군중</b><span class="en">Human</span><span class="mean">인간 사회로 확장되는 흐름</span></span></button></li>
+              <li data-y="52"><button type="button"><span class="sc-dot"></span><span class="sc-txt"><b>엔딩</b><span class="en">Ending</span><span class="mean">전시장에서</span></span></button></li>
+            </ol>
+          </div>
+          <p class="sc-legend rv">
+            <span><i class="lv"></i>움직임에 반응하는 장면 · 네 면</span><span><i></i>영상 장면</span>
+            <a class="sc-link" href="index.html#film">장면 예고 보기 ↗</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- 09 CLOSING — 핵심 질문 (통합 p.3). 그라디언트가 다시 차오른다 -->
+      <section class="ab-sec ab-close" id="question">
+        <p class="lbl rv">Take this question with you</p>
+        <h2 class="ab-close-h reading">내가 고른 방향은<br />정말 나만의 선택일까?</h2>
+        <p class="ab-p rv">답을 정해 두지 않은 채, 공간 안에서 자신의 선택을 마주해 보세요.</p>
+        <div class="close-links rv">
+          <a href="index.html#visit">관람 안내 보기 <span>↗</span></a>
+          <a href="index.html">INDEX로 <span>↗</span></a>
+        </div>
+      </section>
+
+      <!-- FOOTER — INDEX 와 같은 UNCOMMON 레퍼런스 필름 푸터 (링크만 index.html 로) -->
+      <footer class="film-footer" id="footer" aria-labelledby="footerSlogan">
+        <div class="footer-film" id="footerFilm">
+          <div class="footer-film-background" aria-hidden="true">
+            <video id="footerVideo" muted loop playsinline preload="none" poster="media/uncommon-footer-poster.jpg" data-src="media/uncommon-footer.mp4" tabindex="-1"></video>
+          </div>
+          <div class="footer-content">
+            <div class="footer-title">
+              <h2 id="footerSlogan" class="footer-scattered"><span>흐름 속에서,</span><span>나의 선택을</span><span>마주하다.</span></h2>
+            </div>
+            <div class="footer-information">
+              <div class="footer-top">
+                <nav class="footer-nav" aria-label="푸터 메뉴"><a href="index.html">LIMEN</a><a href="about.html">ABOUT</a></nav>
+                <div class="footer-column"><a href="index.html#team" class="footer-label">TEAM SNOOZE</a><div class="footer-dim footer-people"><div><p>영상팀</p><p>김현기<br>배정훈<br>심혜민</p></div><div><p>UI · UX팀</p><p>이채연<br>유기상<br>조가연<br>김노은</p></div></div></div>
+                <div class="footer-column"><p class="footer-label">BETWEEN REALITY AND DREAM</p><div class="footer-dim"><p class="footer-question">내가 고른 방향은<br>정말 나만의 선택일까?</p><a href="index.html#film" class="footer-square-link">장면 다시 보기</a></div></div>
+                <div class="footer-column"><a href="index.html#visit" class="footer-label">VISIT</a><div class="footer-dim"><p>계원예술대학교 정보관 8층<br>호라이즌 스튜디오</p><p class="footer-date">일시 · 회차 추후 공지</p><a class="footer-square-link" href="index.html#visit">오시는 길</a></div></div>
+              </div>
+              <div class="footer-bottom">
+                <div class="footer-identity"><a class="footer-brand" href="index.html" aria-label="LIMEN 처음으로">LIMEN</a><p>몰입형 인터랙티브 미디어아트<br>© 2026 TEAM SNOOZE</p></div>
+                <div class="footer-bottom-links"><button class="footer-film-toggle" id="footerFilmToggle" type="button" aria-pressed="false">영상 멈춤 Ⅱ</button><a href="#top" data-goto="top">BACK TO TOP ↑</a><a class="footer-reference-credit" href="https://www.uncommon.nl/studio" target="_blank" rel="noopener noreferrer">REFERENCE FILM · UNCOMMON ↗</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="./_shared/vendor/lenis.min.js"></script>
+    <script type="module" src="about.js"></script>
+  </body>
+</html>

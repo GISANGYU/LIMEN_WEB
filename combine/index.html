@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="visit-plan.css" />
     <link rel="stylesheet" href="footer-film.css" />
+    <!-- 00 LOADING — /loading/ver2/ 를 INDEX 위에 띄움 -->
+    <link rel="stylesheet" href="loading/loading.css" />
     <script type="importmap">
       {
         "imports": {
@@ -26,6 +28,10 @@
     </script>
   </head>
   <body data-theme="night">
+    <!-- 00 LOADING — 주소로 들어오면 먼저 /loading/ver2/ (성운 로딩 → SNOOZE 밀어서 잠금해제) 가 덮고,
+         잠금해제 뒤 화면이 어두워지면 걷히며 INDEX 가 드러난다. loading/loading.js (?noload = 건너뛰기) -->
+    <div class="ld" id="ld"><iframe title="LIMEN 로딩" allow="autoplay"></iframe></div>
+    <script src="loading/loading.js"></script>
     <canvas id="grad" class="grad"></canvas>
     <header class="c-Header">
       <!-- 왼쪽 LIMEN = INDEX(이 페이지, 맨 위로) · 오른쪽 = 서브페이지 4개 (02 웹표현기준: ABOUT · TECHNOLOGY · ARCHIVE · AWAKE).

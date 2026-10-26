@@ -4,38 +4,12 @@
 //  field    : ‘자각은 통제가 아니다’ — 커서(관객) 가까운 흐름만 반응하고 전체 흐름은 스스로 움직인다. 커서가 없으면 혼자 돈다
 //  name     : LIMEN 을 가로지르는 문턱선 — 위는 흐린 꿈, 아래는 또렷한 현실. 스크롤로 선이 내려온다
 //  journey  : 사전 웹사이트 → LUCID DREAM → AWAKE 점선이 차오름 · scenes : 장면 노드를 잇는 흐름선이 그려지고 빛이 지나간다
-import { $, $$, clamp, lerp, invLerp, smooth as ss, ease, reduced } from './_shared/js/core.js';
-import { createGradient } from './gradient.js';
-import { createFooterFilm } from './footer-film.js';
+import { $, $$, clamp, lerp, invLerp, smooth as ss, reduced } from './_shared/js/core.js';
+import { initSub } from './sub-common.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const el = (tag, attrs = {}, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
-const fine = matchMedia('(hover: hover) and (pointer: fine)');
-
-const lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, easing: ease.expoOut, autoRaf: false });
-window.__app = { lenis };
-const easeInOut = (t) => (t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
-$$('[data-goto]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); lenis.scrollTo(0, { duration: 1.2, easing: easeInOut }); }));
-
-// ---------- hero — INDEX 와 같이 줄마다 마스크 안에서 떠오른다
-$$('.c-PixiIntro-title .ln').forEach((ln) => { ln.innerHTML = `<span class="in">${ln.innerHTML}</span>`; });
-const gradEl = $('#grad'), grad = createGradient(gradEl);
-requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('is-ready')));
-
-// ---------- 제목 줄 나누기 (<br> 단위) · 단어 켜짐 제목
-$$('.split').forEach((h) => {
-  h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map((l, i) => `<span class="ln" style="--i:${i}"><span class="in">${l.trim()}</span></span>`).join('');
-});
-$$('.reading').forEach((h) => {
-  h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
-  h.innerHTML = h.innerHTML.split(/<br\s*\/?>/i).map((l) => l.trim().split(/\s+/).map((w) => `<span class="w" aria-hidden="true">${w}</span>`).join(' ')).join('<br>');
-});
-const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
-$$('.rv, .split').forEach((n) => io.observe(n));
-
-// ---------- footer film (INDEX 와 같음)
-const footerFilm = createFooterFilm($('#footerFilm'));
-new IntersectionObserver(([e]) => { footerFilm.active = e.isIntersecting; }, { threshold: 0 }).observe($('#footerFilm'));
+const sub = initSub({ hero: '#top', close: '#question' });
 
 // =====================================================================
 // 02 SIGNALS — 흐름선 도면
@@ -216,29 +190,19 @@ function initScenes() {
 }
 
 const signals = initSignals(), field = initField(), scenes = initScenes();
-const S = { hero: $('#top'), sig: $('#signals'), drift: $('#perspective'), lucid: $('#lucid'), field: $('#fieldPanel'), img: $('.lucid-img img'),
-  name: $('#nameStage'), jr: $('#jrList'), sc: $('#scFlow'), close: $('#question') };
-const driftRows = $$('.drift-row'), jrItems = $$('.jr'), reading = $$('.reading');
+const S = { sig: $('#signals'), drift: $('#perspective'), lucid: $('#lucid'), field: $('#fieldPanel'), img: $('.lucid-img img'),
+  name: $('#nameStage'), jr: $('#jrList'), sc: $('#scFlow') };
+const driftRows = $$('.drift-row'), jrItems = $$('.jr');
 const rect = (e) => e.getBoundingClientRect();
 const inView = (r, m = 0) => r.bottom > -m && r.top < innerHeight + m;
 
 let last = performance.now();
 function frame(now) {
   requestAnimationFrame(frame);
-  lenis.raf(now);
+  sub.lenis.raf(now);
   const t = now / 1000, dt = Math.min(.05, (now - last) / 1000); last = now; const vh = innerHeight;
 
-  // gradient — 히어로에서 꽉 찼다가 꺼지고, 마지막 질문에서 다시 차오른다 (보이지 않을 땐 그리지 않음)
-  const rH = rect(S.hero), rC = rect(S.close);
-  const heroK = clamp(1 - (-rH.top) / vh * .9), closeK = clamp((vh - rC.top) / (vh * .9)) * clamp(rC.bottom / (vh * .6));
-  const gk = Math.max(heroK, closeK * .9);
-  grad.visible = gk > .01;
-  gradEl.style.visibility = grad.visible ? '' : 'hidden';
-  gradEl.style.opacity = gk.toFixed(3);
-  grad.dim = Math.max(.35, gk);
-  // 마지막 질문에선 히어로와 같은 구도로 돌아온다 (스크롤 이동량을 되돌림)
-  grad.scroll = heroK > 0 ? lenis.scroll / vh : (1 - closeK) * .5;
-  grad.update(t, dt);
+  sub.frame(t, dt);
 
   // signals — 고정 구간 진행률
   const rS = rect(S.sig);
@@ -247,13 +211,6 @@ function frame(now) {
   // das Man — 뒤의 말이 서로 반대로 흘러간다
   const rD = rect(S.drift);
   if (inView(rD) && !reduced) { const k = (vh - rD.top) / (rD.height + vh); driftRows.forEach((r) => { r.style.transform = `translateX(${(+r.dataset.dir * (k - .5) * 30 - 20).toFixed(2)}%)`; }); }
-
-  // reading — 화면 아래 85% 에서 45% 로 올라오는 동안 단어가 차례로 켜진다
-  reading.forEach((h) => {
-    const r = rect(h); if (!inView(r)) return;
-    const k = reduced ? 1 : clamp((vh * .85 - r.top) / (vh * .4)), ws = h.querySelectorAll('.w');
-    ws.forEach((w, i) => w.classList.toggle('on', k > i / ws.length));
-  });
 
   // lucid 이미지 — 살짝 늦게 따라오는 시차
   const rI = rect(S.img);

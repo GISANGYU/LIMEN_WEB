@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIMEN — ARCHIVE</title>
+    <meta name="description" content="ARCHIVE — SNOOZE 앱에 남긴 열두 번의 제작 기록. 답사 · 실험 · 현장 테스트 (2026.07 — 2026.10)" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&family=Heebo:wght@200;300;500&family=Instrument+Serif&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="archive.css" />
+    <script type="importmap">
+      { "imports": { "three": "./_shared/vendor/three.module.min.js" } }
+    </script>
+  </head>
+  <!-- 미디어 · 원본 기록은 SNOOZE 앱에서 옮겨 둔 LIMEN_WEB/test-logs 를 그대로 읽는다 (배포: /LIMEN_WEB/test-logs/, 로컬: claude-웹개발/test-logs 연결 폴더) -->
+  <body data-theme="night" data-page="archive" data-archive-base="../test-logs/">
+    <!-- 흐물거리는 무한 갤러리 (archive/gallery.js — test-logs 원본 움직임) -->
+    <canvas id="stage" aria-hidden="true"></canvas>
+    <main id="gallery-surface" tabindex="0" aria-label="제작 기록 갤러리. 휠 · 드래그 · 방향키로 둘러보고, 카드를 누르면 그날의 기록이 열립니다.">
+      <ol id="text-list" class="sr-only" aria-label="제작 기록 목록"></ol>
+    </main>
+
+    <header class="c-Header">
+      <!-- AWAKE 는 관람 후 전시장 PC 전용이라 관람 전 메뉴에 두지 않는다 (02 웹표현기준 5장) -->
+      <a class="logo" href="index.html">LIMEN</a>
+      <nav>
+        <a href="about.html">About</a
+        ><a href="technology.html">Technology</a
+        ><a href="archive.html" aria-current="page">Archive</a>
+      </nav>
+    </header>
+
+    <!-- 들어올 때 — INDEX · ABOUT 과 같은 그라디언트 히어로. 처음 스크롤하면 걷히며 갤러리가 드러난다 -->
+    <section class="ar-intro" id="intro">
+      <canvas id="grad" class="grad"></canvas>
+      <div class="c-PixiIntro ar-hero">
+        <p class="lbl ab-hero-lbl">Archive · LIMEN</p>
+        <h1 class="c-PixiIntro-title">
+          <span class="ln l1">The days</span>
+          <span class="ln l2">we built</span>
+          <span class="ln l3">the dream.</span>
+        </h1>
+        <p class="ab-hero-copy">
+          2026년 7월부터 10월까지 — 답사, 실험, 현장 테스트.<br />
+          SNOOZE 앱에 남긴 열두 번의 기록입니다.
+        </p>
+        <div class="c-PixiIntro-foot">
+          <div class="foot-item"><strong>12 Sessions</strong><span>2026.07 — 2026.10</span></div>
+          <div class="foot-item"><strong>Studio · Campus · Field</strong><span>호라이즌 스튜디오 · 캠퍼스 · 답사</span></div>
+          <div class="foot-item"><strong>Scroll · Drag</strong><span>카드를 누르면 그날의 기록이 열립니다</span></div>
+          <div class="foot-scroll"><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ar-pill" aria-hidden="true"><span id="pillCount">12 Sessions</span><span>2026.07 — 2026.10</span></div>
+
+    <aside class="ar-rail" aria-label="날짜로 이동"><ol id="rail"></ol></aside>
+
+    <div class="ar-fade" aria-hidden="true"></div>
+    <footer class="ar-hud">
+      <div class="ar-now" aria-live="polite">
+        <div class="ar-count"><span class="mask"><b id="nowNo">01</b></span>/<span id="nowTotal">12</span></div>
+        <p class="ar-now-t" id="nowTitle">—</p>
+        <p class="ar-now-m" id="nowMeta">—</p>
+      </div>
+      <div class="ar-right">
+        <p class="ar-hint">Scroll · Drag <span>↕</span></p>
+        <p class="ar-source">SNOOZE 앱 기록 · 2026-10-18 확인 · 제작 과정이며 현재 구현 완료를 뜻하지 않습니다</p>
+      </div>
+    </footer>
+
+    <dialog id="entry-detail" aria-labelledby="entry-title">
+      <div class="entry-nav">
+        <span class="entry-brand">LIMEN<span>Archive / 제작 기록</span></span>
+        <button id="entry-back" type="button">↙ 기록 목록으로</button>
+      </div>
+      <div class="entry-shell">
+        <div class="entry-kicker"><span id="entry-number">Archive</span><time id="entry-date-top"></time></div>
+        <figure id="entry-hero"><div id="entry-hero-media"></div></figure>
+        <div class="entry-scroll-note"><span>Scroll for the process ↓</span><span>An ongoing exploration</span></div>
+        <article class="entry-story">
+          <aside class="entry-facts" aria-label="세션 정보">
+            <dl>
+              <div><dt>날짜</dt><dd id="entry-date"></dd></div>
+              <div><dt>장소</dt><dd id="entry-place"></dd></div>
+              <div><dt>초점</dt><dd id="entry-focus"></dd></div>
+              <div><dt>기록</dt><dd id="entry-count"></dd></div>
+            </dl>
+          </aside>
+          <div class="entry-copy">
+            <p class="entry-eyebrow">The process / SNOOZE</p>
+            <h1 id="entry-title"></h1>
+            <p class="entry-en" id="entry-en"></p>
+            <p id="entry-summary"></p>
+            <div class="entry-rule"></div>
+            <h2>그날의 메모</h2>
+            <p id="entry-notes"></p>
+            <p class="entry-field" id="entry-field" hidden>다른 전시 공간을 답사하며 남긴 기록입니다. 사진과 영상 속 작품은 해당 공간의 작품입니다.</p>
+          </div>
+        </article>
+        <section class="entry-evidence-section" aria-labelledby="entry-evidence-title">
+          <div class="entry-section-head"><h2 id="entry-evidence-title">그날의 기록.</h2><span id="entry-evidence-count"></span></div>
+          <div id="entry-evidence"></div>
+        </section>
+        <div class="entry-next"><p>Keep following the process / <span id="entry-next-date"></span></p><button id="entry-next" type="button"></button></div>
+        <div class="entry-end"><span>SNOOZE / LIMEN</span><span>SNOOZE 앱 기록(2026-10-18 확인) · 기록은 당시 진행 중이던 작업이며, 현재 전시 구현 완료를 뜻하지 않습니다.</span></div>
+      </div>
+    </dialog>
+
+    <div class="ar-error" id="error" role="alert" hidden></div>
+    <noscript>JavaScript 를 켜야 기록을 볼 수 있습니다.</noscript>
+    <script type="module" src="archive.js"></script>
+  </body>
+</html>

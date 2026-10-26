@@ -1,0 +1,132 @@
+/* =====================================================================
+   LIMEN ARCHIVE — 화면 전체가 흐물거리는 무한 갤러리(archive/gallery.js). 페이지 자체는 스크롤하지 않는다.
+   토큰 · 헤더 · 히어로는 style.css, 색은 INDEX 와 같은 검정 + 흰 글자 + 민트 #6ff0d8
+   ===================================================================== */
+:root { --mint: #6ff0d8; --mint2: #b2eee0; --line: rgba(255, 255, 255, .12); --muted: rgba(255, 255, 255, .55); }
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; background: #050608; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.c-Header nav a[aria-current]::after { transform: scaleX(1); }
+
+#stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 0; }
+#gallery-surface { position: fixed; inset: 0; z-index: 1; touch-action: none; outline: none; cursor: grab; }
+.dragging #gallery-surface { cursor: grabbing; }
+#text-list:focus-within { position: fixed; z-index: 8; left: var(--pad); top: 90px; width: min(420px, 90vw); height: auto; max-height: 65vh; overflow: auto; clip: auto; margin: 0; padding: 16px 24px; border: 1px solid var(--line); border-radius: 20px; background: rgba(0, 0, 0, .85); white-space: normal; list-style: none; }
+#text-list button { all: unset; cursor: pointer; display: block; padding: 8px 0; font: 300 15px var(--heebo); }
+#text-list button:focus-visible { color: var(--mint); }
+
+/* ---------- 들어올 때의 히어로 — 스크롤하면 걷힌다 (opacity 는 archive.js) ---------- */
+.ar-intro { position: fixed; inset: 0; z-index: 5; pointer-events: none; background: #000; }
+.ar-intro .grad { position: absolute; }
+.ar-hero { position: relative; z-index: 1; }
+.ab-hero-lbl { position: absolute; left: var(--pad); top: 110px; margin: 0; opacity: 0; transition: opacity 1s ease 1.2s; }
+.is-ready .ab-hero-lbl { opacity: 1; }
+.ab-hero-copy { position: absolute; right: var(--pad); bottom: 150px; max-width: 30em; text-align: right; font-family: var(--heebo); font-weight: 300; font-size: 15px; line-height: 1.75; color: rgba(255, 255, 255, .75); word-break: keep-all;
+  opacity: 0; transform: translateY(20px); transition: opacity 1s ease 1s, transform 1.2s var(--ease-monopo) 1s; }
+.is-ready .ab-hero-copy { opacity: 1; transform: none; }
+.ar-intro.is-gone { visibility: hidden; }
+
+/* ---------- 갤러리 위 안내 (HUD) ---------- */
+.ar-pill { position: fixed; top: 76px; left: 50%; z-index: 3; transform: translateX(-50%); display: flex; gap: 3px; padding: 4px; border-radius: 30px; background: rgba(5, 6, 8, .7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--line); white-space: nowrap; font: 800 10px var(--sans); letter-spacing: 2.4px; text-transform: uppercase; color: rgba(255, 255, 255, .7); }
+.ar-pill span { padding: 8px 14px; border-radius: 22px; }
+.ar-pill span:first-child { background: var(--mint); color: #000; }
+.ar-rail { position: fixed; right: var(--pad); top: 50%; z-index: 3; transform: translateY(-50%); }
+.ar-rail ol { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.ar-rail button { all: unset; cursor: pointer; display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 5px 0; font: 500 11px var(--sans); letter-spacing: .06em; color: rgba(255, 255, 255, .35); transition: color .3s; }
+.ar-rail button i { width: 14px; height: 1px; background: currentColor; transition: width .4s var(--ease-monopo), background .3s; }
+.ar-rail button:hover, .ar-rail button:focus-visible { color: #fff; }
+.ar-rail button.on { color: var(--mint); }
+.ar-rail button.on i { width: 34px; background: var(--mint); }
+.ar-rail button:focus-visible { outline: 1px solid var(--mint2); outline-offset: 4px; }
+.ar-fade { position: fixed; left: 0; right: 0; bottom: 0; height: 30vh; z-index: 2; pointer-events: none; background: linear-gradient(transparent, rgba(5, 6, 8, .92)); }
+.reading-entry .ar-fade { visibility: hidden; }
+.ar-hud { position: fixed; left: var(--pad); right: var(--pad); bottom: 28px; z-index: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; pointer-events: none; }
+.ar-count { display: flex; align-items: baseline; font-size: 14px; color: var(--gray2); font-variant-numeric: tabular-nums; }
+.ar-count .mask { display: inline-block; overflow: hidden; margin-right: 6px; }
+.ar-count b { display: inline-block; color: #fff; font: 800 clamp(40px, 4vw, 72px)/1 var(--sans); letter-spacing: -.04em; }
+.ar-count #nowTotal { margin-left: 2px; }
+.ar-now-t { margin-top: 10px; font: 200 clamp(22px, 1.8vw, 32px)/1.1 var(--heebo); letter-spacing: -.02em; }
+.ar-now-m { margin-top: 8px; font: 800 10px var(--sans); letter-spacing: 2.4px; text-transform: uppercase; color: var(--mint); }
+.ar-right { text-align: right; }
+.ar-hint { font: 800 10px var(--sans); letter-spacing: 3.6px; text-transform: uppercase; color: var(--dog-sub); }
+.ar-hint span { display: inline-block; margin-left: 6px; animation: ar-bob 1.8s var(--ease-monopo) infinite; }
+@keyframes ar-bob { 50% { transform: translateY(-4px); } }
+.ar-source { margin-top: 10px; font: 300 11px var(--heebo); color: rgba(255, 255, 255, .4); }
+.reading-entry .ar-pill, .reading-entry .ar-rail, .reading-entry .ar-hud, .reading-entry .c-Header { visibility: hidden; }
+.ar-error { position: fixed; left: 50%; top: 50%; z-index: 9; transform: translate(-50%, -50%); max-width: 420px; padding: 20px 24px; border: 1px solid var(--line); border-radius: 20px; background: #000; font: 300 14px/1.7 var(--heebo); }
+
+/* ---------- 기록 읽기 (dialog) — WebGL 카드가 투명한 대화상자 뒤에서 대표 화면 자리로 커진다 ---------- */
+#entry-detail { position: fixed; inset: 0; margin: 0; padding: 0; border: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  background: transparent; color: #fff; scrollbar-color: #3a4048 #050608; scroll-behavior: smooth; font-family: var(--sans); }
+#entry-detail::backdrop { background: transparent; }
+#entry-detail::before { content: ''; position: fixed; inset: 0; z-index: -1; background: #050608; opacity: 0; pointer-events: none; transition: opacity .3s; }
+#entry-detail.is-ready::before { opacity: 1; }
+#entry-detail.is-opening, #entry-detail.is-closing { overflow-y: hidden; scroll-behavior: auto; }
+.entry-nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px var(--pad) 34px; pointer-events: none; background: linear-gradient(#050608 40%, transparent); }
+.is-opening .entry-nav, .is-closing .entry-nav { background: none; }
+.entry-nav > * { pointer-events: auto; }
+.entry-brand { font: 800 20px var(--sans); letter-spacing: -.02em; }
+.entry-brand span { display: block; margin-top: 4px; font: 500 11px var(--heebo); letter-spacing: .04em; color: var(--dog-sub); }
+#entry-back { all: unset; cursor: pointer; padding: 10px 16px; border: 1px solid var(--line); border-radius: 25px; background: rgba(5, 6, 8, .8); backdrop-filter: blur(14px); font: 500 13px var(--heebo); transition: border-color .3s, color .3s; }
+#entry-back:hover, #entry-back:focus-visible { border-color: var(--mint); color: var(--mint2); }
+.entry-shell { position: relative; opacity: 0; transition: opacity .28s; }
+.is-ready .entry-shell { opacity: 1; }
+.is-closing .entry-shell { opacity: 0; transition-duration: .16s; }
+.entry-kicker, .entry-scroll-note { width: 80vw; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; font: 800 10px var(--sans); letter-spacing: 2.4px; text-transform: uppercase; color: var(--dog-sub); }
+.entry-kicker { margin-top: 110px; margin-bottom: 16px; }
+.entry-kicker time { color: var(--mint); }
+.entry-scroll-note { margin-top: 18px; }
+#entry-hero { width: 80vw; height: min(45vw, calc(100svh - 185px)); margin: 0 auto; border-radius: 6px; overflow: hidden; background: #0b0e13; }
+#entry-hero-media, #entry-hero-media > video, #entry-hero-media > img { width: 100%; height: 100%; display: block; object-fit: cover; }
+#entry-hero-media > video { object-fit: contain; }
+.entry-story { width: 80vw; margin: 120px auto 110px; display: grid; grid-template-columns: 1fr 2fr; gap: 7vw; }
+.entry-facts dl { margin: 0; border-top: 1px solid rgba(255, 255, 255, .25); }
+.entry-facts dl > div { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.entry-facts dt { margin-bottom: 6px; font: 500 12px var(--heebo); color: var(--muted); }
+.entry-facts dd { margin: 0; font: 300 16px/1.5 var(--heebo); }
+.entry-eyebrow { margin: 0 0 22px; font: 800 10px var(--sans); letter-spacing: 3.6px; text-transform: uppercase; color: var(--dog-sub); }
+.entry-copy h1 { margin: 0; font: 200 clamp(42px, 5.4vw, 96px)/1.05 var(--heebo); letter-spacing: -.04em; word-break: keep-all; }
+.entry-en { margin: 14px 0 30px; font: 500 clamp(16px, 1.3vw, 22px) var(--sans); letter-spacing: -.01em; color: var(--mint2); }
+#entry-summary { max-width: 680px; margin: 0; font: 300 clamp(19px, 1.7vw, 26px)/1.5 var(--heebo); letter-spacing: -.02em; word-break: keep-all; }
+.entry-rule { height: 1px; margin: 40px 0 34px; background: var(--line); }
+.entry-copy h2 { margin: 0 0 14px; font: 500 13px var(--heebo); letter-spacing: .04em; color: var(--mint); }
+#entry-notes { max-width: 640px; margin: 0; font: 300 16px/1.85 var(--heebo); color: rgba(255, 255, 255, .7); word-break: keep-all; }
+.entry-field { max-width: 640px; margin-top: 18px; padding-left: 14px; border-left: 1px solid var(--mint); font: 300 14px/1.7 var(--heebo); color: var(--mint2); }
+.entry-evidence-section { width: 80vw; margin: 0 auto; }
+.entry-section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 44px; padding-top: 30px; border-top: 1px solid var(--line); }
+.entry-section-head h2 { margin: 0; font: 200 clamp(32px, 4vw, 60px) var(--heebo); letter-spacing: -.04em; }
+.entry-section-head > span { padding-bottom: 7px; font: 500 13px var(--heebo); color: var(--dog-sub); }
+#entry-evidence { columns: 2; column-gap: 28px; }
+.evidence-item { margin: 0 0 34px; break-inside: avoid; }
+.evidence-item img, .evidence-item video { display: block; width: 100%; height: auto; border-radius: 14px; background: #0b0e13; }
+.evidence-item figcaption { display: flex; margin-top: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); font: 500 12px var(--heebo); letter-spacing: .04em; color: var(--dog-sub); }
+.entry-next { width: 80vw; margin: 110px auto 0; padding: 50px 0 64px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.entry-next p { margin: 0 0 20px; font: 800 10px var(--sans); letter-spacing: 2.4px; text-transform: uppercase; color: var(--dog-sub); }
+#entry-next { all: unset; cursor: pointer; font: 200 clamp(30px, 4.2vw, 68px)/1.2 var(--heebo); letter-spacing: -.04em; transition: color .3s; }
+#entry-next:hover, #entry-next:focus-visible { color: var(--mint2); }
+.entry-end { width: 80vw; margin: 34px auto 50px; display: flex; justify-content: space-between; gap: 20px; font: 300 12px/1.6 var(--heebo); color: rgba(255, 255, 255, .45); }
+.entry-end span:last-child { max-width: 520px; text-align: right; }
+
+@media (max-width: 760px) {
+  .ar-pill { top: 64px; font-size: 9px; letter-spacing: 1.6px; }
+  .ar-rail { display: none; }
+  .ar-hud { bottom: 18px; flex-direction: column; align-items: flex-start; }
+  .ar-right { text-align: left; }
+  .ar-source { display: none; }
+  .ar-now-t { font-size: 20px; }
+  .ab-hero-copy { left: var(--pad); right: var(--pad); bottom: 130px; text-align: left; font-size: 13px; }
+  .ab-hero-copy br { display: none; }
+  .entry-kicker, .entry-scroll-note, #entry-hero, .entry-story, .entry-evidence-section, .entry-next, .entry-end { width: 90vw; }
+  #entry-hero { height: 50.625vw; }
+  .entry-scroll-note span:last-child { display: none; }
+  .entry-story { margin: 70px auto 70px; grid-template-columns: 1fr; gap: 40px; }
+  .entry-facts dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  #entry-evidence { columns: 1; }
+  .entry-section-head { flex-direction: column; align-items: start; gap: 10px; }
+  .entry-end { flex-direction: column; }
+  .entry-end span:last-child { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entry-shell, #entry-detail::before { transition: none; }
+  #entry-detail { scroll-behavior: auto; }
+  .ar-hint span { animation: none; }
+}

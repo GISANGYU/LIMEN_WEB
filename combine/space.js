@@ -10,11 +10,11 @@ import { $, $$, clamp, smooth as ss } from './_shared/js/core.js';
 import { buildStudio, INFO, DIM, ULEN } from './studio.js';
 
 const PHASES = [
-  [0.0, 'Grid', '격자를 깔고 공간의 기준선을 잡습니다'],
-  [0.22, 'Space', '모서리가 둥글게 이어지는 벽 세 면과 바닥 한 면'],
-  [0.4, 'Device', '천장 철골의 프로젝터 · 스피커와 스탠드 위 카메라'],
-  [0.58, 'Model', '도면이 그대로 입체가 되고, 네 면에 장면이 떠오릅니다'],
-  [0.74, 'Focus', '스크롤을 내리면 장비를 하나씩 따라가며 역할을 보여 줍니다'],
+  [0.0, 'Grid'],
+  [0.22, 'Space'],
+  [0.4, 'Device'],
+  [0.58, 'Model'],
+  [0.74, 'Focus'],
 ];
 // 전체 진행도 P 를 나눈다: DRAW_END 까지 = 도면(기존 타임라인 d 0 → D_MAX), FOCUS_A~FOCUS_B = 장비 7개를 차례로 포커스
 const DRAW_END = 0.42, FOCUS_A = 0.45, FOCUS_B = 0.97, D_MAX = 0.74;
@@ -150,17 +150,41 @@ export function initSpace() {
     lastP = -1;
   }
 
-  // ---- 관객: 인포그래픽 픽토그램(머리 · 몸통 · 팔 · 다리를 단순한 둥근 도형으로) — 카메라를 늘 향하는 SVG ----
-  // 키 100 단위 · 발끝 y=100 · 가운데 x=0. 발밑엔 옅은 바닥 타원
-  const PICTO = 'M 8 9 A 8 8 0 1 1 -8 9 A 8 8 0 1 1 8 9 Z'                                              // 머리
-    + ' M -12 30 Q -12 21 -3 21 L 3 21 Q 12 21 12 30 L 12 58 L -12 58 Z'                               // 몸통
-    + ' M 14 24 A 2.5 2.5 0 0 1 19 24 L 19 54 A 2.5 2.5 0 0 1 14 54 Z M -19 24 A 2.5 2.5 0 0 1 -14 24 L -14 54 A 2.5 2.5 0 0 1 -19 54 Z'   // 팔
-    + ' M 1.6 60 L 11 60 L 11 95.5 A 4.7 4.5 0 0 1 1.6 95.5 Z M -11 60 L -1.6 60 L -1.6 95.5 A 4.7 4.5 0 0 1 -11 95.5 Z';             // 다리
+  // ---- 관객: 정면 실루엣(people-drafts 01) — 카메라를 늘 향하는 SVG. 05 관객 차례엔 실루엣이 옅어지고
+  //      키넥트가 읽는 관절 점 + 뼈대(people-drafts 08)가 민트로 겹친다
+  // 키 100 단위 · 발끝 y=100 · 가운데 x=0. 오른쪽 반쪽 곡선을 좌우로 접는다
+  const RIGHT = [   // [c1x,c1y, c2x,c2y, x,y] — 시작점 (2.2, 12.4) 목 오른쪽
+    [2.3, 14.2, 3.4, 15.6, 6, 16.3], [9, 17, 10.8, 17.6, 11.3, 19.8],
+    [12, 24, 12.4, 30, 12.6, 35], [12.8, 40, 13, 44, 12.8, 48],
+    [12.7, 51, 11.6, 52.6, 10.7, 51.6], [10.1, 50.8, 10.3, 48, 10.4, 46],
+    [10.5, 41, 10, 36, 9.6, 31], [9.3, 27, 8.9, 24, 8.4, 22.5],
+    [8.2, 27, 7.2, 32, 7, 36.5], [6.9, 40, 8.6, 43, 8.9, 47],
+    [9.2, 53, 8.6, 62, 7.4, 70], [6.6, 76, 6, 84, 5, 92],
+    [4.8, 94.5, 5.2, 96.5, 6.6, 98], [7.4, 99, 7, 100, 5.6, 100],
+    [4.5, 100, 3.4, 100, 2.4, 100], [1.6, 100, 1.4, 98.8, 1.6, 96.5],
+    [1.9, 90, 1.4, 82, 1.6, 74], [1.7, 66, 1.2, 57, 0.8, 51.5], [0.5, 50.6, 0.2, 50.4, 0, 50.4],
+  ];
+  const SIL = (() => {
+    let d = 'M 5.1 6.3 A 5.1 6.3 0 1 1 -5.1 6.3 A 5.1 6.3 0 1 1 5.1 6.3 Z M 2.2 12.4 ' + RIGHT.map((c) => `C ${c.join(' ')}`).join(' ');
+    const pts = [[2.2, 12.4], ...RIGHT.map((c) => [c[4], c[5]])];
+    for (let k = RIGHT.length - 1; k >= 0; k--) { const c = RIGHT[k], q = pts[k]; d += ` C ${-c[2]} ${c[3]} ${-c[0]} ${c[1]} ${-q[0]} ${q[1]}`; }
+    return d + ' C -1.4 13.4 1.4 13.4 2.2 12.4 Z';
+  })();
+  // 키넥트 관절 (서 있는 자세, 실루엣에 맞춘 자리)
+  const J = { neck: [0, 15], spine: [0, 30], base: [0, 46], sh: [[-9.5, 18.5], [9.5, 18.5]], el: [[-11.2, 33], [11.2, 33]], wr: [[-11.6, 47], [11.6, 47]],
+    hip: [[-6, 49], [6, 49]], kn: [[-5.6, 72], [5.6, 72]], an: [[-4.8, 95], [4.8, 95]], ft: [[-5.6, 99], [5.6, 99]] };
+  const BONES = [[J.neck, J.spine], [J.spine, J.base], [J.sh[0], J.sh[1]], [J.hip[0], J.hip[1]],
+    ...[0, 1].flatMap((k) => [[J.sh[k], J.el[k]], [J.el[k], J.wr[k]], [J.hip[k], J.kn[k]], [J.kn[k], J.an[k]], [J.an[k], J.ft[k]]])];
+  const JOINTS = [J.neck, J.spine, J.base, ...J.sh, ...J.el, ...J.wr, ...J.hip, ...J.kn, ...J.an];
+  // 관객 차례에 발끝 → 머리 순으로 시간차를 두고 켜진다 (전체 1초: 지연 0~0.7s + 각 0.3s 페이드)
+  const dl = (y) => `style="--d:${((100 - y) / 100 * 0.7).toFixed(3)}s"`;
+  const SKEL = BONES.map(([a, b]) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${dl(Math.max(a[1], b[1]))}></line>`).join('')
+    + JOINTS.map((q) => `<circle cx="${q[0]}" cy="${q[1]}" r="1.5" ${dl(q[1])}></circle>`).join('') + `<circle class="hd" cx="0" cy="6.5" r="5" ${dl(1.5)}></circle>`;
   const peopleSvg = document.createElementNS(NS, 'svg'); peopleSvg.setAttribute('class', 'sp-people'); peopleSvg.setAttribute('aria-hidden', 'true');
   canvas.after(peopleSvg);
   const people = S.visitors.map((v) => {
     const g = document.createElementNS(NS, 'g');
-    g.innerHTML = `<ellipse cx="0" cy="100" rx="17" ry="4.5"></ellipse><path d="${PICTO}"></path>`; peopleSvg.appendChild(g);
+    g.innerHTML = `<ellipse cx="0" cy="100" rx="12" ry="2.6"></ellipse><path class="body" d="${SIL}"></path><g class="skel">${SKEL}</g>`; peopleSvg.appendChild(g);
     return { ...v, g };
   });
   function drawPeople(op) {
@@ -175,16 +199,55 @@ export function initSpace() {
   }
   const _p = new THREE.Vector3();
 
+  // 장비 id 의 포커스 차례로 스크롤 (목록 클릭 · 모델 클릭 공용) — 그 차례에서 카메라가 다가가고 설명 칩이 붙는다
+  function goTo(id) {
+    const lenis = window.__app && window.__app.lenis, i = INFO.findIndex((it) => it.id === id); if (!lenis || i < 0) return;
+    const run = section.offsetHeight - innerHeight, P = FOCUS_A + (FOCUS_B - FOCUS_A) * (i + 0.5) / INFO.length;
+    lenis.scrollTo(section.offsetTop + run * P, { duration: 1.2 });
+  }
+
+  // ---- 모델 드래그 회전 · 클릭 확대 (모델이 보이는 동안만) ----
+  // 드래그: 스크롤이 정하는 각도 위에 사용자 회전을 더한다(좌우 = 방위, 위아래 = 내려다보는 각). 5px 안쪽으로 움직이고 떼면 클릭
+  let userAz = 0, userEl = 0, drag = null, modelOn = false;
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  function pickAt(cx, cy) {
+    // 관객은 SVG 실루엣이라 화면 상자로, 나머지는 3D 메시로 고른다
+    for (const v of people) { const r = v.g.getBoundingClientRect(); if (cx >= r.left - 4 && cx <= r.right + 4 && cy >= r.top && cy <= r.bottom) return 'visitor'; }
+    const r = canvas.getBoundingClientRect();
+    ndc.set((cx - r.left) / r.width * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(S.pick, false).find((h) => h.object.visible);
+    return hit ? hit.object.userData.id : null;
+  }
+  drawEl.addEventListener('pointerdown', (e) => {
+    if (!modelOn || e.button !== 0) return;
+    drag = { x: e.clientX, y: e.clientY, az: userAz, el: userEl, moved: false };
+    drawEl.setPointerCapture(e.pointerId);
+  });
+  drawEl.addEventListener('pointermove', (e) => {
+    if (drag) {
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.moved && Math.hypot(dx, dy) > 5) { drag.moved = true; drawEl.classList.add('is-dragging'); }
+      // 좌우 = 방위, 위아래 = 내려다보는 각(12°~62°)
+      if (drag.moved) { userAz = drag.az - dx * 0.25; userEl = Math.min(62, Math.max(12, 31 + drag.el + dy * 0.15)) - 31; }
+      return;
+    }
+    if (modelOn) drawEl.classList.toggle('is-pick', !!pickAt(e.clientX, e.clientY));
+  });
+  const endDrag = (e) => {
+    if (!drag) return;
+    const click = !drag.moved; drag = null; drawEl.classList.remove('is-dragging');
+    if (click) { const id = pickAt(e.clientX, e.clientY); if (id) goTo(id); }
+  };
+  drawEl.addEventListener('pointerup', endDrag);
+  drawEl.addEventListener('pointercancel', () => { drag = null; drawEl.classList.remove('is-dragging'); });
+
   // ---- 오른쪽 장비 목록 — 클릭하면 그 장비 차례로 스크롤 ----
   const list = $('#spList');
   INFO.forEach((it, i) => {
     const li = document.createElement('li'); li.dataset.id = it.id;
     li.innerHTML = `<span class="no">${it.no}</span><span class="tt">${[...it.title].map((c) => `<span>${c === ' ' ? '&nbsp;' : c}</span>`).join('')}</span><span class="ds">${it.lines.map((l) => `<i>${l}</i>`).join('')}</span>`;
-    li.addEventListener('click', () => {
-      const lenis = window.__app && window.__app.lenis; if (!lenis) return;
-      const run = section.offsetHeight - innerHeight, P = FOCUS_A + (FOCUS_B - FOCUS_A) * (i + 0.5) / INFO.length;
-      lenis.scrollTo(section.offsetTop + run * P, { duration: 1.2 });
-    });
+    li.addEventListener('click', () => goTo(it.id));
     list.appendChild(li);
   });
 
@@ -260,13 +323,12 @@ export function initSpace() {
 
   // ---- 단계 표시 (monopo 식 큰 번호) ----
   let phaseIdx = -1;
-  const phNo = $('#spNo'), phName = $('#spPhaseName'), cap = $('#spCap');
+  const phNo = $('#spNo'), phName = $('#spPhaseName');
   function setPhase(i) {
     if (i === phaseIdx) return; phaseIdx = i;
-    phNo.textContent = String(i + 1).padStart(2, '0'); phName.textContent = PHASES[i][1]; cap.textContent = PHASES[i][2];
+    phNo.textContent = String(i + 1).padStart(2, '0'); phName.textContent = PHASES[i][1];
     if (window.gsap) {
       gsap.fromTo(phNo, { yPercent: 100 }, { yPercent: 0, duration: 0.7, ease: 'expo.out' });
-      gsap.fromTo(cap, { opacity: 0, y: 10, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.6 });
     }
   }
 
@@ -297,6 +359,7 @@ export function initSpace() {
   function update(P) {
     const time = (performance.now() - t0) / 1000;
     const p = clamp(P / DRAW_END) * D_MAX;                      // 도면 타임라인
+    modelOn = p > 0.62; drawEl.classList.toggle('is-model', modelOn);
     const f = clamp((P - FOCUS_A) / (FOCUS_B - FOCUS_A));         // 포커스 진행
     const focusing = P >= FOCUS_A && P < 0.995;
     const idx = focusing ? Math.min(INFO.length - 1, Math.floor(f * INFO.length)) : -1;
@@ -334,7 +397,7 @@ export function initSpace() {
 
     // 카메라: 포커스 동안 천천히 돌아가며, 포커스된 장비 쪽으로 화면 중심을 옮기고 다가간다
     const e = P >= FOCUS_A ? ss(0, 1, f) : 0;
-    camAz += ((30 - e * 48) - camAz) * 0.06; camEl += ((31 + e * 4) - camEl) * 0.06;
+    camAz += ((30 - e * 48 + userAz) - camAz) * 0.08; camEl += ((31 + e * 4 + userEl) - camEl) * 0.08;   // + 사용자 드래그 회전
     let tz = 1, tx = 0, ty = 0;
     if (active) {
       const pts = S.anchors[active], c = new THREE.Vector3();

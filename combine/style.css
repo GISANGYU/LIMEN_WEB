@@ -138,14 +138,23 @@ limen-team { display: block; position: relative; background: #000; }
   background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px); background-size: 24px 24px; }
 .sp-draw { position: absolute; left: 0; top: 0; bottom: 0; right: 26%; overflow: hidden; }
 #spCanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+/* 모델이 보이면 드래그로 회전 · 장비 위에선 클릭 손가락. 세로 터치 스크롤은 그대로 */
+.sp-draw.is-model { cursor: grab; touch-action: pan-y; }
+.sp-draw.is-model.is-pick { cursor: pointer; }
+.sp-draw.is-dragging { cursor: grabbing; }
 #spVideo { display: none; }   /* 텍스처 원본 — 전역 video{display:block} 이 hidden 을 덮어써서 직접 숨김 */
 #spSvg, .sp-tag-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-/* 관객 픽토그램 (space.js) — 밝은 단색 인포그래픽, 05 관객 차례엔 민트 */
+/* 관객 실루엣 (space.js) — 밝은 단색, 05 관객 차례엔 실루엣이 옅어지고 키넥트 관절 · 뼈대가 민트로 */
 .sp-people { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; }
-.sp-people path { fill: rgba(214, 221, 232, .9); transition: fill .4s; }
-.sp-people ellipse { fill: rgba(255, 255, 255, .08); }
-.sp-people.on path { fill: var(--mint); }
-.sp-people.on ellipse { fill: rgba(111, 240, 216, .22); }
+.sp-people path.body { fill: rgba(214, 221, 232, .9); transition: fill .5s; }
+.sp-people ellipse { fill: rgba(255, 255, 255, .1); transition: fill .5s; }
+.sp-people .skel > * { opacity: 0; transition: opacity .15s ease; }
+.sp-people.on .skel > * { opacity: 1; transition: opacity .3s ease var(--d, 0s); }   /* 발끝부터 머리까지 1초에 걸쳐 차르륵 */
+.sp-people .skel line { stroke: var(--mint); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.sp-people .skel circle { fill: #07080b; stroke: var(--mint); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.sp-people.on path.body { fill: rgba(214, 221, 232, .16); }
+.sp-people.on ellipse { fill: rgba(111, 240, 216, .25); }
+
 #spSvg path { fill: none; stroke: rgba(255, 255, 255, .9); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
 #spSvg path.k-grid { stroke: rgba(255, 255, 255, .12); stroke-width: .7; }
 #spSvg path.k-gridMajor { stroke: rgba(255, 255, 255, .26); stroke-width: .8; }
@@ -169,7 +178,7 @@ limen-team { display: block; position: relative; background: #000; }
 .sp-tag-svg path.cable { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: 1; stroke-dasharray: 2 5; }
 .sp-tag-svg path.head { fill: var(--mint); stroke: none; }
 .sp-tag-svg circle.pkt { fill: #fff; }
-/* 01 프로젝터 신호 · 04 스피커 소리 파장 — 퍼지며 옅어지는 원 */
+/* 01 프로젝터 신호 · 03 스피커 소리 파장 — 퍼지며 옅어지는 원 */
 .sp-tag-svg circle.wave { fill: none; stroke: var(--mint); stroke-width: 1.2; }
 .sp-tag-svg path.beam { stroke-width: 1.8; stroke-dasharray: 3 6; }
 .sp-tag-svg text { fill: var(--mint); font: 800 9px var(--sans); letter-spacing: 2px; text-transform: uppercase; }
@@ -198,8 +207,7 @@ limen-team { display: block; position: relative; background: #000; }
 .sp-count { font-size: 14px; color: var(--gray2); font-variant-numeric: tabular-nums; display: flex; align-items: baseline; }
 .sp-count .mask { display: inline-block; overflow: hidden; margin-right: 6px; }
 .sp-count b { display: inline-block; color: #fff; font-weight: 800; font-size: clamp(40px, 4vw, 76px); letter-spacing: -.04em; line-height: 1; }
-.sp-name { margin-top: 10px; font-family: var(--serif); font-size: clamp(28px, 2.2vw, 40px); line-height: 1; }
-.sp-cap { margin-top: 12px; font-family: var(--heebo); font-weight: 300; font-size: 16px; line-height: 1.6; color: rgba(255, 255, 255, .7); word-break: keep-all; min-height: 3.2em; }
+.sp-name { margin-top: 10px; font-family: 'Pretendard Variable', Pretendard, sans-serif; font-weight: 300; font-size: clamp(26px, 2vw, 36px); line-height: 1; letter-spacing: -.01em; }
 .sp-side { position: absolute; top: 0; bottom: 0; right: 0; width: 26%; border-left: 1px solid var(--line); padding: 96px 36px 48px; display: flex; flex-direction: column; background: rgba(0, 0, 0, .35); }
 .sp-meta strong { display: block; font-size: 14px; font-weight: 500; }
 .sp-meta span { display: block; margin-top: 6px; font-size: 13px; color: rgba(255, 255, 255, .55); line-height: 1.6; }

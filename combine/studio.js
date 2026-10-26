@@ -31,7 +31,7 @@ export const INFO = [
   { id: 'projector', no: '01', title: '프로젝터', lines: ['4대 — 정면 · 바닥 · 좌벽 · 우벽', '천장 철골(약 3.6m)에 설치', '한 대가 한 면씩 맡아 투사한다'] },
   { id: 'space',     no: '02', title: '4면 투사 공간', lines: ['정면 7.2×4m · 옆면 4×4m · 바닥 7.2×4m', '네 면의 영상을 워핑·블렌딩해 한 장면으로 잇는다(계획)', '모서리가 곡면으로 이어지는 스튜디오'] },
   { id: 'speaker',   no: '03', title: '스피커', lines: ['4대 · 벽 위 네 모서리', '방 전체를 감싸는 4채널 사운드'] },
-  { id: 'kinect',    no: '04', title: '움직임 인식 카메라', lines: ['Kinect v2 2대 — 후방 좌 · 우 스탠드, 높이 1.7m', '무대 안쪽으로 사선 촬영, 두 대가 겹치는 가운데에서 감지', '설치 높이 · 각도는 현장 테스트로 확정'] },
+  { id: 'kinect',    no: '04', title: '움직임 인식 카메라', lines: ['Kinect v2 2대 — 후방 좌 · 우 스탠드, 높이 1.7m', '무대 안쪽으로 사선 촬영, 두 대가 겹치는 가운데에서 감지'] },
   { id: 'visitor',   no: '05', title: '관객', lines: ['움직이면 반딧불이가 더 밝게 반응하고', '움직이는 방향으로 화면 속 사람들도 함께 움직인다', '관객과 공간은 서로 영향을 주고받는다'] },
   { id: 'pc',        no: '06', title: '운영 데스크', lines: ['메인 PC · 송출 PC(노트북) 2대', '오른쪽 센서 정보를 메인 PC 로 보내 함께 처리 · 보정', '영상 장면은 사전 제작, 개미 · 반딧불이 · 사람·군중은 Unity 실시간'],
     // 포커스 때 두 대에 각각 붙는 카드 (10-23 사용자 설명: 왼쪽 키넥트 = 메인 PC, 오른쪽 키넥트 = 송출 PC → 메인 PC 로 보냄)
@@ -66,6 +66,7 @@ const tAtH = (h) => (h <= R ? TA * Math.acos(1 - h / R) / (Math.PI / 2) : TA + (
 
 /* ---------- 도구 ---------- */
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
+export const LID_SHUT = Math.PI / 2, LID_OPEN = -0.32;   // 노트북 덮개 각도: 바닥판 위에 덮임 · 뒤로 살짝 젖혀 열림
 const hash01 = (a, b) => { const v = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return v - Math.floor(v); };
 const line = (a, b, n = 2) => Array.from({ length: n }, (_, i) => a.clone().lerp(b, i / (n - 1)));
 const circle = (c, r, axis = 'y', n = 64, a0 = 0, a1 = Math.PI * 2) => Array.from({ length: n + 1 }, (_, i) => {
@@ -303,7 +304,7 @@ export function buildStudio() {
     projHelp.push({ frustum, face, name: d.name, lensW: lensW.clone(), center });
   });
 
-  // 스피커 4채널 — 벽 위쪽 모서리 4곳 (현장 사진 기준)
+  // 스피커 4채널 — 방 네 모서리 위쪽: 뒤 두 대는 정면 벽 쪽, 앞 두 대는 무대 끝이 아니라 방 앞쪽 끝(운영 공간) 모서리
   const spkG = new THREE.Group();
   const speaker = () => {
     const s = new THREE.Group();
@@ -312,7 +313,7 @@ export function buildStudio() {
     const tw = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.01, 12), truss); tw.rotation.x = Math.PI / 2; tw.position.set(0, 0.075, 0.1);
     s.add(cab, woof, tw); return s;
   };
-  for (const [x, z, yaw] of [[-3.3, -1.6, 0.7], [3.3, -1.6, -0.7], [-3.42, 1.85, 2.4], [3.42, 1.85, -2.4]]) { const s = speaker(); s.position.set(x, H - 0.28, z); s.rotation.order = 'YXZ'; s.rotation.y = yaw; s.rotation.x = 0.35; spkG.add(s); }   // 앞면(+z)이 살짝 아래 — 관객 귀 높이 쪽
+  for (const [x, z, yaw] of [[-3.3, -1.6, 0.7], [3.3, -1.6, -0.7], [-3.42, ZR - 0.2, 2.54], [3.42, ZR - 0.2, -2.54]]) { const s = speaker(); s.position.set(x, H - 0.28, z); s.rotation.order = 'YXZ'; s.rotation.y = yaw; s.rotation.x = 0.35; spkG.add(s); }   // 앞면(+z)이 살짝 아래 — 관객 귀 높이 쪽
   reg('speaker', spkG);
 
   // 키넥트 2대 — 후방(관객 쪽, z = ZF) 좌·우 스탠드, 높이 1.7m, 아래로 17° · 안쪽으로 35° 돌려 무대를 사선으로 교차 촬영.
@@ -401,7 +402,7 @@ export function buildStudio() {
   const st = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.16, 0.04), truss); st.position.set(0.1, 0.83, -0.2); pcG.add(st);
   const tower = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.45, 0.45), dev); tower.position.set(-0.45, 0.23, 0); pcG.add(tower);
   const kbd = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.015, 0.14), dev); kbd.position.set(0.1, 0.77, 0.08); pcG.add(kbd);
-  pcG.position.set(-2.55, -STEP, 4.25); pcG.rotation.y = 0.12;
+  pcG.position.set(-2.55, -STEP, 4.25);   // 방 축에 정각으로
   reg('pc', pcG);
 
   // 송출 PC — 오른쪽 키넥트 스탠드 뒤 작은 사이드 테이블 위 노트북 (위치는 도면용 가안)
@@ -409,11 +410,12 @@ export function buildStudio() {
   const stop = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.03, 0.45), wood); stop.position.y = 0.66; subG.add(stop);
   for (const [lx, lz] of [[-0.27, -0.19], [0.27, -0.19], [-0.27, 0.19], [0.27, 0.19]]) { const lg = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.65, 0.025), truss); lg.position.set(lx, 0.325, lz); subG.add(lg); }
   const lapBase = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.018, 0.24), dev); lapBase.position.set(0, 0.685, 0.03); subG.add(lapBase);
-  const lapLid = new THREE.Group(); lapLid.position.set(0, 0.694, -0.09); lapLid.rotation.x = -0.32;
-  const lid = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.22, 0.012), dev); lid.position.y = 0.11;
-  const lscr = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.18), glass); lscr.position.set(0, 0.11, 0.007);
+  // 덮개는 경첩(뒤 모서리)에서 돈다 — 처음엔 접혀 있고(LID_SHUT), 06 운영 데스크 차례에 열린다(LID_OPEN · space.js)
+  const lapLid = new THREE.Group(); lapLid.position.set(0, 0.694, -0.09); lapLid.rotation.x = LID_SHUT;
+  const lid = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.22, 0.012), dev); lid.position.set(0, 0.11, 0.006);
+  const lscr = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.18), glass); lscr.position.set(0, 0.11, 0.013);
   lapLid.add(lid, lscr); subG.add(lapLid);
-  subG.position.set(X1 - 0.95, -STEP, ZF + 0.85); subG.rotation.y = 0.5;
+  subG.position.set(X1 - 0.95, -STEP, ZF + 0.85);   // 방 축에 정각으로
   reg('pc', subG);
 
   // 선반 (왼벽, 운영 공간)
@@ -446,12 +448,12 @@ export function buildStudio() {
   const anchors = {
     // 배열 = 같은 장비 여러 대. 첫 번째로 설명 칩이 이어지고 나머지엔 점만 찍힌다
     space: [V(0.0, 2.6, ZB + 0.05)], projector: PROJ.map((d) => d.p.clone()), kinect: kinectPos.map((p) => p.clone()),
-    speaker: [V(-3.3, H - 0.28, -1.6), V(3.3, H - 0.28, -1.6), V(-3.42, H - 0.28, 1.85), V(3.42, H - 0.28, 1.85)],
+    speaker: [V(-3.3, H - 0.28, -1.6), V(3.3, H - 0.28, -1.6), V(-3.42, H - 0.28, ZR - 0.2), V(3.42, H - 0.28, ZR - 0.2)],
     visitor: [V(-0.9, 1.7, 0.3), V(1.15, 1.6, -0.7), V(0.2, 1.65, 1.3)], pc: [pcG.getWorldPosition(new THREE.Vector3()).add(V(0.1, 1.2, -0.1)), subG.getWorldPosition(new THREE.Vector3()).add(V(0, 0.95, 0))],
   };
   INFO.forEach((it, i) => marks.push({ pos: anchors[it.id][0], no: it.no, id: it.id, a: 0.54 + i * 0.006 }));
 
   // 06 데이터 흐름: 왼쪽 키넥트 → 메인 PC, 오른쪽 키넥트 → 송출 PC → (포물선) → 메인 PC
   const links = { kL: kinectPos[0].clone(), kR: kinectPos[1].clone(), main: anchors.pc[0].clone(), sub: anchors.pc[1].clone() };
-  return { root, pick, groups, mats, lines, texts, marks, anchors, cycMesh, floor, projHelp, links, trussGrid, visitors: VISITORS };
+  return { root, pick, groups, mats, lines, texts, marks, anchors, cycMesh, floor, projHelp, links, trussGrid, visitors: VISITORS, lapLid };
 }

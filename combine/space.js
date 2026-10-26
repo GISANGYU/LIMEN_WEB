@@ -7,7 +7,7 @@
 // 단계 표시는 monopo 식 큰 번호(01/05), 진행도는 main.js 프레임 루프에서 받는다.
 import * as THREE from 'three';
 import { $, $$, clamp, smooth as ss } from './_shared/js/core.js';
-import { buildStudio, INFO, DIM, ULEN } from './studio.js';
+import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js';
 
 const PHASES = [
   [0.0, 'Grid'],
@@ -131,7 +131,7 @@ export function initSpace() {
       const d = l.pts.map((p, i) => { const [x, y] = toScreen(p); return (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1); }).join('');
       const el = document.createElementNS(NS, 'path');
       el.setAttribute('d', d); el.setAttribute('class', l.cls); el.setAttribute('pathLength', '1');
-      el.style.strokeDasharray = '1 1'; el.style.strokeDashoffset = '1';
+      el.style.strokeDasharray = '1 1'; el.style.strokeDashoffset = '1'; el.style.visibility = 'hidden';
       gLines.appendChild(el); return { el, a: l.a, b: l.b, cls: l.cls, op: l.op, lin: /k-grid/.test(l.cls), last: -1, lastO: -1 };
     });
     world.appendChild(gLines);
@@ -337,7 +337,10 @@ export function initSpace() {
     svg.style.opacity = (1 - ss(0.62, 0.74, p)).toFixed(3);
     for (const s of svgPaths) {
       const k = s.lin ? clamp((p - s.a) / (s.b - s.a)) : ss(s.a, s.b, p);
-      if (Math.abs(k - s.last) > 1e-4) { s.el.style.strokeDashoffset = (1 - k).toFixed(4); s.last = k; }
+      if (Math.abs(k - s.last) > 1e-4) {
+        // 아직 안 그려진 선은 숨긴다 — dash 길이 0 이어도 둥근 선끝(round cap)이 점으로 찍혀, 위로 되감으면 경로 끝마다 점이 남았다
+        s.el.style.strokeDashoffset = (1 - k).toFixed(4); s.el.style.visibility = k > 1e-3 ? '' : 'hidden'; s.last = k;
+      }
     }
     const gridK = 1 - ss(0.5, 0.62, p);
     for (const s of svgPaths) {
@@ -354,7 +357,7 @@ export function initSpace() {
   }
 
   const t0 = performance.now(), _v = new THREE.Vector3();
-  let camAz = 30, camEl = 31, zoomS = 1, offX = 0, offY = 0;
+  let camAz = 30, camEl = 31, zoomS = 1, offX = 0, offY = 0, lidK = 0;
   const faceOn = { F: 0, B: 0, L: 0, R: 0 };   // 정면 · 바닥 · 좌벽 · 우벽 영상 밝기 (P1 · P2 · P3 · P4 가 맡는 면)
   function update(P) {
     const time = (performance.now() - t0) / 1000;
@@ -410,6 +413,9 @@ export function initSpace() {
     zoomS += (tz - zoomS) * 0.06; offX += (tx - offX) * 0.06; offY += (ty - offY) * 0.06;
     if (p > 0.6) { placeCamera(camAz, camEl); setFrustum(zoomS, offX, offY); camera.updateMatrixWorld(); }
     drawPeople(op);
+    // 송출 노트북: 06 운영 데스크 차례에 덮개가 열리고, 벗어나면 다시 접힌다 (카메라가 다가가는 동안 조금 늦게)
+    lidK += ((active === 'pc' ? 1 : 0) - lidK) * 0.05;
+    S.lapLid.rotation.x = LID_SHUT + (LID_OPEN - LID_SHUT) * ss(0.15, 1, lidK);
     applyHighlight(time);
 
     // 설명 칩 + 지시선 (같은 장비 여러 대면 모두 점으로 표시)

@@ -561,7 +561,7 @@ function smoothstep(a,b,x){ const t=Math.max(0,Math.min(1,(x-a)/(b-a))); return 
 let lenis = null, lastY = scrollY;
 function scrollToId(id){
   const el = document.getElementById(id); if(!el) return;
-  if(lenis) lenis.scrollTo(el,{duration:1.4}); else el.scrollIntoView({behavior:reduce?'auto':'smooth'});
+  if(lenis) lenis.scrollTo(el,{duration:1.8, easing:t=>1-Math.pow(1-t,4)}); else el.scrollIntoView({behavior:reduce?'auto':'smooth'});
 }
 document.addEventListener('click',e=>{
   const a = e.target.closest('a[href^="#"]'); if(!a) return;
@@ -823,7 +823,8 @@ function frame(now){
 }
 function boot(){
   if(window.Lenis && !reduce){
-    lenis = new Lenis({duration:.8, easing:e=>Math.min(1,1.001-Math.pow(2,-10*e)), orientation:'vertical', smoothWheel:true, wheelMultiplier:1});
+    // 관성 스크롤: 휠은 목표 위치만 옮기고, 화면은 매 프레임 남은 거리의 6.5%씩 따라가며 스르륵 멈춘다
+    lenis = new Lenis({lerp:.065, orientation:'vertical', smoothWheel:true, wheelMultiplier:.9, touchMultiplier:1.4});
     const raf=time=>{ lenis.raf(time); requestAnimationFrame(raf); }; requestAnimationFrame(raf);
   }
   layout(); setBg(st.actEl ? st.actEl.dataset.bg : 'hero'); setTimeout(preload,1500); requestAnimationFrame(frame);

@@ -595,19 +595,23 @@ function onScroll(){
 
 /* ───────────────────────── 검은 본문 캔버스 ─────────────────────────
    실측(원본 녹화 1440×900): 아래에서 올라오는 면의 윗변은 포물선. 휘는 정도는 그 면이 화면 아래에서 차지한 높이의 제곱에 비례
-   (경계가 화면 아래 29% → 6px, 72% → 31px). 정지·이동과 무관. */
+   (경계가 화면 아래 29% → 6px, 72% → 31px). 스크롤 중에만 휘고, 멈추면 스르륵 네모로 돌아온다(레퍼런스와 같게). */
 const sc = $('#sheetc'), sx = sc.getContext('2d');
-let SH = [];
+let SH = [], bend = 0;
 const sagAt = (y,H)=>{ const f=Math.max(0,Math.min(1.15,(H-y)/H)); return .066*f*f*H; };
-function drawSheets(){
+function drawSheets(dt){
   const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio,2);
   if(sc.width!==Math.round(W*dpr) || sc.height!==Math.round(H*dpr)){ sc.width=Math.round(W*dpr); sc.height=Math.round(H*dpr); }
+  // 휨 = 스크롤 속도(초당 1400px 에서 최대). 빨리 휘고(14) 천천히 펴진다(4.5)
+  const want = reduce ? 0 : Math.min(1, Math.abs(st.vel)/Math.max(dt,1e-3)/1400);
+  bend += (want-bend)*(1-Math.exp(-dt*(want>bend?14:4.5)));
+  if(bend < .002) bend = 0;
   sx.setTransform(dpr,0,0,dpr,0,0); sx.clearRect(0,0,W,H);
   sx.fillStyle = '#FFFFFF'; sx.strokeStyle = '#BBBBBB'; sx.lineWidth = 1;
   for(const el of SH){
     const r = el.getBoundingClientRect();
     if(r.bottom < -60 || r.top > H+60) continue;
-    const st_ = sagAt(r.top,H), sb = sagAt(r.bottom,H);
+    const st_ = sagAt(r.top,H)*bend, sb = sagAt(r.bottom,H)*bend;
     sx.beginPath();
     sx.moveTo(0, r.top+st_/2); sx.quadraticCurveTo(W/2, r.top-st_*1.5, W, r.top+st_/2);
     sx.lineTo(W, r.bottom+sb/2); sx.quadraticCurveTo(W/2, r.bottom-sb*1.5, 0, r.bottom+sb/2);
@@ -812,7 +816,7 @@ function frame(now){
   // 레퍼런스: 앞면이 위로 올라가고 뒷면(거울 글자)이 아래로 보이도록 아래에서 올려다본 기울기
   $('#ring1').style.transform = `rotateX(16deg) rotateZ(-7deg) rotateY(${ry}deg)`;
   renderBg(t, dt);
-  drawSheets();
+  drawSheets(dt);
   drawCards(reduce?0:t);
   if(O3) O3.render(reduce?0:t);
   requestAnimationFrame(frame);
@@ -830,7 +834,6 @@ ls.src = 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js';
 ls.onload = boot; ls.onerror = boot;
 document.head.appendChild(ls);
 </script>
-
 <style>/* 와이어프레임: 검은 본문 면은 흰 면으로 남기고, 그 구멍(마스크 창)으로 배경 박스가 비친다 */
 #sheetc{visibility:visible!important}
 #bgv::after{background:none!important}

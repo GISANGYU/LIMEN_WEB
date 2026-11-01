@@ -38,7 +38,7 @@ root.innerHTML=`<style>
 /* Match the lily palette; the original word placement and hover response stay intact. */
 :host{margin-top:-100vh;z-index:3;background:#293b78}
 .flow{background:linear-gradient(180deg,#293b78,#33447b);isolation:isolate}
-.flow-surface{position:sticky;top:0;height:100svh;width:100%;margin-bottom:-100svh;overflow:hidden;z-index:0;pointer-events:none;background:#293b78 url('../assets/flow-light.png') center/100% 100% no-repeat}
+.flow-surface{position:sticky;top:0;height:100svh;width:100%;margin-bottom:-100svh;overflow:hidden;z-index:0;pointer-events:none;background:#293b78 url('${new URL('../assets/flow-light.png',import.meta.url).href}') center/100% 100% no-repeat}
 .flow-surface canvas{height:100%;opacity:.75}
 .flow-surface:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#293b78 0%,#293b7820 14%,#33447b10 82%,#33447b 100%)}
 .flow-surface:not(.fluid-ready){background-blend-mode:luminosity;background-color:#54619a}

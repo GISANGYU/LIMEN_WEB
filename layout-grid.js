@@ -7,7 +7,10 @@
   root.style.setProperty('--layout-viewport',`${w}px`);
   root.style.setProperty('--grid-inset',`${inset}px`);
  }
- sync();addEventListener('resize',sync,{passive:true});
+ // 헤더 마지막 메뉴(Awake)는 칸 가운데 정렬이라 글자 끝이 그리드 끝보다 안쪽 → 푸터 오른쪽 여백을 그만큼 맞춘다
+ function headerTrim(){const a=document.querySelector('.c-Header nav a:last-child');if(!a)return;const r=document.createRange();r.selectNodeContents(a);
+  root.style.setProperty('--header-right-trim',`${Math.max(0,a.getBoundingClientRect().right-r.getBoundingClientRect().right).toFixed(1)}px`);}
+ sync();headerTrim();addEventListener('resize',()=>{sync();headerTrim()},{passive:true});document.fonts?.ready.then(headerTrim);addEventListener('load',headerTrim);
  new ResizeObserver(sync).observe(root);
  for(const [name,file] of [['limen-flow','layout-grid-flow.css'],['limen-team','layout-grid-team.css']]){
   customElements.whenDefined(name).then(()=>{

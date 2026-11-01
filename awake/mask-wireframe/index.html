@@ -51,9 +51,9 @@ main{position:relative;z-index:2}
 .container{width:100%;max-width:var(--cmax);margin-inline:auto;padding-left:max(var(--cpad),env(safe-area-inset-left,0px));padding-right:max(var(--cpad),env(safe-area-inset-right,0px))}
 .g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gutter)}
 /* 글자 크기 — .t1 120/115.2/-9.6 · 부제 24/26.4/-.72 · .t3 64/61.44/-2.56 · .t5 14/18.2/-.56 */
-.t1{font-family:var(--f-display);font-size:min(64px,3.9vw);line-height:1.1;letter-spacing:-.05em}
-.sub{font-size:19px;line-height:1.35;letter-spacing:-.03em}
-.t3{font-size:min(51px,3.64vw);line-height:1.12;letter-spacing:-.04em}
+.t1{font-family:var(--f-display);font-size:min(44px,3.05vw);line-height:1.15;letter-spacing:-.045em}
+.sub{font-size:16px;line-height:1.4;letter-spacing:-.03em}
+.t3{font-size:min(32px,2.3vw);line-height:1.22;letter-spacing:-.035em}
 .body{font-size:13px;line-height:1.45;color:var(--ink-60);letter-spacing:-.03em}
 .u{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:currentColor}
 
@@ -126,10 +126,10 @@ main{position:relative;z-index:2}
 /* 핵심 개념: 큰 창 없이 본문 위에 글로만 */
 .concept{display:grid;gap:16px;max-width:760px;margin-top:8px}
 .concept .k{font-size:13px;line-height:18px;color:var(--ink-60)}
-.concept p{font-size:min(30px,2.2vw);line-height:1.3;letter-spacing:-.04em}
-.in-win p{font-size:min(36px,2.6vw);line-height:1.22;letter-spacing:-.04em}
+.concept p{font-size:min(20px,1.5vw);line-height:1.4;letter-spacing:-.03em}
+.in-win p{font-size:min(22px,1.6vw);line-height:1.3;letter-spacing:-.03em}
 .card .m .step{position:absolute;left:16px;top:16px;font-size:13px;color:var(--ink);text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.card .m .step-t{position:absolute;left:16px;bottom:16px;font-weight:400;font-size:min(30px,2.2vw);line-height:1.1;letter-spacing:-.04em;text-shadow:0 0 18px rgba(0,0,0,.6)}
+.card .m .step-t{position:absolute;left:16px;bottom:16px;font-weight:400;font-size:min(20px,1.5vw);line-height:1.15;letter-spacing:-.03em;text-shadow:0 0 18px rgba(0,0,0,.6)}
 .order{list-style:none;margin:56px 0 0;padding:24px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gutter)}
 .order li{display:grid;gap:8px;font-size:14px;line-height:18px;min-width:0}
 .order b{font-weight:400;color:var(--ink-60);font-size:12px}
@@ -154,7 +154,7 @@ main{position:relative;z-index:2}
 .final-stage{position:relative;height:220svh}
 .final-head{position:sticky;top:0;height:100svh;display:flex;align-items:center;pointer-events:none}
 .final-head .container{display:grid;row-gap:clamp(32px,4.2vw,56px)}
-.final-head h2{font-family:var(--f-display);font-size:min(64px,3.9vw);line-height:1.1;letter-spacing:-.05em}
+.final-head h2{font-family:var(--f-display);font-size:min(44px,3.05vw);line-height:1.15;letter-spacing:-.045em}
 .end{padding-block:24px 0;display:grid;gap:96px}
 .again{justify-self:start;display:inline-flex;gap:8px;align-items:center;background:var(--pill);color:var(--pill-ink);border-radius:999px;padding:8px 12px;text-decoration:none;font-size:14px;line-height:1}
 .foot{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px}
@@ -196,12 +196,12 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
 @media (max-width:767px){
   :root{--gutter:16px;--cpad:16px}
   .g12{grid-template-columns:repeat(6,minmax(0,1fr))}
-  .t1,.final-head h2{font-size:32px} .t3{font-size:26px} .sub{font-size:16px}
+  .t1,.final-head h2{font-size:28px} .t3{font-size:22px} .sub{font-size:15px} .concept p{font-size:18px}
   .ch-head .container,.final-head .container{row-gap:32px}
   .ch-head .sub,.feat-head h3,.feat-head .side,.ask-q,.card,.list > div,.opt{grid-column:1 / -1}
   .feat-head{padding-block:32px;row-gap:24px}
   .eyebrow{margin-bottom:0}
-  .in-win p{font-size:20px} .in-win p br{display:none} .card .m .step-t{font-size:22px}
+  .in-win p{font-size:17px} .in-win p br{display:none} .card .m .step-t{font-size:18px}
   .ch .media-lg{aspect-ratio:4/5}
   .order{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:20px}
   .links{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px} .links svg{display:none}

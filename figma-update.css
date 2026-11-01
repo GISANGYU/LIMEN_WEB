@@ -178,3 +178,6 @@ body.figma-update.is-reference-hero .c-Header{mix-blend-mode:normal}
 @media(max-width:767px){.figma-update .hero-editorial-foot>a{grid-column:1/-1}}
 /* 페이지 맨 끝(푸터 바닥)에서는 헤더 흰색 고정 */
 body.figma-update.is-page-end .c-Header{mix-blend-mode:normal}
+/* 푸터 슬로건 30px (11-02) */
+.figma-update .footer-scattered span{font-size:30px;line-height:1.3}
+@media(max-width:767px){.figma-update .footer-scattered span{font-size:22px}}

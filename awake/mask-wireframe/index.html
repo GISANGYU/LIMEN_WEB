@@ -585,7 +585,23 @@ function onScroll(){
     const id = act.id || 'top';
     document.querySelectorAll('.menu a').forEach(a=>a.setAttribute('aria-current', a.dataset.id===id ? 'true':'false'));
   }
-  if(!st.hover && act) setBg(act.dataset.bg);
+  // 배경 영상은 검은 본문에 가려진 동안 미리 바꿔 둔다 — 배경이 보일 때는 이미 그 자리 장면의 영상이다.
+  // 1) 배경이 보이는 틈이 있으면: 가장 넓게 보이는 틈이 속한 섹션 영상
+  // 2) 본문이 화면을 다 덮으면: 아래로 가는 중이면 다음 섹션, 위로 가는 중이면 이 본문의 섹션 영상
+  if(st.vel > .5) st.dir = 1; else if(st.vel < -.5) st.dir = -1;
+  const iv = SH.map(s=>s.getBoundingClientRect()).filter(r=>r.bottom>0 && r.top<H).sort((a,b)=>a.top-b.top);
+  let gy = 0, best = null, bestLen = 4, coverEl = null;
+  const gap = (a,b)=>{ if(b-a > bestLen){ const mid=(a+b)/2; let sec=null; for(const m of MK){ if(m.getBoundingClientRect().top <= mid) sec=m; } if(sec){ best=sec; bestLen=b-a; } } };
+  for(const r of iv){ gap(gy, Math.max(gy, r.top)); gy = Math.max(gy, r.bottom); }
+  gap(gy, H);
+  let bgEl = best;
+  if(!bgEl){
+    const s = SH.find(s=>{ const r=s.getBoundingClientRect(); return r.top<=H*.5 && r.bottom>=H*.5; });
+    const sec = s && s.closest('[data-bg]');
+    if(sec) bgEl = (st.dir||1) > 0 ? (MK[MK.indexOf(sec)+1] || sec) : sec;
+    else bgEl = act;
+  }
+  if(!st.hover && bgEl) setBg(bgEl.dataset.bg);
   if(act){
     const hd = act.querySelector('.ch-head,.final-stage') || act, r = hd.getBoundingClientRect();
     st.headP = Math.max(0,Math.min(1,(H-r.top)/(r.height+H)));

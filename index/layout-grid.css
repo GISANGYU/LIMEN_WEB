@@ -1,0 +1,111 @@
+/* Shared alignment system, scoped to the retained HTML study. */
+:root{
+ --layout-viewport:100vw;
+ --grid-inset:calc(5vw + clamp(0px,calc((100vw - 1440px)/120),4px));
+ --grid-columns:12;--grid-gap:24px;
+ --grid-content:calc(var(--layout-viewport) - var(--grid-inset)*2);
+ --grid-step:calc((var(--grid-content) + var(--grid-gap))/var(--grid-columns));
+ --grid-column:calc(var(--grid-step) - var(--grid-gap));
+ --grid-nine:calc(var(--grid-step)*9 - var(--grid-gap));
+ --grid-three:calc(var(--grid-step)*3 - var(--grid-gap));
+ --pad:var(--grid-inset);
+}
+.depth-version .c-Header{padding-left:var(--grid-inset);padding-right:var(--grid-inset)}
+.depth-version .c-Header nav{gap:var(--grid-gap)}
+.depth-version .reference-hero-nav{left:var(--grid-inset);right:var(--grid-inset);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gap)}
+.depth-version .reference-hero-nav>.ref-brand,.depth-version .reference-hero-nav>.ref-about,.depth-version .reference-hero-nav>.ref-experience,.depth-version .reference-hero-nav>.ref-archive,.depth-version .reference-hero-nav>.ref-menu{position:relative;left:auto;top:auto;width:auto;height:5vh;grid-row:1;margin-top:4.4vh}
+.depth-version .ref-brand{grid-column:1/span 2}.depth-version .ref-about{grid-column:9}.depth-version .ref-experience{grid-column:10}.depth-version .ref-archive{grid-column:11}
+.depth-version .reference-hero-nav>.ref-menu{grid-column:12;justify-self:end;width:24px}
+.depth-version .ref-scroll{left:0;width:calc(var(--grid-step)*2 - var(--grid-gap))}
+.depth-version .ref-menu-panel{right:0;width:var(--grid-three)}
+.depth-version .sg-pairs{left:var(--grid-inset);right:var(--grid-inset)}
+.depth-version .reel-ui{left:var(--grid-inset);right:var(--grid-inset)}
+.depth-version .film-copy{max-width:calc(var(--grid-step)*4 - var(--grid-gap))}
+.depth-version .sp-draw{left:var(--grid-inset);right:auto;width:var(--grid-nine)}
+.depth-version .sp-head,.depth-version .sp-phase{left:var(--grid-inset)}
+.depth-version .sp-head{max-width:calc(var(--grid-step)*5 - var(--grid-gap))}
+.depth-version .sp-side{left:calc(var(--grid-inset) + var(--grid-step)*9);right:auto;width:var(--grid-three);padding:96px 0 48px;border-left:0}
+.depth-version .sp-side::after{content:'';position:absolute;left:calc(var(--grid-gap)/-2);top:0;bottom:0;width:1px;background:var(--line)}
+.depth-version .sp-list li::before{inset:0}
+.depth-version .sp-progress{left:var(--grid-inset);right:auto;width:var(--grid-nine)}
+.depth-version .visit-heading{left:var(--grid-inset)}
+.depth-version .visit-diagram{left:var(--grid-inset);right:auto;width:var(--grid-nine)}
+.depth-version .visit-aside{left:calc(var(--grid-inset) + var(--grid-step)*9);right:auto;width:var(--grid-three);max-width:none}
+.depth-version .visit-bottom{left:var(--grid-inset);right:var(--grid-inset)}
+.depth-version .footer-content{padding-left:var(--grid-inset);padding-right:var(--grid-inset)}
+.depth-version .footer-top{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gap)}
+.depth-version .footer-top>nav,.depth-version .footer-top>.footer-column{grid-column:span 3;min-width:0}
+.depth-version .footer-nav{gap:var(--grid-gap)}
+.depth-version .footer-people{gap:var(--grid-gap)}
+.depth-version .footer-bottom{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gap)}
+.depth-version .footer-identity{grid-column:1/span 6}.depth-version .footer-bottom-links{grid-column:10/span 3}
+/* Keep the nine/three split through tablet widths; stack on the four-column layout. */
+@media(min-width:768px){.depth-version .sp-draw{top:0;bottom:0}.depth-version .sp-side{top:0;bottom:0;height:auto;overflow-y:auto}.depth-version .sp-progress{bottom:3vh}.depth-version .sp-phase{display:block}}
+@media(max-width:767px){
+ :root{--grid-inset:20px;--grid-columns:4;--grid-gap:16px}
+ .depth-version .c-Header nav{gap:16px}
+ .depth-version .reference-hero-nav{display:none}
+ .depth-version.is-reference-hero .c-Header{opacity:1;pointer-events:auto}
+ .depth-version .film-copy{max-width:var(--grid-content)}
+ .depth-version .sp-draw{left:var(--grid-inset);width:var(--grid-content);bottom:34vh}
+ .depth-version .sp-head{max-width:var(--grid-content);top:76px}
+ .depth-version .sp-side{left:var(--grid-inset);top:auto;bottom:0;width:var(--grid-content);height:34vh;padding:18px 0;border-top:1px solid var(--line);overflow-y:auto}
+ .depth-version .sp-side::after{display:none}
+ .depth-version .sp-phase{display:none}
+ .depth-version .sp-progress{width:var(--grid-content);bottom:calc(34vh + 8px)}
+ .depth-version .visit-diagram{width:var(--grid-content);top:170px;bottom:240px}
+ .depth-version .visit-aside{left:var(--grid-inset);right:var(--grid-inset);top:auto;bottom:108px;width:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 16px;align-items:start}
+ .depth-version .visit-aside>.space-eyebrow{grid-column:1/-1;margin:0}
+ .depth-version .visit-stage{grid-column:1/span 2;margin:0;gap:10px}.depth-version .visit-address{grid-column:3/span 2;margin:0;padding:0;border:0}
+ .depth-version .visit-stage>span{font-size:48px}.depth-version .visit-stage h3{font-size:16px}.depth-version .visit-address h3{font-size:20px;margin:6px 0}.depth-version .visit-address>span{font-size:11px}
+ .depth-version .visit-bottom-row{align-items:flex-start;flex-wrap:wrap;gap:8px}
+ .depth-version .footer-top{grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 16px}
+ .depth-version .footer-top>nav,.depth-version .footer-top>.footer-column{grid-column:span 2}
+ .depth-version .footer-bottom{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:24px;align-items:start}
+ .depth-version .footer-identity,.depth-version .footer-bottom-links{grid-column:1/-1}
+ .depth-version .footer-bottom-links{align-items:flex-start}
+}
+
+/* Keep the requested viewport coordinates even when the OS reserves a scrollbar. */
+body.depth-version{overflow-x:clip}
+.depth-version .c-Header{width:var(--layout-viewport);right:auto}
+.depth-version .reference-hero-nav,.depth-version .sg-pairs,.depth-version .reel-ui,.depth-version .visit-bottom{width:var(--grid-content);right:auto}
+.depth-version .footer-title,.depth-version .footer-top,.depth-version .footer-bottom{width:var(--grid-content)}
+@media(min-width:768px) and (max-width:1023px){.depth-version .sp-list li .tt{white-space:normal}.depth-version .sp-side{padding-top:76px}}
+/* A wider equipment panel; the other twelve-column sections stay aligned. */
+@media(min-width:768px){
+ .depth-version .sp-side{left:calc(var(--grid-inset) + var(--grid-step)*8);width:calc(var(--grid-step)*4 - var(--grid-gap))}
+ .depth-version .sp-draw,.depth-version .sp-progress{width:calc(var(--grid-step)*8 - var(--grid-gap))}
+}
+/* Footer typography and composition from the supplied reference. */
+.depth-version .film-footer{}
+.depth-version .footer-content{padding-top:0;padding-bottom:10vw}
+.depth-version .footer-title{display:block;min-height:0;height:57.5vw;padding:0}
+.depth-version .footer-scattered{width:100%;height:100%;transform:none;margin:0;position:relative}
+.depth-version .footer-scattered span{top:auto;right:auto}
+.depth-version .footer-scattered span:nth-child(1){left:calc(var(--grid-step)*1);top:8.5vw}
+.depth-version .footer-scattered span:nth-child(2){left:calc(var(--grid-step)*5);top:18.5vw}
+.depth-version .footer-scattered span:nth-child(3){left:calc(var(--grid-step)*8);top:28.8vw}
+.depth-version .footer-top{grid-template-columns:repeat(12,minmax(0,1fr));min-height:0;gap:var(--grid-gap)}
+.depth-version .footer-top>nav,.depth-version .footer-top>.footer-column{grid-column:span 3}
+.depth-version .footer-label,.depth-version .footer-nav{}
+.depth-version .footer-column{gap:2.5vw}
+.depth-version .footer-dim{}
+.depth-version .footer-people{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.5vw,24px);width:100%}
+.depth-version .footer-people>div>p:first-child{margin-bottom:10px;white-space:nowrap}
+.depth-version .footer-question{white-space:normal}
+.depth-version .footer-square-link{margin-top:14px}.depth-version .footer-square-link::before{display:none}.depth-version .footer-square-link::after{content:'↗'}
+.depth-version .footer-bottom{display:none}
+@media(max-width:767px){
+ .depth-version .footer-title{height:80vw}.depth-version .footer-scattered span{}
+ .depth-version .footer-scattered span:nth-child(1){left:0;top:10vw}.depth-version .footer-scattered span:nth-child(2){left:24%;top:30vw}.depth-version .footer-scattered span:nth-child(3){left:54%;top:50vw}
+ .depth-version .footer-top{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 16px}.depth-version .footer-top>.footer-column:nth-child(2){grid-column:1/-1;grid-row:2}.depth-version .footer-question{white-space:normal}.depth-version .footer-column{gap:18px}.depth-version .footer-people{max-width:420px}
+}
+
+@media(max-width:767px){.depth-version .footer-top{grid-template-columns:repeat(4,minmax(0,1fr))}.depth-version .footer-top>nav,.depth-version .footer-top>.footer-column{grid-column:span 2}.depth-version .footer-top>.footer-column:nth-child(2){grid-column:1/-1}}
+/* Navigation belongs to the hero rather than following later sections. */
+.depth-version:not(.is-reference-hero) .c-Header{opacity:0;visibility:hidden;pointer-events:none}
+/* Plain equipment labels: retain alignment and active type, remove panel boxes. */
+.depth-version .sp-side{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.depth-version .sp-side::after,.depth-version .sp-list li::before{display:none}
+.depth-version .sp-list li,.depth-version .sp-list li.on{border:0;background:none;box-shadow:none}

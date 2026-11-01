@@ -1,0 +1,5 @@
+/* A local color reveal. Base typography, row geometry and scroll opacity are unchanged. */
+.sg-pairs li:not(.foot)>span{position:relative}
+.sg-pairs li:not(.foot)>span::after{content:attr(data-hover-word);position:absolute;inset:0;pointer-events:none;color:var(--word-color);text-align:inherit;font:inherit;letter-spacing:inherit;white-space:pre;opacity:var(--word-hover-on,0);transition:opacity .3s ease;mask-image:radial-gradient(circle 180px at var(--word-hover-x,-1000px) var(--word-hover-y,-1000px),#000 0%,#000 35%,transparent 100%);-webkit-mask-image:radial-gradient(circle 180px at var(--word-hover-x,-1000px) var(--word-hover-y,-1000px),#000 0%,#000 35%,transparent 100%)}
+@media(hover:none){.sg-pairs li:not(.foot)>span::after{display:none}}
+@media(prefers-reduced-motion:reduce){.sg-pairs li:not(.foot)>span::after{transition:none}}

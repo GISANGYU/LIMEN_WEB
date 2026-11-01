@@ -1,0 +1,29 @@
+@import url('layout-grid-flow.css');
+.flow{height:max(110svh,107.256673vw);min-height:900px}
+.headline{top:12%}
+.word:nth-child(2){margin-top:.4em}.word:nth-child(3){margin-top:1.05em}
+.copy.left{}.copy.detail{}.copy.right{}
+.flow-surface{background-image:url('assets/figma-1102/flow.png')}
+.bottom{visibility:hidden}
+@media(max-width:767px){.flow{height:110svh;min-height:860px}.headline{top:15%;width:var(--grid-content)}.copy.left{}.copy.detail{}.copy.right{}}
+/* One continuous background plane through both the keywords and the explanatory copy. */
+.flow-surface{position:absolute;inset:0;width:100%;height:100%;margin:0;background-size:cover;background-position:center}
+.flow-surface canvas{height:100%}
+.flow-surface:after{background:linear-gradient(180deg,#293b7855 0%,transparent 14%,transparent 88%,#232b5533 100%)}
+/* Reading highlight follows scroll position without moving or reflowing the copy. */
+.copy .reveal-glyph{display:inline;opacity:var(--glyph-opacity,1)}
+@media(prefers-reduced-motion:reduce){.copy .reveal-glyph{opacity:1}}
+.copy-accessible-text{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:pre-wrap}
+
+/* 글꼴 체계 = 기존 COMBINE: 큰 제목 Heebo 200(쇼릴 'Watch the scenes'), 본문 Heebo 300, 라벨 Inter Tight 800 10px */
+.flow{font-family:var(--sans)}
+.headline{font-family:var(--heebo);font-weight:200;font-size:clamp(54px,6.25vw,120px);line-height:.95;letter-spacing:-.02em}
+.letter{font-weight:inherit}
+.copy.left{font-family:var(--heebo);font-weight:300;font-size:30px;line-height:1.6}
+.copy.detail,.copy.right{font-family:var(--heebo);font-weight:300;font-size:13px;line-height:1.7}
+.copy.detail,.copy.right{font-size:21px}
+.top,.bottom,.pause{font-family:var(--sans);font-weight:800;font-size:10px;letter-spacing:3.6px;text-transform:uppercase}
+@media(max-width:767px){.headline{font-size:clamp(40px,11vw,56px)}.copy.left{font-size:26px}.copy.detail,.copy.right{font-size:19px}.top,.bottom,.pause{font-size:9px;letter-spacing:2.4px}}
+
+/* 11-02: 호버 시 글자 깜빡 강조 없앰 — 움직임은 스크립트(빨려 드는 일렁임)가 맡음 */
+.letter,.letter.lit{transition:none!important;font-style:normal!important;color:inherit!important;text-shadow:none!important;will-change:transform}

@@ -1,0 +1,10 @@
+/* Inherit the same viewport-based grid inside the existing shadow component. */
+.headline{left:var(--grid-inset);width:calc(var(--grid-step)*10 - var(--grid-gap))}
+.word:nth-child(1),.word:nth-child(3){margin-left:0}.word:nth-child(2){margin-left:var(--grid-step)}
+.copy.left,.copy.detail{left:calc(var(--grid-inset) + var(--grid-step)*6);width:calc(var(--grid-step)*6 - var(--grid-gap))}
+.copy.right{left:calc(var(--grid-inset) + var(--grid-step)*8);width:calc(var(--grid-step)*4 - var(--grid-gap))}
+.bottom{left:var(--grid-inset)}.top{right:var(--grid-inset)}
+@media(max-width:767px){
+ .headline{left:var(--grid-inset);width:var(--grid-content)}
+ .copy.left,.copy.detail,.copy.right{left:calc(var(--grid-inset) + var(--grid-step));width:calc(var(--grid-step)*3 - var(--grid-gap))}
+}

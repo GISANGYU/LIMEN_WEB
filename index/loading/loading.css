@@ -1,0 +1,5 @@
+/* 00 LOADING — /loading/ver2/ 를 INDEX 위에 덮는 레이어 (loading.js) */
+html.ld-lock, html.ld-lock body { overflow: hidden; }
+.ld { position: fixed; inset: 0; z-index: 9999; background: #02030a; transition: opacity 1.2s ease; }
+.ld iframe { display: block; width: 100%; height: 100%; border: 0; }
+.ld.is-out { opacity: 0; pointer-events: none; }

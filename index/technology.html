@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIMEN — TECHNOLOGY</title>
+    <meta
+      name="description"
+      content="TECHNOLOGY — 관객의 움직임이 네 면의 빛이 되기까지. Kinect v2 2대 · PC 2대 · Unity · Spout · MadMapper · 프로젝터 4대, 영상 장면과 실시간 장면"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&family=Heebo:wght@200;300;500&family=Instrument+Serif&display=swap"
+      rel="stylesheet"
+    />
+    <!-- INDEX 토큰(style.css) + 서브페이지 공통 구간 스타일(about.css) + TECHNOLOGY 전용(technology.css) -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="footer-film.css" />
+    <link rel="stylesheet" href="about.css" />
+    <link rel="stylesheet" href="technology.css" />
+  </head>
+  <body data-theme="night" data-page="technology">
+    <canvas id="grad" class="grad"></canvas>
+    <header class="c-Header">
+      <!-- AWAKE 는 관람 후 전시장 PC 전용이라 관람 전 메뉴에 두지 않는다 (02 웹표현기준 5장) -->
+      <a class="logo" href="index.html">LIMEN</a>
+      <nav>
+        <a href="about.html">About</a
+        ><a href="technology.html" aria-current="page">Technology</a
+        ><a href="archive.html">Archive</a>
+      </nav>
+    </header>
+
+    <main class="ab tc">
+      <!-- 00 HERO -->
+      <section class="c-PixiIntro ab-hero" id="top">
+        <p class="lbl ab-hero-lbl">Technology · LIMEN</p>
+        <h1 class="c-PixiIntro-title">
+          <span class="ln l1">How the room</span>
+          <span class="ln l2">sees you,</span>
+          <span class="ln l3">and answers.</span>
+        </h1>
+        <p class="ab-hero-copy">
+          관객의 움직임이 네 면의 빛이 되기까지 —<br />
+          감지하고, 합치고, 반응하고, 투사하는 흐름.
+        </p>
+        <div class="c-PixiIntro-foot">
+          <div class="foot-item"><strong>Kinect v2 × 2</strong><span>움직임을 읽는 두 개의 눈</span></div>
+          <div class="foot-item"><strong>Unity · Spout · MadMapper</strong><span>실시간 처리와 4면 출력</span></div>
+          <div class="foot-item"><strong>Projector × 4</strong><span>정면 · 좌 · 우 · 바닥</span></div>
+          <div class="foot-scroll"><i></i></div>
+        </div>
+      </section>
+
+      <!-- 01 IN THE ROOM — 실제 현장 테스트 영상 (SNOOZE 앱 기록 · 2026-09-30) -->
+      <section class="ab-sec tc-room" id="room">
+        <p class="lbl rv">01 / In the room</p>
+        <div class="tc-room-head">
+          <h2 class="ab-h split">움직이면,<br />네 면이 먼저 알아챕니다.</h2>
+          <p class="ab-p rv">
+            관객이 걷고 멈추는 자리를 센서가 읽고, 그 자리를 중심으로 정면 · 좌 · 우 벽과 바닥의 흐름이 달라집니다.
+            반응하는 장면은 개미 · 반딧불이 · 사람·군중 세 장면입니다.
+          </p>
+        </div>
+        <figure class="tc-film rv">
+          <div class="tc-film-media">
+            <video class="lazy-play" src="tech/room.mp4" poster="tech/room.jpg" muted loop playsinline preload="none"></video>
+          </div>
+          <figcaption><span class="lbl">2026-09-30 · Horizon Studio</span><span>첫 4면 인터랙션 현장 테스트 — 개미 장면으로 이어진 흐름 연출 · 제작 과정 기록</span></figcaption>
+        </figure>
+      </section>
+
+      <!-- 02 SIGNAL PATH — 감지 → 합치기 → 반응 → 투사. 스크롤과 무관하게 신호가 계속 흐르고, 장치를 누르면 설명이 바뀐다 (technology.js initPath) -->
+      <section class="tc-path" id="path">
+        <div class="ab-sec">
+          <p class="lbl rv">02 / Signal path</p>
+          <h2 class="ab-h split">두 대의 PC,<br />하나의 방.</h2>
+          <p class="ab-p rv tc-lead">
+            Kinect v2 는 PC 한 대에 한 대만 연결됩니다. 그래서 두 대의 센서를 두 대의 PC 가 나눠 읽고, 메인 PC 가 하나의 방으로 합칩니다.
+            장치를 누르면 하는 일을 볼 수 있습니다.
+          </p>
+        </div>
+        <div class="tc-path-stage rv">
+          <div class="tc-path-draw">
+            <svg id="pathSvg" viewBox="0 0 1200 450" preserveAspectRatio="xMidYMid meet" role="img" aria-label="관객 → 키넥트 A·B → 송출 노트북 → 메인 PC(보정·합치기 → Unity → Spout → MadMapper) → 프로젝터 4대 → 네 면 → 관객"></svg>
+          </div>
+          <aside class="tc-path-side" aria-live="polite">
+            <p class="tc-path-no" id="pathNo">03</p>
+            <h3 id="pathTitle">메인 PC</h3>
+            <p class="tc-path-tag" id="pathTag">합치기 · 반응 · 출력</p>
+            <ul id="pathLines"></ul>
+          </aside>
+        </div>
+        <!-- 모바일 · 스크린리더용 같은 흐름 -->
+        <ol class="tc-path-list" id="pathList"></ol>
+      </section>
+
+      <!-- 03 SENSING — 두 센서의 시야. 커서가 관객이 된다 (technology.js initSense) -->
+      <section class="ab-sec tc-sense" id="sense">
+        <p class="lbl rv">03 / Sensing</p>
+        <div class="tc-sense-head">
+          <h2 class="ab-h split">두 개의 시야가<br />겹치는 자리.</h2>
+          <p class="ab-p rv">
+            두 센서는 관객 뒤쪽 좌 · 우에서 무대 안쪽으로 비스듬히 교차해 봅니다. 한 사람을 두 센서가 함께 보면 하나로 합치고,
+            한쪽만 보면 그 시야로 이어 갑니다.
+          </p>
+        </div>
+        <div class="tc-sense-grid">
+          <div class="tc-plan rv" id="planBox">
+            <svg id="planSvg" viewBox="0 0 860 560" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+            <p class="tc-plan-hint">커서를 방 위에 올려 보세요 · 관객의 자리가 됩니다 <span>(웹 시연 · 실제 수치 기반 단순화)</span></p>
+          </div>
+          <div class="tc-readout rv">
+            <dl>
+              <div><dt>센서 A · 메인 PC</dt><dd id="roA">—</dd></div>
+              <div><dt>센서 B · 송출 노트북</dt><dd id="roB">—</dd></div>
+              <div class="res"><dt>메인 PC 의 판단</dt><dd id="roR">—</dd></div>
+            </dl>
+            <ul class="tc-facts">
+              <li><b>시야</b>가로 70.6° · 사람 인식 0.5 – 4.5 m</li>
+              <li><b>같은 사람</b>두 센서의 골반 위치가 0.5 m 안이면 한 사람으로 묶고, 잘 보이는 쪽에 더 무게를 둡니다</li>
+              <li><b>뒷모습</b>센서가 관객의 등을 보면 좌우가 뒤바뀌어 읽히므로, 걷는 방향으로 바라보는 쪽을 추정해 바로잡습니다</li>
+              <li><b>세이프존</b>방 가장자리 0.5 m 안쪽에서 잠시 놓친 사람은 지우지 않고 마지막 자리에 둡니다</li>
+            </ul>
+            <figure class="tc-mini">
+              <video class="lazy-play" src="tech/sense.mp4" poster="tech/sense.jpg" muted loop playsinline preload="none"></video>
+              <figcaption><span class="lbl">2026-09-17</span>뎁스 화면으로 관객 감지를 확인하는 현장 테스트</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 OUTPUT — 네 면 전개도(정적) + 워핑 현장 기록 -->
+      <section class="tc-panel" id="output">
+        <div class="ab-sec">
+          <p class="lbl rv">04 / Output</p>
+          <div class="tc-out-head">
+            <h2 class="ab-h split">네 면이<br />같은 순간을 비춥니다.</h2>
+            <p class="ab-p rv">
+              프로젝터 네 대가 한 면씩 맡고, MadMapper 에서 면마다 워핑 · 블렌딩해 정면 · 좌 · 우 벽과 바닥을 한 공간으로 잇습니다.
+              네 면의 영상은 늘 같은 시간을 보여 줍니다.
+            </p>
+          </div>
+          <div class="tc-net rv" id="netBox">
+            <svg id="netSvg" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid meet" role="img" aria-label="네 면 전개도: 좌벽 1200×912, 정면 1920×912, 우벽 1200×912, 바닥 1920×1200 픽셀"></svg>
+            <p class="tc-net-note">면에 커서를 올리면 담당 프로젝터와 제작 규격이 보입니다 · 규격은 제작 인수인계 기준이며 현장에서 다시 확인합니다</p>
+          </div>
+          <div class="tc-out-media">
+            <figure class="rv">
+              <div class="tc-ph"><img src="tech/grid.jpg" alt="호라이즌 스튜디오 네 면에 번호가 적힌 색 격자를 투사한 모습" loading="lazy" width="1600" height="1200" /></div>
+              <figcaption><span class="lbl">Calibration grid</span>격자를 네 면에 투사해 이음매와 곡면을 맞춥니다</figcaption>
+            </figure>
+            <figure class="rv">
+              <div class="tc-ph"><video class="lazy-play" src="tech/warp.mp4" poster="tech/warp.jpg" muted loop playsinline preload="none"></video></div>
+              <figcaption><span class="lbl">2026-09-23</span>태블릿으로 면마다 워핑을 조정하는 현장 작업</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 TWO WAYS OF MAKING — 통합 p.16 11.3 · 02 웹표현기준 3장 -->
+      <section class="ab-sec tc-make" id="making">
+        <p class="lbl rv">05 / Two ways of making</p>
+        <h2 class="ab-h split">미리 만든 장면과,<br />지금 반응하는 장면.</h2>
+        <div class="tc-make-grid">
+          <article class="tc-card rv">
+            <p class="tc-card-k">Pre-rendered</p>
+            <h3>영상 장면</h3>
+            <p class="tc-card-scenes">나방 · 거미 · 기억 회상 · 엔딩</p>
+            <p class="ab-p">Cinema 4D · Octane · After Effects 로 미리 만들고, 필요에 따라 Houdini · Blender 로 만든 오브젝트와 효과를 더합니다. 관객의 움직임에 반응하지 않고, 정해진 흐름으로 이어집니다.</p>
+            <ul class="tc-tools"><li>Cinema 4D</li><li>Octane</li><li>After Effects</li><li>Houdini · Blender</li></ul>
+          </article>
+          <article class="tc-card live rv">
+            <p class="tc-card-k">Real-time</p>
+            <h3>실시간 장면</h3>
+            <p class="tc-card-scenes">개미 · 반딧불이 · 사람·군중</p>
+            <p class="ab-p">Unity 가 두 센서를 합친 관객의 자리를 받아 그 순간의 장면을 그립니다.</p>
+            <ul class="tc-rules">
+              <li><b>개미</b>관객이 선 자리를 돌아서 피해 가고, 머물면 그 둘레를 감싸며 맴돕니다</li>
+              <li><b>반딧불이</b>움직이면 주변 반딧불이가 더 밝게 빛나고 반응합니다</li>
+              <li><b>사람·군중</b>움직이는 방향으로 화면 속 사람들도 함께 움직입니다</li>
+            </ul>
+            <div class="tc-tabs" role="tablist" aria-label="개발 화면">
+              <button type="button" role="tab" aria-selected="true" data-src="tech/firefly">반딧불이</button>
+              <button type="button" role="tab" aria-selected="false" data-src="tech/people">사람·군중</button>
+            </div>
+            <figure class="tc-mini">
+              <video id="makeVid" class="lazy-play" src="tech/firefly.mp4" poster="tech/firefly.jpg" muted loop playsinline preload="none"></video>
+              <figcaption><span class="lbl">2026-10-12</span>가상 관객으로 반응을 시험한 개발 화면</figcaption>
+            </figure>
+          </article>
+        </div>
+        <p class="tc-note rv">관객은 공간에 영향을 주지만 모든 것을 조종하지는 않습니다. 장면의 큰 흐름은 정해져 있고, 반응은 관객 둘레에서 일어납니다.</p>
+      </section>
+
+      <!-- 06 STACK — 장비 · 소프트웨어 · 참고한 오픈소스 -->
+      <section class="ab-sec tc-stack" id="stack">
+        <p class="lbl rv">06 / Stack & open source</p>
+        <div class="tc-stack-grid">
+          <div class="rv">
+            <h3 class="tc-stack-h">Hardware</h3>
+            <dl class="tc-dl">
+              <div><dt>Kinect v2 × 2</dt><dd>관객 뒤쪽 좌 · 우 스탠드에서 무대 안쪽으로 교차</dd></div>
+              <div><dt>PC × 2</dt><dd>메인 PC(키넥트 A · 합치기 · Unity · 출력) / 송출 노트북(키넥트 B)</dd></div>
+              <div><dt>LAN</dt><dd>두 PC 를 랜선으로 직접 연결</dd></div>
+              <div><dt>Projector × 4</dt><dd>정면 · 바닥 · 좌벽 · 우벽을 한 대씩</dd></div>
+              <div><dt>Sound</dt><dd>공간을 감싸는 스피커</dd></div>
+            </dl>
+          </div>
+          <div class="rv">
+            <h3 class="tc-stack-h">Software</h3>
+            <dl class="tc-dl">
+              <div><dt>Unity</dt><dd>실시간 장면 · 두 센서 합치기</dd></div>
+              <div><dt>Kinect for Windows SDK 2.0</dt><dd>관절 · 뎁스 읽기</dd></div>
+              <div><dt>Spout <em>open source</em></dt><dd>Unity 화면을 매핑 프로그램으로 넘김</dd></div>
+              <div><dt>MadMapper</dt><dd>네 면 워핑 · 블렌딩</dd></div>
+              <div><dt>C4D · Octane · AE</dt><dd>영상 장면 제작</dd></div>
+            </dl>
+          </div>
+          <div class="rv">
+            <h3 class="tc-stack-h">Open source we learned from</h3>
+            <dl class="tc-dl">
+              <div><dt><a href="https://github.com/MarekKowalski/LiveScan3D" target="_blank" rel="noopener noreferrer">LiveScan3D ↗</a></dt><dd>여러 키넥트를 표식으로 한 좌표에 맞추는 방식</dd></div>
+              <div><dt><a href="https://github.com/microsoft/RoomAliveToolkit" target="_blank" rel="noopener noreferrer">RoomAlive Toolkit ↗</a></dt><dd>여러 센서 · 프로젝터로 방 전체를 다루는 구조</dd></div>
+              <div><dt><a href="https://github.com/leadedge/Spout2" target="_blank" rel="noopener noreferrer">Spout2 ↗</a></dt><dd>프로그램 사이 실시간 화면 공유</dd></div>
+              <div><dt><a href="https://github.com/mrdoob/three.js" target="_blank" rel="noopener noreferrer">three.js ↗</a> · <a href="https://github.com/darkroomengineering/lenis" target="_blank" rel="noopener noreferrer">Lenis ↗</a></dt><dd>이 웹사이트의 3D 와 스크롤</dd></div>
+            </dl>
+          </div>
+        </div>
+        <a class="tc-space-link rv" href="index.html#space">전시장 3D 모델은 INDEX 의 SPACE 에서 <span>↗</span></a>
+      </section>
+
+      <!-- 07 CLOSING -->
+      <section class="ab-sec ab-close" id="next">
+        <p class="lbl rv">Behind the room</p>
+        <h2 class="ab-close-h reading">기술은 보이지 않을 때<br />가장 잘 작동합니다.</h2>
+        <p class="ab-p rv">전시장에서는 장치 대신 흐름만 남습니다. 그 흐름을 만든 날들의 기록은 ARCHIVE 에 있습니다.</p>
+        <div class="close-links rv">
+          <a href="archive.html">ARCHIVE <span>↗</span></a>
+          <a href="index.html#visit">관람 안내 보기 <span>↗</span></a>
+        </div>
+      </section>
+
+      <!-- FOOTER — INDEX 와 같은 필름 푸터 -->
+      <footer class="film-footer" id="footer" aria-labelledby="footerSlogan">
+        <div class="footer-film" id="footerFilm">
+          <div class="footer-film-background" aria-hidden="true">
+            <video id="footerVideo" muted loop playsinline preload="none" poster="media/uncommon-footer-poster.jpg" data-src="media/uncommon-footer.mp4" tabindex="-1"></video>
+          </div>
+          <div class="footer-content">
+            <div class="footer-title">
+              <h2 id="footerSlogan" class="footer-scattered"><span>흐름 속에서,</span><span>나의 선택을</span><span>마주하다.</span></h2>
+            </div>
+            <div class="footer-information">
+              <div class="footer-top">
+                <nav class="footer-nav" aria-label="푸터 메뉴"><a href="index.html">LIMEN</a><a href="about.html">ABOUT</a><a href="technology.html">TECHNOLOGY</a></nav>
+                <div class="footer-column"><a href="index.html#team" class="footer-label">TEAM SNOOZE</a><div class="footer-dim footer-people"><div><p>영상팀</p><p>김현기<br>배정훈<br>심혜민</p></div><div><p>UI · UX팀</p><p>이채연<br>유기상<br>조가연<br>김노은</p></div></div></div>
+                <div class="footer-column"><p class="footer-label">BETWEEN REALITY AND DREAM</p><div class="footer-dim"><p class="footer-question">내가 고른 방향은<br>정말 나만의 선택일까?</p><a href="index.html#film" class="footer-square-link">장면 다시 보기</a></div></div>
+                <div class="footer-column"><a href="index.html#visit" class="footer-label">VISIT</a><div class="footer-dim"><p>계원예술대학교 정보관 8층<br>호라이즌 스튜디오</p><p class="footer-date">일시 · 회차 추후 공지</p><a class="footer-square-link" href="index.html#visit">오시는 길</a></div></div>
+              </div>
+              <div class="footer-bottom">
+                <div class="footer-identity"><a class="footer-brand" href="index.html" aria-label="LIMEN 처음으로">LIMEN</a><p>몰입형 인터랙티브 미디어아트<br>© 2026 TEAM SNOOZE</p></div>
+                <div class="footer-bottom-links"><button class="footer-film-toggle" id="footerFilmToggle" type="button" aria-pressed="false">영상 멈춤 Ⅱ</button><a href="#top" data-goto="top">BACK TO TOP ↑</a><a class="footer-reference-credit" href="https://www.uncommon.nl/studio" target="_blank" rel="noopener noreferrer">REFERENCE FILM · UNCOMMON ↗</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="./_shared/vendor/lenis.min.js"></script>
+    <script type="module" src="technology.js"></script>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+/* Figma 1059:885 — design-only overrides. Existing timelines and data remain in their modules. */
+body.figma-update{--bg:#10152f;--fg:#e9eff3;background:#10152f;color:#e9eff3}
+.figma-update .film{background:#10152f}
+.figma-update .glass-pane{background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.figma-update .reference-hero-nav{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-items:start;top:0;bottom:auto;height:100vh}
+.figma-update .reference-hero-nav>.ref-brand,.figma-update .reference-hero-nav>.ref-about,.figma-update .reference-hero-nav>.ref-experience,.figma-update .reference-hero-nav>.ref-archive,.figma-update .reference-hero-nav>.ref-awake{color:#e9eff3;margin-top:4.02vh;height:auto;white-space:nowrap}
+.figma-update .ref-brand{grid-column:1/span 2}.figma-update .ref-about{grid-column:8}.figma-update .ref-experience{grid-column:9/span 2}.figma-update .ref-archive{grid-column:11}.figma-update .reference-hero-nav>.ref-awake{position:relative;left:auto;top:auto;width:auto;grid-column:12;grid-row:1;justify-self:end}
+.figma-update .ref-experience:after,.figma-update .ref-archive:after{display:none}
+.figma-update .reference-hero-nav>.ref-menu{position:absolute;top:9.5vh;right:0;margin:0;width:24px;height:20px}
+.figma-update .ref-menu-panel{top:13vh;z-index:6}
+.figma-update .ref-scroll{top:92%;left:calc(var(--grid-step)*5);width:calc(var(--grid-step)*2 - var(--grid-gap));height:7%}
+.figma-update .hero-tagline{position:absolute;left:var(--grid-inset);top:54.25vh;z-index:4;color:#f9f9f9;pointer-events:none}
+.figma-update .hero-editorial-foot{position:absolute;left:var(--grid-inset);right:var(--grid-inset);bottom:2.05vh;z-index:4;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gap);opacity:var(--hero-foot-opacity,1)}
+.figma-update .hero-editorial-foot>span:first-child{grid-column:1/span 3}.figma-update .hero-editorial-foot>a{grid-column:6/span 3;justify-self:center}.figma-update .hero-editorial-foot>span:last-child{grid-column:11/span 2;justify-self:end}
+.figma-update .reel-ui{bottom:5.5vh}.figma-update .reel-ui .lbl{margin-bottom:2.18vw}
+.figma-update .reel-link{}
+.figma-update .reel-design-play{position:absolute;width:23px;height:29px;left:calc(100% + 16px);bottom:12%;object-fit:contain}
+.figma-update .space{background:#10152f}
+.figma-update .space-sticky{background:radial-gradient(ellipse at 36% 57%,#364778,#222b55 70%)}
+.figma-update .sp-draw,.figma-update .sp-progress{width:var(--grid-nine)}
+.figma-update .sp-side{left:calc(var(--grid-inset) + var(--grid-step)*9);width:var(--grid-three);padding-top:13.333vh;background:none}
+.figma-update .sp-head{top:13.333vh;max-width:calc(var(--grid-step)*4 - var(--grid-gap))}
+.figma-update .sp-head .lbl{margin-bottom:1.40625vw}
+.figma-update .sp-h{}
+.figma-update .sp-meta{}.figma-update .sp-meta span{}
+.figma-update .sp-list{margin-top:2.8125vw}.figma-update .sp-list li{min-height:5vw;padding:.9375vw 0;grid-template-columns:clamp(26px,2.03125vw,39px) minmax(0,1fr);column-gap:1.09375vw}
+.figma-update .sp-list li .tt{}.figma-update .sp-list li .no{}
+.figma-update .sp-hint{white-space:normal}
+.figma-update #visit.visit-plan{background:#10152f}.figma-update .visit-pin{background:radial-gradient(ellipse at 36% 58%,#364678,#232b54 76%)}
+.figma-update .visit-heading{top:11.8056vh}.figma-update .visit-aside{top:12.5vh}
+.figma-update .visit-heading h2{}
+.figma-update .film-footer{}
+.figma-update .footer-content{padding-bottom:10.1vw}.figma-update .footer-title{height:57.291667vw}
+.figma-update .footer-scattered span{}
+.figma-update .footer-scattered span:nth-child(1){left:calc(var(--grid-step)*1.65);top:8.59375vw}
+.figma-update .footer-scattered span:nth-child(2){left:calc(var(--grid-step)*4.82);top:18.333333vw}
+.figma-update .footer-scattered span:nth-child(3){left:calc(var(--grid-step)*8.18);top:28.645833vw}
+.figma-update .footer-label,.figma-update .footer-nav{}
+.figma-update .footer-column{gap:2.34375vw}.figma-update .footer-dim{color:#bcb3d1}
+.figma-update .footer-people{gap:1.3vw}.figma-update .footer-people>div>p:first-child{margin-bottom:1.145833vw}
+.figma-update .footer-square-link{margin-top:1.09375vw}.figma-update .footer-square-link:after{display:none}.figma-update .footer-design-arrow{width:18px;height:18px;object-fit:contain}
+@media(max-width:1100px) and (min-width:768px){.figma-update .footer-people{gap:9px}.figma-update .footer-label,.figma-update .footer-nav{}.figma-update .footer-dim{}.figma-update .sp-head .lbl{}.figma-update .sp-list li .tt{white-space:normal}}
+@media(max-width:767px){
+ .figma-update .reference-hero-nav{display:none}.figma-update .c-Header .logo{}
+ .figma-update .hero-tagline{top:54.25vh;max-width:calc(100% - 40px)}
+ .figma-update .hero-editorial-foot{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.figma-update .hero-editorial-foot>span:first-child{grid-column:1/span 2}.figma-update .hero-editorial-foot>a{grid-column:3/span 2;justify-self:end}.figma-update .hero-editorial-foot>span:last-child{display:none}
+ .figma-update .reel-ui{bottom:9vh}.figma-update .reel-link{}
+ .figma-update .sp-draw,.figma-update .sp-progress{width:var(--grid-content)}.figma-update .sp-side{left:var(--grid-inset);width:var(--grid-content);padding-top:18px}.figma-update .sp-head{top:76px;max-width:var(--grid-content)}
+ .figma-update .sp-list li{min-height:48px;padding:10px 0;column-gap:14px}.figma-update .sp-hint{}.figma-update .sp-list{margin-top:18px}
+ .figma-update .visit-heading{top:76px}.figma-update .visit-aside{top:auto}
+ .figma-update .footer-title{height:80vw}.figma-update .footer-scattered span{}
+ .figma-update .footer-scattered span:nth-child(1){left:0;top:10vw}.figma-update .footer-scattered span:nth-child(2){left:24%;top:30vw}.figma-update .footer-scattered span:nth-child(3){left:54%;top:50vw}
+ .figma-update .footer-column{gap:18px}.figma-update .footer-people{gap:16px}.figma-update .footer-people>div>p:first-child{margin-bottom:10px}.figma-update .footer-label,.figma-update .footer-nav{}.figma-update .footer-dim{}
+}
+.figma-update .footer-question,.figma-update .footer-column:last-child .footer-dim{}
+.figma-update .footer-column:nth-child(3) .footer-label,.figma-update .footer-column:nth-child(4) .footer-label{}
+/* Keep the introduction on the initial drawing; clear it during the existing equipment zoom. */
+.figma-update .space-sticky.is-focus .sp-head{opacity:0!important;visibility:hidden;pointer-events:none}
+
+/* Restore the pre-Figma slogan and keyword typography; keep its original reveal/hover. */
+.figma-update .slogan{--sans:'Inter Tight','Pretendard Variable',Pretendard,system-ui,sans-serif;--dog-sub:rgba(226,226,250,.8);color:#fff}
+/* Four equally sized links share one grid-aligned navigation group. */
+.figma-update .hero-primary-links{grid-column:8/-1;grid-row:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--grid-gap);margin-top:4.02vh;align-items:center}
+.figma-update .hero-primary-links>a{position:static;grid-column:auto;grid-row:auto;left:auto;top:auto;display:block;width:100%;height:auto;margin:0;text-align:center;pointer-events:auto;color:#e9eff3;white-space:nowrap}
+@media(max-width:767px){.figma-update .c-Header nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.figma-update .c-Header nav>a{width:100%;text-align:center}}
+/* Match the hero's indigo light and restrained lavender without changing map data. */
+.figma-update #visit.visit-plan{background:#263665}
+.figma-update #visit .visit-pin{background:radial-gradient(ellipse at 85% 15%,#aba5e85c 0%,#7b80ca30 36%,transparent 65%),radial-gradient(ellipse at 30% 66%,#445f9d 0%,#2e427b 50%,#1c294f 100%)}
+.figma-update #visit .visit-pin:after{background:linear-gradient(110deg,#202d5829 0%,transparent 48%,#a59be71f 100%)}
+.figma-update #visit .visit-heading h2,.figma-update #visitStageTitle,.figma-update #visit .visit-address h3{color:#eeedff}
+.figma-update #visit .visit-heading h2 i,.figma-update #visitStageNumber,.figma-update #visit .visit-address em{color:#d0caff}
+.figma-update #visit .space-eyebrow,.figma-update #visitStageLabel,.figma-update #visit .visit-address>p{color:#b5c1e8}
+.figma-update #visit .visit-address>span,.figma-update #visit .visit-note,.figma-update #visitHint{color:#c9ccec}
+.figma-update #visitRoof stop:first-child{stop-color:#5368ab}.figma-update #visitRoof stop:nth-child(2){stop-color:#354a82}.figma-update #visitRoof stop:last-child{stop-color:#24335e}
+.figma-update #visitKeyRoof stop:first-child{stop-color:#8092e0}.figma-update #visitKeyRoof stop:nth-child(2){stop-color:#5b66b0}.figma-update #visitKeyRoof stop:last-child{stop-color:#7666ac}
+.figma-update #visitSide stop:first-child{stop-color:#465ba0}.figma-update #visitSide stop:last-child{stop-color:#1b274b}
+.figma-update #visitSvg .vp-side-right{fill:#24345f}.figma-update #visitSvg .vp-label{fill:#eeeaff;stroke:#263665}
+.figma-update #visitSvg .vp-caption,.figma-update #visitSvg .vp-small-label{fill:#b3bce5}
+.figma-update #visitSvg .vp-route,.figma-update #visitSvg .vp-lift{stroke:#ddd5ff}
+/* Keep the hero caption on the same viewport plane as its logo and artwork. */
+.figma-update .hero-tagline{position:fixed}
+/* Bright first view; scrolling crossfades to the retained dark hero artwork. */
+.figma-update .hero-scroll-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:url('assets/figma-1102/hero-composed.png') center/100% 100% no-repeat;opacity:var(--hero-darken,0)}
+@media(max-width:650px){.figma-update .hero-scroll-shade{background-image:url('assets/figma-1102/hero-mobile.png');background-size:cover}}
+/* Remove the solid section/card mattes around the showreel. */
+.figma-update .film{background:linear-gradient(180deg,#34477e00,#293b78 70vh)}
+.figma-update .reel-card,.figma-update .reel-media{background:transparent;box-shadow:none;border:0}
+.figma-update .reel-shade{background:none}
+/* The incoming map grows over the preceding section; there is no navy backing plate. */
+.figma-update #visit.visit-plan{--visit-overlap:clamp(160px,44vw,80vh);background:transparent;margin-top:calc(-1*var(--visit-overlap));border-radius:0}
+.figma-update #visit .visit-pin{transform-origin:50% 100%;transform:translateY(var(--visit-enter-y,8vh)) scale(var(--visit-enter-scale,.4));border-radius:var(--visit-enter-radius,50px);will-change:transform}
+@media(prefers-reduced-motion:reduce){.figma-update #visit .visit-pin{transform:none;border-radius:0;will-change:auto}}
+
+/* 글꼴 체계 = 기존 COMBINE(style.css). 피그마 시안에서 새로 생긴 요소만 그 체계 안의 단계로 맞춘다. */
+.figma-update .reference-hero-nav>.ref-brand{font-family:var(--sans);font-weight:800;font-size:20px;letter-spacing:-.02em}
+.figma-update .hero-primary-links>a{font-family:var(--sans);font-weight:500;font-size:14px;line-height:1.5;letter-spacing:0}
+.figma-update .hero-tagline{font-family:var(--heebo);font-weight:300;font-size:22px;line-height:1.6}
+.figma-update .hero-editorial-foot{font-family:var(--sans);font-weight:800;font-size:10px;line-height:2;letter-spacing:3.6px;text-transform:uppercase}
+.ref-menu-panel a{font-size:14px;font-weight:500;letter-spacing:0}
+@media(max-width:767px){.figma-update .hero-tagline{font-size:18px}.figma-update .hero-editorial-foot{font-size:9px;letter-spacing:2.4px}}
+
+/* SPACE 오른쪽 장비 목록: 포커스된 항목 = 모델 위 설명 카드(.sp-chip)와 같은 유리 카드 + 번호 버튼 + 설명 줄 (11-02) */
+.figma-update .sp-list li{margin:0 -16px;padding:14px 16px;border:1px solid transparent;transition:opacity .35s,background-color .45s,border-color .45s,box-shadow .45s}
+.figma-update .sp-list li.on{background:linear-gradient(125deg,#a9b0e92b,#252c60b8 60%,#6b60a047);border-color:rgba(187,192,255,.28);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%);box-shadow:inset 0 1px 0 rgba(229,231,255,.12),0 12px 36px rgba(2,4,18,.22)}
+.figma-update .sp-list li .no,.figma-update .sp-list li.on .no{width:26px;height:26px;border:1px solid rgba(162,171,227,.4);border-radius:13px;display:grid;place-items:center;color:#9d9fc8;background:rgba(20,25,54,.25)}
+.figma-update .sp-list li.on .no{border-color:#b5a6ff;background:#b5a6ff;color:#10152f;box-shadow:0 0 14px rgba(181,166,255,.35)}
+.figma-update .sp-list li .ds,.figma-update .sp-list li.on .ds{display:block}
+.figma-update .sp-list li.on .ds{max-height:120px;margin-top:6px;color:rgba(220,220,242,.84)}
+.figma-update .sp-list li:not(.on):hover{border-color:rgba(187,192,255,.16)}
+@media(prefers-reduced-motion:reduce){.figma-update .sp-list li{transition:none}}
+
+/* 11-02 2차 */
+/* 푸터 = 슬로건 포함 한 화면(100vh) */
+.figma-update .footer-film{height:120vh;height:120svh;min-height:740px;display:flex;flex-direction:column}
+.figma-update .footer-content{flex:1;display:flex;flex-direction:column;min-height:0;padding-top:12vh;padding-bottom:16vh}
+.figma-update .footer-title{flex:1;height:auto;min-height:0}
+.figma-update .footer-information{padding-top:4vh}
+/* 슬로건 세 줄을 가운데 쪽으로 모음 */
+.figma-update .footer-scattered span:nth-child(1){left:22%;top:16%}
+.figma-update .footer-scattered span:nth-child(2){left:41%;top:38%}
+.figma-update .footer-scattered span:nth-child(3){left:60%;top:60%}
+@media(max-width:767px){.figma-update .footer-title{height:auto}.figma-update .footer-scattered span:nth-child(1){top:6%}.figma-update .footer-scattered span:nth-child(2){top:30%}.figma-update .footer-scattered span:nth-child(3){top:54%}}
+/* SPACE 오른쪽 목록: 가로 스크롤 없앰 (카드 음수 여백 → 안쪽 여백) */
+.figma-update .sp-side{overflow-x:hidden;scrollbar-width:none}
+.figma-update .sp-side::-webkit-scrollbar{display:none}
+.figma-update .sp-list li{margin:0}
+/* 쇼릴 화살표를 'scenes' 바로 오른쪽에 */
+.figma-update .reel-design-play{position:static;display:inline-block;width:.22em;height:.28em;margin-left:.14em;vertical-align:.08em}
+/* 히어로 헤더 = 쨍한 흰색 */
+.figma-update .reference-hero-nav>.ref-brand,.figma-update .hero-primary-links>a,.figma-update .c-Header,.figma-update .c-Header a{color:#fff;opacity:1;text-shadow:none}
+.figma-update .hero-primary-links>a{font-weight:600}
+/* 헤더 +4px: 메뉴 14→18px, 로고(텍스트 20px 자리) → LIMEN 로고 이미지 높이 24px */
+.figma-update .hero-primary-links>a,.figma-update .c-Header nav{font-size:18px}
+.limen-logo{display:block;height:28px;width:auto}
+.figma-update .reference-hero-nav>.ref-brand{line-height:0}
+
+/* 11-02 3차 */
+/* SPACE 오른쪽 위 주소 크게 */
+.figma-update .sp-meta strong{font-size:20px;line-height:1.4}
+.figma-update .sp-meta span{font-size:16px;margin-top:8px}
+/* VISIT 등장: 내용 크기는 거의 그대로, 창(보이는 영역)이 넓어지며 올라온다 + 살짝 커짐 */
+.figma-update #visit .visit-pin{transform:translateY(var(--visit-enter-y,8vh)) scale(var(--visit-enter-scale,.92));clip-path:inset(0 var(--visit-enter-inset,24%) 0 var(--visit-enter-inset,24%) round var(--visit-enter-radius,50px));border-radius:0}
+@media(prefers-reduced-motion:reduce){.figma-update #visit .visit-pin{clip-path:none}}
+
+/* 11-02 4차 */
+/* 헤더: 처음부터 끝까지 화면 위에 고정 + difference 블렌드로 지나가는 배경과 반대 색 */
+body.figma-update .c-Header{position:fixed;top:0;left:0;right:auto;width:var(--layout-viewport,100vw);height:auto;padding:4.02vh var(--grid-inset) 0;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gap);align-items:center;
+  mix-blend-mode:difference;color:#fff;background:none!important;opacity:1!important;visibility:visible!important;pointer-events:none!important;transform:none;z-index:60}
+body.figma-update .c-Header a{pointer-events:auto}
+body.figma-update .c-Header .logo{grid-column:1/span 2;justify-self:start}
+body.figma-update .c-Header nav{grid-column:8/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--grid-gap);font-size:18px;font-weight:600}
+body.figma-update .c-Header nav>a{text-align:center;white-space:nowrap}
+body.figma-update .c-Header nav>a::after{display:none}
+/* 히어로 안의 같은 메뉴·로고는 헤더가 대신하므로 숨김 (스크롤 버튼은 유지) */
+.figma-update .reference-hero-nav>.ref-brand,.figma-update .hero-primary-links{visibility:hidden}
+@media(max-width:767px){body.figma-update .c-Header{grid-template-columns:auto 1fr;padding-top:18px;column-gap:16px}body.figma-update .c-Header .logo{grid-column:1}body.figma-update .c-Header nav{grid-column:2;font-size:15px;column-gap:8px}}
+
+/* SPACE 목록 설명: 줄 수만큼 실제 높이가 부드럽게 열림 (max-height 대신 0fr→1fr) */
+.figma-update .sp-list li .ds{display:grid;grid-template-rows:0fr;max-height:none;margin-top:0;transition:grid-template-rows .75s cubic-bezier(.22,1,.36,1),margin-top .75s cubic-bezier(.22,1,.36,1)}
+.figma-update .sp-list li.on .ds{display:grid;grid-template-rows:1fr;max-height:none;margin-top:6px}
+.figma-update .sp-list li .ds-in{min-height:0;overflow:hidden}
+@media(prefers-reduced-motion:reduce){.figma-update .sp-list li .ds{transition:none}}
+
+/* 푸터 하단: 왼쪽 첫 칸과 오른쪽 마지막 칸이 같은 여백(그리드 안쪽 끝)에 닿게 */
+@media(min-width:768px){.figma-update .footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--grid-gap)}
+  .figma-update .footer-top>nav,.figma-update .footer-top>.footer-column{flex:0 1 auto;min-width:0}
+  .figma-update .footer-top>.footer-column:last-child{align-items:flex-end;text-align:right}}
+/* 히어로에 있는 동안은 흰색 고정, 다음 섹션부터 반대 색(difference) */
+body.figma-update.is-reference-hero .c-Header{mix-blend-mode:normal}
+
+/* 11-02 5차 */
+/* 히어로 하단: SCROLL TO EXPLORE 만, 더 얇게 + 화살표가 내려오며 나타나는 반복 */
+.figma-update .hero-editorial-foot{font-weight:400}
+.figma-update .hero-editorial-foot>a{grid-column:5/span 4;justify-self:center;display:inline-flex;align-items:center;gap:14px}
+.scroll-arrow{display:inline-block;font-style:normal;letter-spacing:0;animation:scroll-cue 1.8s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes scroll-cue{0%{transform:translateY(-8px);opacity:0}60%{transform:translateY(3px);opacity:1}100%{transform:translateY(8px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.scroll-arrow{animation:none}}
+@media(max-width:767px){.figma-update .hero-editorial-foot>a{grid-column:1/-1}}
+/* 페이지 맨 끝(푸터 바닥)에서는 헤더 흰색 고정 */
+body.figma-update.is-page-end .c-Header{mix-blend-mode:normal}

@@ -1,0 +1,29 @@
+/* Only hero-layered.html loads this sheet. The original page stays untouched. */
+.depth-version #heroPhoto{z-index:0}
+.depth-version #heroPhoto img,.depth-version #heroLens{z-index:0}
+.depth-version .hero-glass-depth{position:fixed;inset:0;z-index:3;pointer-events:none}
+.depth-version .reference-hero-nav{z-index:5}
+.glass-pane{position:absolute;box-sizing:border-box;pointer-events:none;border-left:1px solid rgba(240,237,255,.22);border-right:1px solid rgba(25,37,100,.08);box-shadow:inset 1px 0 0 rgba(255,255,255,.13),inset -14px 0 26px rgba(22,29,87,.06);background:linear-gradient(110deg,rgba(237,230,255,.10),rgba(188,188,255,.025) 60%,rgba(225,219,255,.12));}
+.glass-pane-slim{left:30.65%;top:0;width:9.33%;height:100%;backdrop-filter:blur(2px) saturate(1.08);-webkit-backdrop-filter:blur(2px) saturate(1.08)}
+.glass-pane-center{left:39.98%;top:0;width:30.6%;height:100%;backdrop-filter:blur(2.5px) saturate(1.08);-webkit-backdrop-filter:blur(2.5px) saturate(1.08);background:linear-gradient(105deg,rgba(228,221,255,.12),rgba(205,202,255,.015) 60%,rgba(241,231,255,.10))}
+.glass-pane-light{left:70.58%;top:0;width:10.02%;height:72%;backdrop-filter:blur(13px) saturate(1.05);-webkit-backdrop-filter:blur(13px) saturate(1.05);background:linear-gradient(130deg,rgba(244,233,255,.24),rgba(201,202,255,.09))}
+.glass-pane-right{left:80.6%;top:0;width:19.4%;height:72%;backdrop-filter:blur(5px) saturate(1.05);-webkit-backdrop-filter:blur(5px) saturate(1.05);background:linear-gradient(150deg,rgba(230,220,255,.09),rgba(188,184,249,.035))}
+.glass-pane-base{left:70.58%;top:72%;width:29.42%;height:28%;border-top:1px solid rgba(236,228,255,.18);backdrop-filter:blur(5px) saturate(1.12);-webkit-backdrop-filter:blur(5px) saturate(1.12);background:linear-gradient(120deg,rgba(185,180,243,.08),rgba(211,196,255,.16));box-shadow:inset 0 1px 0 rgba(242,236,255,.12),0 -12px 30px rgba(49,43,114,.05)}
+@media(max-width:650px){.glass-pane-light{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.glass-pane-center{backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px)}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass-pane{background:linear-gradient(110deg,#e7e0ff25,#c8c6ff0d)}}
+
+/* Restore the reference's rectangular glass faces, without drawn grid strokes. */
+.glass-pane{border:0;box-shadow:none;mask-image:none;-webkit-mask-image:none}
+.glass-pane-slim{background:linear-gradient(100deg,#5073d133,#b6baff20);backdrop-filter:blur(.8px);-webkit-backdrop-filter:blur(.8px)}
+.glass-pane-center{background:linear-gradient(105deg,#d3cbff17,#eef0ff04 64%,#d9caff24);backdrop-filter:blur(.6px);-webkit-backdrop-filter:blur(.6px)}
+.glass-pane-light{background:linear-gradient(130deg,#eee4ff4d,#cac9ff21);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.glass-pane-right{background:linear-gradient(140deg,#e5dbff21,#b5b9ff0d);backdrop-filter:blur(1.2px);-webkit-backdrop-filter:blur(1.2px)}
+.glass-pane-base{background-image:url('assets/limen-glass-layout-reference.png');background-size:100vw 100vh;background-position:-70.58vw -72vh;background-repeat:no-repeat;backdrop-filter:none;-webkit-backdrop-filter:none}
+
+/* The pale right-hand glass faces hide detail, as in the supplied reference. */
+.glass-pane-light{background:linear-gradient(135deg,rgba(235,227,255,.5),rgba(198,193,247,.38));backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.glass-pane-right{background:linear-gradient(150deg,rgba(225,216,255,.4),rgba(173,170,240,.25));backdrop-filter:blur(34px);-webkit-backdrop-filter:blur(34px)}
+/* Navigation stays readable above the foreground glass faces. */
+.ref-experience::after,.ref-archive::after{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:clamp(7px,.62vw,10px);font-weight:500;letter-spacing:.28em;color:#34406c}
+.ref-experience::after{content:'EXPERIENCE'}.ref-archive::after{content:'ARCHIVE'}
+.ref-menu::after{content:'';position:absolute;width:24px;height:12px;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(#52618a,#52618a) top/100% 1px no-repeat,linear-gradient(#52618a,#52618a) center/70% 1px no-repeat,linear-gradient(#52618a,#52618a) bottom/100% 1px no-repeat}

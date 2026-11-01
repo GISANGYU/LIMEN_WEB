@@ -1,0 +1,110 @@
+/* Requested visual changes only. Original layout and interaction code are retained. */
+:root{--bg:#030514;--dog-sub:rgba(162,171,235,.7)}
+::selection{background:#5556b9;color:white}
+.sg-pairs li.foot{color:#a9b1ff}
+.film{background:linear-gradient(180deg,rgba(6,8,32,0),#080c29 70vh)}
+.reel-card{background:#080c29}
+.reel-media video{filter:grayscale(1) sepia(1) saturate(5) hue-rotate(190deg) brightness(.8)}
+.reel-shade{background:linear-gradient(180deg,#070b2726,transparent 40%,#080c29b3)}
+.space{--mint:#9aa5ff;background:linear-gradient(180deg,#080c29,#0b0e2c)}
+.space-sticky{background:radial-gradient(ellipse at 38% 58%,#1c245c 0%,#0d1236 62%,#080c29 100%)}
+.sp-chip{background:rgba(8,11,35,.95)}
+.sp-people.on ellipse{fill:rgba(154,165,255,.25)}
+limen-team{background:#0b0e2c}
+#visit.visit-plan{background:#11112f}
+.visit-pin{background:radial-gradient(ellipse at 40% 48%,#262855 0%,#17183c 44%,#11112f 78%)}
+.visit-pin:after{background:linear-gradient(110deg,transparent 50%,#19133433)}
+.film-footer{background:linear-gradient(180deg,#11112f,#21133c 55%,#2d1749);color:#eeeafa}
+.footer-film-background video{filter:grayscale(1) sepia(1) saturate(3.4) hue-rotate(218deg) brightness(.72)}
+.footer-film-background{background:#3b2158}
+.footer-dim,.footer-identity p,.footer-reference-credit{color:#bcb3d1}
+.film-footer a:focus-visible,.footer-film-toggle:focus-visible{outline-color:#c4b7ff}
+
+
+/* Keep the supplied flower photograph and logo unchanged. */
+.c-PixiIntro{background:transparent}
+.lily-title{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.hero-photo{position:fixed;inset:0;z-index:0;pointer-events:none;background:#020411;overflow:hidden;opacity:var(--hero-photo-opacity,1);filter:blur(var(--hero-photo-blur,0px));will-change:opacity,filter}
+.hero-photo img,.hero-photo canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.hero-photo canvas{opacity:0}
+.hero-photo.has-lens canvas{opacity:1}
+.hero-photo.has-lens img{visibility:hidden}
+.c-PixiIntro-foot{z-index:1;opacity:var(--hero-foot-opacity,1);background:linear-gradient(transparent,rgba(2,4,17,.44))}
+.slogan{background:linear-gradient(180deg,transparent,rgba(5,7,29,.2) 32%,#060820)}
+@media(max-width:650px){.hero-photo img{object-fit:contain}.hero-photo{background:radial-gradient(ellipse at center,#101544,#020411 72%)}}
+@media(prefers-reduced-motion:reduce){.hero-photo{filter:none}}
+
+/* Transparent cursor lens; no backdrop blur or image softening on hover. */
+.hero-glass-cursor{position:absolute;left:0;top:0;width:168px;height:168px;border-radius:50%;border:1px solid rgba(236,240,255,.32);background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.09),transparent 58%);box-shadow:inset 1px 1px 0 rgba(255,255,255,.22),inset -1px -1px 0 rgba(103,122,243,.2),0 0 18px rgba(93,113,241,.1);pointer-events:none;opacity:0;transition:opacity .35s,border-color .4s,box-shadow .4s;will-change:transform;z-index:2}
+.hero-glass-cursor.is-visible{opacity:1}
+.hero-glass-cursor.is-logo{border-color:rgba(242,244,255,.6);box-shadow:inset 1px 1px 0 rgba(255,255,255,.3),inset -1px -1px 0 rgba(139,154,255,.36),0 0 28px rgba(121,137,255,.18)}
+@media(max-width:650px),(hover:none){.hero-glass-cursor{display:none}}
+
+/* Avoid displaying the settled logo before its first animated frame. */
+.hero-photo.intro-preparing img{opacity:0}
+
+/* Space annotation: square glass panel, with a plain violet index. */
+.sp-chip{border-radius:0;background:linear-gradient(125deg,rgba(99,112,194,.15),rgba(11,15,43,.56) 60%,rgba(63,43,105,.28));border:1px solid rgba(187,192,255,.28);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%);box-shadow:inset 0 1px 0 rgba(229,231,255,.12),0 12px 36px rgba(2,4,18,.22)}
+.sp-chip .c-n{background:none;border:0;border-radius:0;padding:0;min-width:26px;color:#b5a6ff}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.sp-chip{background:rgba(16,20,49,.88)}}
+
+/* Sidebar: only the currently narrated equipment receives a glass surface. */
+.sp-list li{position:relative;isolation:isolate;opacity:.24;transition:opacity .35s,color .35s}
+.sp-list li::before{content:'';position:absolute;inset:0 -12px;z-index:-1;pointer-events:none;border:1px solid transparent;background:transparent;opacity:0;transition:opacity .35s,border-color .35s}
+.sp-list li.on{opacity:1}
+.sp-list li.on::before{opacity:1;border-color:rgba(177,185,255,.27);background:linear-gradient(120deg,rgba(116,128,211,.19),rgba(12,16,45,.55) 65%,rgba(84,59,125,.22));backdrop-filter:blur(16px) saturate(130%);-webkit-backdrop-filter:blur(16px) saturate(130%);box-shadow:inset 0 1px 0 rgba(232,233,255,.1),0 8px 24px rgba(1,3,16,.18)}
+.sp-list li .no{border-radius:0;border-color:rgba(162,171,227,.4);color:#9d9fc8;background:rgba(20,25,54,.25)}
+.sp-list li.on .no{border-radius:0;border-color:rgba(193,184,255,.75);background:rgba(116,108,203,.25);color:#d1c7ff;box-shadow:inset 0 0 10px rgba(126,118,230,.1)}
+.sp-list li.on .tt{color:#f1efff}
+.sp-list li.on .ds{color:rgba(220,220,242,.84)}
+.sp-list li:hover{opacity:.65}
+.sp-list li.on:hover{opacity:1}
+@media(prefers-reduced-motion:reduce){.sp-list li,.sp-list li::before{transition:none}}
+
+/* Hide numbered circle markers on the blueprint throughout its scroll sequence. */
+#spSvg g.mark{display:none}
+
+/* Sidebar indices are plain text, without nested badges. */
+.sp-list li .no,.sp-list li.on .no{border:0;border-radius:0;background:none;box-shadow:none;padding:0}
+
+/* Keep detail copy in the diagram callout only; sidebar is a title index. */
+.sp-list li .ds,.sp-list li.on .ds{display:none}
+
+/* The full FLOW reading section sits between the reel and the studio. */
+limen-flow + .space{margin-top:0}
+
+/* Supplied lavender hero composition, with accessible links aligned to its artwork. */
+.hero-reference .c-PixiIntro-foot{display:none}
+.hero-reference.is-reference-hero .c-Header{opacity:0;pointer-events:none}
+.reference-hero-nav{position:absolute;inset:0;z-index:4;pointer-events:none}
+.reference-hero-nav>a,.reference-hero-nav>button{position:absolute;display:block;pointer-events:auto;border:0;background:none;padding:0;cursor:pointer}
+.reference-hero-nav>a:focus-visible,.reference-hero-nav>button:focus-visible{outline:1px solid #eae9ff;outline-offset:5px}
+.ref-brand{left:4.5%;top:4.4%;width:8.5%;height:5%}
+.ref-about{left:65.3%;top:4.4%;width:5.1%;height:5%}
+.ref-experience{left:72.7%;top:4.4%;width:8.3%;height:5%}
+.ref-archive{left:83.5%;top:4.4%;width:6.4%;height:5%}
+.ref-menu{left:92.5%;top:4.4%;width:3.5%;height:5%}
+.ref-scroll{left:4.4%;top:86%;width:15%;height:10%}
+.ref-menu-panel{position:absolute;right:4.8%;top:11%;width:220px;padding:24px;background:rgba(31,35,79,.75);border:1px solid #d8d6ff55;backdrop-filter:blur(22px);pointer-events:auto}
+.ref-menu-panel[hidden]{display:none}.ref-menu-panel a{display:block;padding:10px 0;color:#f2efff}
+@media(max-width:650px){.hero-reference .hero-photo img{object-fit:cover;object-position:26% center}.hero-reference .hero-photo{background:#696eb8}.hero-reference.is-reference-hero .c-Header{opacity:1;pointer-events:auto;background:linear-gradient(#181e4b88,transparent)}.hero-reference .reference-hero-nav{display:none}}
+
+@media(min-width:651px){.hero-reference .hero-photo img{object-fit:fill}}
+
+/* Continue the lavender glass hero through the existing sections. */
+:root{--bg:#293b78;--dog-sub:rgba(226,226,250,.8)}
+.slogan{background:radial-gradient(ellipse at 85% 15%,#a1a3df55,transparent 55%),linear-gradient(180deg,#344b9440,#34477e)}
+.film{background:linear-gradient(180deg,#34477e00,#293b78 70vh)}
+.space{background:linear-gradient(180deg,#2c3d79,#38477f)}
+.space-sticky{background:radial-gradient(ellipse at 83% 12%,#a6a5df66,transparent 56%),radial-gradient(ellipse at 36% 57%,#4b5a9c,#2b3c77 70%)}
+.sp-side{background:linear-gradient(140deg,#283461a6,#343965c4)}
+.sp-chip{background:linear-gradient(125deg,#a9b0e92b,#252c60b8 60%,#6b60a047)}
+.sp-head .lbl,.sp-hint{color:#c1c5ed}.sp-meta span{color:#c5c7e3}
+#visit.visit-plan{background:#38477f}
+.visit-pin{background:radial-gradient(ellipse at 83% 16%,#a3a0db66,transparent 59%),radial-gradient(ellipse at 36% 58%,#56639d,#354479 76%)}
+.visit-pin:after{background:linear-gradient(110deg,transparent 50%,#7775b61c)}
+.visit-heading h2 i{color:#d1cef7}.visit-address>span,.visit-note{color:#d0d2e8}
+.visit-pin .space-eyebrow,.visit-stage>div>p{color:#c3c8ee}
+.film-footer{background:linear-gradient(180deg,#354479,#5d5798 50%,#7160a5)}
+.footer-film-background{background:#62599c}.footer-film-background video{filter:grayscale(1) sepia(1) saturate(2.8) hue-rotate(218deg) brightness(.95)}
+.footer-dim,.footer-identity p,.footer-reference-credit{color:#ded9f3}

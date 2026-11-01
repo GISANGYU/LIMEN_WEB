@@ -1,0 +1,45 @@
+/* Material and lighting pass only: all map coordinates, route and timeline retained. */
+#visit .visit-pin{background:radial-gradient(ellipse at 39% 55%,#1b2150 0%,#101431 48%,#090c22 90%)}
+#visitSvg .vp-grid{stroke:#696eb1;opacity:.065}
+#visitSvg .vp-guide{stroke:#8287be;opacity:.22}
+#visitSvg .vp-road-bed{stroke:#414e8a;opacity:.2;stroke-width:13}
+#visitSvg .vp-road{stroke:#7680b3;opacity:.33}
+#visitSvg .vp-building-shadow{fill:#030617;fill-opacity:.7;stroke:none;filter:url(#visitShadow);pointer-events:none}
+#visitSvg .vp-roof{fill:url(#visitRoof);fill-opacity:.95;stroke:#7a85cb;stroke-opacity:.65;stroke-width:.85;stroke-linejoin:round;transition:fill-opacity .5s,stroke .5s,filter .5s}
+#visitSvg .vp-side{fill:url(#visitSide);fill-opacity:.95;stroke:#6474c0;stroke-opacity:.5;stroke-width:.65;stroke-linejoin:round}
+#visitSvg .vp-side-right{fill:#141d45;fill-opacity:1;stroke:#5967ad}
+#visitSvg .vp-key .vp-roof{fill:url(#visitKeyRoof);fill-opacity:.95;stroke:url(#visitRim);stroke-opacity:1;stroke-width:1.35}
+#visitSvg .vp-building.is-lit .vp-roof,#visitSvg .vp-building:hover .vp-roof{stroke:#b0b6ff;filter:drop-shadow(0 0 6px #5268d666);fill-opacity:1}
+#visitSvg .vp-building.is-lit .vp-side{fill:url(#visitRim);fill-opacity:.65}
+#visitSvg .vp-label{fill:#e0e4ff;paint-order:stroke;stroke:#161b3e;stroke-width:2px;stroke-opacity:.5}
+#visitSvg .vp-small-label{fill:#a6afd9}
+#visitSvg .vp-caption{fill:#929ed2}
+#visitSvg .vp-route-track{stroke:#7a80c6;opacity:.3}
+#visitSvg .vp-route,#visitSvg .vp-lift{stroke:#c1baff;filter:drop-shadow(0 0 4px #8981f6aa) drop-shadow(0 0 12px #4d62de66)}
+#visitSvg .vp-dot{fill:#f2efff;stroke:#b1baff;filter:drop-shadow(0 0 5px #a59bff)}
+#visitSvg .vp-dot-ring{stroke:#9c9df1;opacity:.55}
+#visitSvg .vp-start{fill:#202a60;stroke:#c1c4ff}
+#visitSvg .vp-floor{fill:url(#visitFloor);stroke:url(#visitRim);stroke-width:1.1;stroke-opacity:.7;transition:fill-opacity .4s,filter .4s}
+#visitSvg .vp-floor-edge{fill:url(#visitRim);fill-opacity:.35;stroke:none;transition:fill-opacity .4s}
+#visitSvg .vp-floor-group.is-lit .vp-floor{filter:drop-shadow(0 0 5px #556bd04d);stroke-opacity:1}
+#visitSvg .vp-floor-group.is-lit .vp-floor-edge{fill-opacity:.85}
+#visitSvg .vp-floor-top{fill:url(#visitKeyRoof);stroke:#c6b5ff;stroke-width:1.6}
+#visitSvg .vp-floor-count{fill:#ddd9ff}
+#visitSvg .vp-floor-count-small{fill:#aaa8da}
+@media(prefers-reduced-motion:reduce){#visitSvg .vp-roof,#visitSvg .vp-floor,#visitSvg .vp-floor-edge{transition:none}}
+
+/* Only the current floor emits light; other floors remain quiet solid silhouettes. */
+#visitSvg .vp-floor-group:not(.is-lit) .vp-floor{fill:#14192f;stroke:#343b5a;stroke-opacity:.35;filter:none}
+#visitSvg .vp-floor-group:not(.is-lit) .vp-floor-edge{fill:#232b4b;fill-opacity:.22}
+#visitSvg .vp-floor-group:not(.is-lit) .vp-guide{opacity:.1}
+#visitSvg .vp-floor-group.is-lit .vp-floor{fill:url(#visitKeyRoof);stroke:#d1c7ff;stroke-width:1.6;stroke-opacity:1;filter:drop-shadow(0 0 6px #7779ff99) drop-shadow(0 0 15px #5362d666)}
+#visitSvg .vp-floor-group.is-lit .vp-floor-edge{fill:url(#visitRim);fill-opacity:1}
+#visitSvg .vp-floor-group.is-lit .vp-floor-number{font-weight:500;filter:drop-shadow(0 0 4px #9d99ff66)}
+
+/* Information building arrival marker, attached to the existing campus projection. */
+#visitSvg .vp-pin-shape{fill:#151a48;fill-opacity:.92;stroke:#beb1ff;stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 0 3px #b9aaffcc) drop-shadow(0 0 10px #5667ea99)}
+#visitSvg .vp-pin-center{fill:#0d1434;stroke:#d3ceff;stroke-width:1.7;filter:drop-shadow(0 0 4px #818effaa)}
+#visitSvg .vp-pin-ground{fill:#8172f3;fill-opacity:.34;stroke:none;filter:blur(3px)}
+#visitSvg .vp-pin-icon{animation:visit-pin-float 3s ease-in-out infinite}
+@keyframes visit-pin-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){#visitSvg .vp-pin-icon{animation:none}}

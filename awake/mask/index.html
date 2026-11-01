@@ -1,0 +1,832 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIMEN AWAKE 마스크판</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&family=Noto+Sans+KR:wght@400;500&display=swap">
+<style>
+/* Layout: Shopify Editions Spring '26 실측(1440×900) 그대로 — 컨테이너 1264(안쪽 1200) · 12컬럼 70.66/32 · 장면 머리 100svh 가운데(h2 120 + 64 + 부제 24)
+   · 본문 pt24 → 머리글 48/104/48 → 미디어 1200×675 → 56 → 카드 379×284 + 16 + 글 → 56+56 → 다음 블록 · 섹션 끝 pb96 */
+:root{
+  --ink:#ffffff; --ink-60:rgba(255,255,255,.6); --ink-70:rgba(255,255,255,.7);
+  --line:rgba(255,255,255,.16); --page:#090909; --glow:#e8f0a8;
+  --pill:#ffffff; --pill-ink:#090909;
+  --f-display:"Hanken Grotesk","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"Hanken Grotesk","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --gutter:32px; --cmax:1264px; --cpad:32px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--page)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--page);color:var(--ink);font-family:var(--f-body);font-weight:400;font-size:14px;line-height:1.3;letter-spacing:-.04em;overflow-x:hidden;-webkit-font-smoothing:antialiased;margin:0;word-break:keep-all;overflow-wrap:break-word}
+body.no-gl{background:var(--page) var(--fallback,none) center/cover fixed}
+a{color:inherit}
+button{font:inherit;color:inherit;letter-spacing:inherit}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+h1,h2,h3,h4,p,ul,figure,dl,dd{margin:0;padding:0}
+ul{list-style:none}
+h2,h3,h4{font-weight:400}
+/* 레퍼런스는 글자 상자를 대문자 높이·기준선으로 잘라 간격을 맞춘다 (text-box trim) */
+.ch-head h2,.ch-head .sub,.final-head h2,.final-head .sub,.t3,.feat-head .lead,.mode,.card h4,.card .body,.list .lt,.list dt,.list .body,.list dd{text-box:trim-both cap alphabetic}
+
+#bgv,#sheetc{position:fixed;inset:0;width:100%;height:100lvh;display:block;pointer-events:none}
+#bgv{z-index:0;overflow:hidden;background:#06060a}
+#bgcam{position:absolute;inset:0;transform-origin:50% 58%;will-change:transform}
+#bgcam .bl{position:absolute;inset:0;opacity:0;transform:scale(.82);transition:opacity 1.1s cubic-bezier(.3,.7,.2,1),transform 1.6s cubic-bezier(.2,.8,.2,1)}
+#bgcam .bl.on{opacity:1;transform:scale(1)}
+#bgcam .bl.out{opacity:0;transform:scale(1.35);transition-duration:.9s,1.2s}
+#bgcam video{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.15) contrast(1.05)}
+/* 위쪽 비네트 + 가장자리 어둡게: 글자 대비를 지키고 레퍼런스 후처리의 분위기를 옮긴다 */
+#bgv::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(6,6,10,.62) 0%,rgba(6,6,10,.18) 34%,rgba(6,6,10,.1) 60%,rgba(6,6,10,.45) 100%),
+  radial-gradient(120% 90% at 50% 55%,rgba(0,0,0,0) 55%,rgba(0,0,0,calc(.45 + var(--trail,0))) 100%)}
+@media (prefers-reduced-motion: reduce){ #bgcam .bl{transition:opacity .4s linear;transform:none!important} }
+.credit{margin-top:24px;color:var(--ink-60)} #sheetc{z-index:1} #objc{z-index:1}
+main{position:relative;z-index:2}
+
+/* .content-container / .grid-cols-12 */
+.container{width:100%;max-width:var(--cmax);margin-inline:auto;padding-left:max(var(--cpad),env(safe-area-inset-left,0px));padding-right:max(var(--cpad),env(safe-area-inset-right,0px))}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gutter)}
+/* 글자 크기 — .t1 120/115.2/-9.6 · 부제 24/26.4/-.72 · .t3 64/61.44/-2.56 · .t5 14/18.2/-.56 */
+.t1{font-family:var(--f-display);font-size:min(96px,5.52vw);line-height:1.08;letter-spacing:-.06em}
+.sub{font-size:19px;line-height:1.35;letter-spacing:-.03em}
+.t3{font-size:min(51px,3.64vw);line-height:1.12;letter-spacing:-.04em}
+.body{font-size:13px;line-height:1.45;color:var(--ink-60);letter-spacing:-.03em}
+.u{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:currentColor}
+
+/* ── 상단 바 50px ── */
+.top{position:fixed;z-index:20;top:0;left:0;right:0;height:calc(50px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;font-size:14px;pointer-events:none}
+.top a,.top span{pointer-events:auto;text-decoration:none}
+.top .brand{display:flex;gap:6px;align-items:baseline}
+.top .brand b{font-weight:500}
+.top .brand span{color:var(--ink-60)}
+.top .cta{background:var(--pill);color:var(--pill-ink);border-radius:999px;padding:8px 12px;font-size:14px;line-height:1}
+
+/* ── HERO 1440px(160vh) · 고리 지름 74vmin, 위 42.2vmin · 하단 575px 블록(내비 262px 오른쪽) ── */
+.hero{position:relative;height:160svh}
+.ring-stage{position:fixed;left:50%;top:calc(42.2vmin + 37vmin*0);width:0;height:0;perspective:1200px;pointer-events:none;z-index:2}
+.ring{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.ring span{position:absolute;left:0;top:0;font-family:var(--f-display);font-weight:400;line-height:1;white-space:pre;backface-visibility:visible;color:var(--ink);letter-spacing:-.06em}
+.hero-exit{position:fixed;z-index:3;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(575px,calc(100vw - 32px));display:flex;align-items:flex-start;justify-content:space-between;gap:32px}
+.hero-exit .lead{width:260px;display:grid;gap:8px}
+.hero-exit .lead p:first-child{font-size:14px;line-height:1.3;color:var(--ink)}
+.hero-exit .lead p+p{font-size:14px;line-height:1.3;color:var(--ink-60)}
+.hero-nav{width:262px;display:grid;grid-auto-flow:column;grid-template-rows:repeat(5,auto);column-gap:32px;row-gap:1px;font-size:14px;line-height:18.2px}
+.hero-nav a{text-decoration:none;color:var(--ink-60);white-space:nowrap}
+.hero-nav a:hover,.hero-nav a:focus-visible,.hero-nav a.first{color:var(--ink)}
+
+/* ── 장면 머리 : min-h 100svh · py-100 · 가운데 · h2 → 64px → 부제(9컬럼) ── */
+.ch-head{position:relative;min-height:100svh;padding-block:100px;display:flex;align-items:center;pointer-events:none}
+.ch-head .container{display:grid;row-gap:clamp(32px,4.2vw,56px)}
+.ch-head .sub{grid-column:1 / span 9}
+.ch-head .kicker{display:none}
+.ch-head h2,.ch-head .sub,.final-head h2,.final-head .sub{text-shadow:0 0 30px rgba(0,0,0,.45),0 1px 2px rgba(0,0,0,.35)}
+
+/* ── 검은 본문 (색은 #sheetc 캔버스) : pt24 · pb96 ── */
+.sheet{position:relative;padding-top:24px;padding-bottom:96px}
+.feat{display:flex;flex-direction:column}
+.feat-head{padding-block:48px;align-items:start}
+.feat-head h3{grid-column:1 / span 7}
+.feat-head .side{grid-column:9 / span 4;display:flex;flex-direction:column;gap:16px;padding-top:12px}
+.feat-head .lead{font-size:13px;line-height:1.45;color:var(--ink-60);letter-spacing:-.03em}
+.feat-head .side .body{display:none}
+.mode{display:inline-flex;gap:8px;align-items:center;color:var(--ink);font-size:13px;line-height:18.2px;text-decoration:underline;text-underline-offset:3px}
+.mode i{display:none}
+.win{position:relative;background:transparent}
+.media-lg{position:relative;aspect-ratio:16/9;max-width:100%;overflow:hidden}
+.play{position:absolute;right:24px;bottom:24px;z-index:1;width:56px;height:56px;border-radius:50%;border:0;background:#fff;color:#090909;display:grid;place-items:center;cursor:pointer;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.play:hover{transform:scale(1.08)}
+.media-lg figcaption{position:absolute;left:24px;bottom:24px;z-index:1;font-size:14px;line-height:18.2px;color:var(--ink-60);display:grid;gap:2px}
+.media-lg figcaption b{font-weight:400;color:var(--ink)}
+.cards{margin-top:56px;row-gap:40px}
+.card{grid-column:span 4;display:grid;row-gap:16px;align-content:start;min-width:0}
+.card .m{position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden;background:#111}
+.card .m.win{background:transparent}
+.card .m img{width:100%;height:100%;object-fit:cover;display:block}
+.card .m canvas{position:absolute;inset:0;width:100%;height:100%}
+.vwin{display:grid;place-items:center}
+.vwin video{width:70%;aspect-ratio:16/9;object-fit:cover;display:block;position:relative;z-index:1}
+.vwin .temp{position:absolute;left:12px;bottom:10px;z-index:1;font-size:12px;color:var(--ink-70)}
+.card .tx{display:flex;flex-direction:column;gap:12px}
+.card h4{font-size:13px;line-height:18px;color:var(--ink)}
+.feat + .feat{margin-top:112px}
+.list{margin-top:56px;border-top:1px solid var(--line);padding-top:24px;row-gap:32px}
+.list > div{grid-column:span 4;display:flex;flex-direction:column;gap:12px;min-width:0}
+.list dt,.list .lt{font-size:13px;line-height:18px;color:var(--ink)}
+.ask-q{grid-column:1 / span 7}
+.eyebrow{grid-column:1 / -1;font-size:13px;line-height:18px;color:var(--ink-60);margin-bottom:28px;text-box:trim-both cap alphabetic}
+.feat-head .side .lead + .lead{margin-top:2px}
+.feat-head .side .body{display:block}
+/* 마스크 창 안의 글: 창 너머 영상 위에 바로 얹는다 */
+.in-win{position:absolute;left:clamp(20px,3vw,40px);right:clamp(20px,3vw,40px);bottom:clamp(20px,3vw,40px);display:grid;gap:16px;max-width:760px;text-shadow:0 0 24px rgba(0,0,0,.55),0 1px 2px rgba(0,0,0,.4)}
+.in-win .k{font-size:13px;line-height:18px;color:var(--ink-70)}
+.in-win p{font-size:min(36px,2.6vw);line-height:1.22;letter-spacing:-.04em}
+.card .m .step{position:absolute;left:16px;top:16px;font-size:13px;color:var(--ink);text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.card .m .step-t{position:absolute;left:16px;bottom:16px;font-weight:400;font-size:min(30px,2.2vw);line-height:1.1;letter-spacing:-.04em;text-shadow:0 0 18px rgba(0,0,0,.6)}
+.order{list-style:none;margin:56px 0 0;padding:24px 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--gutter)}
+.order li{display:grid;gap:8px;font-size:14px;line-height:18px;min-width:0}
+.order b{font-weight:400;color:var(--ink-60);font-size:12px}
+.order span{color:var(--ink-60);font-size:13px}
+.end-note{max-width:900px}
+
+/* 연결 */
+.links{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));column-gap:var(--gutter)}
+.links svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.link{display:flex;flex-direction:column;gap:12px;text-decoration:none;min-width:0}
+.link .m{aspect-ratio:3/4;max-width:100%;overflow:hidden;position:relative}
+.link img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.8) brightness(.85);transition:filter .5s,transform 1s cubic-bezier(.2,.7,.2,1)}
+.link:hover img,.link:focus-visible img{filter:none;transform:scale(1.04)}
+.link .k{position:absolute;left:10px;top:10px;font-size:12px;color:var(--ink)}
+/* 선택지 */
+.opt{grid-column:span 4;text-align:left;background:none;border:0;padding:0;cursor:pointer;display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:18.2px;color:var(--ink-60)}
+.opt::before{content:"";width:8px;height:8px;border-radius:50%;border:1px solid var(--ink-60);flex:none;transition:all .3s}
+.opt:hover,.opt[aria-pressed="true"]{color:var(--ink)}
+.opt[aria-pressed="true"]::before{background:var(--glow);border-color:var(--glow);box-shadow:0 0 10px var(--glow)}
+
+/* 마지막 질문 */
+.final-stage{position:relative;height:220svh}
+.final-head{position:sticky;top:0;height:100svh;display:flex;align-items:center;pointer-events:none}
+.final-head .container{display:grid;row-gap:clamp(32px,4.2vw,56px)}
+.final-head h2{font-family:var(--f-display);font-size:min(96px,5.52vw);line-height:1.08;letter-spacing:-.06em}
+.end{padding-block:24px 0;display:grid;gap:96px}
+.again{justify-self:start;display:inline-flex;gap:8px;align-items:center;background:var(--pill);color:var(--pill-ink);border-radius:999px;padding:8px 12px;text-decoration:none;font-size:14px;line-height:1}
+.foot{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px}
+.foot span{color:var(--ink-60)}
+
+
+/* 조작 안내 — 처음엔 보이고, 직접 해 보면 사라진다 */
+.hint{position:absolute;left:50%;top:22px;transform:translateX(-50%);z-index:2;display:inline-flex;gap:8px;align-items:center;padding:7px 12px 7px 10px;border-radius:999px;background:rgba(9,9,9,.55);backdrop-filter:blur(8px);font-size:12px;line-height:1;color:var(--ink);pointer-events:none;transition:opacity .6s,transform .6s}
+.hint i{width:7px;height:7px;border-radius:50%;background:var(--glow);box-shadow:0 0 0 0 rgba(232,240,168,.7);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(232,240,168,.6)}80%,100%{box-shadow:0 0 0 10px rgba(232,240,168,0)}}
+.win.used .hint{opacity:0;transform:translate(-50%,-6px)}
+
+.scroll-cue{position:fixed;z-index:3;left:50%;top:calc(100svh - 210px);transform:translateX(-50%);font-size:12px;color:var(--ink-70);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;transition:opacity .4s}
+.scroll-cue span{width:1px;height:28px;background:linear-gradient(var(--ink),transparent);animation:cue 1.6s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){ .hint i,.scroll-cue span{animation:none} }
+
+/* .scroll-reveal */
+.js .rv{opacity:0;transform:translate3d(0,24px,0);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+
+/* ── 하단 알약 셸 206×53 ── */
+.pill-shell{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);padding:8px 8px calc(10px + env(safe-area-inset-bottom,0px))}
+.pill{display:flex;align-items:center;gap:4px;width:190px;height:35px;padding:0 4px 0 12px;border-radius:999px;background:var(--pill);color:var(--pill-ink);font-size:14px}
+.pill .now{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill button{border:0;background:transparent;border-radius:999px;width:30px;height:27px;cursor:pointer;display:grid;place-items:center;color:var(--pill-ink)}
+.menu{position:fixed;z-index:21;left:50%;bottom:calc(58px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:240px;background:var(--pill);color:var(--pill-ink);border-radius:14px;padding:6px;display:grid;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.menu a{padding:8px 10px;border-radius:8px;text-decoration:none;font-size:14px;display:flex;justify-content:space-between}
+.menu a em{font-style:normal;opacity:.45;font-size:12px}
+.menu a:hover,.menu a[aria-current="true"]{background:rgba(0,0,0,.07)}
+
+dialog{border:0;padding:0;background:none;max-width:min(1200px,94vw)}
+dialog::backdrop{background:rgba(0,0,0,.88)}
+dialog img{width:100%;display:block}
+dialog p{color:var(--ink-60);font-size:14px;margin-top:10px}
+dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px;padding:6px 14px;background:var(--pill);color:var(--pill-ink);cursor:pointer}
+
+/* 반응형 (레퍼런스 lg 미만 .t2 · md 미만 6컬럼) — 1440 이외 폭은 추정값 */
+@media (max-width:767px){
+  :root{--gutter:16px;--cpad:16px}
+  .g12{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .t1,.final-head h2{font-size:40px} .t3{font-size:26px} .sub{font-size:16px}
+  .ch-head .container,.final-head .container{row-gap:32px}
+  .ch-head .sub,.feat-head h3,.feat-head .side,.ask-q,.card,.list > div,.opt{grid-column:1 / -1}
+  .feat-head{padding-block:32px;row-gap:24px}
+  .eyebrow{margin-bottom:0}
+  .in-win p{font-size:20px} .in-win p br{display:none} .card .m .step-t{font-size:22px}
+  .ch .media-lg{aspect-ratio:4/5}
+  .order{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:20px}
+  .links{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px} .links svg{display:none}
+  .hero-exit{flex-direction:column;gap:20px;bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} .js .rv{opacity:1;transform:none} }
+</style>
+
+<div id="bgv" aria-hidden="true"><div id="bgcam"></div></div>
+<canvas id="sheetc" aria-hidden="true"></canvas>
+
+<header class="top">
+  <a class="brand" href="#top"><b>LIMEN</b><span>AWAKE</span></a>
+  <span class="cta">관람 이후의 회고</span>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" data-bg="hero" data-label="AWAKE">
+    <h1 class="ring-stage" id="ringStage" aria-label="AWAKE">
+      <span class="ring" id="ring1" aria-hidden="true"></span>
+    </h1>
+    <div class="scroll-cue" id="scrollCue" aria-hidden="true">스크롤하여 돌아보기<span></span></div>
+    <div class="hero-exit" id="heroExit">
+      <div class="lead">
+        <p>전시는 끝났지만,<br>아직 남아 있는 장면이 있나요?</p>
+        <p>기억나는 장면에서 시작해, 나를 움직인 신호를 천천히 돌아봅니다.</p>
+      </div>
+      <nav class="hero-nav" id="heroNav" aria-label="장면 바로가기"></nav>
+    </div>
+  </section>
+
+  <!-- 01 SCENE REPLAY 머리 : 검은 본문으로 시작 -->
+  <section id="replay" class="sheet" data-bg="hero" data-label="장면 다시 보기">
+    <div class="container g12 feat-head">
+      <p class="eyebrow">01 · SCENE REPLAY · MEANING</p>
+      <h3 class="t3 rv">장면을 다시 보고,<br>의미를 읽습니다</h3>
+      <div class="side rv">
+        <p class="lead">전시장에서 지나온 다섯 장면을 차례로 다시 봅니다. 장면마다 무엇이 일어났는지, 그 장면이 어떤 영향을 빗대는지, 그리고 나에게 남기는 질문을 함께 적었습니다.</p>
+        <p class="lead">LIMEN은 남들과 다른 선택을 하라고 말하지 않습니다. 외부의 영향을 받는 것도 잘못이 아닙니다. 다만 어떤 영향을 받아 그 선택에 이르렀는지 알아차리는 데에는 의미가 있습니다.</p>
+      </div>
+    </div>
+    <div class="container"><dl class="g12 list rv">
+      <div><dt class="u">FLOW · 흐름</dt><dd class="body">우리는 주변의 행동과 사회적 환경, 바깥의 신호에 영향을 받는 흐름 속에 있습니다.</dd></div>
+      <div><dt class="u">AWARENESS · 자각</dt><dd class="body">내 행동이 바깥의 영향을 받는 동시에, 주변에도 영향을 준다는 관계를 알아차립니다.</dd></div>
+      <div><dt class="u">CHOICE · 선택</dt><dd class="body">그 관계를 알아차린 채로 내 선택을 다시 바라봅니다.</dd></div>
+    </dl></div>
+    <div class="container"><ol class="order rv" aria-label="장면 순서">
+      <li><b>F01</b>반딧불이<span>동조</span></li><li><b>F02</b>나방<span>유도</span></li><li><b>F03</b>거미<span>즉각적인 반응</span></li>
+      <li><b>F04</b>기억 회상<span>시점의 변화</span></li><li><b>F05</b>사람·군중<span>상호 영향</span></li>
+    </ol></div>
+  </section>
+
+  <div id="chapters"></div>
+
+  <!-- 02 CONNECTION -->
+  <section id="connection" data-bg="bg_conn" data-label="무엇이 나를 움직였을까?">
+    <div class="ch-head"><div class="container">
+      <h2 class="t1">무엇이 나를<br>움직였을까?</h2>
+      <div class="g12"><p class="sub">서로 다른 장면에서 만난 신호·반응·관점·관계를 하나의 질문으로 연결합니다.</p></div>
+    </div></div>
+    <div class="sheet">
+      <article class="feat">
+        <div class="container g12 feat-head">
+          <h3 class="t3 rv">주변의 신호가 방향에 작용하고, 나는 반응하며, 다른 관점에서 그 경험을 다시 봅니다.</h3>
+          <div class="side rv"><p class="body">나의 행동 역시 주변 흐름에 영향을 줄 수 있습니다.</p><span class="mode">02 · CONNECTION</span></div>
+        </div>
+        <div class="container"><div class="links" id="links"><svg id="linkline" aria-hidden="true"></svg></div></div>
+      </article>
+      <div class="container"><div class="g12 list rv">
+        <div><span class="lt u">신호</span><p class="body">반딧불이가 맞춘 박자와 나방이 따라간 빛. 여럿이 닮아가는 영향과 하나의 신호가 이끄는 영향입니다.</p></div>
+        <div><span class="lt u">반응</span><p class="body">거미 앞에서 생각보다 먼저 움직인 몸. 행동에 작용하는 조건을 늘 의식하지는 않는다는 것입니다.</p></div>
+        <div><span class="lt u">관점과 관계</span><p class="body">다른 자리에서 다시 본 장면과, 내가 움직이는 쪽으로 함께 움직이던 사람들. 나도 흐름에 영향을 줍니다.</p></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 03 DAILY REFLECTION -->
+  <section id="reflect" data-bg="bg_reflect" data-label="무엇을 따라갔을까?">
+    <div class="ch-head"><div class="container">
+      <h2 class="t1">무엇을<br>따라갔을까?</h2>
+      <div class="g12"><p class="sub">최근의 선택 하나를 떠올려 보세요. 선택의 이유에 정답을 매기지 않습니다.</p></div>
+    </div></div>
+    <div class="sheet">
+      <div class="container g12 feat-head">
+        <h3 class="t3 rv">최근에 무언가를 고를 때,<br>무엇이 먼저 눈에 들어왔나요?</h3>
+        <div class="side rv"><p class="lead">별점과 리뷰, 추천 순위, 주변 사람들이 많이 고른 것. 이런 기준은 고르는 일을 돕지만, 내 판단에 얼마나 작용했는지는 잘 의식하지 못하기도 합니다.</p><p class="body">마음에 남는 이유를 짚어보세요. 결과·점수 대신, 그 이유가 선택에 어떻게 작용했는지 잠시 생각합니다.</p><span class="mode">03 · DAILY REFLECTION · 고른 항목은 저장되지 않습니다</span></div>
+      </div>
+      <div class="container"><div class="g12 list rv" role="group" aria-label="먼저 눈에 들어온 것 (여러 개 고를 수 있음, 저장하지 않음)">
+        <button class="opt" id="opt-many" aria-pressed="false">사람들이 많이 고른 것</button>
+        <button class="opt" id="opt-familiar" aria-pressed="false">익숙해서 편한 것</button>
+        <button class="opt" id="opt-visible" aria-pressed="false">눈에 잘 띄는 것</button>
+        <button class="opt" id="opt-recommend" aria-pressed="false">누군가 추천한 것</button>
+        <button class="opt" id="opt-wanted" aria-pressed="false">내가 오래 원했던 것</button>
+        <button class="opt" id="opt-unknown" aria-pressed="false">이유를 잘 모르겠는 것</button>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 마지막 질문 -->
+  <section id="final" data-bg="hero" data-label="마지막 질문">
+    <div class="final-stage" id="finalStage">
+      <div class="final-head"><div class="container">
+        <h2>내가 고른 방향은<br>정말 나만의 선택일까?</h2>
+        <div class="g12"><p class="sub" style="grid-column:1 / span 9">전시의 영상은 끝나지만, 자신의 선택에 관한 질문은 일상에서도 계속될 수 있습니다.</p></div>
+      </div></div>
+    </div>
+    <div class="sheet" id="endSheet">
+      <div class="container end">
+        <p class="t3 end-note">LIMEN은 정답을 주지 않습니다.<br>무엇의 영향을 받았는지, 스스로 물어볼 질문을 남깁니다.</p>
+        <a class="again" href="#replay">장면 다시 보기 <span aria-hidden="true">↑</span></a>
+        <div class="foot">LIMEN / SNOOZE <span>계원예술대학교 정보관 8층 호라이즌 스튜디오</span></div>
+        <p class="body credit">배경 영상은 임시 스톡 클립(Mixkit 무료 라이선스)입니다. 영상팀 최종 컷으로 교체합니다.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="pill-shell" role="navigation" aria-label="현재 위치">
+  <div class="pill">
+    <span class="now" id="now" aria-live="polite">AWAKE</span>
+    <button id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="장면 목록 열기">
+      <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h14" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+    </button>
+  </div>
+</div>
+<nav class="menu" id="menu" hidden aria-label="장면 목록"></nav>
+
+
+<script>
+document.documentElement.classList.add('js');
+/* ───────────────────────── 콘텐츠 (기준: LIMEN_현재기준.md · 02 웹표현기준 · awake/Frame.png) ───────────────────────── */
+const MEDIA = {
+  stock_forest:'media/stock_forest.mp4', stock_bokeh:'media/stock_bokeh.mp4', stock_bulb:'media/stock_bulb.mp4', stock_spider:'media/stock_spider.mp4',
+  stock_tunnel:'media/stock_tunnel.mp4', stock_crowd:'media/stock_crowd.mp4', stock_station:'media/stock_station.mp4', stock_stars:'media/stock_stars.mp4'
+};
+const TINT = { firefly:'#26341b', moth:'#33202c', spider:'#1c1740', memory:'#221a3b', people:'#2a2232' };
+// 사진은 제작 중 호라이즌 스튜디오 테스트 촬영본(9주차 씬별 비주얼 등) — 영상팀 최종 컷이 나오면 같은 파일명으로 교체한다.
+const SCENES = [
+ { id:'firefly', code:'F01', name:'반딧불이', en:'FIREFLY', key:'동조', bg:'bg_firefly', live:true, mode:'내 움직임에 반응하는 장면',
+   lede:'나의 선택은 독립적으로 보이지만, 주변 사람들이 반복해 내리는 선택에 영향을 받아 점차 닮아갈 수 있다.',
+   head:'제각기 빛나던 리듬이\n서로 닮아갑니다',
+   scene:'검은 공간에 서로 다른 박자로 깜빡이는 반딧불이들이 나타납니다. 처음엔 제각각이던 불빛이 조금씩 옆의 주기에 맞춰지고, 끝내 하나의 리듬이 됩니다. 마지막까지 남은 불빛은 다음 장면에서 나방이 따라갈 신호가 됩니다.',
+   concept:'내 선택이 다른 사람들의 선택과\n점차 닮아가는 현상',
+   flow:[['따로 깜빡임','반딧불이마다 제 박자로 빛납니다. 아직은 서로를 신경 쓰지 않는 것처럼 보입니다.'],
+         ['박자가 맞춰짐','옆의 불빛을 되풀이해 보면서 주기가 조금씩 가까워지고, 하나의 집단 리듬이 됩니다.'],
+         ['남은 불빛','마지막까지 남은 불빛이 다음 장면에서 나방을 이끄는 신호가 됩니다.']],
+   meanHead:'되풀이해 보는 신호는\n어느새 내 박자가 됩니다',
+   mean:['반딧불이의 동조는 개인의 행동과 판단이 주변의 신호를 반복해서 접하며 점차 닮아갈 수 있다는 현상을 빗댄 것입니다. 처음엔 내 취향대로 고르려 했는데, 다른 사람들의 평가를 여러 번 보면서 마음이 바뀌는 일처럼요.',
+         '중요한 건 개인의 참여와 집단의 리듬이 한 공간에 함께 있다는 점입니다. 남들과 같은 쪽을 골랐다고 해서 내 선택이 의미 없어지는 것은 아닙니다.'],
+   rel:[['내가 움직이면','가까이 있는 반딧불이가 더 밝게 빛나고, 내 움직임에 반응합니다.'],
+        ['장면은 스스로','서로 다른 리듬이 하나로 맞춰지는 흐름은 내 움직임과 따로 이어집니다.'],
+        ['이렇게 보지는 않아요','내가 모든 반딧불이의 박자를 정하는 것은 아닙니다. 영향을 주고받을 뿐, 전부를 조종하지 않습니다.']],
+   q:'주변의 반복되는 신호가 나의 선택과 닮아간 순간은 있었나요?',
+   facts:[['반딧불이는','하나하나의 불빛이 박자를 맞춰 가는 모습으로 사회적 동조를 보여 줍니다.'],['남은 불빛은','나방을 이끄는 바깥의 신호이자, 두 장면을 잇는 연결 고리입니다.'],['만든 방법','Unity로 그 자리에서 그리고, Kinect v2가 관객의 움직임을 인식합니다. 정면·좌·우 벽과 바닥, 4면에 투사합니다.']] },
+ { id:'moth', code:'F02', name:'나방', en:'MOTH', key:'유도', bg:'bg_moth', live:false, mode:'영상으로 보는 장면',
+   lede:'내가 향한 방향을 결정하는 데에도 내 밖의 신호가 작용할 수 있다.',
+   head:'남은 빛을 따라\n동굴로 향합니다',
+   scene:'반딧불이 장면에서 남은 불빛을 따라 나방이 날아갑니다. 나방은 빛을 따라 동굴 안으로 들어가고, 관객의 시선도 함께 다음 공간으로 옮겨 갑니다.',
+   concept:'스스로 정한 것처럼 보이는 방향에도\n바깥의 신호가 작용할 수 있다',
+   flow:[['남은 빛','반딧불이 장면이 끝나도 몇 개의 불빛이 공간에 남아 있습니다.'],
+         ['빛을 따라','나방이 그 빛을 향해 날아가며 방향이 정해집니다.'],
+         ['동굴 안으로','나방이 동굴로 들어가면서 시선도 다음 공간으로 넘어갑니다.']],
+   meanHead:'여럿이 닮아가는 것과\n하나의 빛을 따라가는 것',
+   mean:['반딧불이가 여러 개체가 집단의 리듬에 맞춰 가는 모습이라면, 나방은 한 존재가 특정한 빛을 따라 움직이는 모습입니다. 이 빛은 현실의 추천, 평가, 유행처럼 선택에 작용하는 특정한 정보를 뜻합니다.',
+         '바깥의 신호를 따라가는 일을 나쁘다고 보지 않습니다. 그 신호가 내 방향에 어떻게 작용했는지 알아차리는 데 의미가 있습니다.'],
+   rel:[['이 장면에서는','센서가 반응하지 않는 영상 장면입니다. 나방이 빛을 따라가는 모습을 그대로 지켜봅니다.'],
+        ['눈여겨볼 것','나방이 스스로 날아가는 것처럼 보여도, 방향을 잡게 한 것은 앞 장면에서 남은 빛입니다.'],
+        ['이렇게 보지는 않아요','빛을 따라간 나방이 틀렸다는 이야기가 아닙니다.']],
+   q:'내가 향한 곳에는 어떤 신호가 먼저 있었나요?',
+   facts:[['나방은','바깥의 신호를 따라 이동 방향이 정해지는 행동을 보여 줍니다.'],['다음 장면','나방이 들어간 동굴에서 거미가 모습을 드러냅니다.'],['만든 방법','C4D·Octane·AE 등으로 미리 만든 영상입니다.']] },
+ { id:'spider', code:'F03', name:'거미', en:'SPIDER', key:'즉각적인 반응', bg:'bg_spider', live:false, mode:'영상으로 보는 장면',
+   lede:'때로는 판단했다고 생각하기 전에 이미 반응하며, 그 반응의 의미는 사후에 돌아볼 수 있다.',
+   head:'생각보다 먼저\n몸이 반응합니다',
+   scene:'나방이 들어선 곳은 어두운 크리스탈 동굴입니다. 바닥은 돌과 암반이고, 화면 위아래는 이미 레터박스로 좁아져 있습니다. 그 안에서 크리스탈 거미가 천천히 모습을 드러내다가, 관객을 향해 갑자기 다가옵니다.',
+   concept:'예상하지 못한 자극은 충분히 생각하기 전에\n몸과 감정의 반응을 먼저 일으킬 수 있다',
+   flow:[['동굴 진입','어두운 크리스탈 동굴로 들어섭니다. 좁아진 화면이 긴장을 만듭니다.'],
+         ['서서히 드러남','거미가 조금씩 모습을 드러내며 긴장이 쌓입니다.'],
+         ['습격','거미가 관객 쪽으로 갑자기 다가옵니다. 놀라거나 움츠러들 수도, 아닐 수도 있습니다.']],
+   meanHead:'판단보다 먼저\n움직인 몸',
+   mean:['이 장면의 목적은 공포가 아닙니다. 우리가 모든 행동을 충분히 생각한 뒤에 결정하는 것은 아니라는 사실을, 직접 반응해 보며 겪게 하려는 것입니다.',
+         '다른 사람의 정보를 보고 고르는 일과 위험에 반사적으로 움츠리는 일이 같은 현상이라고 말하지는 않습니다. 다만 둘 다, 행동에 작용하는 조건을 우리가 늘 의식하고 있지는 않다는 질문으로 이어집니다.'],
+   rel:[['이 장면에서는','센서가 반응하지 않는 영상 장면입니다. 깜짝 놀랐다면, 그건 영상이 만든 반응입니다.'],
+        ['사람마다 달라요','모든 관객이 같은 반응을 보인다고 전제하지 않습니다.'],
+        ['그다음','반응의 의미는 지나고 나서 돌아볼 수 있습니다. 이어지는 회상 장면이 그 자리를 만듭니다.']],
+   q:'생각하기 전에 먼저 반응했던 순간이 떠오르나요?',
+   facts:[['거미는','충분히 생각하기 전에 나타날 수 있는 즉각적인 반응을 겪게 합니다.'],['동굴과 레터박스는','긴장과 전환을 만드는 연출 장치입니다.'],['다음 장면','나선형 공간을 지나 기억 회상으로 들어갑니다.']] },
+ { id:'memory', code:'F04', name:'기억 회상', en:'RECALL', key:'시점의 변화', bg:'bg_recall', live:false, mode:'영상과 소리로 보는 장면',
+   lede:'익숙한 장면도 다른 시점에서 바라볼 때 새로운 의미를 발견할 수 있다.',
+   head:'같은 경험을\n다른 자리에서 봅니다',
+   scene:'거미의 습격 뒤 나선형 공간을 지나면 회상이 시작됩니다. 앞에서 만난 생명체가 바라본 풍경, 같은 생명체를 바깥에서 본 모습, 그리고 사람과 사회의 이미지가 번갈아 나타납니다.',
+   concept:'같은 존재와 사건도\n어디서 보느냐에 따라 다르게 보인다',
+   flow:[['생명체의 눈','반딧불이나 거미처럼 앞에서 만난 생명체의 자리에서, 그 존재가 본 풍경을 봅니다.'],
+         ['바깥의 눈','같은 존재를 다른 위치에서 바라봅니다.'],
+         ['사람과 사회','생명체의 경험을 사람의 행동과 사회의 흐름으로 잇는 단서가 나옵니다.']],
+   meanHead:'방금 한 행동을\n내 자리 밖에서 다시 봅니다',
+   mean:['거미 장면에서 반응을 겪었다면, 회상에서는 같은 존재를 다른 관점에서 바라보게 됩니다.',
+         'LIMEN이 말하는 자각은 방금 한 행동을 떠올리는 데서 끝나지 않습니다. 내가 서 있던 위치와 관점 밖에서 그 경험을 새롭게 읽을 수 있다는 가능성까지 담고 있습니다.'],
+   rel:[['이 장면에서는','영상과 소리로 이어지는 장면입니다. 센서가 반응하지 않습니다.'],
+        ['불러오지 않는 것','관객 개인의 기억이나 이동 경로를 불러오지 않습니다. 모두 같은 영상을 봅니다.'],
+        ['나선형 공간','거미와 회상 사이의 나선형 공간은 회상으로 넘어가는 전환 구간입니다.']],
+   q:'같은 장면을 다른 위치에서 본다면 무엇이 달라질까요?',
+   facts:[['회상 이미지는','생명체의 시점, 바깥의 시점, 사람과 사회로 보는 자리를 넓혀 갑니다.'],['앞 장면','거미의 습격 뒤 나선형 공간을 지나 들어옵니다.'],['다음 장면','곤충의 이야기가 사람과 군중으로 넘어갑니다.']] },
+ { id:'people', code:'F05', name:'사람·군중', en:'HUMAN', key:'상호 영향', bg:'bg_people', live:true, mode:'내 움직임에 반응하는 장면',
+   lede:'나의 행동과 사회적 흐름은 서로 무관한 것이 아니라, 영향을 주고받는 관계 안에 있다.',
+   head:'내가 움직이는 쪽으로\n사람들도 움직입니다',
+   scene:'회상이 끝나면 사람의 형상이 나타납니다. 한 사람이 먼저 등장하고, 사람이 점점 늘어 군중이 됩니다. 관객이 움직이는 방향에 맞춰 화면 속 사람들도 같은 쪽으로 움직입니다.',
+   concept:'곤충 장면에서 본 영향 관계를\n사람의 이동과 집단의 흐름으로 옮긴다',
+   flow:[['한 사람','곤충의 세계가 사람의 모습으로 바뀌며 한 사람이 나타납니다.'],
+         ['군중','사람이 점점 늘어나 하나의 흐름이 됩니다.'],
+         ['같은 방향','내가 움직이는 방향으로 화면 속 사람들도 함께 움직입니다.']],
+   meanHead:'나는 흐름 안에 있고,\n흐름도 나에게 반응합니다',
+   mean:['처음 반딧불이 장면이 “내 선택이 남의 선택과 닮아갈 수 있다”는 쪽이었다면, 사람·군중 장면은 사람의 형상이 내 이동 방향에 반응하는 모습으로 나의 행동과 주변의 흐름이 이어져 있음을 보여 줍니다.',
+         '영향을 받기만 하는 것도, 주기만 하는 것도 아닙니다. 그렇다고 내가 집단 전체를 움직인다는 뜻도 아닙니다.'],
+   rel:[['내가 움직이면','움직이는 방향으로 화면 속 사람들도 함께 움직입니다.'],
+        ['이렇게 보지는 않아요','군중을 마음대로 조종하거나, 내 동작을 그대로 따라 하는 것은 아닙니다.'],
+        ['정해진 흐름','장면의 큰 순서는 정해져 있고, 내 움직임에 따라 달라지는 건 사람들이 움직이는 방향입니다.']],
+   q:'나는 주변의 영향을 받는 동시에 어떤 영향을 주고 있었을까요?',
+   facts:[['사람·군중은','곤충에서 본 영향 관계를 사람 사회의 이동으로 넓힙니다.'],['다음 장면','사람의 형체가 빛으로 흩어지고, 마지막 질문이 남습니다.'],['만든 방법','Unity로 그 자리에서 그리고, Kinect v2가 관객이 움직이는 방향을 인식합니다.']] },
+];
+
+
+/* ───────────────────────── DOM 생성 ───────────────────────── */
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N = SCENES.length;
+const media = k => MEDIA[k];
+const pad = n => String(n).padStart(2,'0');
+const br = t => esc(t).replace(/\n/g,'<br>');
+
+$('#heroNav').innerHTML =
+  `<a class="first" href="#replay">처음부터 돌아보기 ↓</a>` +
+  SCENES.map(s=>`<a href="#${s.id}">${s.name}</a>`).join('') +
+  `<a href="#connection">무엇이 나를 움직였을까?</a><a href="#reflect">무엇을 따라갔을까?</a><a href="#final">마지막 질문</a>`;
+
+const cardMedia = () => `<div class="m win" aria-hidden="true"></div>`;
+$('#chapters').innerHTML = SCENES.map((s,i)=>`
+<section class="ch" id="${s.id}" data-bg="${s.bg}" data-label="${s.name}">
+  <div class="ch-head"><div class="container">
+    <p class="kicker">${s.code} · ${s.key} · ${s.en}</p>
+    <h2 class="t1">${s.name}</h2>
+    <div class="g12"><p class="sub">${esc(s.lede)}</p></div>
+  </div></div>
+  <div class="sheet">
+    <article class="feat">
+      <div class="container g12 feat-head">
+        <p class="eyebrow">${s.code} ${s.name} · 장면 구성</p>
+        <h3 class="t3 rv">${br(s.head)}</h3>
+        <div class="side rv"><p class="lead">${esc(s.scene)}</p><span class="mode">${s.key} · ${s.mode}</span></div>
+      </div>
+      <div class="container"><div class="media-lg win">
+        <div class="in-win rv"><span class="k">핵심 개념</span><p>${br(s.concept)}</p></div>
+      </div></div>
+      <div class="container g12 cards">
+        ${s.flow.map((f,k)=>`<article class="card rv"><div class="m win" aria-hidden="true"><span class="step">${pad(k+1)}</span><b class="step-t">${f[0]}</b></div><div class="tx"><p class="body">${esc(f[1])}</p></div></article>`).join('')}
+      </div>
+    </article>
+    <article class="feat">
+      <div class="container g12 feat-head">
+        <p class="eyebrow">기획 의도</p>
+        <h3 class="t3 rv">${br(s.meanHead)}</h3>
+        <div class="side rv">${s.mean.map(p=>`<p class="lead">${esc(p)}</p>`).join('')}</div>
+      </div>
+      <div class="container"><dl class="g12 list rv">${s.rel.map(f=>`<div><dt class="u">${f[0]}</dt><dd class="body">${esc(f[1])}</dd></div>`).join('')}</dl></div>
+    </article>
+    <article class="feat">
+      <div class="container g12 feat-head">
+        <p class="eyebrow">질문</p>
+        <h3 class="t3 ask-q rv">${esc(s.q)}</h3>
+        <div class="side rv"><p class="lead">답을 적지 않아도 됩니다. 떠오르는 순간이 있는지만 생각해 보세요.</p></div>
+      </div>
+    </article>
+    <div class="container"><dl class="g12 list rv">${s.facts.map(f=>`<div><dt class="u">${f[0]}</dt><dd class="body">${esc(f[1])}</dd></div>`).join('')}</dl></div>
+  </div>
+</section>`).join('');
+
+$('#links').insertAdjacentHTML('beforeend', SCENES.map((s,i)=>`
+  <a class="link" href="#${s.id}" data-hover="${s.bg}"><div class="m win"><span class="k">${pad(i+1)}</span></div>
+  <span class="u" style="font-size:14px">${s.name}</span><span class="body">${s.key}</span></a>`).join(''));
+
+const MENU = [['top','처음','AWAKE'],...SCENES.map(s=>[s.id,s.name,s.key]),['connection','무엇이 나를 움직였을까?','02'],['reflect','무엇을 따라갔을까?','03'],['final','마지막 질문','']];
+$('#menu').innerHTML = MENU.map(m=>`<a href="#${m[0]}" data-id="${m[0]}">${m[1]}<em>${m[2]}</em></a>`).join('');
+
+/* ───────────────────────── 글자 고리 : 글자마다 원통 위에 배치 (레퍼런스 HeroRingObject = 곡면 텍스트) ───────────────────────── */
+function buildRing(el, text, track){
+  const ch = [...text];
+  el.innerHTML = ch.map(c=>`<span>${c}</span>`).join('');
+  // 글자 폭만큼 호 길이를 배정해 단어가 붙어서 휘게 한다 (레퍼런스 곡면 텍스트와 같은 배치)
+  // 글자 폭 그대로 붙여 놓고, 한 바퀴가 꼭 차도록 글자 크기를 정한다
+  return (R)=>{
+    const sp = [...el.children];
+    sp.forEach(x=>x.style.fontSize = '100px');
+    const tot = sp.reduce((a,x)=>a + x.offsetWidth + 100*track, 0);
+    const fs = 100*2*Math.PI*R/tot;
+    sp.forEach(x=>x.style.fontSize = fs+'px');
+    const ws = sp.map(x=>x.offsetWidth + fs*track), total = ws.reduce((a,b)=>a+b,0);
+    let acc = 0;
+    sp.forEach((x,i)=>{
+      const deg = (acc + ws[i]/2)/total*360; acc += ws[i];
+      x.style.transform = `rotateY(${deg}deg) translateZ(${R}px) translate(${-x.offsetWidth/2}px,${-x.offsetHeight/2}px)`;
+    });
+  };
+}
+const r1 = buildRing($('#ring1'),'AWAKE   AWAKE   AWAKE   AWAKE   ', -.04);
+function layoutRings(){
+  const vmin = Math.min(innerWidth, innerHeight);
+  const R1 = .37*vmin;
+  // 글자 크기: 한 바퀴가 단어 두 번으로 꽉 차도록
+  r1(R1);
+}
+
+/* ───────────────────────── 배경 : 스톡 영상 ─────────────────────────
+   점 구름·유체 대신 장면별 임시 스톡 영상(Mixkit 무료 클립)을 화면 뒤에 고정해 두고, 검은 본문에 뚫린 창(.win)으로 비쳐 보이게 한다.
+   레퍼런스의 움직임은 영상 면에 그대로 옮긴다: 장면 머리 구간을 지나며 위에서 내려다본 시점 → 바닥을 스치는 시점,
+   포인터 = 시차, 빠른 스크롤 = 살짝 당겨지는 확대, 장면 전환 = 옛 영상은 다가오며 사라지고 새 영상은 멀리서 들어온다. */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const st = { hover:null, conv:0, actEl:null, mt:[.5,.5], dolly:0 };
+const IS_MOBILE = matchMedia('(max-width: 760px)').matches || navigator.maxTouchPoints > 1 && innerWidth < 1000;
+const BGV = { hero:'stock_forest', bg_firefly:'stock_bokeh', bg_moth:'stock_bulb', bg_spider:'stock_spider', bg_recall:'stock_tunnel',
+              bg_people:'stock_crowd', bg_conn:'stock_station', bg_reflect:'stock_stars' };
+const bgRoot = $('#bgv'), bgCam = $('#bgcam'), LAY = {};
+for(const k in BGV){
+  const d = document.createElement('div'); d.className = 'bl';
+  d.innerHTML = `<video src="${media(BGV[k])}" muted loop playsinline preload="${k==='hero'?'auto':'metadata'}"></video>`;
+  bgCam.appendChild(d); LAY[k] = d;
+}
+let curBg = null;
+function setBg(key){
+  if(!LAY[key]) key = 'hero';
+  if(key===curBg) return Promise.resolve();
+  const prev = curBg && LAY[curBg]; curBg = key;
+  const L_ = LAY[key], v = L_.querySelector('video');
+  if(prev){ prev.classList.remove('on'); prev.classList.add('out'); const pv = prev.querySelector('video');
+    setTimeout(()=>{ if(!prev.classList.contains('on')){ prev.classList.remove('out'); pv.pause(); } }, 1300); }
+  L_.classList.remove('out'); void L_.offsetWidth; L_.classList.add('on');
+  const p = v.play(); return (p && p.catch) ? p.catch(()=>{}) : Promise.resolve();
+}
+const preload = ()=>Object.values(LAY).forEach(l=>{ const v=l.querySelector('video'); if(v.preload!=='auto') v.preload='auto'; });
+function splat(){}                                   // 점 구름 판의 유체 자극 자리 (영상판에서는 쓰지 않음)
+addEventListener('pointermove',e=>{ st.mt = [e.clientX/innerWidth, 1-e.clientY/innerHeight]; },{passive:true});
+
+const cam = { x:0, y:0, p:0, k:0 };
+// [머리 진입 기울기(도), 머리 끝 기울기, 좌우 흔들림] — 장면마다 조금씩 다른 방향에서 내려다본다
+const CAMS = { hero:[6,6,0], firefly:[0,30,-.5], moth:[0,26,.6], spider:[0,32,-.3], memory:[0,24,.4], people:[0,34,-.4], connection:[0,22,.3], reflect:[0,26,-.3], final:[10,0,0] };
+function renderBg(t, dt){
+  const cp = CAMS[st.camKey] || CAMS.hero, hp = st.headP||0, e = reduce ? .5 : hp*hp*(3-2*hp);
+  cam.p += ((cp[0]+(cp[1]-cp[0])*e) - cam.p)*.07;
+  const tx = (st.mt[0]-.5), ty = (st.mt[1]-.5);
+  cam.x += (tx-cam.x)*.05; cam.y += (ty-cam.y)*.05;
+  cam.k += (Math.min(1, Math.abs(st.vel||0)/40) - cam.k)*.12;           // 빠르게 스크롤할수록 당겨진다
+  const tilt = reduce ? 0 : cam.p, sway = reduce ? 0 : cp[2]*e;
+  // 기울인 면이 화면을 꽉 채우도록 기울기만큼 키운다
+  const sc = 1.08 + tilt/90*1.1 + cam.k*.06 + st.conv*.12;
+  bgCam.style.transform = `perspective(900px) translate3d(${(-cam.x*24).toFixed(1)}px,${(cam.y*16).toFixed(1)}px,0) rotateX(${tilt.toFixed(2)}deg) rotateZ(${(sway*4 + cam.x*1.2).toFixed(2)}deg) scale(${sc.toFixed(3)})`;
+  bgRoot.style.setProperty('--trail', (cam.k*.6).toFixed(3));
+}
+function smoothstep(a,b,x){ const t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t); }
+
+
+/* ───────────────────────── 스크롤 : 레퍼런스와 같은 Lenis 설정 (duration 1 · expo-out · wheelMultiplier 1) ───────────────────────── */
+let lenis = null, lastY = scrollY;
+function scrollToId(id){
+  const el = document.getElementById(id); if(!el) return;
+  if(lenis) lenis.scrollTo(el,{duration:1.4}); else el.scrollIntoView({behavior:reduce?'auto':'smooth'});
+}
+document.addEventListener('click',e=>{
+  const a = e.target.closest('a[href^="#"]'); if(!a) return;
+  e.preventDefault(); closeMenu(); scrollToId(a.getAttribute('href').slice(1));
+});
+let MK = [];
+function onScroll(){
+  const H = innerHeight, y = scrollY;
+  st.vel = y - lastY; lastY = y;
+  let act = MK[0];
+  for(const m of MK){ if(m.getBoundingClientRect().top <= H*.5) act = m; }
+  if(act && act!==st.actEl){
+    st.actEl = act;
+    $('#now').textContent = act.dataset.label;
+    const id = act.id || 'top';
+    document.querySelectorAll('.menu a').forEach(a=>a.setAttribute('aria-current', a.dataset.id===id ? 'true':'false'));
+  }
+  if(!st.hover && act) setBg(act.dataset.bg);
+  if(act){
+    const hd = act.querySelector('.ch-head,.final-stage') || act, r = hd.getBoundingClientRect();
+    st.headP = Math.max(0,Math.min(1,(H-r.top)/(r.height+H)));
+    st.camKey = act.id==='replay' ? 'hero' : (act.id || 'hero');
+  }
+  // 히어로 고리·내비는 히어로를 벗어나며 사라진다 (레퍼런스 .hero-exit)
+  const k = Math.max(0, Math.min(1, (y - H*.15)/(H*.45)));
+  $('#ringStage').style.opacity = 1-k; $('#heroExit').style.opacity = 1-k*1.4; $('#scrollCue').style.opacity = Math.max(0,1-y/(H*.12));
+  $('#ringStage').style.visibility = $('#heroExit').style.visibility = k>=1 ? 'hidden' : 'visible';
+  const fs = $('#finalStage').getBoundingClientRect();
+  st.conv = Math.max(0,Math.min(1,((H - fs.top)/fs.height - .3)/.55));
+}
+
+/* ───────────────────────── 검은 본문 캔버스 ─────────────────────────
+   실측(원본 녹화 1440×900): 아래에서 올라오는 면의 윗변은 포물선. 휘는 정도는 그 면이 화면 아래에서 차지한 높이의 제곱에 비례
+   (경계가 화면 아래 29% → 6px, 72% → 31px). 정지·이동과 무관. */
+const sc = $('#sheetc'), sx = sc.getContext('2d');
+let SH = [];
+const sagAt = (y,H)=>{ const f=Math.max(0,Math.min(1.15,(H-y)/H)); return .066*f*f*H; };
+function drawSheets(){
+  const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio,2);
+  if(sc.width!==Math.round(W*dpr) || sc.height!==Math.round(H*dpr)){ sc.width=Math.round(W*dpr); sc.height=Math.round(H*dpr); }
+  sx.setTransform(dpr,0,0,dpr,0,0); sx.clearRect(0,0,W,H);
+  sx.fillStyle = '#090909';
+  for(const el of SH){
+    const r = el.getBoundingClientRect();
+    if(r.bottom < -60 || r.top > H+60) continue;
+    const st_ = sagAt(r.top,H), sb = sagAt(r.bottom,H);
+    sx.beginPath();
+    sx.moveTo(0, r.top+st_/2); sx.quadraticCurveTo(W/2, r.top-st_*1.5, W, r.top+st_/2);
+    sx.lineTo(W, r.bottom+sb/2); sx.quadraticCurveTo(W/2, r.bottom-sb*1.5, 0, r.bottom+sb/2);
+    sx.closePath(); sx.fill();
+    sx.globalCompositeOperation = 'destination-out';
+    for(const w of el.querySelectorAll('.win')){ const q = w.getBoundingClientRect(); if(q.bottom<0||q.top>H) continue; sx.fillRect(q.left, q.top, q.width, q.height); }
+    sx.globalCompositeOperation = 'source-over';
+  }
+}
+
+/* ───────────────────────── 카드 그래픽 (장면 의미를 선과 점으로) ───────────────────────── */
+const G = {};
+const GLOW = '232,240,168', INK='243,241,236';
+G.sync = (c,W,H,t,s)=>{   // 동조 : 제각기 깜빡이다 리듬이 맞춰짐 (12초 주기)
+  if(!s.p){ s.p = Array.from({length:42},(_,i)=>({x:(i%7+.5)/7+(Math.random()-.5)*.08, y:(Math.floor(i/7)+.5)/6+(Math.random()-.5)*.08, ph:Math.random()*6.28, w:1.6+Math.random()*.8})); s.t0=t; }
+  const cyc = ((t-s.t0)%12)/12, K = cyc<.15?0:Math.min(2.4,(cyc-.15)*5);
+  if(cyc<.01) s.p.forEach(p=>p.ph=Math.random()*6.28);
+  let sx_=0,sy_=0; s.p.forEach(p=>{sx_+=Math.cos(p.ph);sy_+=Math.sin(p.ph)}); const R=Math.hypot(sx_,sy_)/s.p.length, Ps=Math.atan2(sy_,sx_);
+  s.p.forEach(p=>{ p.ph += .016*(p.w*(K>1?.6:1) + K*R*Math.sin(Ps-p.ph)*2.2);
+    const b = Math.pow((Math.sin(p.ph)+1)/2,3);
+    c.fillStyle=`rgba(${GLOW},${.15+b*.85})`; c.shadowColor=`rgba(${GLOW},${b})`; c.shadowBlur=14*b;
+    c.beginPath(); c.arc(p.x*W,p.y*H,2+b*3,0,7); c.fill(); });
+  c.shadowBlur=0;
+  label(c,W,H,'따로 깜빡이다 같은 박자로', R);
+};
+G.attract = (c,W,H,t,s)=>{  // 유도 : 빛을 향해 방향이 생김
+  const L = {x:W*.78, y:H*.45};
+  if(!s.p) s.p = Array.from({length:26},()=>spawn());
+  function spawn(){ return {x:Math.random()*W*.25, y:Math.random()*H, vx:.6, vy:0, tr:[]}; }
+  const pulse = .7+.3*Math.sin(t*2.2);
+  const gr = c.createRadialGradient(L.x,L.y,0,L.x,L.y,H*.35); gr.addColorStop(0,`rgba(${GLOW},${.55*pulse})`); gr.addColorStop(1,`rgba(${GLOW},0)`);
+  c.fillStyle=gr; c.fillRect(0,0,W,H);
+  s.p.forEach((p,i)=>{ const dx=L.x-p.x, dy=L.y-p.y, d=Math.hypot(dx,dy);
+    p.vx += dx/d*.06 + Math.sin(t*3+i)*.05; p.vy += dy/d*.06 + Math.cos(t*2.3+i*1.7)*.07;
+    const v=Math.hypot(p.vx,p.vy), m=1.6; if(v>m){p.vx*=m/v;p.vy*=m/v;}
+    p.x+=p.vx; p.y+=p.vy; p.tr.push([p.x,p.y]); if(p.tr.length>28) p.tr.shift();
+    if(d<10) Object.assign(p,spawn());
+    c.strokeStyle=`rgba(${INK},.35)`; c.lineWidth=1; c.beginPath(); p.tr.forEach((q,j)=>j?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])); c.stroke();
+    c.fillStyle=`rgba(${INK},.9)`; c.beginPath(); c.arc(p.x,p.y,1.6,0,7); c.fill(); });
+  label(c,W,H,'빛이 있는 쪽으로');
+};
+G.reflex = (c,W,H,t,s)=>{  // 즉각적 반응 : 몸이 먼저, 생각은 나중
+  const T = (t%6)/6, ev = .3;
+  const y1=H*.38, y2=H*.7, x0=W*.08, x1=W*.92;
+  c.font='500 11px "Noto Sans KR",sans-serif'; c.fillStyle=`rgba(${INK},.55)`;
+  c.fillText('몸', x0, y1-26); c.fillText('생각', x0, y2-26);
+  const f1 = x=>{ const u=(x-x0)/(x1-x0); const k=u-ev; return k<0?0:Math.exp(-k*14)*Math.min(1,k*80); };
+  const f2 = x=>{ const u=(x-x0)/(x1-x0); const k=u-ev-.22; return k<0?0:(1-Math.exp(-k*5))*.7; };
+  const head = x0+(x1-x0)*T;
+  [[y1,f1,INK],[y2,f2,GLOW]].forEach(([y,f,col])=>{
+    c.strokeStyle=`rgba(${col},.18)`; c.beginPath(); c.moveTo(x0,y); c.lineTo(x1,y); c.stroke();
+    c.strokeStyle=`rgba(${col},.95)`; c.lineWidth=1.5; c.beginPath();
+    for(let x=x0;x<=head;x+=2){ const v=y-f(x)*H*.22; x===x0?c.moveTo(x,v):c.lineTo(x,v); } c.stroke(); c.lineWidth=1;
+  });
+  const ex = x0+(x1-x0)*ev;
+  if(T>ev){ const a=Math.max(0,1-(T-ev)*4); c.strokeStyle=`rgba(${INK},${a})`; c.beginPath(); c.arc(ex,y1,6+(T-ev)*120,0,7); c.stroke(); }
+  c.setLineDash([3,4]); c.strokeStyle=`rgba(${INK},.25)`; c.beginPath(); c.moveTo(ex,H*.16); c.lineTo(ex,H*.86); c.stroke(); c.setLineDash([]);
+  label(c,W,H,'몸이 먼저, 생각은 나중에');
+};
+G.views = (c,W,H,t,s)=>{   // 시점의 변화 : 하나의 대상을 여러 위치에서
+  const cx=W/2, cy=H*.48, R=Math.min(W,H)*.34;
+  c.strokeStyle=`rgba(${INK},.12)`; c.beginPath(); c.ellipse(cx,cy,R,R*.42,0,0,7); c.stroke();
+  const rot=t*.5;
+  c.save(); c.translate(cx,cy); c.rotate(rot*.4);
+  c.strokeStyle=`rgba(${GLOW},.95)`; c.lineWidth=1.4; c.beginPath();
+  for(let i=0;i<3;i++){ const a=i*2.094-1.57; const x=Math.cos(a)*16, y=Math.sin(a)*16; i?c.lineTo(x,y):c.moveTo(x,y);} c.closePath(); c.stroke(); c.restore(); c.lineWidth=1;
+  ['생명체의 눈','바깥의 눈','사람의 눈'].forEach((n,i)=>{
+    const a = rot + i*2.094, px=cx+Math.cos(a)*R, py=cy+Math.sin(a)*R*.42;
+    const g = c.createLinearGradient(px,py,cx,cy); g.addColorStop(0,`rgba(${INK},.35)`); g.addColorStop(1,`rgba(${INK},0)`);
+    c.fillStyle=g; const ang=Math.atan2(cy-py,cx-px), sp=.22;
+    c.beginPath(); c.moveTo(px,py); c.lineTo(px+Math.cos(ang-sp)*R*1.05,py+Math.sin(ang-sp)*R*1.05); c.lineTo(px+Math.cos(ang+sp)*R*1.05,py+Math.sin(ang+sp)*R*1.05); c.closePath(); c.fill();
+    c.fillStyle=`rgba(${INK},.95)`; c.beginPath(); c.arc(px,py,3.5,0,7); c.fill();
+    c.font='400 11px "Noto Sans KR",sans-serif'; c.fillStyle=`rgba(${INK},.7)`; c.fillText(n,px+8,py-8);
+  });
+  label(c,W,H,'같은 대상, 세 자리에서');
+};
+G.flow = (c,W,H,t,s)=>{    // 상호 영향 : 한 사람의 방향을 사람들이 따라가고, 흐름은 다시 나에게
+  if(!s.p) s.p = Array.from({length:34},()=>({x:Math.random()*W, y:H*.25+Math.random()*H*.5, vx:0, k:.01+Math.random()*.03}));
+  const meV = Math.sin(t*.7)*1.3;
+  s.me = s.me ?? W/2; s.me += meV*.9; if(s.me<W*.15||s.me>W*.85) s.me=Math.max(W*.15,Math.min(W*.85,s.me));
+  s.p.forEach(p=>{ p.vx += (meV - p.vx)*p.k; p.x += p.vx; if(p.x<-10)p.x=W+10; if(p.x>W+10)p.x=-10;
+    c.fillStyle=`rgba(${INK},.75)`; capsule(c,p.x,p.y,4,11); });
+  c.fillStyle=`rgba(${GLOW},1)`; c.shadowColor=`rgba(${GLOW},.9)`; c.shadowBlur=14; capsule(c,s.me,H*.82,5,13); c.shadowBlur=0;
+  c.strokeStyle=`rgba(${GLOW},.8)`; arrow(c,s.me,H*.92,s.me+meV*22,H*.92);
+  label(c,W,H,'한 사람의 방향을 따라');
+};
+function roomBase(c,W,H){   // 4면 전개 : 좌·정면·우 벽 + 바닥 (위에서 본 모습)
+  const fw=W*.46, fh=H*.42, fx=(W-fw)/2, fy=H*.40, wd=H*.16;
+  c.strokeStyle=`rgba(${INK},.35)`; c.lineWidth=1;
+  c.strokeRect(fx,fy,fw,fh); c.strokeRect(fx,fy-wd,fw,wd); c.strokeRect(fx-wd,fy,wd,fh); c.strokeRect(fx+fw,fy,wd,fh);
+  c.font='400 10px "Noto Sans KR",sans-serif'; c.fillStyle=`rgba(${INK},.5)`;
+  c.fillText('정면',fx+4,fy-wd+12); c.fillText('바닥',fx+4,fy+14); c.fillText('좌',fx-wd+4,fy+14); c.fillText('우',fx+fw+4,fy+14);
+  return {fx,fy,fw,fh,wd};
+}
+G['room-fire'] = (c,W,H,t,s)=>{
+  const r = roomBase(c,W,H);
+  if(!s.p){ s.p=[]; for(let i=0;i<90;i++){ const zone=Math.random(); let x,y;
+    if(zone<.5){x=r.fx+Math.random()*r.fw;y=r.fy+Math.random()*r.fh;} else if(zone<.7){x=r.fx+Math.random()*r.fw;y=r.fy-r.wd+Math.random()*r.wd;}
+    else if(zone<.85){x=r.fx-r.wd+Math.random()*r.wd;y=r.fy+Math.random()*r.fh;} else {x=r.fx+r.fw+Math.random()*r.wd;y=r.fy+Math.random()*r.fh;}
+    s.p.push({x,y,ph:Math.random()*6}); } }
+  const vx = r.fx+r.fw*(.5+.34*Math.sin(t*.6)), vy = r.fy+r.fh*(.5+.3*Math.sin(t*.9+1));
+  s.p.forEach(p=>{ const d=Math.hypot(p.x-vx,p.y-vy), near=Math.max(0,1-d/(r.fh*.6));
+    const b=.12+.25*(Math.sin(t*2+p.ph)+1)/2 + near*.75;
+    c.fillStyle=`rgba(${GLOW},${Math.min(1,b)})`; c.beginPath(); c.arc(p.x,p.y,1.2+near*2.2,0,7); c.fill(); });
+  c.fillStyle=`rgba(${INK},1)`; c.beginPath(); c.arc(vx,vy,4,0,7); c.fill();
+  c.strokeStyle=`rgba(${INK},.3)`; c.beginPath(); c.arc(vx,vy,r.fh*.6*.55,0,7); c.stroke();
+  label(c,W,H,'가까운 불빛이 밝아짐');
+};
+G['room-people'] = (c,W,H,t,s)=>{
+  const r = roomBase(c,W,H);
+  const v = Math.cos(t*.6);           // 관객 이동 속도 (좌우)
+  s.x = r.fx + r.fw*(.5+.38*Math.sin(t*.6));
+  const vy = r.fy+r.fh*.55;
+  s.off = (s.off||0) + v*.8;
+  c.fillStyle=`rgba(${INK},.7)`;
+  for(let i=0;i<9;i++){ const x = r.fx + ((i/9*r.fw + s.off)%r.fw + r.fw)%r.fw; capsule(c,x,r.fy-r.wd*.45,2.4,7); }
+  for(let i=0;i<5;i++){ const y = r.fy + ((i/5*r.fh + s.off*.6)%r.fh + r.fh)%r.fh; capsule(c,r.fx-r.wd*.5,y,2.4,7); capsule(c,r.fx+r.fw+r.wd*.5,r.fy+r.fh-y+r.fy,2.4,7); }
+  c.fillStyle=`rgba(${GLOW},1)`; c.beginPath(); c.arc(s.x,vy,4.5,0,7); c.fill();
+  c.strokeStyle=`rgba(${GLOW},.85)`; arrow(c,s.x,vy+14,s.x+v*26,vy+14);
+  c.strokeStyle=`rgba(${INK},.6)`; arrow(c,r.fx+r.fw/2,r.fy-r.wd-10,r.fx+r.fw/2+v*26,r.fy-r.wd-10);
+  label(c,W,H,'걷는 방향으로 함께');
+};
+G.film = (c,W,H,t,s)=>{    // 영상 장면 : 정해진 흐름을 지켜봄
+  const y=H*.36, fh=H*.3, fw=fh*1.6, gap=10, off=(t*22)%(fw+gap);
+  for(let x=-fw+ -off; x<W+fw; x+=fw+gap){ c.strokeStyle=`rgba(${INK},.3)`; c.strokeRect(x,y,fw,fh); }
+  c.fillStyle=`rgba(${INK},.25)`;
+  for(let x=-off*.5%14; x<W; x+=14){ c.fillRect(x,y-10,6,4); c.fillRect(x,y+fh+6,6,4); }
+  c.strokeStyle=`rgba(${GLOW},.9)`; c.beginPath(); c.moveTo(W/2,y-18); c.lineTo(W/2,y+fh+18); c.stroke();
+  const bx=W*.1, bw=W*.8, by=H*.82, p=(t%20)/20;
+  c.fillStyle=`rgba(${INK},.15)`; c.fillRect(bx,by,bw,2); c.fillStyle=`rgba(${INK},.9)`; c.fillRect(bx,by,bw*p,2);
+  label(c,W,H,'영상 장면');
+};
+function capsule(c,x,y,r,h){ c.beginPath(); c.arc(x,y-h/2,r,Math.PI,0); c.lineTo(x+r,y+h/2); c.arc(x,y+h/2,r,0,Math.PI); c.closePath(); c.fill(); }
+function arrow(c,x1,y1,x2,y2){ c.lineWidth=1.4; c.beginPath(); c.moveTo(x1,y1); c.lineTo(x2,y2); const a=Math.atan2(y2-y1,x2-x1); c.lineTo(x2-Math.cos(a-.5)*6,y2-Math.sin(a-.5)*6); c.moveTo(x2,y2); c.lineTo(x2-Math.cos(a+.5)*6,y2-Math.sin(a+.5)*6); c.stroke(); c.lineWidth=1; }
+function label(c,W,H,txt,meter){
+  c.font='500 11px "Hanken Grotesk","Noto Sans KR",sans-serif'; c.fillStyle=`rgba(${INK},.75)`; c.fillText(txt,14,H-14);
+  if(meter!==undefined){ c.fillStyle=`rgba(${INK},.15)`; c.fillRect(W-74,H-19,60,2); c.fillStyle=`rgba(${GLOW},.95)`; c.fillRect(W-74,H-19,60*meter,2); }
+}
+
+const GC = [...document.querySelectorAll('canvas[data-g]')].map(el=>({el, c:el.getContext('2d'), s:{}, vis:false, fn:G[el.dataset.g]}));
+const io = new IntersectionObserver(es=>es.forEach(e=>{ const g=GC.find(g=>g.el===e.target); if(g) g.vis=e.isIntersecting; }),{rootMargin:'100px'});
+GC.forEach(g=>io.observe(g.el));
+function drawCards(t){
+  for(const g of GC){
+    if(!g.vis || !g.fn) continue;
+    const W=g.el.clientWidth, H=g.el.clientHeight, dpr=Math.min(devicePixelRatio,2);
+    if(g.el.width!==Math.round(W*dpr)){ g.el.width=Math.round(W*dpr); g.el.height=Math.round(H*dpr); g.s={}; }
+    g.c.setTransform(dpr,0,0,dpr,0,0); g.c.clearRect(0,0,W,H);
+    g.fn(g.c,W,H,t,g.s);
+  }
+}
+
+/* ───────────────────────── 창 안의 3D 오브젝트 ─────────────────────────
+   검은 본문에 뚫린 창(.win) 너머로 배경 점 구름이 보이고, 그 위에 장면별 3D 모형이 돈다.
+   렌더러 하나로 화면에 보이는 창마다 scissor 로 나눠 그린다. 모형은 웹에서 다시 만든 해석 모형이며 전시 영상의 실제 자산이 아니다. */
+const O3 = null;   // 마스크판: 창 안의 3D 모형 없음
+
+// 스크롤 등장
+const rio = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); rio.unobserve(e.target); } }),{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rv').forEach(el=>rio.observe(el));
+
+/* 연결 선 */
+function drawLinks(){
+  const box = $('#links'), svg = $('#linkline'); const R = box.getBoundingClientRect();
+  const pts = [...box.querySelectorAll('.link .m')].map(w=>{ const q=w.getBoundingClientRect(); return [q.left-R.left+q.width/2, q.top-R.top+q.height/2]; });
+  if(pts.length<2) return;
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for(let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1],[x1,y1]=pts[i]; const mx=(x0+x1)/2; d+=` C${mx},${y0-40} ${mx},${y1+40} ${x1},${y1}`; }
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="rgba(232,240,168,.6)" stroke-width="1" stroke-dasharray="2 6"/>` + pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#e8f0a8"/>`).join('');
+}
+document.querySelectorAll('.link').forEach(a=>{
+  a.addEventListener('mouseenter',()=>{ st.hover=a.dataset.hover; setBg(st.hover); });
+  a.addEventListener('mouseleave',()=>{ st.hover=null; onScroll(); });
+});
+document.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+  b.setAttribute('aria-pressed', b.getAttribute('aria-pressed')==='true'?'false':'true');
+  splat(.2+Math.random()*.6,.3+Math.random()*.4,(Math.random()-.5)*900,(Math.random()-.5)*900,4);
+}));
+
+/* 메뉴 · 라이트박스 */
+const menu=$('#menu'), mb=$('#menuBtn');
+function closeMenu(){ menu.hidden=true; mb.setAttribute('aria-expanded','false'); }
+mb.addEventListener('click',()=>{ menu.hidden=!menu.hidden; mb.setAttribute('aria-expanded',String(!menu.hidden)); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMenu(); });
+
+
+
+function layout(){
+  layoutRings();
+  SH = [...document.querySelectorAll('.sheet')];
+  MK = [...document.querySelectorAll('[data-bg]')];
+  drawLinks(); onScroll();
+}
+addEventListener('resize',layout);
+document.fonts && document.fonts.ready.then(layout);
+
+let t0 = performance.now(), last = t0;
+function frame(now){
+  const t=(now-t0)/1000, dt=Math.min(.05,(now-last)/1000); last=now;
+  onScroll();
+  const ry = (reduce?0:t*9) + scrollY*.05;
+  // 레퍼런스: 앞면이 위로 올라가고 뒷면(거울 글자)이 아래로 보이도록 아래에서 올려다본 기울기
+  $('#ring1').style.transform = `rotateX(16deg) rotateZ(-7deg) rotateY(${ry}deg)`;
+  renderBg(t, dt);
+  drawSheets();
+  drawCards(reduce?0:t);
+  if(O3) O3.render(reduce?0:t);
+  requestAnimationFrame(frame);
+}
+function boot(){
+  if(window.Lenis && !reduce){
+    lenis = new Lenis({duration:.8, easing:e=>Math.min(1,1.001-Math.pow(2,-10*e)), orientation:'vertical', smoothWheel:true, wheelMultiplier:1});
+    const raf=time=>{ lenis.raf(time); requestAnimationFrame(raf); }; requestAnimationFrame(raf);
+  }
+  layout(); setBg(st.actEl ? st.actEl.dataset.bg : 'hero'); setTimeout(preload,1500); requestAnimationFrame(frame);
+  if(location.hash) setTimeout(()=>scrollToId(location.hash.slice(1)),300);
+}
+const ls = document.createElement('script');
+ls.src = 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js';
+ls.onload = boot; ls.onerror = boot;
+document.head.appendChild(ls);
+</script>

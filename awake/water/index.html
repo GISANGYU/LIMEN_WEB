@@ -68,7 +68,7 @@ main{position:relative;z-index:2}
 /* ── HERO : 물결판 — 수면 위 AWAKE (three.js, awake_hero.html 에서 옮김). 돌아가는 글자 고리는 삭제 ── */
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:#1a1750;cursor:none}
 .hero>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;background:linear-gradient(180deg,rgba(9,9,9,0),var(--page));pointer-events:none}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(19,17,58,0),#13113a);pointer-events:none}
 .hero .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wh-ui{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s ease 1.2s;font-family:"Inter Tight",var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:rgba(236,232,255,.55);z-index:1}
 .hero.ready .wh-ui{opacity:1}
@@ -335,6 +335,9 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
 document.documentElement.classList.add('js');
 /* ───────────────────────── 콘텐츠 (기준: LIMEN_현재기준.md · 02 웹표현기준 · awake/Frame.png) ───────────────────────── */
 const MEDIA = {
+  // 11-03 영상팀 소스(awake_source, 3면 4320×912 → 정면 1920×912 로 자름)
+  limen_forest:'media/limen_forest.mp4', limen_moth:'media/limen_moth.mp4', limen_firefly:'media/limen_firefly.mp4',
+  limen_spider:'media/limen_spider.mp4', limen_memory:'media/limen_memory.mp4',
   stock_forest:'../mask/media/stock_forest.mp4', stock_bokeh:'../mask/media/stock_bokeh.mp4', stock_bulb:'../mask/media/stock_bulb.mp4', stock_spider:'../mask/media/stock_spider.mp4',
   stock_tunnel:'../mask/media/stock_tunnel.mp4', stock_crowd:'../mask/media/stock_crowd.mp4', stock_station:'../mask/media/stock_station.mp4', stock_stars:'../mask/media/stock_stars.mp4'
 };
@@ -487,7 +490,7 @@ $('#menu').innerHTML = MENU.map(m=>`<a href="#${m[0]}" data-id="${m[0]}">${m[1]}
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const st = { hover:null, conv:0, actEl:null, mt:[.5,.5], dolly:0 };
 const IS_MOBILE = matchMedia('(max-width: 760px)').matches || navigator.maxTouchPoints > 1 && innerWidth < 1000;
-const BGV = { hero:'stock_forest', bg_firefly:'stock_bokeh', bg_moth:'stock_bulb', bg_spider:'stock_spider', bg_recall:'stock_tunnel',
+const BGV = { hero:'limen_forest', bg_firefly:'limen_firefly', bg_moth:'limen_moth', bg_spider:'limen_spider', bg_recall:'limen_memory',
               bg_people:'stock_crowd', bg_conn:'stock_station', bg_reflect:'stock_stars' };
 const bgRoot = $('#bgv'), bgCam = $('#bgcam'), LAY = {};
 for(const k in BGV){
@@ -592,6 +595,7 @@ function onScroll(){
 const sc = $('#sheetc'), sx = sc.getContext('2d');
 let SH = [], WINS = [], bend = 0;
 const sagAt = (y,H)=>{ const f=Math.max(0,Math.min(1.15,(H-y)/H)); return .066*f*f*H; };
+const SHEET = '19,17,58';   // #13113a
 function drawSheets(dt){
   const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio,2);
   if(sc.width!==Math.round(W*dpr) || sc.height!==Math.round(H*dpr)){ sc.width=Math.round(W*dpr); sc.height=Math.round(H*dpr); }
@@ -600,7 +604,9 @@ function drawSheets(dt){
   bend += (want-bend)*(1-Math.exp(-dt*(want>bend?14:4.5)));
   if(bend < .002) bend = 0;
   sx.setTransform(dpr,0,0,dpr,0,0); sx.clearRect(0,0,W,H);
-  sx.fillStyle = '#090909';
+  // 본문 면 = 히어로 수면에서 이어지는 인디고. 스크롤 130vh→150vh 동안 불투명도 100%→80% 로 내려 뒤 영상이 흐릿하게 비친다
+  const fade = Math.max(0, Math.min(1, (scrollY - H*1.3)/(H*.2)));
+  sx.fillStyle = `rgba(${SHEET},${1 - fade*.2})`;
   for(const el of SH){
     const r = el.getBoundingClientRect();
     if(r.bottom < -60 || r.top > H+60) continue;
@@ -1009,7 +1015,7 @@ const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
 const LZ = -40;   // 마우스 빛이 떠 있는 면(글자 뒤 먼 곳)
 const plWater = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), plText = new THREE.Plane(new THREE.Vector3(0, 0, 1), -LZ);
 const light = new THREE.Vector3(0, 2, LZ), lightTarget = light.clone();
-let inside = false, onWater = false, lastRip = new THREE.Vector3(99, 0, 99), lastRipT = 0;
+let inside = false, onWater = false, snap = false, lastRip = new THREE.Vector3(99, 0, 99), lastRipT = 0;
 const par = { x: 0, y: 0, tx: 0, ty: 0 };
 const hitW = new THREE.Vector3(), hitT = new THREE.Vector3();
 
@@ -1018,14 +1024,16 @@ function pointer(e) {
   ndc.set((e.clientX - b.left) / b.width * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
   par.tx = ndc.x; par.ty = ndc.y; inside = true;
   ray.setFromCamera(ndc, camera);
+  const was = onWater;
   onWater = !!ray.ray.intersectPlane(plWater, hitW) && hitW.z > 0.02 && hitW.z < 28;
+  if (onWater !== was) { snap = true; lastRip.copy(hitW); lastRipT = clock.elapsedTime; }   // 하늘↔물 경계: 빛이 튀어 미끄러지지 않게
   if (onWater) {
     // 물 위의 마우스 = 그 자리에 비친 빛. 수평 수면 기준 거울 광선을 글자 면까지 이어 빛의 위치를 찾는다
     const d = ray.ray.direction.clone(); d.y = -d.y;
     lightTarget.copy(hitW).addScaledVector(d, (LZ - hitW.z) / d.z);
     const now = clock.elapsedTime;
     if (hitW.distanceTo(lastRip) > 0.18 && now - lastRipT > 0.05) {
-      ripples[ripI].set(hitW.x, hitW.z, now, Math.min(1, 0.4 + hitW.distanceTo(lastRip) * 1.5));
+      ripples[ripI].set(hitW.x, hitW.z, now, Math.min(0.7, hitW.distanceTo(lastRip) * 1.6));
       ripI = (ripI + 1) % RIPN; lastRip.copy(hitW); lastRipT = now;
     }
   } else if (ray.ray.intersectPlane(plText, hitT)) {
@@ -1062,7 +1070,7 @@ function frame() {
   par.x += (par.tx - par.x) * 0.04; par.y += (par.ty - par.y) * 0.04;
   camera.position.set(CAM.x + par.x * 0.55, CAM.y + par.y * 0.12 + (1 - intro) * 0.25, CAM.z + (1 - intro) * 2.2);
   camera.lookAt(LOOK.x + par.x * 0.12, LOOK.y + par.y * 0.05, LOOK.z);
-  light.lerp(lightTarget, 0.18);
+  if (snap) { light.copy(lightTarget); snap = false; } else light.lerp(lightTarget, 0.18);
   W.uLight.value.copy(light);
   W.uLightAmt.value += ((inside ? 1 : 0) - W.uLightAmt.value) * 0.08;
   orb.position.copy(light); orb.quaternion.copy(camera.quaternion);

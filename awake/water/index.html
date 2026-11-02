@@ -358,7 +358,8 @@ main{position:relative;z-index:2}
 .js .rv{opacity:0;transform:translate3d(0,24px,0);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
 .js .rv.in{opacity:1;transform:none}
 
-/* ── 하단 알약 셸 206×53 ── */
+/* ── 하단 알약 셸 206×53 ── (11-03: 하단 흰 고정 버튼 숨김 — JS가 참조하므로 마크업은 두고 표시만 끔) */
+.pill-shell,.menu{display:none!important}
 .pill-shell{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);padding:8px 8px calc(10px + env(safe-area-inset-bottom,0px))}
 .pill{display:flex;align-items:center;gap:4px;width:190px;height:35px;padding:0 4px 0 12px;border-radius:999px;background:var(--pill);color:var(--pill-ink);font-size:14px}
 .pill .now{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

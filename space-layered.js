@@ -7,7 +7,7 @@
 // 단계 표시는 monopo 식 큰 번호(01/05), 진행도는 main.js 프레임 루프에서 받는다.
 import * as THREE from 'three';
 import { $, $$, clamp, smooth as ss } from './_shared/js/core.js';
-import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js?v=brief-2';
+import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js?v=visitors2-1103';
 
 const PHASES = [   // 11-02: 빈 화면이던 Grid 단계 삭제 → 01/04
   [0.0, 'Space'],
@@ -18,22 +18,25 @@ const PHASES = [   // 11-02: 빈 화면이던 Grid 단계 삭제 → 01/04
 // 전체 진행도 P 를 나눈다: DRAW_END 까지 = 도면(기존 타임라인 d 0 → D_MAX), FOCUS_A~FOCUS_B = 장비 7개를 차례로 포커스
 const DRAW_END = 0.42, FOCUS_A = 0.45, FOCUS_B = 0.97, D_MAX = 0.74;
 
-// 곡면 벽 · 바닥에 영상 투사 (정면 구간에 원본, 좌우 벽은 정면 가장자리를 거울처럼 이어 붙임)
+// 곡면 벽 · 바닥에 영상 투사 — 11-03: awake_source 3WALLS 소스(4320×912 = 좌벽 | 정면 | 우벽 1440 씩)를
+// 면마다 제 구간만 맵핑. 면 경계는 세로 곡면 모서리 한가운데. 바닥 소스는 없어서 정면 아래 띠를 뒤집어 옅게 비춘다(임시 연출).
 const PROJ_FRAG = /* glsl */`
 precision highp float;
 varying vec2 vUv;
 uniform sampler2D uTex;
-uniform float uOn, uA, uB, uFloor, uL, uF, uR;   // uL · uF · uR = 좌벽 · 정면 · 우벽 각각의 밝기
+uniform float uOn, uA, uB, uFloor, uL, uF, uR;   // uA · uB = 좌벽|정면 · 정면|우벽 경계(벽 펼침 좌표), uL · uF · uR = 면별 밝기
 void main() {
   vec2 t;
   float k = 1.0;
-  if (uFloor > 0.5) { t = vec2(vUv.x, 1.0 - vUv.y); k = 1.0; }   // 바닥은 uOn 만
-  else {
-    float fu = (vUv.x - uA) / (uB - uA);
-    if (fu < 0.0) { fu = -fu * (uB - uA) / uA * 0.5; k = 1.1 * uL; }
-    else if (fu > 1.0) { fu = 1.0 - (fu - 1.0) * (uB - uA) / (1.0 - uB) * 0.5; k = 1.1 * uR; }
-    else k = uF;
-    t = vec2(clamp(fu, 0.0, 1.0), vUv.y);
+  if (uFloor > 0.5) {
+    // 바닥: 뒤벽 쪽(vUv.y=0)에서 정면 영상 맨 아래와 맞닿고, 관객 쪽으로 갈수록 위쪽 띠가 비치며 옅어진다
+    t = vec2(1.0 / 3.0 + vUv.x / 3.0, vUv.y * 0.45);
+    k = 0.55 * (1.0 - 0.55 * vUv.y);
+  } else {
+    float u = vUv.x;
+    if (u < uA)      { t = vec2(u / uA / 3.0, vUv.y);                               k = uL; }
+    else if (u > uB) { t = vec2(2.0 / 3.0 + (u - uB) / (1.0 - uB) / 3.0, vUv.y);    k = uR; }
+    else             { t = vec2(1.0 / 3.0 + (u - uA) / (uB - uA) / 3.0, vUv.y);     k = uF; }
   }
   gl_FragColor = vec4(texture2D(uTex, t).rgb * k * uOn, 1.0);
 }`;
@@ -73,7 +76,7 @@ export function initSpace() {
   // ---- 4면 투사 ----
   const vtex = new THREE.VideoTexture(video); vtex.colorSpace = THREE.SRGBColorSpace;
   const { X0, X1, ZB, ZF, RC } = DIM;
-  const segA = (ZF - (ZB + RC)) + Math.PI / 2 * RC, segF = (X1 - RC) - (X0 + RC);
+  const segA = (ZF - (ZB + RC)) + Math.PI / 4 * RC, segF = (X1 - RC) - (X0 + RC) + Math.PI / 2 * RC;   // 좌벽 = 직선 + 모서리 절반, 정면 = 직선 + 양쪽 모서리 절반
   const projVert = 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }';
   const projMat = (floor) => new THREE.ShaderMaterial({
     vertexShader: projVert, fragmentShader: PROJ_FRAG, side: floor ? THREE.DoubleSide : THREE.FrontSide, transparent: true, depthWrite: false,   // 바닥 도형은 법선이 아래라 양면으로

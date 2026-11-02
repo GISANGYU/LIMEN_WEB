@@ -381,7 +381,8 @@ export function buildStudio() {
   }
 
   // 관객 — 3D 메시 없이 위치만. 사람은 space.js 가 화면에 SVG 실루엣으로 그린다(카메라를 늘 향하는 깔끔한 윤곽)
-  const VISITORS = [{ x: -0.9, z: 0.3, s: 1, pose: 0 }, { x: 1.15, z: -0.7, s: 0.93, pose: 1 }, { x: 0.2, z: 1.3, s: 0.97, pose: 2 }];
+  // 11-03: 관객 3명 → 2명 (세 번째 { x: 0.2, z: 1.3, s: 0.97, pose: 2 } 제거)
+  const VISITORS = [{ x: -0.9, z: 0.3, s: 1, pose: 0 }, { x: 1.15, z: -0.7, s: 0.93, pose: 1 }];
   const visG = new THREE.Group();
   reg('visitor', visG);
   {

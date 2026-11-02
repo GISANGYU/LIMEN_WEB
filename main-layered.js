@@ -11,7 +11,7 @@
 import { $, $$, clamp, invLerp, ease } from './_shared/js/core.js';
 import { createGradient } from './gradient.js';
 import { initSlogan } from './slogan.js';
-import { initSpace } from './space-layered.js?v=brief-2';
+import { initSpace } from './space-layered.js?v=mapping-1103';
 import { createVisit } from './visit-plan.js?v=note-hint-1';
 import { createFooterFilm } from './footer-film.js';
 

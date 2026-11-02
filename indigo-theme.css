@@ -4,7 +4,8 @@
 .sg-pairs li.foot{color:#a9b1ff}
 .film{background:linear-gradient(180deg,rgba(6,8,32,0),#080c29 70vh)}
 .reel-card{background:#080c29}
-.reel-media video{filter:grayscale(1) sepia(1) saturate(5) hue-rotate(190deg) brightness(.8)}
+/* 1103: 색감은 media/index-video.mp4 에 직접 입힘(기존 필터 50% + 원본 50%, 명도 +12%) — 여기서 또 걸면 두 번 먹으므로 끔. 이전 값: grayscale(1) sepia(1) saturate(5) hue-rotate(190deg) brightness(.8) */
+.reel-media video{filter:none}
 .reel-shade{background:linear-gradient(180deg,#070b2726,transparent 40%,#080c29b3)}
 .space{--mint:#9aa5ff;background:linear-gradient(180deg,#080c29,#0b0e2c)}
 .space-sticky{background:radial-gradient(ellipse at 38% 58%,#1c245c 0%,#0d1236 62%,#080c29 100%)}

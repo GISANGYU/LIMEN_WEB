@@ -433,7 +433,7 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
   <div id="chapters"></div>
 
   <!-- 02 CONNECTION -->
-  <section id="connection" data-bg="bg_conn" data-label="무엇이 나를 움직였을까?">
+  <section id="connection" data-bg="hero" data-label="무엇이 나를 움직였을까?">
     <div class="ch-head"><div class="container">
       <h2 class="t1">무엇이 나를<br>움직였을까?</h2>
       <div class="g12"><p class="sub">서로 다른 장면에서 만난 신호·반응·관점·관계를 하나의 질문으로 연결합니다.</p></div>
@@ -720,7 +720,8 @@ const st = { hover:null, conv:0, actEl:null, mt:[.5,.5], dolly:0 };
 const IS_MOBILE = matchMedia('(max-width: 760px)').matches || navigator.maxTouchPoints > 1 && innerWidth < 1000;
 // 나방 영상 두 개는 11-03 자리를 바꿈: 숲 배경 = 꽃 피는 나방(limen_moth), F02 나방 = 숲길에서 동굴로 가는 나방(limen_forest)
 const BGV = { hero:'limen_moth', bg_firefly:'limen_firefly', bg_moth:'limen_forest', bg_spider:'limen_spider', bg_recall:'limen_memory',
-              bg_people:'limen_people', bg_conn:'stock_station', bg_reflect:'stock_stars' };
+              bg_people:'limen_people' };
+// 11-03: 인물 스톡(stock_station)·별 스톡 제거 → CONNECTION 도 data-bg="hero" 로 두어 최하단까지 나방 영상(limen_moth) 한 레이어를 끊김 없이 이어 쓴다
 const bgRoot = $('#bgv'), bgCam = $('#bgcam'), LAY = {};
 for(const k in BGV){
   const d = document.createElement('div'); d.className = 'bl';

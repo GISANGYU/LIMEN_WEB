@@ -11,8 +11,8 @@
 import { $, $$, clamp, invLerp, ease } from './_shared/js/core.js';
 import { createGradient } from './gradient.js';
 import { initSlogan } from './slogan.js';
-import { initSpace } from './space-layered.js?v=perf-1';
-import { createVisit } from './visit-plan.js?v=arrival-pin-3';
+import { initSpace } from './space-layered.js?v=brief-2';
+import { createVisit } from './visit-plan.js?v=note-hint-1';
 import { createFooterFilm } from './footer-film.js';
 
 const lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, easing: ease.expoOut, autoRaf: false });

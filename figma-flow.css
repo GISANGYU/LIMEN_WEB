@@ -17,7 +17,7 @@
 
 /* 글꼴 체계 = 기존 COMBINE: 큰 제목 Heebo 200(쇼릴 'Watch the scenes'), 본문 Heebo 300, 라벨 Inter Tight 800 10px */
 .flow{font-family:var(--sans)}
-.headline{font-family:var(--heebo);font-weight:200;font-size:clamp(54px,6.25vw,120px);line-height:.95;letter-spacing:-.02em}
+.headline{font-family:var(--heebo);font-weight:400;font-size:clamp(54px,6.25vw,120px);line-height:.95;letter-spacing:-.02em}
 .letter{font-weight:inherit}
 .copy.left{font-family:var(--heebo);font-weight:300;font-size:30px;line-height:1.6}
 .copy.detail,.copy.right{font-family:var(--heebo);font-weight:300;font-size:13px;line-height:1.7}

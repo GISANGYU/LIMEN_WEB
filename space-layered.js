@@ -7,7 +7,7 @@
 // 단계 표시는 monopo 식 큰 번호(01/05), 진행도는 main.js 프레임 루프에서 받는다.
 import * as THREE from 'three';
 import { $, $$, clamp, smooth as ss } from './_shared/js/core.js';
-import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js';
+import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js?v=brief-2';
 
 const PHASES = [   // 11-02: 빈 화면이던 Grid 단계 삭제 → 01/04
   [0.0, 'Space'],
@@ -287,8 +287,10 @@ export function initSpace() {
     const info = INFO.find((i) => i.id === id);
     chip.classList.toggle('on', !!id);
     chipB.classList.toggle('on', !!(info && info.subs));
-    if (info && info.subs) { fillChip(chip, info.subs[0].no, info.subs[0].title, info.subs[0].lines); fillChip(chipB, info.subs[1].no, info.subs[1].title, info.subs[1].lines); }
-    else if (info) fillChip(chip, info.no, info.title, info.lines);
+    // 11-02: 장비에 붙는 칩은 한 줄 요약(brief), 오른쪽 목록은 전체 설명(lines)
+    const sum = (o) => o.brief || o.lines;
+    if (info && info.subs) { fillChip(chip, info.subs[0].no, info.subs[0].title, sum(info.subs[0])); fillChip(chipB, info.subs[1].no, info.subs[1].title, sum(info.subs[1])); }
+    else if (info) fillChip(chip, info.no, info.title, sum(info));
     // 01 프로젝터에 들어오면 장면을 처음부터 — 02 4면 투사 공간까지 끊기지 않고 이어서 재생
     if (id === 'projector') { try { video.currentTime = 0; } catch (err) { /* 메타데이터 전 */ } }
   }
@@ -357,7 +359,8 @@ export function initSpace() {
   }
 
   const t0 = performance.now(), _v = new THREE.Vector3();
-  let camAz = 30, camEl = 31, zoomS = 1, offX = 0, offY = 0, lidK = 0;
+  let camAz = 30, camEl = 31, zoomS = 1, offX = 0, offY = 0, lidK = 0, fxS = 1;
+  const FOCUS_SCALE = 1.5;
   let lastT = -1;
   const reduceCameraMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const faceOn = { F: 0, B: 0, L: 0, R: 0 };   // 정면 · 바닥 · 좌벽 · 우벽 영상 밝기 (P1 · P2 · P3 · P4 가 맡는 면)
@@ -413,10 +416,17 @@ export function initSpace() {
       const spread = active === 'space' ? 0 : 0.82;             // 공간 전체일 땐 다가가지 않고 방 전체를 보여 준다
       tz = active === 'space' ? 1.14 : active === 'pc' ? 1.55 : active === 'projector' ? 1.42 : active === 'speaker' ? 1.7 : 1.85;   // 프로젝터는 비춰지는 면이 보이게 덜 다가감
       tx = (_v.x - view.cx) * spread; ty = (_v.y - view.cy) * spread;
+      // 11-02: 장비 소개 땐 1.5배 더 다가간다. 단, 그 장비(여러 대면 모두)가 화면 밖으로 나가지 않을 만큼까지만
+      const asp = W / Hh; let fit = Infinity;
+      pts.forEach((q) => { _v.copy(q).applyMatrix4(camera.matrixWorldInverse);
+        const dx = Math.abs(_v.x - view.cx - tx), dy = Math.abs(_v.y - view.cy - ty);
+        fit = Math.min(fit, dx > 1e-4 ? view.half * asp * 0.62 / dx : Infinity, dy > 1e-4 ? view.half * 0.7 / dy : Infinity); });
+      tz = Math.max(tz, Math.min(tz * FOCUS_SCALE, fit));
     }
     // 목표를 일정한 비율로 부드럽게 따라감 (펀치·이즈인아웃 없음)
     const camK = reduceCameraMotion.matches ? 1 : damp(0.045);
     zoomS += (tz - zoomS) * camK; offX += (tx - offX) * camK; offY += (ty - offY) * camK;
+    fxS += ((active ? FOCUS_SCALE : 1) - fxS) * camK;   // 지시 점·파장·신호 그래픽도 모델과 같이 커진다
     if (p > 0.6) { placeCamera(camAz, camEl); setFrustum(zoomS, offX, offY); camera.updateMatrixWorld(); }
     drawPeople(op);
     // 송출 노트북: 06 운영 데스크 차례에 덮개가 열리고, 벗어나면 다시 접힌다 (카메라가 다가가는 동안 조금 늦게)
@@ -436,11 +446,11 @@ export function initSpace() {
       if (cx + cw > W - 24) cx = ax - 90 - cw;
       cx = clamp(cx, 24, W - cw - 24); cy = clamp(cy, 200, Hh - chh - 120);
       chip.style.left = cx.toFixed(1) + 'px'; chip.style.top = cy.toFixed(1) + 'px';
-      const lx = cx > ax ? cx : cx + cw, ly = cy + 22, r = (8 + 3 * Math.sin(time * 4)).toFixed(1);
+      const lx = cx > ax ? cx : cx + cw, ly = cy + 22, r = ((8 + 3 * Math.sin(time * 4)) * fxS).toFixed(1);
       let fx = '';
       if (active === 'projector' && projSub >= 0) fx = projBeams(time);
       if (active === 'speaker') fx = soundWaves(scr, time);
-      tagSvg.innerHTML = fx + scr.map(([x, y], k) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5"></circle><circle class="ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}"></circle>${k ? '' : `<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}"></line>`}`).join('');
+      tagSvg.innerHTML = fx + scr.map(([x, y], k) => `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${f1(3.5 * fxS)}"></circle><circle class="ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}"></circle>${k ? '' : `<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}"></line>`}`).join('');
     } else tagSvg.innerHTML = '';
 
     if (p > 0.5) renderer.render(scene, camera);
@@ -451,9 +461,9 @@ export function initSpace() {
     for (const k of PROJ_STEPS[projSub]) {
       const ph = S.projHelp[k], [ax, ay] = toScr(ph.lensW), [bx, by] = toScr(ph.center);
       out += `<path class="flow beam" d="M${f1(ax)} ${f1(ay)}L${f1(bx)} ${f1(by)}" style="stroke-dashoffset:${f1(-time * 40)}"></path>`;
-      for (let j = 0; j < 3; j++) { const t = (time * 0.6 + j / 3) % 1; out += `<circle class="pkt" cx="${f1(ax + (bx - ax) * t)}" cy="${f1(ay + (by - ay) * t)}" r="${f1(2.8 * Math.sin(t * Math.PI) + 0.6)}"></circle>`; }
-      const rr = f1(10 + ((time * 0.8) % 1) * 26);
-      out += `<circle class="wave" cx="${f1(bx)}" cy="${f1(by)}" r="${rr}" style="opacity:${(1 - (time * 0.8) % 1).toFixed(2)}"></circle><circle class="pkt" cx="${f1(bx)}" cy="${f1(by)}" r="3"></circle>`;
+      for (let j = 0; j < 3; j++) { const t = (time * 0.6 + j / 3) % 1; out += `<circle class="pkt" cx="${f1(ax + (bx - ax) * t)}" cy="${f1(ay + (by - ay) * t)}" r="${f1((2.8 * Math.sin(t * Math.PI) + 0.6) * fxS)}"></circle>`; }
+      const rr = f1((10 + ((time * 0.8) % 1) * 26) * fxS);
+      out += `<circle class="wave" cx="${f1(bx)}" cy="${f1(by)}" r="${rr}" style="opacity:${(1 - (time * 0.8) % 1).toFixed(2)}"></circle><circle class="pkt" cx="${f1(bx)}" cy="${f1(by)}" r="${f1(3 * fxS)}"></circle>`;
     }
     return out;
   }
@@ -463,7 +473,7 @@ export function initSpace() {
     scr.forEach(([x, y], i) => {
       for (let j = 0; j < 3; j++) {
         const t = (time * 0.7 + j / 3 + i * 0.13) % 1;
-        out += `<circle class="wave" cx="${f1(x)}" cy="${f1(y)}" r="${f1(8 + t * 46)}" style="opacity:${(0.9 * (1 - t)).toFixed(2)};stroke-width:${f1(1.6 - t)}"></circle>`;
+        out += `<circle class="wave" cx="${f1(x)}" cy="${f1(y)}" r="${f1((8 + t * 46) * fxS)}" style="opacity:${(0.9 * (1 - t)).toFixed(2)};stroke-width:${f1((1.6 - t) * fxS)}"></circle>`;
       }
     });
     return out;
@@ -489,7 +499,7 @@ export function initSpace() {
   function drawPcFlow(time) {
     const L = S.links, [mx, my] = toScr(L.main), [sx, sy] = toScr(L.sub);
     const [l1x, l1y] = placeAt(chip, mx, my, -1), [l2x, l2y] = placeAt(chipB, sx, sy, 1);
-    const r = f1(8 + 3 * Math.sin(time * 4));
+    const r = f1((8 + 3 * Math.sin(time * 4)) * fxS);
     let s = '';
     // 센서 → 각 PC 연결 (흐린 점선)
     for (const [k, pc] of [[L.kL, L.main], [L.kR, L.sub]]) s += `<path class="cable" d="${arcPath(k, pc, 0.25, 16).d}" style="stroke-dashoffset:${f1(-time * 14)}"></path>`;

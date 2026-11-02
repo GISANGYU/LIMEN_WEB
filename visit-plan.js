@@ -150,7 +150,7 @@ export function createVisit(host) {
         if(i===phase) el.setAttribute('aria-current','step'); else el.removeAttribute('aria-current');
       });
       mode.textContent=phase<2?'CAMPUS PLAN':phase===2?'VERTICAL CONNECTION':'HORIZON STUDIO';
-      hint.textContent=phase===3?'정보관 8층, LIMEN에서 만나요.':'스크롤해 길을 따라가세요 ↓';
+      hint.textContent=phase===3?'건물 출입구와 실내 이동은 현장 안내를 확인하세요.':'스크롤해 길을 따라가세요 ↓';
     }
   }
   update(0);

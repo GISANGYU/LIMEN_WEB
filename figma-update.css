@@ -1088,3 +1088,39 @@ body.figma-update.header-hidden .c-Header {
     font-size: 26px;
   }
 }
+/* 11-02: 푸터 하단 타이틀(LIMEN·SPACE·TEAM SNOOZE·VISIT 등) 굵기 한 단계 더 낮춤 */
+.figma-update .footer-information :is(.footer-label, .footer-brand, .footer-nav a) {
+  font-weight: 400;
+}
+/* 11-02: 공간 섹션 위쪽 둥근 모서리 제거 */
+.figma-update .space,
+.figma-update #space {
+  border-radius: 0;
+}
+/* 11-02: 헤더 메뉴를 같은 간격으로 펼쳐 About 시작 = 8번째 칸, Awake 끝 = 오른쪽 여백(72px) 선 → 푸터 하단 글자도 같은 선에서 끝남(--header-right-trim = 0) */
+@media (min-width: 768px) {
+  body.figma-update .c-Header nav {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+/* 11-02: 푸터 끝에 닿으면 헤더가 천천히 스르륵 내려온다 */
+body.figma-update.is-page-end .c-Header {
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* 11-02: 푸터 슬로건 등장 — 블러 + 투명도, 0.5초 (footer-slogan-reveal.js 가 줄마다 .is-in) */
+.footer-reveal-ready .figma-update .footer-scattered span {
+  opacity: 0;
+  filter: blur(14px);
+  transition: opacity 0.5s ease-out, filter 0.5s ease-out;
+}
+.footer-reveal-ready .figma-update .footer-scattered span.is-in {
+  opacity: 1;
+  filter: blur(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-reveal-ready .figma-update .footer-scattered span {
+    filter: none;
+    transition: opacity 0.5s ease-out;
+  }
+}

@@ -1157,3 +1157,15 @@ body.figma-update .c-Header nav > a:focus-visible::after {
   transform: scaleX(1);
   transform-origin: left center;
 }
+
+/* 11-02: 스크롤바 — 기본 막대는 숨기고 빛 점(scroll-dot.js)으로 대신한다. 레일 선은 없음 */
+html:has(body.figma-update) { scrollbar-width: none; }
+html:has(body.figma-update)::-webkit-scrollbar { display: none; }
+.scroll-dot { position: fixed; top: 32px; bottom: 32px; right: 10px; width: 28px; z-index: 9000; cursor: pointer; touch-action: none; }
+.scroll-dot .dot { position: absolute; left: 50%; top: 0; width: 8px; height: 16px; border-radius: 999px; background: #fff; transform: translate(-50%, -50%);
+  box-shadow: 0 0 6px 1px #d0caff, 0 0 18px 4px rgba(181, 166, 255, 0.55), 0 0 40px 10px rgba(181, 166, 255, 0.18); }
+.scroll-dot .trail { position: absolute; left: 50%; top: 0; width: 1px; height: 0; transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(181, 166, 255, 0), rgba(181, 166, 255, 0.7)); }
+.scroll-dot:hover .dot, .scroll-dot.is-drag .dot { width: 10px; }
+html.scroll-dot-drag, html.scroll-dot-drag * { user-select: none; cursor: grabbing !important; }
+@media (max-width: 767px) { .scroll-dot { display: none; } }

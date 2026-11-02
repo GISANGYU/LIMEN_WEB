@@ -74,7 +74,9 @@ main{position:relative;z-index:2}
 .hero .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wh-ui{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s ease 1.2s;font-family:"Inter Tight",var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:rgba(236,232,255,.55);z-index:1}
 .hero.ready .wh-ui{opacity:1}
-.wh-ui .tag{position:absolute;left:72px;bottom:56px;font-size:13px;line-height:1.9}
+/* 글자 위 렌즈: 이 원 안에서만 글자가 물감처럼 번진다 */
+/* 글자 위 슬라임 렌즈: 커서를 따라오는 원 8개를 끈적이 필터로 한 덩어리로 — 이 안에서만 글자가 번진다 */
+.wh-goo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity .3s;overflow:visible;filter:drop-shadow(0 0 10px rgba(181,166,255,.35))}
 .wh-ui .wh-hint{position:absolute;right:72px;bottom:56px;font-size:12px;letter-spacing:.2em}
 @media (max-width:767px){ .wh-ui .tag{left:20px} .wh-ui .wh-hint{display:none} }
 .hero-exit{position:fixed;z-index:3;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(575px,calc(100vw - 32px));display:flex;align-items:flex-start;justify-content:space-between;gap:32px}
@@ -116,8 +118,8 @@ main{position:relative;z-index:2}
 .card .m canvas{position:absolute;inset:0;width:100%;height:100%}
 /* ── 창 안의 UI 패널 (복사본 시안): 배경 영상이 비치는 창 위 유리 패널 ── */
 .card .m .pn{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(64%,260px);padding:14px 16px 16px;border-radius:14px;
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
-  box-shadow:0 18px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);color:#fff;font-size:12px;line-height:1.4;letter-spacing:-.01em}
+  background:rgba(255,255,255,.1);border:0;backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+  box-shadow:0 18px 40px rgba(0,0,0,.35);color:#fff;font-size:12px;line-height:1.4;letter-spacing:-.01em}
 .pn-h{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.8);margin-bottom:12px}
 .pn-h i{width:6px;height:6px;border-radius:50%;background:#d7ccff;box-shadow:0 0 8px #b5a6ff}
 .pn.alert .pn-h i{background:#ff9bb4;box-shadow:0 0 8px #ff6f93}
@@ -190,6 +192,84 @@ main{position:relative;z-index:2}
 @media (prefers-reduced-motion:reduce){.card .m .pn *{animation:none!important;opacity:1!important}}
 @media (max-width:760px){.card .m .pn{width:72%}}
 
+/* 11-03: 사진은 거미 한 칸만 — 나머지는 얇은 선·막대·점 (발광 없이) */
+.pn img{display:block;width:100%;height:100%;object-fit:cover}
+.still{position:relative;margin:0;aspect-ratio:16/9;border-radius:8px;overflow:hidden}
+.still.reveal i{position:absolute;inset:0;background:linear-gradient(0deg,#06060a 0%,#06060a 40%,rgba(6,6,10,0) 75%);background-size:100% 260%;animation:pnReveal 4.4s ease-in-out infinite}
+@keyframes pnReveal{0%,10%{background-position:0 0}60%,85%{background-position:0 100%}100%{background-position:0 0}}
+.rhythm{display:flex;align-items:flex-end;justify-content:space-between;height:64px;padding:0 6px;border-bottom:1px solid rgba(255,255,255,.35)}
+.rhythm i{width:3px;height:100%;background:#fff;border-radius:2px 2px 0 0;transform-origin:bottom;animation:pnBar var(--d) cubic-bezier(.4,0,.2,1) var(--o) infinite}
+@keyframes pnBar{0%,100%{transform:scaleY(.12);opacity:.45}45%{transform:scaleY(1);opacity:1}}
+.line-art{display:block;width:100%;height:auto;fill:none;stroke:#fff;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round}
+.forest .spot{fill:#fff;stroke:none;animation:pnSpot 3s ease-in-out infinite}
+.forest .ring{animation:pnRing 3s ease-out infinite;transform-origin:128px 24px}
+@keyframes pnSpot{50%{opacity:.4}}
+@keyframes pnRing{0%{transform:scale(1);opacity:.8}100%{transform:scale(5);opacity:0}}
+.trail .path{stroke-dasharray:4 5;animation:pnTrail 2.8s linear infinite}
+.trail .goal{animation:pnGoal 2.8s ease-in-out infinite;transform-origin:176px 20px}
+.trail .dot{fill:#fff;stroke:none}
+@keyframes pnTrail{to{stroke-dashoffset:-36}}
+@keyframes pnGoal{50%{transform:scale(1.6);opacity:.5}}
+.iris{position:relative;width:96px;height:96px;margin:0 auto}
+.iris i{position:absolute;border-radius:50%}
+.iris .r1{inset:0;border:1px dashed rgba(255,255,255,.55);animation:pnSpin 14s linear infinite}
+.iris .r2{inset:16px;border:1px solid rgba(255,255,255,.8)}
+.iris .pupil{left:50%;top:50%;width:18px;height:18px;margin:-9px;background:#fff;animation:pnLook 5s ease-in-out infinite}
+@keyframes pnSpin{to{transform:rotate(360deg)}}
+@keyframes pnLook{0%,100%{transform:translate(-10px,2px)}35%{transform:translate(10px,-6px)}65%{transform:translate(4px,8px)}}
+.one{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.one p{font-size:12px;line-height:1.5;color:rgba(255,255,255,.86)}
+.matrix{display:grid;grid-template-columns:repeat(7,6px);gap:3px}
+.matrix i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.07)}
+.matrix i.on{background:#fff;animation:pnScan 3.2s ease-in-out var(--o) infinite}
+@keyframes pnScan{0%,100%{opacity:.7}30%{opacity:1}}
+
+/* 11-03: 남은 빛 · 빛을 따라 · 한 사람 다시 */
+.left{display:grid;grid-template-columns:repeat(6,1fr);gap:14px 0;justify-items:center;padding:8px 0}
+.left i{width:6px;height:6px;border-radius:50%;background:#fff;animation:pnLeave 4.8s ease-in-out var(--o) infinite}
+.left i.stay{animation:pnStay 4.8s ease-in-out infinite}
+@keyframes pnLeave{0%,20%{opacity:1}45%,85%{opacity:.08}100%{opacity:1}}
+@keyframes pnStay{0%,100%{opacity:1;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+.field{position:relative;height:80px}
+.field b{position:absolute;width:14px;height:1.2px;margin:-.6px 0 0 -7px;background:#fff;opacity:.8;animation:pnAlign 4s ease-in-out var(--o) infinite}
+@keyframes pnAlign{0%,12%{transform:rotate(var(--a))}45%,85%{transform:rotate(var(--b))}100%{transform:rotate(var(--a))}}
+.field .src{position:absolute;left:90%;top:20%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#fff}
+.becoming{display:flex;align-items:flex-end;justify-content:space-between;height:70px;padding:0 4px;border-bottom:1px solid rgba(255,255,255,.3)}
+.becoming i{width:6px;height:6px;margin-bottom:6px;border-radius:3px;background:#fff;animation:pnFade 4s ease-in-out infinite}
+.becoming i.me{animation:pnStand 4s cubic-bezier(.3,.7,.2,1) infinite}
+@keyframes pnFade{0%,20%{opacity:.9}55%,85%{opacity:.18}100%{opacity:.9}}
+@keyframes pnStand{0%,20%{height:6px;width:6px}55%,85%{height:52px;width:10px;border-radius:5px}100%{height:6px;width:6px}}
+
+/* 11-03: 남은 빛 · 빛을 따라 (다시) */
+.carry{display:grid;grid-template-columns:1fr 1fr;gap:6px;height:84px}
+.carry .cell{position:relative;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden}
+.carry .cell span{position:absolute;left:8px;top:6px;font-size:10px;color:rgba(255,255,255,.6)}
+.carry .cell i{position:absolute;width:4px;height:4px;margin:-2px;border-radius:50%;background:#fff;animation:pnOut 4.4s ease-in-out infinite}
+@keyframes pnOut{0%,15%{opacity:.9}45%,90%{opacity:.08}100%{opacity:.9}}
+.carry .go{position:absolute;left:52%;top:40%;width:6px;height:6px;margin:-3px;border-radius:50%;background:#fff;z-index:1;animation:pnCross 4.4s cubic-bezier(.5,0,.3,1) infinite}
+@keyframes pnCross{0%,30%{transform:translate(0,0)}70%,92%{transform:translate(calc(100% + 120px),10px)}100%{transform:translate(0,0);opacity:0}}
+.carry .cell:first-child{overflow:visible}
+.lanes .lit{fill:#fff;stroke:none}
+.lanes .route{stroke-dasharray:3 5;opacity:.6}
+.lanes .mover{fill:#fff;stroke:none}
+
+/* 11-03: 빛을 따라 — 빛이 자리를 옮기면 '나방' 칩이 한 박자 늦게 같은 길을 따라간다 */
+.follow{position:relative;height:84px;border-radius:8px;background:rgba(255,255,255,.06)}
+.follow .lt,.follow .mo{position:absolute;left:0;top:0;animation:pnRoam 5.2s ease-in-out infinite}
+.follow .lt{width:10px;height:10px;margin:-5px;border-radius:50%;background:#fff}
+.follow .mo{padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.9);color:#140f33;font-size:10px;line-height:1.2;transform:translate(-50%,-50%);animation-delay:-4.1s;white-space:nowrap}
+@keyframes pnRoam{0%,100%{left:18%;top:30%}25%{left:78%;top:28%}50%{left:66%;top:74%}75%{left:30%;top:70%}}
+
+/* 11-03: 정해진 방향 — 태그 셋 중 빛이 켜진 쪽으로 '나의 방향' 표시가 옮겨 간다 */
+.picks{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.picks .pk{position:relative;z-index:1;padding:7px 0;border-radius:999px;text-align:center;font-size:11px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.75)}
+.picks .pk.hot{animation:pnHot 4s ease-in-out infinite}
+@keyframes pnHot{0%,15%{background:rgba(255,255,255,.1);color:rgba(255,255,255,.75)}30%,90%{background:#fff;color:#140f33}100%{background:rgba(255,255,255,.1)}}
+.picks .sel{position:absolute;left:0;bottom:-9px;width:calc((100% - 12px)/3);height:2px;border-radius:2px;background:#fff;animation:pnSel 4s cubic-bezier(.5,0,.2,1) infinite}
+@keyframes pnSel{0%,35%{transform:translateX(0)}60%,90%{transform:translateX(calc(100% + 6px))}100%{transform:translateX(0)}}
+.pick-me{display:flex;align-items:center;gap:6px;margin-top:20px;font-size:11px;color:rgba(255,255,255,.7)}
+.pick-me b{width:12px;height:2px;background:#fff;border-radius:2px}
+
 .vwin{display:grid;place-items:center}
 .vwin video{width:70%;aspect-ratio:16/9;object-fit:cover;display:block;position:relative;z-index:1}
 .vwin .temp{position:absolute;left:12px;bottom:10px;z-index:1;font-size:12px;color:var(--ink-70)}
@@ -246,11 +326,8 @@ main{position:relative;z-index:2}
 @keyframes linkFlow{to{stroke-dashoffset:-48}}
 @media (prefers-reduced-motion:reduce){.link{transition:none!important}#linkline .flow{animation:none}}
 
-/* 연결선(svg) 대신 창마다 화살표 — INDEX 푸터의 SHARP ARROW ↗ 와 같은 모양 */
+/* 연결선·화살표 없이 박스만 */
 #linkline{display:none}
-.link .m.slit .arw{position:absolute;left:auto;bottom:auto;right:12px;top:12px;overflow:visible;pointer-events:none;z-index:1;width:18px;height:18px;fill:none;stroke:#fff;stroke-width:1.2;
-  filter:drop-shadow(0 1px 6px rgba(0,0,0,.6));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-.link:hover .m.slit .arw,.link:focus-visible .m.slit .arw{transform:translate(3px,-3px)}
 
 /* 선택지 */
 .opt{grid-column:span 4;text-align:left;background:none;border:0;padding:0;cursor:pointer;display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:18.2px;color:var(--ink-60)}
@@ -333,10 +410,17 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
   <!-- HERO -->
   <section class="hero" data-bg="hero" data-label="AWAKE">
     <h1 class="sr">AWAKE</h1>
-    <div class="wh-ui">
-      <p class="tag">Between reality and dream<br>Team SNOOZE · 2026</p>
-      <p class="wh-hint">Move across the water</p>
-    </div>
+    <svg class="wh-goo" id="whGoo" aria-hidden="true">
+      <defs><filter id="whGooF" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/>
+        <feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10" result="g"/>
+        <feMorphology in="g" operator="erode" radius="1.2" result="e"/>
+        <feComposite in="g" in2="e" operator="out" result="o"/>
+        <feColorMatrix in="g" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .07 0" result="fill"/>
+        <feMerge><feMergeNode in="fill"/><feMergeNode in="o"/></feMerge>
+      </filter></defs>
+      <g filter="url(#whGooF)" fill="#fff"><circle r="0"/><circle r="0"/><circle r="0"/><circle r="0"/><circle r="0"/><circle r="0"/><circle r="0"/><circle r="0"/></g>
+    </svg>
     <div class="scroll-cue" id="scrollCue" aria-hidden="true">스크롤하여 돌아보기<span></span></div>
   </section>
 
@@ -490,7 +574,7 @@ const SCENES = [
    scene:'반딧불이 장면에서 남은 불빛을 따라 나방이 날아갑니다. 나방은 빛을 따라 동굴 안으로 들어가고, 관객의 시선도 함께 다음 공간으로 옮겨 갑니다.',
    concept:'스스로 정한 것처럼 보이는 방향에도\n바깥의 신호가 작용할 수 있다',
    flow:[['남은 빛','반딧불이 장면이 끝나도 몇 개의 불빛이 공간에 남아 있습니다.'],
-         ['빛을 따라','나방이 그 빛을 향해 날아가며 방향이 정해집니다.'],
+         ['정해진 방향','나방이 빛을 향하는 동안, 방향은 바깥의 신호로 정해집니다.'],
          ['동굴 안으로','나방이 동굴로 들어가면서 시선도 다음 공간으로 넘어갑니다.']],
    meanHead:'여럿이 닮아가는 것과\n하나의 빛을 따라가는 것',
    mean:['반딧불이가 여러 개체가 집단의 리듬에 맞춰 가는 모습이라면, 나방은 한 존재가 특정한 빛을 따라 움직이는 모습입니다. 이 빛은 현실의 추천, 평가, 유행처럼 선택에 작용하는 특정한 정보를 뜻합니다.',
@@ -567,29 +651,38 @@ const br = t => esc(t).replace(/\n/g,'<br>');
 const P = (label, body, cls='') => `<div class="pn ${cls}"><div class="pn-h"><i></i>${label}</div>${body}</div>`;
 const FIG = `<svg viewBox="-12 -22 24 38"><circle cx="0" cy="-15" r="5"/><path d="M-8 13V-1a8 8 0 0 1 16 0v14"/></svg>`;
 const beats = (same) => `<div class="beats">${[0,1,2,3,4].map(i=>`<span style="--d:${same?1.6:(1.1+i*.37).toFixed(2)}s;--o:${same?0:(-i*.29).toFixed(2)}s"><b></b></span>`).join('')}</div>`;
+// 11-03 수정: 사진은 거미 '드러남' 한 칸만. 나머지는 얇은 선·막대·점으로 (발광 없이 평평하게)
+const IMG = n => `media/ui/${n}.jpg`;
+const rhythm = (same) => `<div class="rhythm">${[0,1,2,3,4,5,6].map(i=>`<i style="--d:${same?1.4:[.9,1.7,1.2,2.1,1.0,1.5,1.9][i]}s;--o:${same?0:-[.1,.7,.3,1.1,.5,.9,.2][i]}s"></i>`).join('')}</div>`;
+// 한 사람: 7×11 점 행렬, 사람 모양 칸만 켜진다
+const MAN = ['..XXX..','..XXX..','...X...','.XXXXX.','X.XXX.X','X.XXX.X','..XXX..','..X.X..','..X.X..','..X.X..','.XX.XX.'];
+const matrix = () => `<div class="matrix">${MAN.map((r,y)=>[...r].map((c,x)=>`<i class="${c==='X'?'on':''}" style="--o:${(y*.09).toFixed(2)}s"></i>`).join('')).join('')}</div>`;
+const FIELD = (()=>{ let h=''; for(let y=0;y<4;y++) for(let x=0;x<7;x++){ const px=(x+.5)/7*100, py=(y+.5)/4*100;
+  const to=Math.atan2((20-py)*0.42,(90-px))*180/Math.PI, from=((x*53+y*97)%180)-90;
+  if(px>80&&py<35) continue; h+=`<b style="left:${px.toFixed(1)}%;top:${py.toFixed(1)}%;--a:${from}deg;--b:${to.toFixed(0)}deg;--o:${((x+y)*.08).toFixed(2)}s"></b>`; } return h; })();
 const UI = {
   firefly: [
-    P('각자의 박자', beats(false) + `<p class="pn-t">아직은 서로를 신경 쓰지 않습니다</p>`),
-    P('동조 중', beats(true) + `<div class="bar"><b></b></div><p class="pn-t">리듬이 하나로 맞춰집니다</p>`),
+    P('각자의 박자', rhythm(false) + `<p class="pn-t">반딧불이마다 제 박자로 빛납니다</p>`),
+    P('같은 박자', rhythm(true) + `<p class="pn-t">옆의 빛을 따라 리듬이 맞춰집니다</p>`),
     P('남은 신호', `<div class="note"><i class="glow"></i><p>불빛 하나가 다음 장면으로 이어집니다</p></div><span class="chip">다음 · 나방 →</span>`)
   ],
   moth: [
-    P('빛의 위치', `<div class="map"><i class="glow" style="left:68%;top:38%"></i></div>`),
-    P('방향', `<div class="compass"><i class="needle"></i></div><p class="pn-t">빛 쪽으로</p>`),
+    P('남은 빛', `<div class="carry"><div class="cell"><span>반딧불이</span>${Array.from({length:10},(_,k)=>`<i style="left:${[18,34,52,70,26,60,44,80,14,66][k]}%;top:${[30,58,40,66,74,24,82,46,52,86][k]}%"></i>`).join('')}<b class="go"></b></div><div class="cell"><span>나방</span></div></div><p class="pn-t">빛 하나가 다음 장면으로 건너갑니다</p>`),
+    P('정해진 방향', `<div class="picks"><span class="pk">추천</span><span class="pk hot">인기</span><span class="pk">많이 고른</span><i class="sel"></i></div><div class="pick-me"><b></b>나의 방향</div><p class="pn-t">빛이 켜진 쪽으로 방향이 기웁니다</p>`),
     P('장면 전환', `<div class="steps"><span>F02 나방</span><em>→</em><span>F03 거미</span></div><div class="bar"><b></b></div><p class="pn-t">동굴 안으로</p>`)
   ],
   spider: [
     P('화면 비율', `<div class="frame"><b class="lb t"></b><b class="lb b"></b></div><p class="pn-t">화면이 좁아집니다</p>`),
-    P('드러남', `<div class="eyes">${[0,1,2,3,4,5,6,7].map(i=>`<i style="--o:${(i*.22).toFixed(2)}s"></i>`).join('')}</div><p class="pn-t">조금씩 모습을 드러냅니다</p>`),
+    P('드러남', `<figure class="still reveal"><img src="${IMG('sp_reveal')}" alt=""><i></i></figure><p class="pn-t">어둠 속에서 거미가 드러납니다</p>`),
     P('습격', `<svg class="spike" viewBox="0 0 120 40"><polyline points="0,30 30,30 44,30 50,6 56,36 62,24 72,30 120,30"/></svg><p class="pn-t">생각보다 몸이 먼저 반응합니다</p>`, 'alert')
   ],
   memory: [
-    P('시점 · 생명체', `<div class="finder"><i class="glow"></i></div>`),
+    P('시점 · 생명체', `<div class="iris"><i class="r1"></i><i class="r2"></i><i class="pupil"></i></div><p class="pn-t">생명체의 자리에서 봅니다</p>`),
     P('시점 바꾸기', `<div class="seg"><span>안</span><span>바깥</span><b></b></div><p class="pn-t">같은 존재를 다른 자리에서</p>`),
     P('사람과 사회', `<div class="pn-link"><div class="thumbs"><i></i><i></i><i></i></div><em>→</em><div class="figs">${FIG}${FIG}${FIG}</div></div>`)
   ],
   people: [
-    P('한 사람', `<svg class="skel" viewBox="0 0 60 80"><g><path d="M30 14V42M30 22L16 34M30 22L44 34M30 42L20 66M30 42L40 66"/><circle cx="30" cy="9" r="5"/>${[[30,22],[16,34],[44,34],[30,42],[20,66],[40,66]].map(([x,y])=>`<circle class="j" cx="${x}" cy="${y}" r="2"/>`).join('')}</g></svg>`),
+    P('한 사람', `<div class="becoming">${Array.from({length:9},(_,k)=>`<i class="${k===4?'me':''}"></i>`).join('')}</div><p class="pn-t">작은 빛들 사이에서 한 사람이 서 있습니다</p>`),
     P('군중', `<div class="crowd">${Array.from({length:8},(_,i)=>`<span style="--o:${(i*.3).toFixed(1)}s">${FIG}</span>`).join('')}</div><p class="pn-t">하나의 흐름이 됩니다</p>`),
     P('같은 방향', `<div class="march"><div>${FIG}${FIG}${FIG}</div></div><span class="chip">내가 움직이는 쪽으로 →</span>`)
   ]
@@ -624,13 +717,6 @@ $('#chapters').innerHTML = SCENES.map((s,i)=>`
       </div>
       <div class="container"><dl class="g12 list rv">${s.rel.map(f=>`<div><dt class="u">${f[0]}</dt><dd class="body">${esc(f[1])}</dd></div>`).join('')}</dl></div>
     </article>
-    <article class="feat">
-      <div class="container g12 feat-head">
-        <p class="eyebrow">질문</p>
-        <h3 class="t3 ask-q rv">${esc(s.q)}</h3>
-        <div class="side rv"><p class="lead">답을 적지 않아도 됩니다. 떠오르는 순간이 있는지만 생각해 보세요.</p></div>
-      </div>
-    </article>
     <div class="container"><dl class="g12 list rv">${s.facts.map(f=>`<div><dt class="u">${f[0]}</dt><dd class="body">${esc(f[1])}</dd></div>`).join('')}</dl></div>
   </div>
 </section>`).join('');
@@ -638,7 +724,7 @@ $('#chapters').innerHTML = SCENES.map((s,i)=>`
 // 연결 창 영상 (BGV 는 아래에서 정의되므로 따로 둔다. 나방 = 숲길에서 동굴로 가는 나방)
 const LINKV = { firefly:'limen_firefly', moth:'limen_forest', spider:'limen_spider', memory:'limen_memory', people:'limen_people' };
 $('#links').insertAdjacentHTML('beforeend', SCENES.map((s,i)=>`
-  <a class="link" href="#${s.id}"><div class="m slit"><video muted loop playsinline preload="metadata" data-src="${media(LINKV[s.id])}"></video><span class="k">${pad(i+1)}</span><svg class="arw" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.8125 15.1875L15.1875 2.8125M15.1875 9.5625V2.8125H8.4375"/></svg></div>
+  <a class="link" href="#${s.id}"><div class="m slit"><video muted loop playsinline preload="metadata" data-src="${media(LINKV[s.id])}"></video><span class="k">${pad(i+1)}</span></div>
   <span class="u" style="font-size:14px">${s.name}</span><span class="body">${s.key}</span></a>`).join(''));
 
 const MENU = [['top','처음','AWAKE'],...SCENES.map(s=>[s.id,s.name,s.key]),['connection','무엇이 나를 움직였을까?','02'],['final','마지막 질문','']];
@@ -1110,18 +1196,40 @@ textTex.generateMipmaps = true; textTex.minFilter = THREE.LinearMipmapLinearFilt
 
 const PW = 6.3, PH = PW * TH / TW, PY0 = -(TH - BASE) / TH * PH;   // 기준선이 y=0(수면)에 오도록
 const rect = new THREE.Vector4(-PW / 2, PY0, PW, PH);
-const U = { uTime: { value: 0 }, uTex: { value: textTex }, uRect: { value: rect }, uIntro: { value: 0 } };
+// uM = 글자 면 위 마우스(0~1), uMV = 마우스 속도, uMA = 왜곡 세기 (글자 위에 있을 때 1)
+const U = { uTime: { value: 0 }, uTex: { value: textTex }, uRect: { value: rect }, uIntro: { value: 0 },
+  uM: { value: new THREE.Vector2(-9, -9) }, uMV: { value: new THREE.Vector2() }, uMA: { value: 0 }, uR: { value: .2 },
+  uTr: { value: Array.from({ length: 8 }, () => new THREE.Vector3(-9, -9, 0)) } };
+// 물감 왜곡: 마우스 둘레를 소용돌이로 비틀고, 움직인 방향으로 끌고, 가장자리를 난류로 번지게 한다 (글자·반사 둘 다)
+const PAINT = `uniform vec2 uM, uMV; uniform float uMA, uR; uniform vec3 uTr[8];
+vec2 paint(vec2 uv, vec4 rc, float t){
+  if (uMA < 0.002) return uv;
+  vec2 A = vec2(rc.z / rc.w, 1.0), d = (uv - uM) * A;
+  float r = length(d), k = 0.0;
+  for (int i = 0; i < 8; i++){                           // 슬라임 꼬리(원 여러 개)의 합집합 안에서만
+    vec2 e = (uv - uTr[i].xy) * A; float ri = uTr[i].z;
+    k = max(k, 1.0 - smoothstep(ri * 0.8, ri, length(e)));
+  }
+  k *= uMA;
+  if (k <= 0.0) return uv;
+  float q = min(1.0, r / uR);
+  float a = (1.0 - q) * 1.6 * k; float cs = cos(a), sn = sin(a);          // 가운데일수록 더 도는 소용돌이
+  vec2 sw = vec2(cs * d.x - sn * d.y, sn * d.x + cs * d.y) - d;
+  vec2 tb = (vec2(fbm(uv * 10.0 + t * 0.8), fbm(uv * 10.0 + 9.0 - t * 0.7)) - 0.5) * 0.05 * k;
+  return uv - (sw / A + uMV * 3.0 * k + tb);
+}`;
 
 const textMat = new THREE.ShaderMaterial({
   transparent: true, depthWrite: false, uniforms: U,
   vertexShader: `varying vec2 vUv; varying vec3 vW; void main(){ vUv = uv; vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
-  fragmentShader: NOISE + `uniform sampler2D uTex; uniform float uTime, uIntro; varying vec2 vUv; varying vec3 vW;
+  fragmentShader: NOISE + PAINT + `uniform sampler2D uTex; uniform float uTime, uIntro; uniform vec4 uRect; varying vec2 vUv; varying vec3 vW;
     void main(){
       if (vW.y < 0.0) discard;                                  // 수면 아래는 물이 가린다
       vec2 uv = vUv;
       float m = smoothstep(0.28, 0.0, vW.y);                    // 수면 가까이 갈수록 글자 끝이 녹아 흔들림
       uv.x += (vnoise(vec2(vW.y * 38.0, uTime * 0.9 + vW.x * 2.0)) - 0.5) * 0.0065 * m;
       uv.y += (vnoise(vec2(vW.x * 9.0, uTime * 0.7)) - 0.5) * 0.004 * m;
+      uv = paint(uv, uRect, uTime);                             // 마우스가 글자 위에 있으면 물감처럼 번진다
       vec4 c = texture2D(uTex, uv);
       c.rgb *= mix(vec3(1.0), vec3(0.86, 0.80, 1.0), m * 0.6);        // 물에 닿는 부분은 라벤더 기운
       gl_FragColor = vec4(c.rgb, c.a * uIntro);
@@ -1141,7 +1249,7 @@ const waterMat = new THREE.ShaderMaterial({
   transparent: true, depthWrite: false, uniforms: W,
   blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor,
   vertexShader: `varying vec3 vW; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
-  fragmentShader: NOISE + `
+  fragmentShader: NOISE + PAINT + `
     uniform sampler2D uTex; uniform float uTime, uIntro, uLightAmt; uniform vec4 uRect; uniform vec3 uLight; uniform vec4 uRip[${RIPN}];
     varying vec3 vW;
     void main(){
@@ -1165,7 +1273,7 @@ const waterMat = new THREE.ShaderMaterial({
       vec3 refl = vec3(0.0), lit = vec3(0.0);
       if (R.z < -1e-4 && P.z > 0.0) {
         vec3 Q = P + R * (-P.z / R.z);                          // 반사 광선이 글자 면(z=0)에 닿는 곳
-        vec2 uv = (Q.xy - uRect.xy) / uRect.zw;
+        vec2 uv = paint((Q.xy - uRect.xy) / uRect.zw, uRect, uTime);   // 반사에도 같은 번짐
         if (uv.x > 0.0 && uv.x < 1.0 && uv.y > 0.0 && uv.y < 1.0) {
           vec4 c = texture2D(uTex, uv, 0.8);
           refl += c.rgb * c.a * vec3(0.80, 0.72, 1.0) * 1.25 * uIntro;
@@ -1236,13 +1344,24 @@ const plWater = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), plText = new THR
 const light = new THREE.Vector3(0, 2, LZ), lightTarget = light.clone();
 let inside = false, onWater = false, snap = false, lastRip = new THREE.Vector3(99, 0, 99), lastRipT = 0;
 const par = { x: 0, y: 0, tx: 0, ty: 0 };
-const hitW = new THREE.Vector3(), hitT = new THREE.Vector3();
+const hitW = new THREE.Vector3(), hitT = new THREE.Vector3(), hitG = new THREE.Vector3();
+const plGlyph = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);   // 글자 면 (z=0)
+const paintT = new THREE.Vector2(-9, -9); let onText = false;
+const gooEl = document.getElementById('whGoo'), gooC = [...gooEl.querySelectorAll('circle')], lensXY = [0, 0];
+const tail = gooC.map(() => [0, 0]); let tailInit = false;   // 화면 px. 0 = 커서, 뒤로 갈수록 늦게 따라온다
+const tRay = new THREE.Raycaster(), tNdc = new THREE.Vector2(), tHit = new THREE.Vector3();
 
 function pointer(e) {
   const b = renderer.domElement.getBoundingClientRect();
   ndc.set((e.clientX - b.left) / b.width * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1);
-  par.tx = ndc.x; par.ty = ndc.y; inside = true;
+  par.tx = ndc.x; par.ty = ndc.y; inside = true; lensXY[0] = e.clientX - b.left; lensXY[1] = e.clientY - b.top;
   ray.setFromCamera(ndc, camera);
+  // 글자 위인지: 글자 면에 닿은 자리를 글자 텍스처 좌표로
+  if (ray.ray.intersectPlane(plGlyph, hitG)) {
+    const u = (hitG.x - rect.x) / rect.z, v = (hitG.y - rect.y) / rect.w;
+    onText = hitG.y > 0 && u > .04 && u < .96 && v > (0 - rect.y) / rect.w && v < .9;
+    paintT.set(u, v);
+  } else onText = false;
   const was = onWater;
   onWater = !!ray.ray.intersectPlane(plWater, hitW) && hitW.z > 0.02 && hitW.z < 28;
   if (onWater !== was) { snap = true; lastRip.copy(hitW); lastRipT = clock.elapsedTime; }   // 하늘↔물 경계: 빛이 튀어 미끄러지지 않게
@@ -1261,7 +1380,7 @@ function pointer(e) {
 }
 hero.addEventListener('pointermove', pointer);
 hero.addEventListener('pointerdown', e => { pointer(e); if (onWater) { ripples[ripI].set(hitW.x, hitW.z, clock.elapsedTime, 1.4); ripI = (ripI + 1) % RIPN; } });
-hero.addEventListener('pointerleave', () => { inside = false; par.tx = par.ty = 0; });
+hero.addEventListener('pointerleave', () => { inside = false; onText = false; par.tx = par.ty = 0; });
 
 /* ───────── 크기 · 루프 ───────── */
 function resize() {
@@ -1290,10 +1409,35 @@ function frame() {
   camera.position.set(CAM.x + par.x * 0.55, CAM.y + par.y * 0.12 + (1 - intro) * 0.25, CAM.z + (1 - intro) * 2.2);
   camera.lookAt(LOOK.x + par.x * 0.12, LOOK.y + par.y * 0.05, LOOK.z);
   if (snap) { light.copy(lightTarget); snap = false; } else light.lerp(lightTarget, 0.18);
+  // 물감 왜곡: 위치는 살짝 늦게 따라가고(끌림), 속도는 번짐 방향, 세기는 글자 위에서 차오르고 벗어나면 천천히 가라앉는다
+  { const M = U.uM.value, px = M.x, py = M.y;
+    M.copy(paintT);   // 렌즈 원과 같은 자리 (늦게 따라가면 원과 어긋난다)
+    U.uMV.value.lerp(new THREE.Vector2(M.x - px, M.y - py), 0.25);
+    U.uMA.value += ((onText ? 1 : 0) - U.uMA.value) * (onText ? 0.12 : 0.06); }
+  // 렌즈 반지름 70px 를 글자 텍스처 세로 좌표로 바꾼다 (글자 면 높이가 화면에서 몇 px 인지)
+  { const a = new THREE.Vector3(0, PY0, 0).project(camera), b2 = new THREE.Vector3(0, PY0 + PH, 0).project(camera);
+    const pxH = Math.abs(a.y - b2.y) / 2 * hero.clientHeight, LR = 70;
+    U.uR.value = LR / Math.max(1, pxH);
+    gooEl.style.opacity = U.uMA.value > .05 ? Math.min(1, U.uMA.value * 1.2) : 0;
+    if (!tailInit || !onText && U.uMA.value < .05) { tail.forEach(p => { p[0] = lensXY[0]; p[1] = lensXY[1]; }); tailInit = true; }
+    const W_ = hero.clientWidth, H_ = hero.clientHeight;
+    tail.forEach((p, i) => {
+      if (i === 0) { p[0] = lensXY[0]; p[1] = lensXY[1]; }
+      else { const q = tail[i - 1], k = .24 - i * .014; p[0] += (q[0] - p[0]) * k; p[1] += (q[1] - p[1]) * k;   // 앞 원을 쫓아가는 꼬리
+        // 끊어져 동그랗게 떨어지지 않게: 앞 원과의 거리를 두 반지름 합의 절반 안으로 묶는다 (늘 한 덩어리)
+        const ra = LR * (1 - (i - 1) / tail.length * .78), rb = LR * (1 - i / tail.length * .78), maxD = (ra + rb) * .5;
+        const dx = p[0] - q[0], dy = p[1] - q[1], dd = Math.hypot(dx, dy);
+        if (dd > maxD) { p[0] = q[0] + dx / dd * maxD; p[1] = q[1] + dy / dd * maxD; } }
+      const rr = LR * (1 - i / tail.length * .78);                                                     // 뒤로 갈수록 가늘어지며 사라진다
+      gooC[i].setAttribute('cx', p[0]); gooC[i].setAttribute('cy', p[1]); gooC[i].setAttribute('r', rr.toFixed(1));
+      // 같은 원을 글자 텍스처 좌표로 → 왜곡도 슬라임 모양 그대로
+      tNdc.set(p[0] / W_ * 2 - 1, -(p[1] / H_) * 2 + 1); tRay.setFromCamera(tNdc, camera);
+      if (tRay.ray.intersectPlane(plGlyph, tHit)) U.uTr.value[i].set((tHit.x - rect.x) / rect.z, (tHit.y - rect.y) / rect.w, rr / Math.max(1, pxH) * .92);
+    }); }
   W.uLight.value.copy(light);
-  W.uLightAmt.value += ((inside ? 1 : 0) - W.uLightAmt.value) * 0.08;
+  W.uLightAmt.value = 0;   // 11-03: 수면의 마우스 빛 반사도 끔
   orb.position.copy(light); orb.quaternion.copy(camera.quaternion);
-  orbMat.uniforms.uAmt.value += ((inside && !onWater ? 1 : 0) - orbMat.uniforms.uAmt.value) * 0.12;
+  orbMat.uniforms.uAmt.value = 0;   // 11-03: 마우스 빛(플레어) 끔 — 글자 렌즈로 대신한다
   renderer.clear();
   renderer.render(bgScene, orthoCam);
   renderer.render(scene, camera);

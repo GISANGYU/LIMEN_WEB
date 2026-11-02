@@ -337,7 +337,7 @@ document.documentElement.classList.add('js');
 const MEDIA = {
   // 11-03 영상팀 소스(awake_source, 3면 4320×912 → 정면 1920×912 로 자름)
   limen_forest:'media/limen_forest.mp4', limen_moth:'media/limen_moth.mp4', limen_firefly:'media/limen_firefly.mp4',
-  limen_spider:'media/limen_spider.mp4', limen_memory:'media/limen_memory.mp4',
+  limen_spider:'media/limen_spider.mp4', limen_memory:'media/limen_memory.mp4', limen_people:'media/limen_people.mp4',
   stock_forest:'../mask/media/stock_forest.mp4', stock_bokeh:'../mask/media/stock_bokeh.mp4', stock_bulb:'../mask/media/stock_bulb.mp4', stock_spider:'../mask/media/stock_spider.mp4',
   stock_tunnel:'../mask/media/stock_tunnel.mp4', stock_crowd:'../mask/media/stock_crowd.mp4', stock_station:'../mask/media/stock_station.mp4', stock_stars:'../mask/media/stock_stars.mp4'
 };
@@ -490,8 +490,9 @@ $('#menu').innerHTML = MENU.map(m=>`<a href="#${m[0]}" data-id="${m[0]}">${m[1]}
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const st = { hover:null, conv:0, actEl:null, mt:[.5,.5], dolly:0 };
 const IS_MOBILE = matchMedia('(max-width: 760px)').matches || navigator.maxTouchPoints > 1 && innerWidth < 1000;
-const BGV = { hero:'limen_forest', bg_firefly:'limen_firefly', bg_moth:'limen_moth', bg_spider:'limen_spider', bg_recall:'limen_memory',
-              bg_people:'stock_crowd', bg_conn:'stock_station', bg_reflect:'stock_stars' };
+// 나방 영상 두 개는 11-03 자리를 바꿈: 숲 배경 = 꽃 피는 나방(limen_moth), F02 나방 = 숲길에서 동굴로 가는 나방(limen_forest)
+const BGV = { hero:'limen_moth', bg_firefly:'limen_firefly', bg_moth:'limen_forest', bg_spider:'limen_spider', bg_recall:'limen_memory',
+              bg_people:'limen_people', bg_conn:'stock_station', bg_reflect:'stock_stars' };
 const bgRoot = $('#bgv'), bgCam = $('#bgcam'), LAY = {};
 for(const k in BGV){
   const d = document.createElement('div'); d.className = 'bl';

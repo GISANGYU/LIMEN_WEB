@@ -45,8 +45,8 @@ root.innerHTML=`<style>
 .headline:before,.copy:before{background:radial-gradient(ellipse,#26356cb0 5%,#26356c55 58%,transparent 84%)}
 .letter.lit{color:#c6c3ff;text-shadow:0 0 28px #9b8aff44}
 .pause{color:#d5d5f0}.bottom{color:#c7cced}
-</style><section class="flow" aria-label="FLOW · AWARENESS · CHOICE — 서로에게 영향을 주고받는 우리"><div class="flow-surface" aria-hidden="true"><canvas></canvas></div><div class="top"><span>LIMEN / SHARED PERSPECTIVES</span><button class="pause" type="button" aria-label="배경 인터랙션 일시정지">PAUSE Ⅱ</button></div><h2 class="headline">${words.map(w=>`<span class="word" aria-label="${w}">${[...w].map(c=>`<span class="letter" aria-hidden="true">${c}</span>`).join('')}</span>`).join('')}</h2><div class="copy left"><p>바라보던 흐름 안으로<br>들어서다.</p></div><div class="copy detail"><p>네 면을 감싸는 빛과 움직임 속에서<br>관객은 공간의 흐름에 반응하고,<br>자신의 움직임으로 그 흐름에 영향을 줍니다.</p></div><div class="copy right"><p>공간을 따라 움직이는 동안,<br>나의 선택에 스며든 영향을 마주합니다.</p></div><div class="bottom">FLOW / AWARENESS / CHOICE</div></section>`;
-const section=root.querySelector('.flow'),button=root.querySelector('.pause'),letters=[...root.querySelectorAll('.letter')];
+</style><section class="flow" aria-label="FLOW · AWARENESS · CHOICE — 서로에게 영향을 주고받는 우리"><div class="flow-surface" aria-hidden="true"><canvas></canvas></div><div class="top"><span>LIMEN / SHARED PERSPECTIVES</span></div><h2 class="headline">${words.map(w=>`<span class="word" aria-label="${w}">${[...w].map(c=>`<span class="letter" aria-hidden="true">${c}</span>`).join('')}</span>`).join('')}</h2><div class="copy left"><p>바라보던 흐름 안으로<br>들어서다.</p></div><div class="copy detail"><p>네 면을 감싸는 빛과 움직임 속에서<br>관객은 공간의 흐름에 반응하고,<br>자신의 움직임으로 그 흐름에 영향을 줍니다.</p></div><div class="copy right"><p>공간을 따라 움직이는 동안,<br>나의 선택에 스며든 영향을 마주합니다.</p></div><div class="bottom">FLOW / AWARENESS / CHOICE</div></section>`;
+const section=root.querySelector('.flow'),letters=[...root.querySelectorAll('.letter')];
 const stopSurface=createFlowSurface(root.querySelector('canvas'),root.querySelector('.flow-surface'),section);
 let paused=false;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 section.addEventListener('pointermove',e=>{const r=section.getBoundingClientRect();section.style.setProperty('--scan',`${Math.max(0,Math.min(100,(e.clientY-r.top)/r.height*100))}%`);pointer={x:e.clientX,y:e.clientY,on:true};wakeLetters()});
@@ -64,7 +64,6 @@ function stepLetters(t){lettersRaf=0;let moving=false;const R=260,time=t/1000;
   if(Math.abs(st.x)+Math.abs(st.y)+Math.abs(1-st.s)>.02||pointer.on)moving=true;});
  if(moving)wakeLetters();}
 const scroll=()=>{const r=section.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;root.querySelector('.headline').style.transform=`translateY(${reduced?0:Math.max(-1,Math.min(1,-r.top/innerHeight))*-25}px)`};window.addEventListener('scroll',scroll,{passive:true});
-button.addEventListener('click',()=>{paused=!paused;button.textContent=paused?'PLAY ▷':'PAUSE Ⅱ';button.setAttribute('aria-label',paused?'배경 인터랙션 재생':'배경 인터랙션 일시정지');this.dispatchEvent(new CustomEvent('limen-toggle-motion',{bubbles:true,composed:true,detail:{paused}}))});
 scroll();this.cleanup=()=>{window.removeEventListener('scroll',scroll);stopSurface?.();};
 }
 disconnectedCallback(){this.cleanup?.()}

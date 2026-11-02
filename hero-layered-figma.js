@@ -12,6 +12,9 @@ const fine = matchMedia('(hover: hover) and (pointer: fine)');
 const clamp = x => Math.max(0, Math.min(1, x));
 const smooth = x => { x = clamp(x); return x*x*(3-2*x); };
 let p=0, needsScroll=true, lens=null;
+// 11-02: 헤더 — 아래로 스크롤하면 숨기고, 조금이라도 위로 올리면 바로 내려온다. 맨 위 근처에선 항상 보임
+{let lastY=scrollY;addEventListener('scroll',()=>{const y=scrollY,d=y-lastY;lastY=y;
+  if(y<innerHeight*.15||d<-.5)document.body.classList.remove('header-hidden');else if(d>.5)document.body.classList.add('header-hidden');},{passive:true});}
 function scrollState() {
   const r=hero.getBoundingClientRect();
   p=clamp(-r.top/r.height/1.25);

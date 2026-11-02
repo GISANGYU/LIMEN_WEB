@@ -32,3 +32,7 @@
  .signature span{font-size:9.1146vw}
  .note{font-size:max(8px,.4167vw)}
 }
+
+/* 11-02: 인물 호버 시 파란 빛 필터 제거 — 호버해도 사진 그대로 */
+.card:hover .portrait-base,.card:focus-visible .portrait-base{filter:none!important}
+.image .portrait-light{display:none!important}

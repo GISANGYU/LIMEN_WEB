@@ -1,5 +1,5 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LIMEN AWAKE 물결판</title>
+<title>LIMEN AWAKE 물결판 · UI 패널 시안</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,6 +114,82 @@ main{position:relative;z-index:2}
 .card .m.win{background:transparent}
 .card .m img{width:100%;height:100%;object-fit:cover;display:block}
 .card .m canvas{position:absolute;inset:0;width:100%;height:100%}
+/* ── 창 안의 UI 패널 (복사본 시안): 배경 영상이 비치는 창 위 유리 패널 ── */
+.card .m .pn{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(64%,260px);padding:14px 16px 16px;border-radius:14px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+  box-shadow:0 18px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);color:#fff;font-size:12px;line-height:1.4;letter-spacing:-.01em}
+.pn-h{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.8);margin-bottom:12px}
+.pn-h i{width:6px;height:6px;border-radius:50%;background:#d7ccff;box-shadow:0 0 8px #b5a6ff}
+.pn.alert .pn-h i{background:#ff9bb4;box-shadow:0 0 8px #ff6f93}
+.pn-t{margin-top:10px;font-size:12px;color:rgba(255,255,255,.86)}
+.pn .glow{position:absolute;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(200,185,255,.9);animation:pnPulse 2s ease-in-out infinite}
+@keyframes pnPulse{50%{opacity:.5}}
+.beats{display:grid;gap:7px}
+.beats span{position:relative;height:2px;background:rgba(255,255,255,.18);border-radius:2px}
+.beats b{position:absolute;top:50%;left:0;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:#fff;box-shadow:0 0 8px #c9bfff;animation:pnBeat var(--d) ease-in-out var(--o) infinite}
+@keyframes pnBeat{0%{left:0;opacity:.3}50%{opacity:1}100%{left:calc(100% - 7px);opacity:.3}}
+.pn .bar{margin-top:12px;height:4px;border-radius:4px;background:rgba(255,255,255,.16);overflow:hidden}
+.pn .bar b{display:block;height:100%;width:100%;background:linear-gradient(90deg,#b5a6ff,#fff);transform-origin:left;animation:pnFill 3.2s ease-in-out infinite}
+@keyframes pnFill{0%{transform:scaleX(0)}70%,100%{transform:scaleX(1)}}
+.note{position:relative;display:flex;gap:12px;align-items:center}
+.note .glow{position:relative;flex:none}
+.pn .chip{display:inline-block;margin-top:12px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.9);color:#140f33;font-size:11px}
+.map{position:relative;height:84px;border-radius:8px;background:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1px) 0 0/12px 12px,rgba(0,0,0,.18)}
+.map .glow{margin:-5px}
+.compass{position:relative;width:76px;height:76px;margin:0 auto;border-radius:50%;border:1px solid rgba(255,255,255,.35)}
+.compass::after{content:"";position:absolute;inset:6px;border-radius:50%;border:1px dashed rgba(255,255,255,.2)}
+.needle{position:absolute;left:50%;top:50%;width:2px;height:30px;margin-left:-1px;margin-top:-30px;background:linear-gradient(#fff,rgba(255,255,255,0));transform-origin:50% 100%;animation:pnNeedle 3s ease-in-out infinite;box-shadow:0 0 8px #c9bfff}
+@keyframes pnNeedle{0%{transform:rotate(-70deg)}40%,100%{transform:rotate(38deg)}}
+.steps{display:flex;align-items:center;gap:8px;font-size:12px}
+.steps span{padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.14)}
+.steps span:last-child{background:rgba(255,255,255,.9);color:#140f33}
+.steps em{font-style:normal;opacity:.7}
+.frame{position:relative;height:80px;border-radius:6px;border:1px solid rgba(255,255,255,.3);overflow:hidden;background:rgba(255,255,255,.06)}
+.lb{position:absolute;left:0;right:0;height:0;background:#06060a;animation:pnLb 3.4s ease-in-out infinite}
+.lb.t{top:0}.lb.b{bottom:0}
+@keyframes pnLb{0%,15%{height:0}55%,85%{height:24%}100%{height:0}}
+.eyes{display:grid;grid-template-columns:repeat(4,12px);gap:10px 14px;justify-content:center;padding:6px 0}
+.eyes i{width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 8px #c9bfff;opacity:0;animation:pnEye 3.6s ease-in-out var(--o) infinite}
+@keyframes pnEye{0%,10%{opacity:0;transform:scale(.4)}35%,80%{opacity:1;transform:scale(1)}100%{opacity:0}}
+.spike{display:block;width:100%;height:46px;fill:none;stroke:#ffd1dc;stroke-width:1.6;stroke-linejoin:round;filter:drop-shadow(0 0 6px #ff6f93)}
+.spike polyline{stroke-dasharray:180;animation:pnSpike 2.4s linear infinite}
+@keyframes pnSpike{0%{stroke-dashoffset:180}60%,100%{stroke-dashoffset:0}}
+.finder{position:relative;height:84px;background:
+  linear-gradient(#fff,#fff) 0 0/14px 1px no-repeat,linear-gradient(#fff,#fff) 0 0/1px 14px no-repeat,
+  linear-gradient(#fff,#fff) 100% 0/14px 1px no-repeat,linear-gradient(#fff,#fff) 100% 0/1px 14px no-repeat,
+  linear-gradient(#fff,#fff) 0 100%/14px 1px no-repeat,linear-gradient(#fff,#fff) 0 100%/1px 14px no-repeat,
+  linear-gradient(#fff,#fff) 100% 100%/14px 1px no-repeat,linear-gradient(#fff,#fff) 100% 100%/1px 14px no-repeat}
+.finder .glow{left:50%;top:50%;margin:-5px;animation:pnDrift 4s ease-in-out infinite}
+@keyframes pnDrift{0%,100%{transform:translate(-26px,6px)}50%{transform:translate(24px,-8px)}}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:999px;background:rgba(255,255,255,.14);font-size:12px;text-align:center}
+.seg span{position:relative;z-index:1;padding:6px 0}
+.seg b{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:rgba(255,255,255,.9);animation:pnSeg 3s ease-in-out infinite}
+.seg span:nth-child(1){animation:pnSegA 3s ease-in-out infinite}.seg span:nth-child(2){animation:pnSegB 3s ease-in-out infinite}
+@keyframes pnSeg{0%,35%{transform:translateX(0)}50%,85%{transform:translateX(100%)}100%{transform:translateX(0)}}
+@keyframes pnSegA{0%,35%,100%{color:#140f33}50%,85%{color:#fff}}
+@keyframes pnSegB{0%,35%,100%{color:#fff}50%,85%{color:#140f33}}
+.pn-link{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.thumbs{position:relative;width:64px;height:48px}
+.thumbs i{position:absolute;width:44px;height:32px;border-radius:5px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12)}
+.thumbs i:nth-child(1){left:0;top:0}.thumbs i:nth-child(2){left:10px;top:8px}.thumbs i:nth-child(3){left:20px;top:16px;background:rgba(255,255,255,.3)}
+.pn-link em{font-style:normal;opacity:.7}
+.figs,.march>div{display:flex;gap:4px}
+.figs svg,.crowd svg,.march svg{width:16px;height:26px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round}
+.figs svg{animation:pnFig 3s ease-in-out infinite}.figs svg:nth-child(2){animation-delay:.3s}.figs svg:nth-child(3){animation-delay:.6s}
+@keyframes pnFig{0%,20%{opacity:.2}40%,100%{opacity:1}}
+.skel{display:block;width:70px;height:90px;margin:0 auto;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round}
+.skel g{animation:pnSway 3s ease-in-out infinite;transform-origin:30px 66px}
+.skel .j{fill:#fff;stroke:none;filter:drop-shadow(0 0 4px #b5a6ff)}
+@keyframes pnSway{50%{transform:rotate(4deg)}}
+.crowd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 6px;justify-items:center}
+.crowd span{opacity:0;animation:pnFig2 4.2s ease-in-out var(--o) infinite}
+@keyframes pnFig2{0%{opacity:0}15%,85%{opacity:1}100%{opacity:0}}
+.march{overflow:hidden;padding:4px 0}
+.march>div{gap:14px;animation:pnMarch 2.6s ease-in-out infinite}
+@keyframes pnMarch{0%{transform:translateX(-12px);opacity:0}25%,75%{opacity:1}100%{transform:translateX(44px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.card .m .pn *{animation:none!important;opacity:1!important}}
+@media (max-width:760px){.card .m .pn{width:72%}}
+
 .vwin{display:grid;place-items:center}
 .vwin video{width:70%;aspect-ratio:16/9;object-fit:cover;display:block;position:relative;z-index:1}
 .vwin .temp{position:absolute;left:12px;bottom:10px;z-index:1;font-size:12px;color:var(--ink-70)}
@@ -151,6 +227,31 @@ main{position:relative;z-index:2}
 .link img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.8) brightness(.85);transition:filter .5s,transform 1s cubic-bezier(.2,.7,.2,1)}
 .link:hover img,.link:focus-visible img{filter:none;transform:scale(1.04)}
 .link .k{position:absolute;left:10px;top:10px;font-size:12px;color:var(--ink)}
+/* ── 연결 창 (복사본 시안): 아코디언 — 첫 창이 넓고 나머지는 얇게(ㅁㅣㅣㅣㅣ). 호버한 창이 넓어지고 나머지는 얇아진다 ── */
+.link .m.slit{background:#050508;border-radius:2px;overflow:hidden}
+.link .m.slit video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.1) brightness(.85) blur(0);transition:filter .6s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.link .m.slit .k{z-index:1}
+@media (min-width:761px){
+  .links{display:flex;column-gap:12px}
+  .link{flex:1 1 0;min-width:0;transition:flex-grow .8s cubic-bezier(.2,.8,.2,1)}
+  a.link:first-of-type{flex-grow:6}
+  .links:has(.link:hover) .link{flex-grow:1}
+  .links:has(.link:hover) .link:hover{flex-grow:6}
+  .link .m.slit{aspect-ratio:auto;height:min(54vh,480px)}
+  .link > span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .links:has(.link:hover) .link:not(:hover) .m.slit video,.links:not(:has(.link:hover)) a.link:not(:first-of-type) .m.slit video{filter:saturate(.7) brightness(.55) blur(8px);transform:scale(1.08)}
+  .links:has(.link:hover) .link:hover .m.slit video,.links:not(:has(.link:hover)) a.link:first-of-type .m.slit video{filter:saturate(1.2) brightness(1.02) blur(0);transform:scale(1)}
+}
+#linkline .flow{animation:linkFlow 2.4s linear infinite}
+@keyframes linkFlow{to{stroke-dashoffset:-48}}
+@media (prefers-reduced-motion:reduce){.link{transition:none!important}#linkline .flow{animation:none}}
+
+/* 연결선(svg) 대신 창마다 화살표 — INDEX 푸터의 SHARP ARROW ↗ 와 같은 모양 */
+#linkline{display:none}
+.link .m.slit .arw{position:absolute;left:auto;bottom:auto;right:12px;top:12px;overflow:visible;pointer-events:none;z-index:1;width:18px;height:18px;fill:none;stroke:#fff;stroke-width:1.2;
+  filter:drop-shadow(0 1px 6px rgba(0,0,0,.6));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.link:hover .m.slit .arw,.link:focus-visible .m.slit .arw{transform:translate(3px,-3px)}
+
 /* 선택지 */
 .opt{grid-column:span 4;text-align:left;background:none;border:0;padding:0;cursor:pointer;display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:18.2px;color:var(--ink-60)}
 .opt::before{content:"";width:8px;height:8px;border-radius:50%;border:1px solid var(--ink-60);flex:none;transition:all .3s}
@@ -284,28 +385,6 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
     </div>
   </section>
 
-  <!-- 03 DAILY REFLECTION -->
-  <section id="reflect" data-bg="bg_reflect" data-label="무엇을 따라갔을까?">
-    <div class="ch-head"><div class="container">
-      <h2 class="t1">무엇을<br>따라갔을까?</h2>
-      <div class="g12"><p class="sub">최근의 선택 하나를 떠올려 보세요. 선택의 이유에 정답을 매기지 않습니다.</p></div>
-    </div></div>
-    <div class="sheet">
-      <div class="container g12 feat-head">
-        <h3 class="t3 rv">최근에 무언가를 고를 때,<br>무엇이 먼저 눈에 들어왔나요?</h3>
-        <div class="side rv"><p class="lead">별점과 리뷰, 추천 순위, 주변 사람들이 많이 고른 것. 이런 기준은 고르는 일을 돕지만, 내 판단에 얼마나 작용했는지는 잘 의식하지 못하기도 합니다.</p><p class="body">마음에 남는 이유를 짚어보세요. 결과·점수 대신, 그 이유가 선택에 어떻게 작용했는지 잠시 생각합니다.</p><span class="mode">03 · DAILY REFLECTION · 고른 항목은 저장되지 않습니다</span></div>
-      </div>
-      <div class="container"><div class="g12 list rv" role="group" aria-label="먼저 눈에 들어온 것 (여러 개 고를 수 있음, 저장하지 않음)">
-        <button class="opt" id="opt-many" aria-pressed="false">사람들이 많이 고른 것</button>
-        <button class="opt" id="opt-familiar" aria-pressed="false">익숙해서 편한 것</button>
-        <button class="opt" id="opt-visible" aria-pressed="false">눈에 잘 띄는 것</button>
-        <button class="opt" id="opt-recommend" aria-pressed="false">누군가 추천한 것</button>
-        <button class="opt" id="opt-wanted" aria-pressed="false">내가 오래 원했던 것</button>
-        <button class="opt" id="opt-unknown" aria-pressed="false">이유를 잘 모르겠는 것</button>
-      </div></div>
-    </div>
-  </section>
-
   <!-- 마지막 질문 -->
   <section id="final" data-bg="hero" data-label="마지막 질문">
     <div class="final-stage" id="finalStage">
@@ -313,14 +392,6 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
         <h2>내가 고른 방향은<br>정말 나만의 선택일까?</h2>
         <div class="g12"><p class="sub" style="grid-column:1 / span 9">전시의 영상은 끝나지만, 자신의 선택에 관한 질문은 일상에서도 계속될 수 있습니다.</p></div>
       </div></div>
-    </div>
-    <div class="sheet" id="endSheet">
-      <div class="container end">
-        <p class="t3 end-note">LIMEN은 정답을 주지 않습니다.<br>무엇의 영향을 받았는지, 스스로 물어볼 질문을 남깁니다.</p>
-        <a class="again" href="#replay">장면 다시 보기 <span aria-hidden="true">↑</span></a>
-        <div class="foot">LIMEN / SNOOZE <span>계원예술대학교 정보관 8층 호라이즌 스튜디오</span></div>
-        <p class="body credit">배경 영상은 임시 스톡 클립(Mixkit 무료 라이선스)입니다. 영상팀 최종 컷으로 교체합니다.</p>
-      </div>
     </div>
   </section>
 
@@ -490,6 +561,41 @@ const br = t => esc(t).replace(/\n/g,'<br>');
 
 
 
+/* ───────────────────────── 창 안의 UI 패널 (11-03 · 복사본 시안) ─────────────────────────
+   Shopify Editions 처럼 배경이 비치는 창 안에 '장면이 하는 일'을 작은 유리 패널로 띄운다.
+   개인 기록·관람객 비교는 제거 확정이므로 숫자·개인 데이터 없이 장면의 작동만 보여 준다. */
+const P = (label, body, cls='') => `<div class="pn ${cls}"><div class="pn-h"><i></i>${label}</div>${body}</div>`;
+const FIG = `<svg viewBox="-12 -22 24 38"><circle cx="0" cy="-15" r="5"/><path d="M-8 13V-1a8 8 0 0 1 16 0v14"/></svg>`;
+const beats = (same) => `<div class="beats">${[0,1,2,3,4].map(i=>`<span style="--d:${same?1.6:(1.1+i*.37).toFixed(2)}s;--o:${same?0:(-i*.29).toFixed(2)}s"><b></b></span>`).join('')}</div>`;
+const UI = {
+  firefly: [
+    P('각자의 박자', beats(false) + `<p class="pn-t">아직은 서로를 신경 쓰지 않습니다</p>`),
+    P('동조 중', beats(true) + `<div class="bar"><b></b></div><p class="pn-t">리듬이 하나로 맞춰집니다</p>`),
+    P('남은 신호', `<div class="note"><i class="glow"></i><p>불빛 하나가 다음 장면으로 이어집니다</p></div><span class="chip">다음 · 나방 →</span>`)
+  ],
+  moth: [
+    P('빛의 위치', `<div class="map"><i class="glow" style="left:68%;top:38%"></i></div>`),
+    P('방향', `<div class="compass"><i class="needle"></i></div><p class="pn-t">빛 쪽으로</p>`),
+    P('장면 전환', `<div class="steps"><span>F02 나방</span><em>→</em><span>F03 거미</span></div><div class="bar"><b></b></div><p class="pn-t">동굴 안으로</p>`)
+  ],
+  spider: [
+    P('화면 비율', `<div class="frame"><b class="lb t"></b><b class="lb b"></b></div><p class="pn-t">화면이 좁아집니다</p>`),
+    P('드러남', `<div class="eyes">${[0,1,2,3,4,5,6,7].map(i=>`<i style="--o:${(i*.22).toFixed(2)}s"></i>`).join('')}</div><p class="pn-t">조금씩 모습을 드러냅니다</p>`),
+    P('습격', `<svg class="spike" viewBox="0 0 120 40"><polyline points="0,30 30,30 44,30 50,6 56,36 62,24 72,30 120,30"/></svg><p class="pn-t">생각보다 몸이 먼저 반응합니다</p>`, 'alert')
+  ],
+  memory: [
+    P('시점 · 생명체', `<div class="finder"><i class="glow"></i></div>`),
+    P('시점 바꾸기', `<div class="seg"><span>안</span><span>바깥</span><b></b></div><p class="pn-t">같은 존재를 다른 자리에서</p>`),
+    P('사람과 사회', `<div class="pn-link"><div class="thumbs"><i></i><i></i><i></i></div><em>→</em><div class="figs">${FIG}${FIG}${FIG}</div></div>`)
+  ],
+  people: [
+    P('한 사람', `<svg class="skel" viewBox="0 0 60 80"><g><path d="M30 14V42M30 22L16 34M30 22L44 34M30 42L20 66M30 42L40 66"/><circle cx="30" cy="9" r="5"/>${[[30,22],[16,34],[44,34],[30,42],[20,66],[40,66]].map(([x,y])=>`<circle class="j" cx="${x}" cy="${y}" r="2"/>`).join('')}</g></svg>`),
+    P('군중', `<div class="crowd">${Array.from({length:8},(_,i)=>`<span style="--o:${(i*.3).toFixed(1)}s">${FIG}</span>`).join('')}</div><p class="pn-t">하나의 흐름이 됩니다</p>`),
+    P('같은 방향', `<div class="march"><div>${FIG}${FIG}${FIG}</div></div><span class="chip">내가 움직이는 쪽으로 →</span>`)
+  ]
+};
+const panel = (id,k) => UI[id] && UI[id][k] ? UI[id][k] : '';
+
 const cardMedia = () => `<div class="m win" aria-hidden="true"></div>`;
 $('#chapters').innerHTML = SCENES.map((s,i)=>`
 <section class="ch" id="${s.id}" data-bg="${s.bg}" data-label="${s.name}">
@@ -507,7 +613,7 @@ $('#chapters').innerHTML = SCENES.map((s,i)=>`
       </div>
       <div class="container"><div class="concept rv"><span class="k">핵심 개념</span><p>${br(s.concept)}</p></div></div>
       <div class="container g12 cards">
-        ${s.flow.map((f,k)=>`<article class="card rv"><div class="m win" aria-hidden="true"><span class="step">${pad(k+1)}</span><b class="step-t">${f[0]}</b></div><div class="tx"><p class="body">${esc(f[1])}</p></div></article>`).join('')}
+        ${s.flow.map((f,k)=>`<article class="card rv"><div class="m win" aria-hidden="true">${panel(s.id,k)}<span class="step">${pad(k+1)}</span><b class="step-t">${f[0]}</b></div><div class="tx"><p class="body">${esc(f[1])}</p></div></article>`).join('')}
       </div>
     </article>
     <article class="feat">
@@ -529,11 +635,13 @@ $('#chapters').innerHTML = SCENES.map((s,i)=>`
   </div>
 </section>`).join('');
 
+// 연결 창 영상 (BGV 는 아래에서 정의되므로 따로 둔다. 나방 = 숲길에서 동굴로 가는 나방)
+const LINKV = { firefly:'limen_firefly', moth:'limen_forest', spider:'limen_spider', memory:'limen_memory', people:'limen_people' };
 $('#links').insertAdjacentHTML('beforeend', SCENES.map((s,i)=>`
-  <a class="link" href="#${s.id}" data-hover="${s.bg}"><div class="m win"><span class="k">${pad(i+1)}</span></div>
+  <a class="link" href="#${s.id}"><div class="m slit"><video muted loop playsinline preload="metadata" data-src="${media(LINKV[s.id])}"></video><span class="k">${pad(i+1)}</span><svg class="arw" viewBox="0 0 18 18" aria-hidden="true"><path d="M2.8125 15.1875L15.1875 2.8125M15.1875 9.5625V2.8125H8.4375"/></svg></div>
   <span class="u" style="font-size:14px">${s.name}</span><span class="body">${s.key}</span></a>`).join(''));
 
-const MENU = [['top','처음','AWAKE'],...SCENES.map(s=>[s.id,s.name,s.key]),['connection','무엇이 나를 움직였을까?','02'],['reflect','무엇을 따라갔을까?','03'],['final','마지막 질문','']];
+const MENU = [['top','처음','AWAKE'],...SCENES.map(s=>[s.id,s.name,s.key]),['connection','무엇이 나를 움직였을까?','02'],['final','마지막 질문','']];
 $('#menu').innerHTML = MENU.map(m=>`<a href="#${m[0]}" data-id="${m[0]}">${m[1]}<em>${m[2]}</em></a>`).join('');
 
 /* ───────────────────────── 배경 : 스톡 영상 ─────────────────────────
@@ -650,17 +758,18 @@ const sc = $('#sheetc'), sx = sc.getContext('2d');
 let SH = [], WINS = [], bend = 0;
 const sagAt = (y,H)=>{ const f=Math.max(0,Math.min(1.15,(H-y)/H)); return .066*f*f*H; };
 const SHEET = '0,0,0';   // 검정 (11-03) — 불투명도 90%·블러 유리는 그대로
-// 유리 면: 지금 배경 영상을 1/12 크기로 줄여 그린 뒤 화면 크기로 늘린다 → 싸게 얻는 큰 블러. 본문 면 아래에 깔고 인디고를 덮는다
+// 유리 면: 지금 배경 영상을 1/28 크기로 줄여 그린 뒤 화면 크기로 늘린다 → 싸게 얻는 큰 블러. 본문 면 아래에 깔고 인디고를 덮는다
 const glass = document.createElement('canvas'), gx = glass.getContext('2d');
 function glassFrame(W,H){
   const v = document.querySelector('#bgcam .bl.on video');
   if(!v || v.readyState < 2 || !v.videoWidth) return null;
-  const gw = Math.max(1,Math.round(W/12)), gh = Math.max(1,Math.round(H/12));
+  const gw = Math.max(1,Math.round(W/28)), gh = Math.max(1,Math.round(H/28));
   if(glass.width!==gw || glass.height!==gh){ glass.width=gw; glass.height=gh; }
   const vr = v.videoWidth/v.videoHeight, r = gw/gh;
   let sw = v.videoWidth, sh = v.videoHeight, x0 = 0, y0 = 0;
   if(vr > r){ sw = sh*r; x0 = (v.videoWidth-sw)/2; } else { sh = sw/r; y0 = (v.videoHeight-sh)/2; }
-  gx.filter = 'blur(1.5px) saturate(1.2)'; gx.drawImage(v, x0, y0, sw, sh, 0, 0, gw, gh);
+  // 1/28 로 줄였다 늘리는 것만으로 형태가 거의 안 보이는 유리 (작은 캔버스에 blur 필터는 쓰지 않음)
+  gx.filter = 'none'; gx.drawImage(v, x0, y0, sw, sh, 0, 0, gw, gh);
   return glass;
 }
 function drawSheets(dt){
@@ -679,12 +788,14 @@ function drawSheets(dt){
   for(const el of SH){
     const r = el.getBoundingClientRect();
     if(r.bottom < -60 || r.top > H+60) continue;
-    const st_ = sagAt(r.top,H)*bend, sb = sagAt(r.bottom,H)*bend;
+    // 히어로 바로 아래 첫 면은 휘지 않는다 (휘면 둥근 윗변 틈으로 배경이 보임)
+    const flat = el === SH[0], st_ = flat ? 0 : sagAt(r.top,H)*bend, sb = flat ? 0 : sagAt(r.bottom,H)*bend;
     sx.beginPath();
     sx.moveTo(0, r.top+st_/2); sx.quadraticCurveTo(W/2, r.top-st_*1.5, W, r.top+st_/2);
     sx.lineTo(W, r.bottom+sb/2); sx.quadraticCurveTo(W/2, r.bottom-sb*1.5, 0, r.bottom+sb/2);
     sx.closePath();
-    if(g){ sx.save(); sx.clip(); sx.drawImage(g, 0, 0, W, H); sx.restore(); }   // 흐린 영상 → 그 위에 인디고 = 유리
+    // 흐린 영상 → 그 위에 검정 = 유리. 줄인 영상을 늘릴 때 블러를 한 번 더 걸어 사각 덩어리를 지운다 (가장자리가 비지 않게 화면보다 크게)
+    if(g){ sx.save(); sx.clip(); sx.filter = 'blur(36px)'; sx.drawImage(g, -80, -80, W+160, H+160); sx.restore(); }
     sx.fill();
     if(g){ sx.strokeStyle = `rgba(255,255,255,${.07*fade})`; sx.lineWidth = 1; sx.beginPath();          // 유리 윗변의 옅은 빛
       sx.moveTo(0, r.top+st_/2+.5); sx.quadraticCurveTo(W/2, r.top-st_*1.5+.5, W, r.top+st_/2+.5); sx.stroke(); }
@@ -852,12 +963,15 @@ function drawLinks(){
   if(pts.length<2) return;
   let d = `M${pts[0][0]},${pts[0][1]}`;
   for(let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1],[x1,y1]=pts[i]; const mx=(x0+x1)/2; d+=` C${mx},${y0-40} ${mx},${y1+40} ${x1},${y1}`; }
-  svg.innerHTML = `<path d="${d}" fill="none" stroke="rgba(232,240,168,.6)" stroke-width="1" stroke-dasharray="2 6"/>` + pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#e8f0a8"/>`).join('');
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="rgba(215,204,255,.35)" stroke-width="1" stroke-dasharray="2 6"/><path class="flow" d="${d}" fill="none" stroke="#efeaff" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="10 38" style="filter:drop-shadow(0 0 4px #b5a6ff)"/>` + pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#d7ccff"/>`).join('');
 }
-document.querySelectorAll('.link').forEach(a=>{
-  a.addEventListener('mouseenter',()=>{ st.hover=a.dataset.hover; setBg(st.hover); });
-  a.addEventListener('mouseleave',()=>{ st.hover=null; onScroll(); });
-});
+// 연결 창 영상: 섹션이 보일 때만 불러와 재생
+{ const vids=[...document.querySelectorAll('.link .m.slit video')];
+  new IntersectionObserver(([e])=>vids.forEach(v=>{ if(e.isIntersecting){ if(!v.src) v.src=v.dataset.src; v.play().catch(()=>{}); } else v.pause(); }),{rootMargin:'200px'}).observe($('#links')); }
+// 아코디언: 창 폭이 바뀌는 동안 연결선을 매 프레임 다시 그린다
+{ let until=0, on=false; const tick=()=>{ drawLinks(); if(performance.now()<until) requestAnimationFrame(tick); else on=false; };
+  const kick=()=>{ until=performance.now()+950; if(!on){ on=true; requestAnimationFrame(tick); } };
+  $('#links').addEventListener('mouseover',kick); $('#links').addEventListener('mouseleave',kick); }
 document.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
   b.setAttribute('aria-pressed', b.getAttribute('aria-pressed')==='true'?'false':'true');
   splat(.2+Math.random()*.6,.3+Math.random()*.4,(Math.random()-.5)*900,(Math.random()-.5)*900,4);

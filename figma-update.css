@@ -1124,3 +1124,36 @@ body.figma-update.is-page-end .c-Header {
     transition: opacity 0.5s ease-out;
   }
 }
+/* 11-02: 왼쪽 위 로고 = LM 모노그램(LOGO.png → assets/limen-logo-mark.png, 투명 여백 잘라냄) */
+.limen-logo {
+  height: 40px;
+}
+/* 11-02: 헤더 메뉴 — 오른쪽 끝(72px 여백)은 그대로, 사이 간격은 고르게 펼쳤을 때의 2/3 (layout-grid.js → --nav-gap) */
+@media (min-width: 768px) {
+  body.figma-update .c-Header nav {
+    justify-content: flex-end;
+    gap: var(--nav-gap, 60px);
+  }
+}
+/* 11-02: 메뉴 호버 — 밑줄이 왼쪽에서 오른쪽으로 차오르고, 벗어나면 오른쪽으로 빠진다 */
+body.figma-update .c-Header nav > a {
+  position: relative;
+}
+body.figma-update .c-Header nav > a::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.figma-update .c-Header nav > a:hover::after,
+body.figma-update .c-Header nav > a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}

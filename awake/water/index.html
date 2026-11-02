@@ -3,6 +3,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500&family=Inter+Tight:wght@300;400;500;600;800&display=swap">
+<link rel="stylesheet" href="index-chrome.css?v=2">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter+Tight:wght@300;400&family=Hanken+Grotesk:wght@400;500&family=Noto+Sans+KR:wght@400;500&display=swap">
 <style>
 /* Layout: Shopify Editions Spring '26 실측(1440×900) 그대로 — 컨테이너 1264(안쪽 1200) · 12컬럼 70.66/32 · 장면 머리 100svh 가운데(h2 120 + 64 + 부제 24)
@@ -68,7 +70,7 @@ main{position:relative;z-index:2}
 /* ── HERO : 물결판 — 수면 위 AWAKE (three.js, awake_hero.html 에서 옮김). 돌아가는 글자 고리는 삭제 ── */
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:#1a1750;cursor:none}
 .hero>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(19,17,58,0),#13113a);pointer-events:none}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(14,12,44,0),#0e0c2c);pointer-events:none}
 .hero .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wh-ui{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s ease 1.2s;font-family:"Inter Tight",var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:rgba(236,232,255,.55);z-index:1}
 .hero.ready .wh-ui{opacity:1}
@@ -218,9 +220,12 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
 <div id="bgv" aria-hidden="true"><div id="bgcam"></div></div>
 <canvas id="sheetc" aria-hidden="true"></canvas>
 
-<header class="top">
-  <a class="brand" href="#top"><b>LIMEN</b><span>AWAKE</span></a>
-  <span class="cta">관람 이후의 회고</span>
+<!-- 헤더 = INDEX 와 같은 것 (LM 로고 · About · Technology · Archive · Awake). site/ 는 배포 때 사이트 루트(../../)로 바뀐다 -->
+<header class="c-Header">
+  <a class="logo" href="../../index.html" aria-label="LIMEN 처음으로"><img class="limen-logo" src="../../assets/limen-logo-mark.png" alt="LIMEN"></a>
+  <nav>
+    <a href="../../about.html">About</a><a href="../../technology.html">Technology</a><a href="../../archive.html">Archive</a><a href="#top" aria-current="page">Awake</a>
+  </nav>
 </header>
 
 <main id="top">
@@ -318,6 +323,54 @@ dialog button{position:absolute;right:10px;top:10px;border:0;border-radius:999px
       </div>
     </div>
   </section>
+
+  <!-- 푸터 = INDEX 와 같은 것 -->
+  <footer class="film-footer" id="footer" aria-labelledby="footerSlogan">
+    <div class="footer-film" id="footerFilm">
+      <div class="footer-film-background" aria-hidden="true">
+        <video id="footerVideo" muted loop playsinline preload="none" poster="../../assets/figma-1102/footer.png" data-src="../../media/uncommon-footer.mp4" tabindex="-1"></video>
+      </div>
+      <div class="footer-content">
+        <div class="footer-title">
+          <h2 id="footerSlogan" class="footer-scattered"><span>흐름 속에서,</span><span>나의 선택을</span><span>마주하다.</span></h2>
+        </div>
+        <div class="footer-information">
+          <div class="footer-top">
+            <nav class="footer-nav" aria-label="푸터 메뉴"><a href="../../index.html">LIMEN</a><a href="../../index.html#space">SPACE</a></nav>
+            <div class="footer-column">
+              <a href="../../index.html#team" class="footer-label">TEAM SNOOZE</a>
+              <div class="footer-dim footer-people">
+                <div><p>기획</p><p>이채연</p></div>
+                <div><p>영상</p><p>김현기<br>배정훈<br>심혜민</p></div>
+                <div><p>UI · UX</p><p>김노은<br>조가연</p></div>
+                <div><p>개발</p><p>유기상</p></div>
+              </div>
+            </div>
+            <div class="footer-column">
+              <p class="footer-label">BETWEEN REALITY AND DREAM</p>
+              <div class="footer-dim"><p class="footer-question">내가 고른 방향은 정말 나만의 선택일까?</p></div>
+            </div>
+            <div class="footer-column">
+              <a href="../../index.html#visit" class="footer-label">VISIT</a>
+              <div class="footer-dim">
+                <p>계원예술대학교 정보관 8층<br>호라이즌 스튜디오</p>
+                <a class="footer-square-link" href="../../index.html#visit">오시는 길 <img class="footer-design-arrow" src="../../assets/figma-1102/arrow.svg" alt="" aria-hidden="true"></a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-identity">
+              <a class="footer-brand" href="../../index.html" aria-label="LIMEN 처음으로">LIMEN</a>
+              <p>몰입형 인터랙티브 미디어아트<br>© 2026 TEAM SNOOZE</p>
+            </div>
+            <div class="footer-bottom-links">
+              <button class="footer-film-toggle" id="footerFilmToggle" type="button" aria-pressed="false">영상 멈춤 Ⅱ</button><a href="#top">BACK TO TOP ↑</a><a class="footer-reference-credit" href="https://www.uncommon.nl/studio" target="_blank" rel="noopener noreferrer">REFERENCE FILM · UNCOMMON ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </main>
 
 <div class="pill-shell" role="navigation" aria-label="현재 위치">
@@ -596,7 +649,20 @@ function onScroll(){
 const sc = $('#sheetc'), sx = sc.getContext('2d');
 let SH = [], WINS = [], bend = 0;
 const sagAt = (y,H)=>{ const f=Math.max(0,Math.min(1.15,(H-y)/H)); return .066*f*f*H; };
-const SHEET = '19,17,58';   // #13113a
+const SHEET = '14,12,44';   // #0e0c2c (11-03 한 단계 어둡게)
+// 유리 면: 지금 배경 영상을 1/12 크기로 줄여 그린 뒤 화면 크기로 늘린다 → 싸게 얻는 큰 블러. 본문 면 아래에 깔고 인디고를 덮는다
+const glass = document.createElement('canvas'), gx = glass.getContext('2d');
+function glassFrame(W,H){
+  const v = document.querySelector('#bgcam .bl.on video');
+  if(!v || v.readyState < 2 || !v.videoWidth) return null;
+  const gw = Math.max(1,Math.round(W/12)), gh = Math.max(1,Math.round(H/12));
+  if(glass.width!==gw || glass.height!==gh){ glass.width=gw; glass.height=gh; }
+  const vr = v.videoWidth/v.videoHeight, r = gw/gh;
+  let sw = v.videoWidth, sh = v.videoHeight, x0 = 0, y0 = 0;
+  if(vr > r){ sw = sh*r; x0 = (v.videoWidth-sw)/2; } else { sh = sw/r; y0 = (v.videoHeight-sh)/2; }
+  gx.filter = 'blur(1.5px) saturate(1.2)'; gx.drawImage(v, x0, y0, sw, sh, 0, 0, gw, gh);
+  return glass;
+}
 function drawSheets(dt){
   const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio,2);
   if(sc.width!==Math.round(W*dpr) || sc.height!==Math.round(H*dpr)){ sc.width=Math.round(W*dpr); sc.height=Math.round(H*dpr); }
@@ -608,6 +674,8 @@ function drawSheets(dt){
   // 본문 면 = 히어로 수면에서 이어지는 인디고. 스크롤 130vh→150vh 동안 불투명도 100%→80% 로 내려 뒤 영상이 흐릿하게 비친다
   const fade = Math.max(0, Math.min(1, (scrollY - H*1.3)/(H*.2)));
   sx.fillStyle = `rgba(${SHEET},${1 - fade*.2})`;
+  const g = fade > 0 ? glassFrame(W,H) : null;
+  sx.imageSmoothingEnabled = true; sx.imageSmoothingQuality = 'high';
   for(const el of SH){
     const r = el.getBoundingClientRect();
     if(r.bottom < -60 || r.top > H+60) continue;
@@ -615,7 +683,11 @@ function drawSheets(dt){
     sx.beginPath();
     sx.moveTo(0, r.top+st_/2); sx.quadraticCurveTo(W/2, r.top-st_*1.5, W, r.top+st_/2);
     sx.lineTo(W, r.bottom+sb/2); sx.quadraticCurveTo(W/2, r.bottom-sb*1.5, 0, r.bottom+sb/2);
-    sx.closePath(); sx.fill();
+    sx.closePath();
+    if(g){ sx.save(); sx.clip(); sx.drawImage(g, 0, 0, W, H); sx.restore(); }   // 흐린 영상 → 그 위에 인디고 = 유리
+    sx.fill();
+    if(g){ sx.strokeStyle = `rgba(255,255,255,${.07*fade})`; sx.lineWidth = 1; sx.beginPath();          // 유리 윗변의 옅은 빛
+      sx.moveTo(0, r.top+st_/2+.5); sx.quadraticCurveTo(W/2, r.top-st_*1.5+.5, W, r.top+st_/2+.5); sx.stroke(); }
     sx.globalCompositeOperation = 'destination-out';
     for(const w of el.querySelectorAll('.win')){ const q = w.getBoundingClientRect(); if(q.bottom<0||q.top>H) continue; sx.fillRect(q.left, q.top, q.width, q.height); }
     sx.globalCompositeOperation = 'source-over';
@@ -830,6 +902,38 @@ const ls = document.createElement('script');
 ls.src = 'https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js';
 ls.onload = boot; ls.onerror = boot;
 document.head.appendChild(ls);
+</script>
+<script>
+/* ───────── INDEX 헤더·푸터 동작 (layout-grid.js · hero-layered-figma.js · footer-slogan-reveal.js · footer-film.js 에서 옮김) ───────── */
+document.body.classList.add('figma-update','depth-version','lily-theme');
+(()=>{
+  const root=document.documentElement;
+  function sync(){ const w=innerWidth, inset=w<=767?20:w*.05+Math.max(0,Math.min(4,(w-1440)/120));
+    root.style.setProperty('--layout-viewport',w+'px'); root.style.setProperty('--grid-inset',inset+'px'); }
+  function navGap(){ const nav=document.querySelector('.c-Header nav'); if(!nav) return; const links=[...nav.querySelectorAll('a')];
+    const sum=links.reduce((t,a)=>t+a.getBoundingClientRect().width,0), free=nav.getBoundingClientRect().width-sum;
+    root.style.setProperty('--nav-gap',Math.max(16,free/(links.length-1)*2/3).toFixed(1)+'px'); }
+  sync(); navGap(); addEventListener('resize',()=>{sync();navGap();},{passive:true}); document.fonts&&document.fonts.ready.then(navGap);
+  // 헤더: 아래로 스크롤하면 숨기고, 조금이라도 위로 올리거나 페이지 끝에 닿으면 내려온다
+  let lastY=scrollY;
+  addEventListener('scroll',()=>{ const y=scrollY, dy=y-lastY; lastY=y;
+    const end=innerHeight+y>=root.scrollHeight-4;
+    document.body.classList.toggle('is-page-end',end);
+    if(y<innerHeight*.15||dy<-.5||end) document.body.classList.remove('header-hidden'); else if(dy>.5) document.body.classList.add('header-hidden'); },{passive:true});
+  // 푸터 슬로건: 화면에 들어오면 블러·투명도가 풀리며 등장
+  root.classList.add('footer-reveal-ready');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('is-in'); else if(e.boundingClientRect.top>0) e.target.classList.remove('is-in'); }),{rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('#footerSlogan > span').forEach(s=>io.observe(s));
+  // 푸터 영상: 보일 때만 재생, 멈춤 버튼
+  const host=document.getElementById('footerFilm'), video=host.querySelector('video'), button=host.querySelector('button');
+  let active=false, paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const label=()=>{ button.textContent=paused?'영상 재생 ▶':'영상 멈춤 Ⅱ'; button.setAttribute('aria-pressed',String(paused)); host.dataset.motion=paused?'paused':'playing'; };
+  const play=()=>{ if(!active||paused||document.hidden){ video.pause(); return; } if(!video.getAttribute('src')){ video.preload='auto'; video.src=video.dataset.src; } video.play().catch(()=>{}); };
+  button.addEventListener('click',()=>{ paused=!paused; label(); play(); });
+  document.addEventListener('visibilitychange',play);
+  new IntersectionObserver(([e])=>{ active=e.isIntersecting; host.dataset.active=String(active); play(); }).observe(host);
+  label();
+})();
 </script>
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
 <script type="module">

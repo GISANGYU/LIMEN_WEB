@@ -70,7 +70,7 @@ main{position:relative;z-index:2}
 /* ── HERO : 물결판 — 수면 위 AWAKE (three.js, awake_hero.html 에서 옮김). 돌아가는 글자 고리는 삭제 ── */
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:#1a1750;cursor:none}
 .hero>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(9,8,30,0),#09081e);pointer-events:none}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(0,0,0,0),#000);pointer-events:none}
 .hero .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wh-ui{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.6s ease 1.2s;font-family:"Inter Tight",var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:rgba(236,232,255,.55);z-index:1}
 .hero.ready .wh-ui{opacity:1}
@@ -649,7 +649,7 @@ function onScroll(){
 const sc = $('#sheetc'), sx = sc.getContext('2d');
 let SH = [], WINS = [], bend = 0;
 const sagAt = (y,H)=>{ const f=Math.max(0,Math.min(1.15,(H-y)/H)); return .066*f*f*H; };
-const SHEET = '9,8,30';   // #09081e (11-03 두 단계 어둡게)
+const SHEET = '0,0,0';   // 검정 (11-03) — 불투명도 90%·블러 유리는 그대로
 // 유리 면: 지금 배경 영상을 1/12 크기로 줄여 그린 뒤 화면 크기로 늘린다 → 싸게 얻는 큰 블러. 본문 면 아래에 깔고 인디고를 덮는다
 const glass = document.createElement('canvas'), gx = glass.getContext('2d');
 function glassFrame(W,H){

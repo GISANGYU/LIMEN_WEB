@@ -15,3 +15,20 @@
  .collective{padding-top:70px}.opening{padding-bottom:64px}.opening h2{width:100%}.intro{position:relative;margin-left:calc(var(--grid-step));width:calc(var(--grid-step)*3 - 16px);margin-top:32px}.intro .micro{}.intro .count{margin-top:30px;margin-bottom:18px}.intro p{margin-bottom:18px}.intro .small{}
  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));height:auto;gap:36px 16px}.card{position:relative;left:auto;top:auto!important;width:100%;grid-column:var(--mobile-column)/span 2;grid-row:auto}.name{margin-top:14px}.english{margin-top:5px}.side-a,.side-b,.tiny-title,.statement{position:relative;left:auto;top:auto;width:auto;grid-row:auto}.side-a{grid-column:1/span 2}.tiny-title,.side-b{grid-column:3/span 2}.statement{grid-column:1/-1;padding:24px 0}.statement h3{margin:16px 0}.statement p{}.eyebrow{}.micro{}.signature{margin-top:80px;margin-bottom:60px}
 }
+/* 11-02: 데스크톱(768px~)은 1920 작업 화면 기준 비율로 글자 크기를 맞춘다 (px ÷ 19.2 = vw). 아주 작은 글자만 8px 아래로 안 내려감 */
+@media(min-width:768px){
+ .opening h2{font-size:10.4167vw}
+ .intro .micro{font-size:max(8px,.4688vw)}
+ .intro p{font-size:.8333vw}
+ .intro .small{font-size:max(8px,.5729vw)}
+ .side-a,.side-b,.tiny-title{font-size:max(8px,.4688vw)}
+ .card .number{font-size:max(8px,.4688vw)}
+ .card .name{font-size:1.1458vw}
+ .card .english{font-size:max(8px,.4688vw)}
+ .card .arrow{font-size:.8854vw}
+ .statement .eyebrow{font-size:max(8px,.5208vw)}
+ .statement h3{font-size:1.8229vw}
+ .statement p{font-size:.6771vw}
+ .signature span{font-size:9.1146vw}
+ .note{font-size:max(8px,.4167vw)}
+}

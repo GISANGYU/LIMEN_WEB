@@ -16,7 +16,7 @@
   customElements.whenDefined(name).then(()=>{
    for(const host of document.querySelectorAll(name)){
     if(!host.shadowRoot)continue;
-    const link=document.createElement('link');link.rel='stylesheet';link.href=new URL(document.body.classList.contains('figma-update')?file.replace('layout-grid-','figma-')+'?v=flow-weight-1':file,document.baseURI).href;host.shadowRoot.append(link);
+    const link=document.createElement('link');link.rel='stylesheet';link.href=new URL(document.body.classList.contains('figma-update')?file.replace('layout-grid-','figma-')+'?v=flow-300-1':file,document.baseURI).href;host.shadowRoot.append(link);
     host.shadowRoot.querySelectorAll('.card[data-member]').forEach((n,i)=>n.style.setProperty('--mobile-column',i%2?'3':'1'));
    }
   });

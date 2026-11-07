@@ -3,44 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LIMEN 방명록 프로토</title>
+<meta name="theme-color" content="#060a22">
+<title>LIMEN 방명록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="data:,">
 </head>
 <body>
-<header class="top">
-  <div class="title">
-    <b>LIMEN 방명록</b>
-    <span>프로토타입 · 캐릭터 랜덤 생성 + 말풍선</span>
-  </div>
-  <div class="seg" role="tablist" aria-label="캐릭터 스타일">
-    <button data-style="ninja" role="tab">A 닌자어드벤처</button>
-    <button data-style="lpc" role="tab">B LPC</button>
-  </div>
-</header>
-
 <main id="field">
   <canvas id="cv"></canvas>
   <div id="bubbles"></div>
-  <div id="hud">
-    <span id="count"></span>
-    <span id="combo"></span>
-  </div>
-  <button id="more" type="button">🎲 한 명 더</button>
 </main>
+
+<header class="top">
+  <div class="brand">
+    <img src="assets/limen-logo.svg" alt="LIMEN">
+    <span class="sub">GUESTBOOK</span>
+  </div>
+  <div class="seg" role="tablist" aria-label="캐릭터 스타일">
+    <button data-style="glow" role="tab">C</button>
+    <button data-style="ninja" role="tab">A</button>
+    <button data-style="lpc" role="tab">B</button>
+  </div>
+</header>
+
+<div id="hud">
+  <span id="count"></span>
+  <span id="combo"></span>
+</div>
+<button id="more" class="chip" type="button">✦ 한 명 더</button>
+<button id="listBtn" class="chip" type="button">목록</button>
 
 <form id="form" autocomplete="off">
   <input id="name" maxlength="8" placeholder="이름">
-  <input id="msg" maxlength="40" placeholder="한 마디 남기기 (40자)" required>
+  <input id="msg" maxlength="40" placeholder="이곳에 머문 한 마디" required>
   <button type="submit">남기기</button>
 </form>
 
-<button id="listBtn" type="button">목록</button>
 <aside id="list" hidden>
-  <div class="listHead"><b>방명록 목록</b><button id="listClose" type="button">닫기</button></div>
+  <div class="listHead"><b>머물다 간 한 마디</b><button id="listClose" type="button">닫기</button></div>
   <ol id="listItems"></ol>
-  <p class="note">프로토타입: 글은 이 브라우저에만 저장돼요. 실제 판은 DB에 저장해요.</p>
+  <p class="note">프로토타입이라 글은 이 브라우저에만 저장돼요. 실제 판은 DB에 저장해요.</p>
 </aside>
 
 <script src="main.js"></script>

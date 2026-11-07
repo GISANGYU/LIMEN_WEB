@@ -43,7 +43,7 @@ const NINJA_NAMES = ['Boy','CamouflageGreen','CamouflageRed','CaveLion2','CaveLi
 
 const NINJA = {
   key: 'ninja',
-  frame: 16, footY: 16, topY: 1, walkFrames: 4, fps: 9, speed: 46,
+  frame: 16, footY: 16, topY: 1, walkFrames: 4, fps: 9, speed: 46, poolW: 22, hitW: 9,
   scale: () => (W >= 900 ? 4 : 3),
   comboText: () => `A · 캐릭터 ${NINJA_NAMES.length}종 중 하나`,
   async make(seed) {
@@ -132,7 +132,7 @@ async function layer(file, maps, cacheKey) {
 
 const LPC = {
   key: 'lpc',
-  frame: 64, footY: 62, topY: 10, walkFrames: 8, fps: 12, speed: 40,
+  frame: 64, footY: 62, topY: 10, walkFrames: 8, fps: 12, speed: 40, poolW: 34, hitW: 16,
   scale: () => (W >= 900 ? (DPR >= 2 ? 1.5 : 2) : 1),
   comboText() {
     if (!PAL) return 'B · 부품 조합';
@@ -179,7 +179,43 @@ const LPC = {
   },
 };
 
-const STYLES = { ninja: NINJA, lpc: LPC };
+/* ---------- C: 빛 정령 (레퍼런스 무드 오리지널 20종) ----------
+ * 시트 규격: 768×512 = 6열 × 4행, 한 칸 128×128, 투명 배경
+ *   열 0~1 서 있기(1 = 숨쉬기·눈 깜빡), 열 2~5 걷기 4프레임
+ *   행 0 정면 · 1 왼쪽 · 2 오른쪽 · 3 뒷모습, 발끝 y = 120
+ * 목록: assets/glow/index.json [{id, name, top}] — top = 머리 꼭대기 y (말풍선 위치)
+ * 기준판은 tools/make_glow_chars.py 가 그린다. 이미지 생성판도 같은 규격으로 바꿔 끼우면 된다.
+ */
+let GLOW_INDEX = null;
+async function loadGlowIndex() {
+  if (!GLOW_INDEX) GLOW_INDEX = (await fetch('assets/glow/index.json')).json();
+  return GLOW_INDEX;
+}
+const GLOW = {
+  key: 'glow',
+  frame: 128, footY: 120, topY: 56, walkFrames: 4, fps: 8, speed: 38,
+  smooth: true, glow: true, poolW: 30, hitW: 22,
+  scale: () => (W >= 900 ? 0.75 : 0.56),
+  comboText: () => 'C · 빛 정령 20종',
+  async make(seed) {
+    const list = await loadGlowIndex();
+    const c = pick(rng('glow:' + seed), list);
+    const sheet = await loadImg(`assets/glow/${c.id}/walk.png`);
+    return { sheet, label: c.name, top: c.top };
+  },
+  src(ch) {
+    const row = { down: 0, left: 1, right: 2, up: 3 }[ch.dir];
+    // 서 있을 땐 3초에 한 번 0.25초 동안 숨쉬기 프레임(눈 깜빡)
+    const f = ch.moving ? 2 + (Math.floor(ch.anim * this.fps) % this.walkFrames) : ((ch.anim % 3.2) > 2.95 ? 1 : 0);
+    return [f * 128, row * 128];
+  },
+  face(ch, c2) {
+    c2.imageSmoothingEnabled = true;
+    c2.drawImage(ch.look.sheet, 22, 36, 84, 84, 0, 0, c2.canvas.width, c2.canvas.height);
+  },
+};
+
+const STYLES = { ninja: NINJA, lpc: LPC, glow: GLOW };
 
 /* ---------- 방명록 글 ---------- */
 const DUMMY = [
@@ -212,9 +248,23 @@ function saveEntry(e) {
   } catch (err) { /* 저장 못 해도 화면엔 보인다 */ }
 }
 
-/* ---------- 마당 ---------- */
-let W = 0, H = 0, DPR = 1, bg = null;
+/* ---------- 마당 (남색 밤 들판) ---------- */
+let W = 0, H = 0, DPR = 1, bg = null, vignette = null;
+let TOP = 120, BOTTOM = 0; // 걸어다닐 수 있는 세로 범위
 let style = NINJA, chars = [], entries = [], gen = 0, talkClock = 0;
+let flies = [];
+
+// 미리 그려 두는 빛 스프라이트
+function glowSprite(size, stops) {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const x = c.getContext('2d'), g = x.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  stops.forEach(([o, col]) => g.addColorStop(o, col));
+  x.fillStyle = g; x.fillRect(0, 0, size, size);
+  return c;
+}
+const GLOW_MINT = glowSprite(64, [[0, 'rgba(190,255,240,1)'], [0.18, 'rgba(111,240,216,.55)'], [0.5, 'rgba(111,240,216,.12)'], [1, 'rgba(111,240,216,0)']]);
+const GLOW_LAV = glowSprite(64, [[0, 'rgba(235,230,255,1)'], [0.18, 'rgba(181,166,255,.55)'], [0.5, 'rgba(181,166,255,.12)'], [1, 'rgba(181,166,255,0)']]);
+const POOL = glowSprite(64, [[0, 'rgba(181,166,255,.5)'], [0.45, 'rgba(140,130,255,.16)'], [1, 'rgba(120,110,255,0)']]);
 
 function resize() {
   const r = field.getBoundingClientRect();
@@ -223,40 +273,113 @@ function resize() {
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   ctx.imageSmoothingEnabled = false;
-  bg = makeGrass();
-  for (const ch of chars) { ch.x = Math.min(ch.x, W - 20); ch.y = Math.min(ch.y, H - 8); ch.tx = ch.x; ch.ty = ch.y; }
+  // 위쪽 UI(헤더·안내·버튼) 아래부터, 입력창 위까지만 걷는다
+  const hb = Math.max(...['.top', '#hud', '#more'].map((q) => $(q).getBoundingClientRect().bottom));
+  TOP = hb + 8; BOTTOM = $('#form').getBoundingClientRect().top - 10;
+  bg = makeNight(); vignette = makeVignette();
+  makeFlies();
+  for (const ch of chars) { ch.x = clampX(ch.x); ch.y = clampY(ch.y); ch.tx = ch.x; ch.ty = ch.y; }
+}
+const clampX = (x) => Math.max(24, Math.min(W - 24, x));
+const minY = () => Math.min(TOP + (style.footY - style.topY) * style.scale() + 58, BOTTOM - 40); // 머리 위 말풍선 두 줄 자리
+const clampY = (y) => Math.max(minY(), Math.min(BOTTOM, y));
+
+// 밤 들판: 4px 픽셀 블록 + 위쪽 하늘 그라데이션 + 안개 띠
+function makeNight() {
+  const c = document.createElement('canvas'); c.width = W * DPR; c.height = H * DPR;
+  const x = c.getContext('2d'); x.scale(DPR, DPR);
+  // 하늘 → 땅
+  const sky = x.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0, '#0b1240'); sky.addColorStop(0.35, '#182467'); sky.addColorStop(0.62, '#141c52'); sky.addColorStop(1, '#070b26');
+  x.fillStyle = sky; x.fillRect(0, 0, W, H);
+  // 픽셀 풀
+  const px = 4, cols = Math.ceil(W / px), rows = Math.ceil(H / px), r = rng('night');
+  const g = document.createElement('canvas'); g.width = cols; g.height = rows;
+  const gx = g.getContext('2d');
+  for (let i = 0; i < cols * rows * 0.07; i++) {
+    const cx = Math.floor(r() * cols), cy = Math.floor(r() * rows), v = r();
+    const depth = cy / rows; // 아래로 갈수록 풀이 진하다
+    if (depth < 0.18) continue;
+    gx.fillStyle = v < 0.6 ? `rgba(40,52,130,${0.35 + depth * 0.4})` : v < 0.93 ? `rgba(90,96,190,${0.18 + depth * 0.3})` : 'rgba(181,166,255,.35)';
+    gx.fillRect(cx, cy, 1, 1);
+    if (v < 0.3) gx.fillRect(cx + 1, cy - 1, 1, 1);
+  }
+  // 작은 빛 꽃
+  for (let i = 0; i < cols * rows * 0.0005; i++) {
+    const cx = Math.floor(r() * (cols - 2)) + 1, cy = Math.floor((0.3 + r() * 0.7) * (rows - 2)) + 1;
+    gx.fillStyle = r() < 0.5 ? 'rgba(181,166,255,.32)' : 'rgba(111,240,216,.28)';
+    gx.fillRect(cx - 1, cy, 1, 1); gx.fillRect(cx + 1, cy, 1, 1); gx.fillRect(cx, cy - 1, 1, 1); gx.fillRect(cx, cy + 1, 1, 1);
+    gx.fillStyle = 'rgba(233,239,243,.5)'; gx.fillRect(cx, cy, 1, 1);
+  }
+  x.imageSmoothingEnabled = false;
+  x.drawImage(g, 0, 0, cols * px, rows * px);
+  // 안개 띠 · 빛 번짐
+  x.globalCompositeOperation = 'lighter';
+  const blobs = [[0.18, 0.28, 0.55, 'rgba(120,110,255,.16)'], [0.82, 0.22, 0.5, 'rgba(160,140,255,.14)'], [0.55, 0.6, 0.65, 'rgba(90,120,255,.10)'], [0.3, 0.85, 0.5, 'rgba(111,240,216,.06)']];
+  for (const [bx, by, br, col] of blobs) {
+    const R = Math.max(W, H) * br, gr = x.createRadialGradient(bx * W, by * H, 0, bx * W, by * H, R);
+    gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = gr; x.fillRect(0, 0, W, H);
+  }
+  // 하늘에서 내려오는 사선 빛줄기 (메인 SLOGAN 구간 느낌)
+  x.save(); x.translate(W * 0.3, -40); x.rotate(-0.32);
+  const beam = x.createLinearGradient(-W * 0.12, 0, W * 0.12, 0);
+  beam.addColorStop(0, 'rgba(160,160,255,0)'); beam.addColorStop(0.5, 'rgba(160,160,255,.07)'); beam.addColorStop(1, 'rgba(160,160,255,0)');
+  x.fillStyle = beam; x.fillRect(-W * 0.12, 0, W * 0.24, H * 1.4);
+  x.restore();
+  return c;
+}
+function makeVignette() {
+  const c = document.createElement('canvas'); c.width = W * DPR; c.height = H * DPR;
+  const x = c.getContext('2d'); x.scale(DPR, DPR);
+  const g = x.createRadialGradient(W / 2, H * 0.55, Math.min(W, H) * 0.25, W / 2, H * 0.55, Math.max(W, H) * 0.8);
+  g.addColorStop(0, 'rgba(3,5,20,0)'); g.addColorStop(1, 'rgba(3,5,20,.6)');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  return c;
 }
 
-// 잔디 바닥: 4px 블록, 시드 고정이라 다시 그려도 같은 무늬
-function makeGrass() {
-  const px = 4, cols = Math.ceil(W / px), rows = Math.ceil(H / px);
-  const c = document.createElement('canvas'); c.width = cols; c.height = rows;
-  const x = c.getContext('2d');
-  x.fillStyle = '#a8d58a'; x.fillRect(0, 0, cols, rows);
-  const r = rng('grass');
-  for (let i = 0; i < cols * rows * 0.06; i++) {
-    const gx = Math.floor(r() * cols), gy = Math.floor(r() * rows), v = r();
-    x.fillStyle = v < 0.7 ? '#98c97b' : v < 0.95 ? '#b7df9b' : '#fff2a8';
-    x.fillRect(gx, gy, 1, 1);
-    if (v < 0.25) x.fillRect(gx + 1, gy - 1, 1, 1);
+/* 반딧불이: 각자 깜빡이다가 이웃 박자에 조금씩 맞춰 간다 */
+function makeFlies() {
+  const n = Math.round(Math.min(90, Math.max(22, (W * H) / 13000)));
+  flies = [];
+  for (let i = 0; i < n; i++) {
+    flies.push({
+      x: Math.random() * W, y: rand(H * 0.08, H * 0.95), a: Math.random() * Math.PI * 2,
+      sp: rand(6, 16), ph: Math.random(), f: rand(0.38, 0.52), mint: Math.random() < 0.7, sz: rand(14, 26),
+    });
   }
-  // 군데군데 작은 꽃
-  for (let i = 0; i < cols * rows * 0.0016; i++) {
-    const gx = Math.floor(r() * (cols - 2)) + 1, gy = Math.floor(r() * (rows - 2)) + 1;
-    x.fillStyle = pick(r, ['#ffffff', '#ffb3cd', '#ffe27a']);
-    x.fillRect(gx - 1, gy, 1, 1); x.fillRect(gx + 1, gy, 1, 1); x.fillRect(gx, gy - 1, 1, 1); x.fillRect(gx, gy + 1, 1, 1);
-    x.fillStyle = '#f2a33a'; x.fillRect(gx, gy, 1, 1);
+}
+function updateFlies(dt) {
+  let sx = 0, sy = 0;
+  for (const f of flies) { sx += Math.cos(f.ph * 6.283); sy += Math.sin(f.ph * 6.283); }
+  const R = Math.hypot(sx, sy) / flies.length, psi = Math.atan2(sy, sx);
+  for (const f of flies) {
+    f.ph += dt * (f.f + 0.2 * R * Math.sin(psi - f.ph * 6.283));
+    f.ph -= Math.floor(f.ph);
+    f.a += rand(-1.6, 1.6) * dt;
+    f.x += Math.cos(f.a) * f.sp * dt; f.y += Math.sin(f.a) * f.sp * 0.6 * dt;
+    if (f.x < -20) f.x = W + 20; if (f.x > W + 20) f.x = -20;
+    if (f.y < H * 0.05) f.a = Math.abs(f.a); if (f.y > H * 0.97) f.a = -Math.abs(f.a);
   }
-  return c;
+}
+function drawFlies() {
+  ctx.globalCompositeOperation = 'lighter';
+  for (const f of flies) {
+    const b = Math.pow(Math.max(0, Math.sin(f.ph * 6.283)), 3) * 0.9 + 0.1;
+    const s = f.sz * (0.6 + b * 0.6);
+    ctx.globalAlpha = b;
+    ctx.drawImage(f.mint ? GLOW_MINT : GLOW_LAV, f.x - s / 2, f.y - s / 2, s, s);
+    ctx.fillStyle = f.mint ? '#d8fff6' : '#efeaff';
+    ctx.fillRect(Math.round(f.x) - 1, Math.round(f.y) - 1, 2, 2);
+  }
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
 }
 
 const maxChars = () => (W < 600 ? 18 : 30);
 const maxTalk = () => (W < 600 ? 2 : 4);
-const topPad = () => style.frame * style.scale() * 0.9 + 64; // 머리 위 말풍선 자리
 
-function spawnPos() {
-  return [rand(28, W - 28), rand(Math.min(topPad(), H * 0.5), H - 14)];
-}
+function spawnPos() { return [rand(28, W - 28), rand(minY(), BOTTOM)]; }
 
 async function addChar(entry, opts = {}) {
   const myGen = gen;
@@ -266,13 +389,14 @@ async function addChar(entry, opts = {}) {
   const ch = {
     entry, look, x, y, tx: x, ty: y, dir: 'down', moving: false, anim: Math.random() * 3,
     wait: rand(0.2, 2.5), speed: style.speed * rand(0.85, 1.2),
-    talkUntil: 0, bubble: null, drop: opts.drop ? 0 : 1, isNew: !!opts.isNew, puff: [],
+    talkUntil: 0, bubble: null, isNew: !!opts.isNew, sparks: [],
+    // 새 글: 빛 한 점이 내려와(orb 0→1) 터지고 캐릭터가 깨어난다(wake 0→1)
+    orb: opts.drop ? 0 : 1, wake: opts.drop ? 0 : 1, orbX: rand(W * 0.2, W * 0.8),
   };
   chars.push(ch);
   if (chars.length > maxChars()) {
     const old = chars.shift(); if (old.bubble) old.bubble.remove();
   }
-  if (opts.talk) talk(ch, opts.talk);
   updateHud();
   return ch;
 }
@@ -323,7 +447,7 @@ function talking() { const now = performance.now() / 1000; return chars.filter((
 function maybeStartTalk() {
   const now = performance.now() / 1000, cur = talking();
   if (cur.length >= maxTalk()) return;
-  const free = chars.filter((c) => c.talkUntil <= now && c.drop >= 1 &&
+  const free = chars.filter((c) => c.talkUntil <= now && c.wake >= 1 &&
     cur.every((o) => Math.abs(o.x - c.x) > 150 || Math.abs(o.y - c.y) > 90));
   if (free.length) talk(pick(Math.random, free), rand(3.5, 5));
 }
@@ -331,20 +455,26 @@ function maybeStartTalk() {
 /* ---------- 움직임 ---------- */
 function newTarget(ch) {
   const hop = W < 600 ? 120 : 200;
-  ch.tx = Math.max(24, Math.min(W - 24, ch.x + rand(-hop, hop)));
-  ch.ty = Math.max(Math.min(topPad(), H * 0.5), Math.min(H - 12, ch.y + rand(-hop, hop) * 0.6));
+  ch.tx = clampX(ch.x + rand(-hop, hop));
+  ch.ty = clampY(ch.y + rand(-hop, hop) * 0.6);
 }
 
 function update(dt) {
   const now = performance.now() / 1000;
+  updateFlies(dt);
   for (const ch of chars) {
-    if (ch.drop < 1) { // 새 글: 위에서 떨어진다
-      ch.drop = Math.min(1, ch.drop + dt / 0.7);
-      if (ch.drop >= 1) { // 착지 먼지
-        for (let i = 0; i < 8; i++) ch.puff.push({ a: (i / 8) * Math.PI * 2, t: 0 });
+    ch.sparks = ch.sparks.filter((p) => (p.t += dt) < p.life);
+    if (ch.orb < 1) {
+      ch.orb = Math.min(1, ch.orb + dt / 1.1);
+      if (ch.orb >= 1) { // 착지: 빛 조각이 흩어진다
+        for (let i = 0; i < 16; i++) {
+          const a = (i / 16) * Math.PI * 2 + rand(-0.2, 0.2);
+          ch.sparks.push({ a, v: rand(40, 110), t: 0, life: rand(0.5, 0.9), mint: Math.random() < 0.6 });
+        }
       }
       continue;
     }
+    if (ch.wake < 1) { ch.wake = Math.min(1, ch.wake + dt / 0.6); continue; }
     if (ch.talkUntil && ch.talkUntil <= now) hush(ch);
     ch.anim += dt;
     if (ch.wait > 0) { ch.wait -= dt; ch.moving = false; if (ch.wait <= 0) newTarget(ch); continue; }
@@ -355,47 +485,94 @@ function update(dt) {
     ch.moving = true;
     ch.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
   }
-  for (const ch of chars) ch.puff = ch.puff.filter((p) => (p.t += dt) < 0.45);
   talkClock -= dt;
   if (talkClock <= 0) { talkClock = rand(1.2, 2.2); maybeStartTalk(); }
 }
 
 /* ---------- 그리기 ---------- */
-function dropOffset(ch) {
-  if (ch.drop >= 1) return 0;
-  const t = ch.drop; return -(1 - t) * (1 - t) * (ch.y + 80);
+function drawChars(sorted, s, F, alpha = 1) {
+  for (const ch of sorted) {
+    if (ch.orb < 1) continue;
+    const x = ch.x, y = ch.y;
+    const [sx, sy] = style.src(ch);
+    ctx.globalAlpha = ch.wake * alpha;
+    const dx = x - (F / 2) * s, dy = y - style.footY * s;
+    ctx.drawImage(ch.look.sheet, sx, sy, F, F,
+      style.smooth ? dx : Math.round(dx), style.smooth ? dy : Math.round(dy), F * s, F * s);
+  }
+  ctx.globalAlpha = 1;
 }
-
 function draw() {
-  ctx.drawImage(bg, 0, 0, bg.width * 4, bg.height * 4);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(bg, 0, 0);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.imageSmoothingEnabled = false;
   const s = style.scale(), F = style.frame;
   const sorted = chars.slice().sort((a, b) => a.y - b.y);
+  const poolW = style.poolW * s;
+
+  // 1) 발밑 빛 웅덩이
+  ctx.globalCompositeOperation = 'lighter';
   for (const ch of sorted) {
-    const x = Math.round(ch.x), y = Math.round(ch.y + dropOffset(ch));
-    // 그림자 (픽셀 타원)
-    const sw = (style.key === 'ninja' ? 10 : 20) * s, shy = Math.round(ch.y);
-    ctx.fillStyle = 'rgba(40,60,30,.28)';
-    ctx.fillRect(x - sw / 2 + s, shy - s, sw - 2 * s, 2 * s);
-    ctx.fillRect(x - sw / 2, shy - s * 0.5, sw, s);
-    // 몸
-    const [sx, sy] = style.src(ch);
-    ctx.drawImage(ch.look.sheet, sx, sy, F, F,
-      Math.round(x - (F / 2) * s), Math.round(y - style.footY * s), F * s, F * s);
-    // 착지 먼지
-    for (const p of ch.puff) {
-      const r = 6 + p.t * 60, a = 1 - p.t / 0.45;
-      ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
-      ctx.fillRect(Math.round(x + Math.cos(p.a) * r) - 2, Math.round(shy + Math.sin(p.a) * r * 0.4) - 2, 4, 4);
+    if (ch.orb < 1) continue;
+    ctx.globalAlpha = 0.55 * ch.wake + (ch.talkUntil ? 0.35 : 0);
+    ctx.drawImage(POOL, ch.x - poolW, ch.y - poolW * 0.32, poolW * 2, poolW * 0.64);
+  }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+
+  // 2) 픽셀 캐릭터 (A·B) — 밤빛을 입히려고 multiply 전에 그린다
+  if (!style.glow) drawChars(sorted, s, F);
+
+  // 3) 밤빛 입히기: 전체를 라벤더 빛으로 살짝 눌러 스티커처럼 뜨지 않게
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.fillStyle = '#c3c0f2'; ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(vignette, 0, 0, W, H);
+
+  // 2') 빛 정령 (C) — 스스로 빛나므로 어둡게 누르지 않고 위에 그린 뒤 빛을 한 번 더 더한다
+  if (style.glow) {
+    ctx.imageSmoothingEnabled = true;
+    drawChars(sorted, s, F);
+    ctx.globalCompositeOperation = 'lighter';
+    drawChars(sorted, s, F, 0.15);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.imageSmoothingEnabled = false;
+  }
+
+  // 4) 반딧불이 · 내려오는 빛 · 흩어지는 조각 · 깨어나는 빛
+  drawFlies();
+  ctx.globalCompositeOperation = 'lighter';
+  for (const ch of chars) {
+    if (ch.orb < 1) {
+      const t = ch.orb, e = 1 - Math.pow(1 - t, 3);
+      const ox = ch.orbX + (ch.x - ch.orbX) * e, oy = -30 + (ch.y - 20 + 30) * e;
+      for (let k = 0; k < 6; k++) { // 꼬리
+        const tt = Math.max(0, e - k * 0.035), tx = ch.orbX + (ch.x - ch.orbX) * tt, ty = -30 + (ch.y - 20 + 30) * tt;
+        ctx.globalAlpha = 0.5 - k * 0.07; ctx.drawImage(GLOW_MINT, tx - 18, ty - 18, 36, 36);
+      }
+      ctx.globalAlpha = 1; ctx.drawImage(GLOW_MINT, ox - 30, oy - 30, 60, 60);
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(Math.round(ox) - 2, Math.round(oy) - 2, 4, 4);
+    } else if (ch.wake < 1) {
+      ctx.globalAlpha = 1 - ch.wake;
+      const r = 50 + ch.wake * 40;
+      ctx.drawImage(GLOW_LAV, ch.x - r, ch.y - 20 - r, r * 2, r * 2);
+    }
+    for (const p of ch.sparks) {
+      const k = p.t / p.life, d = p.v * p.t;
+      ctx.globalAlpha = 1 - k;
+      ctx.fillStyle = p.mint ? '#a8fff0' : '#d9d2ff';
+      ctx.fillRect(Math.round(ch.x + Math.cos(p.a) * d) - 1, Math.round(ch.y - 20 + Math.sin(p.a) * d * 0.7 + 30 * k * k) - 1, 3, 3);
     }
   }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+
   // 말풍선 위치
   for (const ch of chars) {
     if (!ch.bubble || !ch.talkUntil) continue;
-    const s2 = style.scale();
-    const headY = ch.y + dropOffset(ch) - (style.footY - style.topY) * s2;
+    const headY = ch.y - (style.footY - (ch.look.top ?? style.topY)) * s;
     let left = ch.x - ch.bw / 2;
-    left = Math.max(6, Math.min(W - ch.bw - 6, left));
-    const top = Math.max(4, headY - ch.bh - 14);
+    left = Math.max(8, Math.min(W - ch.bw - 8, left));
+    const top = Math.max(TOP, headY - ch.bh - 14);
     ch.bubble.style.transform = `translate(${Math.round(left)}px, ${Math.round(top)}px)`;
     ch.tail.style.left = `${Math.round(Math.max(10, Math.min(ch.bw - 10, ch.x - left)))}px`;
   }
@@ -434,7 +611,7 @@ cv.addEventListener('pointerdown', (ev) => {
   const r = cv.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
   const s = style.scale();
   const hit = chars.slice().sort((a, b) => b.y - a.y).find((ch) =>
-    Math.abs(px - ch.x) < (style.key === 'ninja' ? 9 : 16) * s &&
+    Math.abs(px - ch.x) < style.hitW * s &&
     py < ch.y + 4 && py > ch.y - (style.footY - style.topY) * s - 6);
   if (!hit) return;
   const cur = talking().filter((c) => c !== hit);
@@ -448,13 +625,13 @@ $('#form').addEventListener('submit', (ev) => {
   const e = { id: 'u-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), name: $('#name').value.trim().slice(0, 8), msg: msg.slice(0, 40), t: Date.now() };
   entries.push(e); saveEntry(e);
   $('#msg').value = '';
-  addChar(e, { drop: true, isNew: true }).then((ch) => { if (ch) setTimeout(() => talk(ch, 7), 750); });
+  addChar(e, { drop: true, isNew: true }).then((ch) => { if (ch) setTimeout(() => talk(ch, 7), 1750); });
   renderList();
 });
 
 $('#more').addEventListener('click', () => {
   const e = { id: 'r-' + Math.random().toString(36).slice(2), name: '', msg: pick(Math.random, SAMPLE_LINES) };
-  addChar(e, { drop: true, isNew: false }).then((ch) => { if (ch) setTimeout(() => talk(ch, 5), 750); });
+  addChar(e, { drop: true, isNew: false }).then((ch) => { if (ch) setTimeout(() => talk(ch, 5), 1750); });
 });
 
 document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => setStyle(b.dataset.style)));
@@ -467,7 +644,7 @@ entries = loadEntries();
 resize();
 let startKey = new URL(location.href).searchParams.get('style');
 if (!STYLES[startKey]) { try { startKey = localStorage.getItem(LS_STYLE); } catch (e) { startKey = null; } }
-setStyle(STYLES[startKey] ? startKey : 'ninja');
+setStyle(STYLES[startKey] ? startKey : 'glow');
 requestAnimationFrame(loop);
 
 // 검증용

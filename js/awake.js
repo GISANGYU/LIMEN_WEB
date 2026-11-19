@@ -71,6 +71,7 @@ mnHost.insertAdjacentHTML('beforeend', `<div class="ab mn-list" id="mnList" styl
   </article>`).join('')}</div>`);
 // 03 이 피그마(마지막 사진 아래끝 y 4800)보다 길어진 만큼 04~푸터를 내림
 const aw = $('.aw'), mnList = $('#mnList');
+const mnItems = [...mnList.querySelectorAll('.mn-item')].map((it) => ({ it, img: it.querySelector('.mn-photo img') }));
 function layoutShift() {
   const u = U();
   const bottom = mnList.offsetTop + mnList.offsetHeight;
@@ -94,8 +95,8 @@ const PI = [
 // 자리 k = −5…5 의 카드 중심 (피그마 코드의 회전 상자 중심, k=−2…2) · 각도 = 11°×k
 const SLOT = { '-5': [-980, 17220], '-4': [-640, 16820], '-3': [-280, 16480], '-2': [147.8, 16212.79], '-1': [537.81, 16046.66], 0: [960, 16004], 1: [1365.76, 16113.44], 2: [1741.72, 16343.9], 3: [2200, 16680], 4: [2520, 17060], 5: [2840, 17480] };
 const SLOT_BG = ['#614a70', '#45364f', '#30283b'];
-// 가운데 초점: 한 칸 옆 1.2px, 두 칸 옆 2.4px 까지만 흐림 + 아주 조금 어둡게 (과하지 않게)
-const BLUR_PER_SLOT = 1.2, BLUR_MAX = 2.4, DIM_PER_SLOT = .06;
+// 가운데 3장(−1·0·1칸)은 또렷하게, 그 바깥부터 흐림: 두 칸 옆 2.4px·밝기 88%, 더 바깥은 최대 3.2px·82%
+const FOCUS_SLOTS = 1, BLUR_PER_SLOT = 2.4, BLUR_MAX = 3.2, DIM_PER_SLOT = .12, DIM_MIN = .82;
 const STAGE_TOP = 15700;
 const stage = $('#piStage');
 const piCards = [];
@@ -253,8 +254,9 @@ function renderCards() {
     const [x, y] = slotPos(s);
     c.el.style.transform = `translate3d(${((x - 175) * u).toFixed(2)}px, ${((y - 215 - STAGE_TOP) * u).toFixed(2)}px, 0) rotate(${(11 * s).toFixed(3)}deg)`;
     c.el.style.setProperty('--cbg', slotBg(s));
-    c.el.style.setProperty('--cblur', `${Math.min(BLUR_MAX, a * BLUR_PER_SLOT).toFixed(2)}px`);
-    c.el.style.setProperty('--cdim', (1 - Math.min(2, a) * DIM_PER_SLOT).toFixed(3));
+    const out = Math.max(0, a - FOCUS_SLOTS);
+    c.el.style.setProperty('--cblur', `${Math.min(BLUR_MAX, out * BLUR_PER_SLOT).toFixed(2)}px`);
+    c.el.style.setProperty('--cdim', Math.max(DIM_MIN, 1 - out * DIM_PER_SLOT).toFixed(3));
     c.el.style.zIndex = String(100 - Math.round(a * 10));
     c.s = s;
   }
@@ -351,6 +353,13 @@ function update(now) {
   if (lensPos && lensTo) {
     lensPos[0] = lerp(lensPos[0], lensTo[0], .35); lensPos[1] = lerp(lensPos[1], lensTo[1], .35);
     lens.style.setProperty('--lx', `${lensPos[0].toFixed(1)}px`); lens.style.setProperty('--ly', `${lensPos[1].toFixed(1)}px`);
+  }
+  // 03 — 사진이 헤더 밑에 붙어 있는 동안(글이 끝날 때까지) 안쪽 그림이 살짝 올라감
+  for (const { it, img } of mnItems) {
+    const r = it.getBoundingClientRect();
+    if (r.bottom < -300 || r.top > vh + 300) continue;
+    const p = clamp((180 * u - r.top) / Math.max(1, r.height - 270 * u));
+    img.style.transform = `translate3d(0, ${(-p * .14 * 270 * u).toFixed(1)}px, 0)`;
   }
   // 12 — 카드 회전: 자동(천천히) ↔ 끌기 ↔ 자리 잡기
   if (!piDrag) {

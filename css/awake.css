@@ -68,23 +68,24 @@ html:has(body.awake) { background: #0d0b11; }
 /* ═══════ 02 RETRACE ═══════ */
 .rt-card { overflow: hidden; }
 
-/* ═══════ 03 의미 — 왼쪽 사진만 헤더 밑에 붙음(sticky), 오른쪽 글은 고정 · 11-19 글 묶음 사이 여백 늘림(제목→뜻 34, 뜻→설명 48, 설명→원본 설명 84+52, 라벨→문단 18, 문단→라벨 56, 줄 사이 160) ═══════ */
+/* ═══════ 03 의미 — 왼쪽 사진만 헤더 밑에 붙음(sticky), 오른쪽 글은 고정 · 글 묶음 안쪽 여백은 처음 값, 01~05 항목 사이만 320 ═══════ */
 .mn-list { display: flex; flex-direction: column; }
-.mn-item { display: grid; grid-template-columns: calc(480 * var(--u)) 1fr; column-gap: calc(120 * var(--u)); margin-bottom: calc(160 * var(--u)); }
-.mn-item:last-child { margin-bottom: 0; }
+.mn-item { display: grid; grid-template-columns: calc(480 * var(--u)) 1fr; column-gap: calc(120 * var(--u)); }
+/* 01~05 항목 사이 간격은 오른쪽 글 칸 아래에 둔다 → 항목 높이에 포함돼 사진이 그동안 계속 붙어 있다가, 다음 사진이 닿는 순간 밀려 올라감 */
+.mn-item:not(:last-child) .mn-text { padding-bottom: calc(320 * var(--u)); }
 .mn-photo { position: sticky; top: calc(180 * var(--u)); align-self: start; height: calc(270 * var(--u)); margin: 0; overflow: hidden; }
 .is-still .mn-photo { position: relative; top: 0; }
 .mn-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mn-photo img.obj-b { object-position: 50% 100%; }
 .mn-t { font: 500 calc(34 * var(--u)) / normal 'Inter', sans-serif; color: #eae7ef; white-space: nowrap; }
-.mn-m { margin-top: calc(34 * var(--u)); font: 500 calc(28 * var(--u)) / calc(34 * var(--u)) 'Noto Sans KR', sans-serif; color: #cfc0dd; letter-spacing: -.013em; white-space: nowrap; }
-.mn-d { margin-top: calc(48 * var(--u)); font: 400 calc(23 * var(--u)) / 1.75 'Noto Sans KR', sans-serif; color: #a79aaf; letter-spacing: -.013em; white-space: nowrap; }
-.mn-more { margin-top: calc(84 * var(--u)); max-width: calc(780 * var(--u)); padding-top: calc(52 * var(--u)); border-top: 1px solid #3a3045; }
+.mn-m { margin-top: calc(24 * var(--u)); font: 500 calc(28 * var(--u)) / calc(34 * var(--u)) 'Noto Sans KR', sans-serif; color: #cfc0dd; letter-spacing: -.013em; white-space: nowrap; }
+.mn-d { margin-top: calc(36 * var(--u)); font: 400 calc(23 * var(--u)) / 1.75 'Noto Sans KR', sans-serif; color: #a79aaf; letter-spacing: -.013em; white-space: nowrap; }
+.mn-more { margin-top: calc(56 * var(--u)); max-width: calc(780 * var(--u)); padding-top: calc(36 * var(--u)); border-top: 1px solid #3a3045; }
 .mn-k { font: 400 calc(15 * var(--u)) / 1.6 'Inter', sans-serif; letter-spacing: .06em; color: #8a7f95; }
-.mn-k + .mn-p { margin-top: calc(18 * var(--u)); }
-.mn-p + .mn-k { margin-top: calc(56 * var(--u)); }
+.mn-k + .mn-p { margin-top: calc(10 * var(--u)); }
+.mn-p + .mn-k { margin-top: calc(30 * var(--u)); }
 .mn-p { font: 400 calc(19 * var(--u)) / 1.85 'Noto Sans KR', sans-serif; color: #9d90a6; letter-spacing: -.013em; word-break: keep-all; white-space: normal; }
-.mn-p + .mn-p { margin-top: calc(20 * var(--u)); }
+.mn-p + .mn-p { margin-top: calc(12 * var(--u)); }
 
 /* ═══════ 04 KEYS ═══════ */
 .key .chr { --step: 60ms; --blur: 18px; }

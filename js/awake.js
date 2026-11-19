@@ -2,7 +2,7 @@
 // 11-19 2차 지시 반영: 인터랙션은 '제목 구간'에만.
 //  · [data-in]            제목·제목 설명만 화면에 들어오면 블러 14px→0, translateY −30px→0 (lines: 줄마다, chars: 글자마다)
 //                         라벨(RETRACE / … 등), 장면 사진·설명, 의미 5줄, 디자인 시스템 판, 포스터 아카이브는 고정
-//  · [data-scramble]      서체 판의 큰 AaBb · 가나다만 글자가 오류처럼 섞이다 1초 안에 제자리
+//  · [data-scramble]      서체 판의 큰 AaBb · 가나다만 글자가 오류처럼 섞이다 0.7초에 걸쳐 제자리
 //  · 04 키워드             왼쪽 큰 단어만 블러 등장, 오른쪽 뜻·설명은 --blur:0px (위치·투명도만)
 //  · 09 상징               odysseeclinic 식 포커싱 (마우스가 간 것만 선명)
 //  · 05 색                 그라데이션 위에서 마우스 오른쪽 위에 그 자리 색 동그라미 + HEX (돋보기)
@@ -136,8 +136,8 @@ const scrambles = $$('[data-scramble]').map((el) => {
   });
   return { el, spans, raf: 0 };
 });
-// 전체 1초 안에 끝남: 글자는 80ms 간격으로 왼쪽부터 나타나고, 50ms 마다 다른 글자로 바뀌다 520~1000ms 사이에 제자리
-const SCRAMBLE_MS = 1000;
+// 전체 0.7초에 걸쳐 진행: 글자는 56ms 간격으로 왼쪽부터 나타나고, 50ms 마다 다른 글자로 바뀌다 364~700ms 사이에 제자리
+const SCRAMBLE_MS = 700;
 function runScramble(sc) {
   cancelAnimationFrame(sc.raf);
   sc.el.classList.add('is-run');

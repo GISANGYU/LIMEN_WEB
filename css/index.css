@@ -66,7 +66,8 @@ figure { margin: 0; }
 .hd-nav a:hover, .hd-nav a.is-on { opacity: 1; }
 .hd-nav a.is-on::after { content: ''; position: absolute; left: 0; right: 0; bottom: .1em; height: 1px; background: currentColor; transform: scaleX(.0); transform-origin: left; transition: transform .5s var(--ease); }
 .hd-nav a.is-on:hover::after { transform: scaleX(1); }
-.hd-burger { position: absolute; left: calc(480 * var(--u)); top: calc(84 * var(--u)); width: max(30px, calc(42 * var(--u))); height: max(30px, calc(36 * var(--u))); display: grid; place-content: center; gap: max(5px, calc(5.5 * var(--u))); }
+/* 11-19 헤더 Index 버튼 삭제 → Awake 가 x188, 햄버거는 같은 간격(150)으로 당김 (선 x 338) */
+.hd-burger { position: absolute; left: calc(331 * var(--u)); top: calc(84 * var(--u)); width: max(30px, calc(42 * var(--u))); height: max(30px, calc(36 * var(--u))); display: grid; place-content: center; gap: max(5px, calc(5.5 * var(--u))); }
 .hd-burger i { display: block; width: max(20px, calc(28 * var(--u))); height: 1.5px; background: #fff; transition: transform .5s var(--ease), opacity .3s; }
 .is-profile .hd-burger i:nth-child(1) { transform: translateY(calc(max(5px, calc(5.5 * var(--u))) + 1.5px)) rotate(45deg); }
 .is-profile .hd-burger i:nth-child(2) { opacity: 0; }

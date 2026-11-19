@@ -94,7 +94,7 @@ export function initSpace() {
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 200);
   const TARGET = new THREE.Vector3(0, 1.55, 1.45);
   const view = { half: 5, cx: 0, cy: 0 };
-  let W = 1, Hh = 1, fitF = 1, fitC = 0.5, fitL = 0, roomPts = [];   // 14_index_awake: 모델을 맞출 가로 영역(비율) · 그 가운데
+  let W = 1, Hh = 1, fitF = 1, fitC = 0.5, fitL = 0, fitR = 1, roomPts = [];   // 14_index_awake: 모델을 맞출 가로 영역(비율) · 그 가운데
   function placeCamera(az, el) {
     const a = THREE.MathUtils.degToRad(az), e = THREE.MathUtils.degToRad(el), d = 40;
     camera.position.set(TARGET.x + Math.sin(a) * Math.cos(e) * d, TARGET.y + Math.sin(e) * d, TARGET.z + Math.cos(a) * Math.cos(e) * d);
@@ -114,7 +114,7 @@ export function initSpace() {
     // 14_index_awake: 캔버스는 화면 전체, 모델은 [왼쪽 여백 120 ~ 오른쪽 유리 패널 앞] 영역에 맞춘다
     const rD = drawEl.getBoundingClientRect(), side = document.querySelector('.sp-side').getBoundingClientRect();
     const below = side.top > rD.top + 10, fl = below ? 20 : Math.max(20, W * 120 / 1920), fr = below ? W - 20 : Math.min(W - 20, side.left - rD.left - 40);
-    fitF = Math.max(0.3, (fr - fl) / W); fitC = (fl + fr) / 2 / W; fitL = fl;
+    fitF = Math.max(0.3, (fr - fl) / W); fitC = (fl + fr) / 2 / W; fitL = fl; fitR = fr;
     roomPts = []; for (const x of [X0 - 1.1, X1 + 1.9]) for (const y of [0, H + 0.4]) for (const z of [ZB - 1.25, ZR]) roomPts.push(new THREE.Vector3(x, y, z));
     const half = Math.max((mxx - mnx) / 2 / (asp * fitF) / 0.9, (mxy - mny) / (2 - padTop - padBot));
     const sh = (2 * fitC - 1) * half * asp;
@@ -431,6 +431,12 @@ export function initSpace() {
         const dx = Math.abs(_v.x - view.cx - view.sh - tx), dy = Math.abs(_v.y - view.cy - ty);
         fit = Math.min(fit, dx > 1e-4 ? view.half * asp * fitF * 0.62 / dx : Infinity, dy > 1e-4 ? view.half * 0.7 / dy : Infinity); });
       tz = Math.max(tz, Math.min(tz * FOCUS_SCALE, fit));
+      // 14_index_awake: 방 전체 폭이 맞춤 영역을 넘지 않을 만큼까지만 다가간다 (F11 전시 화면에서 한쪽으로 쏠려 가리지 않게)
+      if (roomPts.length) {
+        let mn = Infinity, mx = -Infinity;
+        for (const q of roomPts) { _v.copy(q).applyMatrix4(camera.matrixWorldInverse); mn = Math.min(mn, _v.x); mx = Math.max(mx, _v.x); }
+        tz = Math.min(tz, Math.max(1, fitF * 2 * view.half * asp / (mx - mn) * 1.04));
+      }
     }
     // 목표를 일정한 비율로 부드럽게 따라감 (펀치·이즈인아웃 없음)
     const camK = reduceCameraMotion.matches ? 1 : damp(0.045);
@@ -442,8 +448,11 @@ export function initSpace() {
       if (roomPts.length) {
         const h = view.half / zoomS, asp = W / Hh; let mn = Infinity;
         for (const q of roomPts) { _v.copy(q).applyMatrix4(camera.matrixWorldInverse); mn = Math.min(mn, _v.x); }
-        const lim = mn - view.cx + h * asp - (fitL / W) * 2 * h * asp;
-        if (offX > lim) offX = lim;
+        let mx = -Infinity;
+        for (const q of roomPts) { _v.copy(q).applyMatrix4(camera.matrixWorldInverse); mx = Math.max(mx, _v.x); }
+        const hiL = mn - view.cx + h * asp - (fitL / W) * 2 * h * asp;    // 방 왼쪽 끝 ≥ 왼쪽 여백
+        const loR = mx - view.cx + h * asp - (fitR / W) * 2 * h * asp;    // 방 오른쪽 끝 ≤ 유리 패널 앞
+        offX = loR <= hiL ? Math.min(hiL, Math.max(loR, offX)) : (hiL + loR) / 2;
       }
       setFrustum(zoomS, offX, offY); camera.updateMatrixWorld();
     }

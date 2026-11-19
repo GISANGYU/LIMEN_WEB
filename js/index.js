@@ -57,7 +57,10 @@ const revealIO = new IntersectionObserver((entries) => {
 $$('[data-reveal]').forEach((el) => revealIO.observe(el));
 
 // ───────── 시차 이미지 · 떠다니는 배경
-const pars = $$('[data-par]').map((el) => ({ el, img: el.querySelector('img'), k: parseFloat(el.dataset.par) || .2 }));
+const pars = $$('[data-par]').map((el) => ({ el, img: el.querySelector('img, video'), k: parseFloat(el.dataset.par) || .2 }));
+// [data-sweep]: 사진을 틀 높이의 n 배로 길게 두고, 틀이 화면 아래에서 들어와 위로 나갈 때까지 위 → 아래를 훑는다
+const sweeps = $$('[data-sweep]').map((el) => ({ el, img: el.querySelector('img'), n: parseFloat(el.dataset.sweep) || 1.8 }));
+sweeps.forEach((s) => { s.img.style.height = (s.n * 100) + '%'; s.img.style.bottom = 'auto'; });
 const lags = $$('[data-lag]').map((el) => ({ el, k: parseFloat(el.dataset.lag) || .2 }));
 const drifts = $$('[data-drift]').map((el) => ({ el, k: parseFloat(el.dataset.drift) || .2 }));
 const PAR_BOOST = 2;   // 11-19 사용자 요청: 고정 이미지 움직임을 기존의 2배로
@@ -73,6 +76,12 @@ function updateParallax(vh) {
     const room = (s - 1) * r.height / 2;
     const shift = clamp(-off * k, -room, room);
     p.img.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0) scale(${s.toFixed(4)})`;
+  }
+  for (const s of sweeps) {
+    const r = s.el.getBoundingClientRect();
+    if (r.bottom < -50 || r.top > vh + 50) continue;
+    const t = clamp((vh - r.top) / (vh + r.height));
+    s.img.style.transform = `translate3d(0, ${(-t * (s.n - 1) * r.height).toFixed(1)}px, 0)`;
   }
   const y = lenis.scroll;
   // 히어로 이미지: 틀째로 스크롤의 k 만큼 늦게 올라감 (처음 화면은 피그마 배치 그대로)
@@ -150,6 +159,22 @@ function updateKeys(vh) {
   kDots.forEach((d, i) => d.classList.toggle('on', i === active));
 }
 
+// ───────── 06 관객 경험 영상 — 기존 INDEX 쇼릴(greymac): 구간 위끝이 화면 아래(vh) → −0.8vh 로 가는 동안 카드 .4 → 1
+const expFilm = $('#expFilm'), expCard = $('#expCard'), expMedia = $('#expMedia'), expVid = $('video', expMedia);
+const cubicOut = (t) => 1 - Math.pow(1 - t, 3);
+function updateExpFilm(vh) {
+  const r = expFilm.getBoundingClientRect();
+  if (r.bottom < 0 || r.top > vh) { if (!expVid.paused) expVid.pause(); return; }
+  const p = cubicOut(clamp((vh * 0.75 - r.top) / (vh * 1.35)));   // 위끝 0.75vh → −0.6vh
+  const s = 0.4 + 0.6 * p, rad = 50 * (1 - p * 0.2);
+  expCard.style.transform = `translateY(${((1 - p) * 8).toFixed(2)}vh) scale(${s.toFixed(4)})`;
+  const rT = (rad / s).toFixed(1), rB = (50 * (1 - p) / s).toFixed(1);
+  expCard.style.borderRadius = `${rT}px ${rT}px ${rB}px ${rB}px`;
+  expCard.style.clipPath = `inset(0 round ${rT}px ${rT}px ${rB}px ${rB}px)`;   // 영상 층이 둥근 모서리를 무시하지 못하게
+  expMedia.style.transform = `scale(${(1 / s).toFixed(4)})`;                    // 창은 커지고 영상은 제 크기 그대로
+  if (expVid.paused) expVid.play().catch(() => {});
+}
+
 // ───────── 07 SPACE (기존 그대로)
 const space = initSpace();
 const spSec = $('#space');
@@ -198,6 +223,7 @@ function frame(now) {
   updateParallax(vh);
   updateQuestion(vh);
   updateKeys(vh);
+  updateExpFilm(vh);
   const rS = spSec.getBoundingClientRect();
   if (rS.bottom > 0 && rS.top < vh) space.update(clamp(-rS.top / (rS.height - vh))); else space.sleep();
 }

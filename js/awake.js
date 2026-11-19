@@ -251,9 +251,11 @@ const POSTERS = [
   ['06 / INTERSPACE', 'IS THE PATH TRULY<br>MY OWN CHOICE?', 143.978 / 200, '#6a5cf0'],
 ];
 const PA_D = 1900, PA_F = 950;                                   // 포스터 사이 깊이 · 초점 거리 (무대 높이 750 기준 단위)
+const PA_BACK_OP = .1, PA_BACK_BLUR = 28;                        // 뒤 포스터: 투명도 10% · 화면에서 보이는 블러(px, 무대 높이 750 기준)
+const PA_FOCUS_D = PA_D * .92;                                   // 이 거리 안으로 들어오면 전진할수록 선명해짐
 const PA_X = [0, 560, -520, 500, -560, 0], PA_Y = [0, -50, 40, -40, 50, 0];
 const paStage = $('#paStage'), paItems = $$('.pa-item'), paSlots = $$('.pa-slot');
-const paName = $('#paName'), paCopy = $('#paCopy'), paCoord = $('#paCoord'), paNow = $('#paNow'), paBar = $('#paBar');
+const paName = $('#paName'), paCopy = $('#paCopy'), paNow = $('#paNow'), paBar = $('#paBar');
 const paPaths = $$('#paPath path'), paTints = $$('.pa-tint img');
 let paCam = 0, paShown = -1, paTintK = 0;
 const easeIO = (f) => (f < .5 ? 4 * f * f * f : 1 - Math.pow(-2 * f + 2, 3) / 2);
@@ -281,11 +283,14 @@ function paRender() {
     const h = baseH, w = h * POSTERS[i][2];
     const fadeNear = clamp(1 - (-dz - PA_F * .25) / (PA_F * .45));       // 지나가며 사라짐
     const fadeFar = clamp(1 - (dz - PA_D * 1.6) / (PA_D * 1.4));         // 멀리서 나타남
+    // 초점: 지금 포스터(dz≈0)만 또렷, 뒤 포스터는 10% · 큰 블러 → 카메라가 다가갈수록 선명
+    const fz = clamp(dz / PA_FOCUS_D), focus = dz <= 0 ? 1 : 1 - fz * fz * (3 - 2 * fz);
+    const blurVis = (1 - focus) * PA_BACK_BLUR * unit;                    // 화면에서 보이는 블러 크기
     el.style.visibility = '';
     el.style.width = `${w.toFixed(1)}px`; el.style.height = `${h.toFixed(1)}px`;
     el.style.transform = `translate3d(${(X - w / 2).toFixed(1)}px, ${(Y - h / 2).toFixed(1)}px, 0) scale(${sc.toFixed(4)})`;
-    el.style.opacity = (fadeNear * fadeFar).toFixed(3);
-    el.style.filter = dz > PA_D * .6 ? `blur(${Math.min(4, (dz - PA_D * .6) / PA_D * 2.4).toFixed(2)}px)` : '';
+    el.style.opacity = ((PA_BACK_OP + (1 - PA_BACK_OP) * focus) * fadeNear * fadeFar).toFixed(3);
+    el.style.filter = blurVis > .2 ? `blur(${(blurVis / sc).toFixed(1)}px)` : '';   // 축소(scale) 전 크기에 거는 블러라 sc 로 나눠 화면 크기를 맞춤
     el.style.zIndex = String(Math.round(10000 - dz));
   });
   // 흰 선: 공간 속 3D 곡선을 같은 원근으로 그림 — 카메라가 전진하면 구불구불 다가옴
@@ -303,16 +308,15 @@ function paRender() {
   const k = Math.round(paCam);
   if (k !== paShown) {
     paShown = k;
-    const [title, copy, , dot] = POSTERS[k];
+    const [title, copy] = POSTERS[k];
     paName.classList.add('is-swap'); paCopy.classList.add('is-swap');
     clearTimeout(paRender._t);
-    paRender._t = setTimeout(() => { $('span', paName).textContent = title; paCopy.innerHTML = copy; paName.style.setProperty('--dot', dot); paName.classList.remove('is-swap'); paCopy.classList.remove('is-swap'); }, 260);
+    paRender._t = setTimeout(() => { $('span', paName).textContent = title; paCopy.innerHTML = copy; paName.classList.remove('is-swap'); paCopy.classList.remove('is-swap'); }, 260);
     paNow.textContent = String(k + 1).padStart(2, '0');
     paSlots.forEach((b, i) => b.classList.toggle('is-on', i === k));
     paTintK = 1 - paTintK; paTints[paTintK].src = `assets/awake/poster-0${k + 1}.jpg`;
     paTints.forEach((im, i) => im.classList.toggle('is-on', i === paTintK));
   }
-  paCoord.innerHTML = `X&nbsp;&nbsp;${(camX / 100).toFixed(2)}<br>Y&nbsp;&nbsp;${(-camY / 100).toFixed(2)}<br>Z&nbsp;&nbsp;${String(Math.round(camZ)).padStart(4, '0')}`;
   paBar.style.transform = `scaleX(${(paCam / (PA_N - 1)).toFixed(4)})`;
 }
 // 리모컨: 썸네일을 누르면 그 포스터 자리까지 스크롤

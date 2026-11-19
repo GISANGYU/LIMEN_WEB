@@ -179,13 +179,11 @@ html:has(body.awake) { background: #0d0b11; }
 .pa-path .p2 { stroke-width: 1.1; opacity: .5; }
 .pa-path .p3 { stroke-width: .8; opacity: .22; }
 .pa-space { position: absolute; inset: 0; z-index: 2; }
-.pa-item { position: absolute; left: 0; top: 0; margin: 0; transform-origin: 50% 50%; will-change: transform, opacity; box-shadow: 0 30px 80px rgba(5, 4, 10, .5); background: #e9e6fb; }
+.pa-item { position: absolute; left: 0; top: 0; margin: 0; transform-origin: 50% 50%; will-change: transform, opacity, filter; box-shadow: 0 30px 80px rgba(5, 4, 10, .5); background: #e9e6fb; }
 .pa-item img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.pa-name, .pa-copy, .pa-coord { position: absolute; z-index: 5; margin: 0; color: #eae7ef; font-family: 'Inter', sans-serif; transition: opacity .45s ease, filter .45s ease; }
+.pa-name, .pa-copy { position: absolute; z-index: 5; margin: 0; color: #eae7ef; font-family: 'Inter', sans-serif; transition: opacity .45s ease, filter .45s ease; }
 .pa-name { left: calc(40 * var(--u)); bottom: calc(40 * var(--u)); font-size: max(13px, calc(18 * var(--u))); line-height: 1.4; display: flex; align-items: center; gap: 10px; }
-.pa-name i { width: 7px; height: 7px; border-radius: 50%; background: var(--dot, #a6a1f4); box-shadow: 0 0 10px var(--dot, #a6a1f4); }
 .pa-copy { right: calc(50 * var(--u)); bottom: calc(40 * var(--u)); width: calc(340 * var(--u)); font-size: max(15px, calc(24 * var(--u))); line-height: 1.4; }
-.pa-coord { right: calc(50 * var(--u)); top: 50%; transform: translateY(-50%); font-size: 11px; line-height: 1.7; letter-spacing: .06em; color: rgba(234, 231, 239, .62); font-variant-numeric: tabular-nums; }
 .pa-name.is-swap, .pa-copy.is-swap { opacity: 0; filter: blur(8px); }
 /* 하단 상자 = 리모컨 + 지금 보고 있는 포스터 썸네일 */
 .pa-remote { position: absolute; left: calc(120 * var(--u)); right: calc(120 * var(--u)); bottom: 24px; height: var(--rh); --rh: max(120px, 14vh); display: flex; align-items: center; gap: calc(40 * var(--u));

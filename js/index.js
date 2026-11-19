@@ -6,9 +6,9 @@
 //  · 02 질문: 스티키 동안 왼쪽부터 글자 채움 / 03 기획 의도: 오른쪽 글 스티키, 사진이 글 높이에 닿으면 함께 올라감
 //  · 04 키워드: 고정 무대, 글자별 블러+translateY ±50% 로 FLOW → AWARENESS → CHOICE, 왼쪽 이미지 블러 교차
 //  · 07 SPACE: 기존 INDEX 의 space-layered.js 를 그대로 (진행도만 여기서 넘김)
-import { initSpace } from './space-layered.js';
-import { createFooterFilm } from './footer-film.js';
-import { Smooth } from './smooth.js';
+import { initSpace } from './space-layered.js?v=1120b';
+import { createFooterFilm } from './footer-film.js?v=1120b';
+import { Smooth } from './smooth.js?v=1120b';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -117,7 +117,8 @@ function layoutConcept() {
 // ───────── 04 키워드 — 고정 무대, 글자별 블러 · translateY ±50%
 const kSec = $('#keys'), kItems = $$('.k-item', kSec), kImgs = $$('.k-img', kSec), kDots = $$('#kDots li');
 const kChars = kItems.map((it) => ({ title: splitChars($('.k-title', it)), sub: splitChars($('.k-sub', it)) }));
-const N = kItems.length, CUT = [1 / 3, 2 / 3], W = 0.075;   // 전환 지점 · 퇴장/등장 각각의 폭
+const FIRST_IN = -0.05;   // 11-20: 첫 단어 등장 시작(무대가 붙기 약 230px 전)
+const N = kItems.length, CUT = [1 / 3, 2 / 3], W = 0.11;   // 11-20: 0.075 → 0.11 + 구간 460 → 520vh → 글자 퇴장·등장 각각 스크롤 약 290 → 500px(1920×1080)
 function charState(chars, v, dir, stagger) {
   // v: 0 → 1 진행, 글자 j 는 j/n*stagger 만큼 늦게 출발 → 타다다닥
   const n = chars.length;
@@ -136,11 +137,12 @@ function charState(chars, v, dir, stagger) {
 function updateKeys(vh) {
   const r = kSec.getBoundingClientRect();
   if (r.bottom < 0 || r.top > vh) return;
-  const p = clamp(-r.top / (r.height - vh));
+  const pr = -r.top / (r.height - vh), p = clamp(pr);   // pr: 무대가 붙기 전에는 음수
   let active = 0;
   for (let i = 0; i < N; i++) {
     const cIn = i ? CUT[i - 1] : null, cOut = i < N - 1 ? CUT[i] : null;
-    const vin = cIn === null ? 1 : clamp((p - cIn) / W);           // 앞 글이 다 빠진 뒤 등장
+    // 첫 단어(FLOW)도 무대가 화면에 붙는 즈음(FIRST_IN) 같은 방식으로 등장, 나머지는 앞 글이 다 빠진 뒤 등장
+    const vin = cIn === null ? clamp((pr - FIRST_IN) / W) : clamp((p - cIn) / W);
     const vout = cOut === null ? 0 : clamp((p - (cOut - W)) / W);   // 전환 지점 직전에 퇴장
     const k = kChars[i];
     if (vout > 0) { charState(k.title, vout, -1, 1.1); charState(k.sub, clamp(vout * 1.15), -1, 1.4); }
@@ -148,7 +150,7 @@ function updateKeys(vh) {
     kItems[i].style.visibility = (vin <= 0 || vout >= 1) ? 'hidden' : '';
     if (vin > .5 && vout < .5) active = i;
     // 이미지: 나갈 땐 블러가 걷히지 않고 커지며 흐려지고, 들어올 땐 블러 0 으로
-    const imIn = cIn === null ? 1 : ss(cIn - W, cIn + W * .6, p);
+    const imIn = cIn === null ? ss(FIRST_IN - W * .6, FIRST_IN + W, pr) : ss(cIn - W, cIn + W * .6, p);
     const imOut = cOut === null ? 0 : ss(cOut - W, cOut + W * .6, p);
     const vis = imIn * (1 - imOut);
     const blur = (1 - imIn) * 22 + imOut * 22;
@@ -160,20 +162,29 @@ function updateKeys(vh) {
 }
 
 // ───────── 06 관객 경험 영상 — 기존 INDEX 쇼릴(greymac): 구간 위끝이 화면 아래(vh) → −0.8vh 로 가는 동안 카드 .4 → 1
-const expFilm = $('#expFilm'), expCard = $('#expCard'), expMedia = $('#expMedia'), expVid = $('video', expMedia);
+const expFilm = $('#expFilm'), expCard = $('#expCard'), expMedia = $('#expMedia'), expVid = $('video', expMedia), expUi = $('#expUi');
 const cubicOut = (t) => 1 - Math.pow(1 - t, 3);
 function updateExpFilm(vh) {
   const r = expFilm.getBoundingClientRect();
   if (r.bottom < 0 || r.top > vh) { if (!expVid.paused) expVid.pause(); return; }
   const p = cubicOut(clamp((vh * 0.75 - r.top) / (vh * 1.35)));   // 위끝 0.75vh → −0.6vh
-  const s = 0.4 + 0.6 * p, rad = 50 * (1 - p * 0.2);
+  const s = 0.4 + 0.6 * p, rad = 50 * (1 - p);   // 다 차면 네 모서리 모두 0 — 화면에 꽉 차게
   expCard.style.transform = `translateY(${((1 - p) * 8).toFixed(2)}vh) scale(${s.toFixed(4)})`;
   const rT = (rad / s).toFixed(1), rB = (50 * (1 - p) / s).toFixed(1);
   expCard.style.borderRadius = `${rT}px ${rT}px ${rB}px ${rB}px`;
   expCard.style.clipPath = `inset(0 round ${rT}px ${rT}px ${rB}px ${rB}px)`;   // 영상 층이 둥근 모서리를 무시하지 못하게
   expMedia.style.transform = `scale(${(1 / s).toFixed(4)})`;                    // 창은 커지고 영상은 제 크기 그대로
+  const u = clamp((p - 0.7) / 0.3);   // 거의 다 찼을 때 좌하단 제목이 올라옴
+  expUi.style.opacity = u.toFixed(3); expUi.style.transform = `translateY(${((1 - u) * 30).toFixed(1)}px)`;
   if (expVid.paused) expVid.play().catch(() => {});
 }
+
+// 큰 영상 (기존 INDEX .showreel)
+const reel = $('#showreel'), reelBig = $('#reelBig');
+$('#openReel').addEventListener('click', (e) => { e.preventDefault(); reel.classList.add('is-open'); reel.setAttribute('aria-hidden', 'false'); lenis.stop(); reelBig.currentTime = 0; reelBig.play().catch(() => {}); });
+function closeReel() { if (!reel.classList.contains('is-open')) return; reel.classList.remove('is-open'); reel.setAttribute('aria-hidden', 'true'); reelBig.pause(); lenis.start(); }
+$$('[data-close]', reel).forEach((el) => el.addEventListener('click', closeReel));
+addEventListener('keydown', (e) => { if (e.key === 'Escape') closeReel(); });
 
 // ───────── 07 SPACE (기존 그대로)
 const space = initSpace();

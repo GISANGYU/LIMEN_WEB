@@ -139,11 +139,10 @@ figure { margin: 0; }
 .c-cap { width: calc(400 * var(--u)); margin-top: calc(28 * var(--u)); font-family: var(--noto); font-size: max(13px, calc(18 * var(--u))); line-height: 1.7; color: var(--ink); }
 
 /* ───────── 04 키워드 (고정 무대 · 글자별 블러 교차) ───────── */
-.keys { position: relative; height: 460vh; }
+.keys { position: relative; height: 520vh; }
 .k-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .k-imgs { position: absolute; left: var(--pad); top: 50%; width: calc(640 * var(--u)); height: min(68vh, calc(800 * var(--u))); transform: translateY(-46%); overflow: hidden; background: #0d0b10; }
 .k-img { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; opacity: 0; will-change: opacity, filter, transform; }
-.k-img:first-child { opacity: 1; }
 .k-img:last-child { object-position: 50% 78%; }
 .k-copy { position: absolute; left: calc(960 * var(--u)); width: calc(840 * var(--u)); top: 0; bottom: 0; text-align: center; }
 .k-lbl { position: absolute; left: 0; right: 0; top: calc(50% - 262 * var(--u)); font-family: var(--noto); color: #a39aaa; }
@@ -277,3 +276,39 @@ figure { margin: 0; }
 .exp-media video { width: 100%; height: 100%; object-fit: cover; opacity: .999; }
 .exp-foot { position: relative; z-index: 1; }
 @media (max-width: 820px) { .exp-film { margin-top: 40px; } .exp-card { border-radius: 30px 30px 0 0; } }
+
+/* 11-20: 프로필 층 — 전체 화면(F11) 한 장에 다 들어오게, 스크롤 없음. 사진 높이가 남는 공간을 채운다 */
+@media (min-width: 821px) {
+  .profile { overflow: hidden; }
+  .pf-inner { height: 100%; display: flex; flex-direction: column; padding: max(110px, calc(190 * var(--u))) var(--pad) max(40px, calc(70 * var(--u))); }
+  .pf-head { flex: none; margin-bottom: max(28px, calc(56 * var(--u))); }
+  .pf-grid { flex: 1; min-height: 0; grid-template-rows: minmax(0, 1fr); }
+  .pf-card { display: flex; flex-direction: column; min-height: 0; }
+  .pf-ph { flex: 1; min-height: 0; aspect-ratio: auto; }
+  .pf-ph img { position: absolute; inset: 0; object-position: 50% 20%; }
+}
+
+/* 11-20: 관객 경험 영상 — 좌하단 제목(기존 INDEX 'Watch the scenes'), 누르면 큰 영상 */
+.exp-ui { position: absolute; left: var(--pad); bottom: 5.5vh; z-index: 2; opacity: 0; transform: translateY(30px); }
+.exp-link { display: inline-block; font-family: var(--heebo); font-weight: 200; font-size: clamp(54px, 6.25vw, 120px); line-height: .9; letter-spacing: -.02em; color: #fff; text-shadow: 0 2px 30px rgba(8, 6, 12, .35); }
+.exp-play { display: inline-block; width: .22em; height: .28em; margin-left: .14em; vertical-align: .08em; transition: transform .4s var(--ease); }
+.exp-link:hover .exp-play { transform: translateX(6px); }
+.showreel { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; visibility: hidden; }
+.showreel-backdrop { position: absolute; inset: 0; background: rgba(12, 10, 16, .86); opacity: 0; transition: opacity .6s ease; }
+.showreel-wrapper { position: relative; width: min(1280px, 86vw); aspect-ratio: 16 / 9; transform: translateY(50px); opacity: 0; transition: transform .8s var(--ease-monopo), opacity .6s ease; }
+.showreel-wrapper video { width: 100%; height: 100%; object-fit: cover; background: #000; }
+.showreel-close { position: absolute; right: 0; top: -40px; color: #fff; font: 800 10px var(--sans); letter-spacing: 3.6px; text-transform: uppercase; }
+.showreel.is-open { visibility: visible; }
+.showreel.is-open .showreel-backdrop { opacity: 1; }
+.showreel.is-open .showreel-wrapper { transform: none; opacity: 1; transition-delay: .15s; }
+
+/* 11-20: 공간 소개 오른쪽 글 — 페이지 본문 크기(22~28)에 맞춰 키움 */
+.figma-update .space .sp-meta strong { font-family: var(--noto); font-size: max(17px, calc(26 * var(--u))); font-weight: 500; line-height: 1.5; }
+.figma-update .space .sp-meta span { font-family: var(--noto); font-size: max(14px, calc(20 * var(--u))); margin-top: calc(6 * var(--u)); }
+.figma-update .space .sp-list li .tt { font-family: var(--noto); font-size: max(16px, calc(24 * var(--u))); line-height: 1.5; }
+.figma-update .space .sp-list li .no { font-size: max(11px, calc(14 * var(--u))); }
+.figma-update .space .sp-list li .ds { font-family: var(--noto); font-size: max(13px, calc(18 * var(--u))); line-height: 1.7; }
+
+/* 11-20: 푸터 슬로건 1.5 배 (42 → 63, 좁은 화면 26 → 39) */
+.figma-update .footer-scattered span { font-size: 63px; }
+@media (max-width: 767px) { .figma-update .footer-scattered span { font-size: 39px; } }

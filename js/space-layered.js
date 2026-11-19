@@ -7,7 +7,7 @@
 // 단계 표시는 monopo 식 큰 번호(01/05), 진행도는 main.js 프레임 루프에서 받는다.
 import * as THREE from 'three';
 import { $, $$, clamp, smooth as ss } from '../_shared/js/core.js';
-import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js?v=visitors2-1103';
+import { buildStudio, INFO, DIM, ULEN, LID_SHUT, LID_OPEN } from './studio.js?v=1120b';
 
 const PHASES = [   // 11-02: 빈 화면이던 Grid 단계 삭제 → 01/04
   [0.0, 'Space'],
@@ -102,6 +102,7 @@ export function initSpace() {
   }
   function fitCamera() {
     W = drawEl.clientWidth; Hh = drawEl.clientHeight;
+    const rD0 = drawEl.getBoundingClientRect();
     renderer.setSize(W, Hh, false);
     placeCamera(30, 31);
     const asp = W / Hh;
@@ -110,7 +111,9 @@ export function initSpace() {
     for (const x of [X0 - 1.1, X1 + 1.9]) for (const y of [0, H + 0.4]) for (const z of [ZB - 1.25, ZR]) pts.push(new THREE.Vector3(x, y, z).project(camera));
     let mnx = 1e9, mxx = -1e9, mny = 1e9, mxy = -1e9;
     for (const p of pts) { mnx = Math.min(mnx, p.x * asp); mxx = Math.max(mxx, p.x * asp); mny = Math.min(mny, p.y); mxy = Math.max(mxy, p.y); }
-    const padTop = Math.min(240, Hh * .26) / Hh * 2, padBot = 110 / Hh * 2;
+    // 14_index_awake: 위 여백 = 제목 묶음(.sp-head) 아래 끝 + 36px → 처음 도면이 제목과 겹치지 않게
+    const head = document.querySelector('.sp-head'), hb = head ? head.getBoundingClientRect().bottom - rD0.top + 28 : Hh * .26;
+    const padTop = Math.min(Hh * .6, Math.max(Math.min(240, Hh * .26), hb)) / Hh * 2, padBot = 56 / Hh * 2;   // 아래 단계 번호(01 Space)는 왼쪽 끝이라 모델과 안 겹침 → 아래 여백 110 → 56
     // 14_index_awake: 캔버스는 화면 전체, 모델은 [왼쪽 여백 120 ~ 오른쪽 유리 패널 앞] 영역에 맞춘다
     const rD = drawEl.getBoundingClientRect(), side = document.querySelector('.sp-side').getBoundingClientRect();
     const below = side.top > rD.top + 10, fl = below ? 20 : Math.max(20, W * 120 / 1920), fr = below ? W - 20 : Math.min(W - 20, side.left - rD.left - 40);
@@ -550,5 +553,6 @@ export function initSpace() {
   function resize() { fitCamera(); camAz = 30; camEl = 31; buildSvg(); tagSvg.setAttribute('viewBox', `0 0 ${W} ${Hh}`); peopleSvg.setAttribute('viewBox', `0 0 ${W} ${Hh}`); }
   resize();
   addEventListener('resize', resize);
+  document.fonts?.ready.then(resize);   // 제목 글꼴이 늦게 와도 높이 다시 잼
   return { section, update, sleep };
 }

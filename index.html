@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@300;400;500;600;800&family=Heebo:wght@200;300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/legacy-space.css" />
   <link rel="stylesheet" href="css/legacy-footer.css" />
-  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/index.css?v=1120b" />
   <script type="importmap">{ "imports": { "three": "./_shared/vendor/three.module.min.js" } }</script>
 </head>
 <body class="figma-update depth-version">
@@ -136,7 +136,7 @@
           <figcaption data-reveal>03 / SPIDER<br /><em>연결된 관계를 인식하다</em></figcaption>
         </figure>
         <figure class="s-card">
-          <div class="s-img" data-par="0.14"><img src="assets/img/scene_crowd.png" alt="사람·군중 장면" /></div>
+          <div class="s-img" data-par="0.14"><img src="assets/img/scene_crowd.png" alt="사람·타인 장면" /></div>
           <figcaption data-reveal>04 / CROWD<br /><em>서로의 흐름을 마주하다</em></figcaption>
         </figure>
         <figure class="s-card">
@@ -156,11 +156,14 @@
           <p class="exp-body" data-reveal>관객의 위치와 움직임이 빛과 영상에 반영됩니다.<br />나의 작은 움직임은 타인의 흐름과 만나<br />하나의 장면으로 이어집니다.</p>
         </div>
       </div>
-      <!-- 기존 INDEX 쇼릴(greymac) 방식: 둥근 카드가 아래에서 0.4 배로 올라와 스티키로 고정된 채 화면을 채움, 안쪽 영상은 1/s 로 역스케일 -->
+      <!-- 기존 INDEX 쇼릴(greymac) 방식: 둥근 카드가 아래에서 0.4 배로 올라와 스티키로 화면을 채움(다 차면 모서리 0), 좌하단 'Watch the scenes' → 큰 영상 -->
       <div class="exp-film" id="expFilm">
         <div class="exp-film-sticky">
           <div class="exp-card" id="expCard">
             <div class="exp-media" id="expMedia"><video src="media/index-video.mp4" poster="assets/figma-1102/index-video-poster.jpg" muted loop playsinline preload="metadata" aria-label="관객의 움직임에 반응하는 장면"></video></div>
+            <div class="exp-ui" id="expUi">
+              <a class="exp-link" href="#" id="openReel">Watch the<br />scenes<img class="exp-play" src="assets/figma-1102/play.svg" alt="" aria-hidden="true" /></a>
+            </div>
           </div>
         </div>
       </div>
@@ -263,6 +266,15 @@
   </main>
 
   <script src="js/footer-slogan-reveal.js" defer></script>
-  <script type="module" src="js/index.js"></script>
+  <!-- 큰 영상 (기존 INDEX dogstudio .showreel) -->
+  <div class="showreel" id="showreel" aria-hidden="true">
+    <div class="showreel-backdrop" data-close></div>
+    <div class="showreel-wrapper">
+      <video id="reelBig" src="media/index-video.mp4" poster="assets/figma-1102/index-video-poster.jpg" playsinline loop controls preload="none"></video>
+      <button class="showreel-close" type="button" data-close>Close ✕</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/index.js?v=1120b"></script>
 </body>
 </html>

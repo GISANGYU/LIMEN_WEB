@@ -1,429 +1,262 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>LIMEN — 현실과 꿈, 그 사이에 머무르다.</title>
-    <meta
-      name="description"
-      content="COMBINE — 08_drift_main(Claude) 을 바탕으로 VISIT 지도 · 푸터는 GPT drift_round_01, TEAM 은 LIMEN 팀 소개 섹션을 통째로 옮김"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;800&family=Heebo:wght@200;300;400;500&family=Instrument+Serif&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="visit-plan.css" />
-    <link rel="stylesheet" href="footer-film.css" />
-    <link rel="stylesheet" href="indigo-theme.css?v=index-video-1103" />
-    <link rel="stylesheet" href="slogan-hover.css" />
-    <link rel="stylesheet" href="hero-layered.css?v=rectangles-still-4" />
-    <link rel="stylesheet" href="layout-grid.css?v=plain-equipment-1" />
-    <script src="layout-grid.js?v=nohover-1" defer></script>
-    <script src="footer-slogan-reveal.js?v=1" defer></script>
-    <script src="scroll-dot.js?v=4" defer></script>
-    <link rel="stylesheet" href="visit-finish.css?v=arrival-pin-3" />
-    <link rel="stylesheet" href="figma-update.css?v=scroll-dot-2" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&amp;family=Noto+Sans+KR:wght@300;400;700&amp;family=Arimo:wght@400&amp;display=swap"
-    />
-    <link rel="preload" as="image" href="assets/figma-1102/hero-bright.png" />
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "./_shared/vendor/three.module.min.js"
-        }
-      }
-    </script>
-  </head>
-  <body
-    data-theme="night"
-    class="lily-theme hero-reference depth-version figma-update"
-  >
-    <canvas id="grad" class="grad"></canvas>
-    <div class="hero-photo" id="heroPhoto" aria-hidden="true">
-      <picture
-        ><source
-          media="(max-width:650px)"
-          srcset="assets/figma-1102/hero-mobile-bright.png" />
-        <img
-          src="assets/figma-1102/hero-bright.png"
-          alt=""
-          fetchpriority="high" /></picture
-      ><canvas id="heroLens"></canvas>
-      <div class="hero-scroll-shade"></div>
-    </div>
-    <header class="c-Header">
-      <!-- 왼쪽 LIMEN = INDEX(이 페이지, 맨 위로) · 오른쪽 = 서브페이지 4개 (02 웹표현기준: ABOUT · TECHNOLOGY · ARCHIVE · AWAKE).
-           서브페이지 파일은 아직 없음 — 만들면 아래 href 그대로 쓴다. AWAKE 는 관람 후 전시장 PC 용 -->
-      <a class="logo" href="./" data-goto="intro" aria-label="LIMEN 처음으로"
-        ><img class="limen-logo" src="assets/limen-logo-mark.png" alt="LIMEN"
-      /></a>
-      <nav>
-        <a href="about.html">About</a><a href="technology.html">Technology</a
-        ><a href="archive.html">Archive</a><a href="awake.html">Awake</a>
-      </nav>
-    </header>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LIMEN — Between Reality and Dream</title>
+  <meta name="description" content="LIMEN 전시용 INDEX — 피그마 '웹 최종' 프레임(2839:333) 레이아웃 + odysseeclinic 식 배경 시차 · 보일 때 글자 등장" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@300;400;500;600;800&family=Heebo:wght@200;300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/legacy-space.css" />
+  <link rel="stylesheet" href="css/legacy-footer.css" />
+  <link rel="stylesheet" href="css/index.css" />
+  <script type="importmap">{ "imports": { "three": "./_shared/vendor/three.module.min.js" } }</script>
+</head>
+<body class="figma-update depth-version">
+  <!-- 페이지 전체 배경: 스크롤보다 늦게 따라오는 연보라 안개 (odysseeclinic 식 고정 배경) -->
+  <div class="page-bg" aria-hidden="true">
+    <i class="haze haze-a" data-drift="0.12"></i>
+    <i class="haze haze-b" data-drift="0.22"></i>
+  </div>
 
-    <main>
-      <!-- 01 HERO — monopo PixiIntro: gradient + title lines with vw indents + foot rising -->
-      <section class="c-PixiIntro" id="intro">
-        <!-- Foreground glass: separate from #heroPhoto and its WebGL distortion. -->
-        <div class="hero-glass-depth" id="heroGlassDepth" aria-hidden="true">
-          <div class="glass-pane glass-pane-slim"></div>
-          <div class="glass-pane glass-pane-center"></div>
-          <div class="glass-pane glass-pane-light"></div>
-          <div class="glass-pane glass-pane-right"></div>
-          <div class="glass-pane glass-pane-base"></div>
-        </div>
-        <h1 class="c-PixiIntro-title lily-title" aria-label="LIMEN">
-          <span class="ln l1">LIMEN</span>
-        </h1>
-        <nav class="reference-hero-nav" aria-label="히어로 메뉴">
-          <a class="ref-brand" href="hero-layered.html" aria-label="LIMEN 홈"
-            ><img class="limen-logo" src="assets/limen-logo-mark.png" alt="LIMEN"
-          /></a>
-          <div class="hero-primary-links">
-            <a class="ref-about" href="about.html" aria-label="ABOUT 작품 소개"
-              >About</a
-            >
-            <a
-              class="ref-experience"
-              href="technology.html"
-              aria-label="Technology 기술과 경험"
-              >Technology</a
-            >
-            <a
-              class="ref-archive"
-              href="archive.html"
-              aria-label="ARCHIVE 아카이브"
-              >Archive</a
-            >
-            <a class="ref-awake" href="awake.html">awake</a>
-          </div>
-          <a
-            class="ref-scroll"
-            href="#slogan"
-            data-goto="slogan"
-            aria-label="아래로 스크롤해 둘러보기"
-          ></a>
-        </nav>
-        <p class="hero-tagline">현실과 꿈, 그 사이에 머무르다.</p>
-        <div class="hero-editorial-foot">
-          <a href="#slogan" data-goto="slogan"
-            >SCROLL TO EXPLORE<i class="scroll-arrow" aria-hidden="true"
-              >↓</i
-            ></a
-          >
-        </div>
-        <div class="c-PixiIntro-foot">
-          <div class="foot-item">
-            <strong>Graduation Exhibition</strong
-            ><span>계원예술대학교 2026</span>
-          </div>
-          <div class="foot-item">
-            <strong>Four-wall immersive</strong
-            ><span>정면 · 좌 · 우 · 바닥</span>
-          </div>
-          <div class="foot-item">
-            <strong>Team SNOOZE</strong><span>영상 · UI/UX</span>
-          </div>
-          <div class="foot-scroll"><i></i></div>
-        </div>
-      </section>
+  <!-- ───────── HEADER (고정) ───────── -->
+  <header class="hd" id="hd">
+    <a class="hd-logo" href="./" data-goto="top" aria-label="LIMEN INDEX 처음으로"><img src="assets/svg/logo_mark.svg" alt="LIMEN" width="55" height="53" /></a>
+    <nav class="hd-nav" aria-label="주 메뉴">
+      <a href="./" data-goto="top" class="is-on" aria-current="page">Index</a>
+      <a href="awake.html">Awake</a>
+    </nav>
+    <button class="hd-burger" id="burger" type="button" aria-controls="profile" aria-expanded="false" aria-label="팀 프로필 열기">
+      <i></i><i></i><i></i>
+    </button>
+  </header>
 
-      <!-- 02 SLOGAN — 공식 슬로건이 켜진 뒤 블러되며 위로 사라지고 → 단어 짝이 물결치듯 흘러 지나간 뒤 약 30vh 뒤 SCENES 카드가 올라옴 (slogan.js, 참고 영상: 슬로건텍스트다음 분위기전환…mp4) -->
-      <section class="slogan" id="slogan">
-        <div class="sg-sticky">
-          <div class="sg-mask">
-            <ul class="sg-pairs" id="sgPairs" aria-hidden="true"></ul>
-          </div>
-          <p class="lbl sg-lbl"></p>
-          <h2 class="sg-title">
-            <span class="sg-half" id="sgL">흐름 속에서,</span>
-            <span class="sg-half" id="sgR">나의 선택을 마주하다.</span>
-          </h2>
-        </div>
-      </section>
-
-      <!-- 02b SCENES — greymac showreel: a rounded card rises from the bottom and grows to fill the screen while pinned
-       (.framer-o2y241 sticky, border-radius 50px, translateY → 0 · scale .4 → 1; inner video counter-scaled 2.5 → 1) -->
-      <section class="film" id="film">
-        <div class="film-sticky">
-          <div class="reel-card" id="reelCard">
-            <div class="reel-media" id="reelMedia">
-              <video
-                src="media/index-video.mp4?v=grade50"
-                poster="assets/figma-1102/index-video-poster.jpg"
-                muted
-                loop
-                playsinline
-                autoplay
-                preload="auto"
-              ></video>
-            </div>
-            <div class="reel-shade"></div>
-            <div class="reel-dim" id="reelDim"></div>
-            <div class="reel-ui" id="reelUi">
-              <a class="reel-link" href="#" id="openReel"
-                >Watch the<br />scenes<img
-                  class="reel-design-play"
-                  src="assets/figma-1102/play.svg"
-                  alt=""
-                  aria-hidden="true"
-              /></a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <limen-flow
-        id="shared-flow"
-        aria-label="FLOW · AWARENESS · CHOICE"
-      ></limen-flow>
-
-      <!-- 03 SPACE — greymac Panel(둥근 위 모서리, 쇼릴 위로 올라옴) · LIMEN_WEB ver1(studio) · ver2(limen_launch) 도면: 스크롤로 SVG 도면이 그려지고 → 같은 카메라의
-       three.js 모델이 차오르고 → 스크롤마다 장비 01~06 을 차례로 포커스, 01 에서 네 면 영상 시연 (space.js · studio.js) -->
-      <section class="space" id="space">
-        <div class="space-sticky" id="spStage">
-          <div class="sp-draw" id="spDraw">
-            <canvas id="spCanvas"></canvas>
-            <svg id="spSvg" xmlns="http://www.w3.org/2000/svg"></svg>
-            <svg
-              id="spTag"
-              class="sp-tag-svg"
-              xmlns="http://www.w3.org/2000/svg"
-            ></svg>
-            <div class="sp-chip" id="spChip">
-              <span class="c-n"></span><span class="c-t"></span
-              ><span class="c-s"></span><span class="c-d"></span>
-            </div>
-          </div>
-          <div class="sp-head">
-            <h2 class="sp-h">네 면이 하나의<br />꿈이 되는 방</h2>
-          </div>
-          <div class="sp-phase">
-            <div class="sp-count">
-              <span class="mask"><b id="spNo">01</b></span
-              >/04
-            </div>
-            <p class="sp-name" id="spPhaseName">Space</p>
-          </div>
-          <aside class="sp-side">
-            <p class="sp-meta">
-              <strong>계원예술대학교 정보관 8층</strong>
-              <span>호라이즌 스튜디오</span>
-            </p>
-            <ol class="sp-list" id="spList"></ol>
-          </aside>
-          <div class="sp-progress"><i id="spBar"></i></div>
-          <video
-            id="spVideo"
-            src="media/space-mapping.mp4?v=1"
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            hidden
-          ></video>
-        </div>
-      </section>
-
-      <!-- 04 TEAM — LIMEN\dist 의 팀 소개(<limen-team>, team/team.js · profile-motion.js) 를 통째로 옮김 -->
-      <limen-team id="team"></limen-team>
-
-      <!-- 05 VISIT — GPT drift_round_01 (visit-plan.js) — campus blueprint → route → vertical journey → Horizon Studio -->
-      <section class="visit-plan" id="visit" aria-labelledby="visitTitle">
-        <div class="visit-pin">
-          <div class="visit-heading">
-            <h2 id="visitTitle">디자인관에서,<br /><i>호라이즌까지</i></h2>
-          </div>
-          <div class="visit-diagram">
-            <svg
-              id="visitSvg"
-              viewBox="0 0 1100 680"
-              role="img"
-              aria-label="디자인관에서 정보관으로 이동한 뒤 8층 호라이즌 스튜디오에 도착하는 동선"
-            ></svg>
-          </div>
-          <aside class="visit-aside">
-            <div class="visit-stage">
-              <span id="visitStageNumber">01</span>
-              <div>
-                <p id="visitStageLabel">CAMPUS</p>
-                <h3 id="visitStageTitle">디자인관에서 출발</h3>
-              </div>
-            </div>
-            <div class="visit-address">
-              <p>DESTINATION</p>
-              <h3>정보관 <em>8F</em></h3>
-              <span>계원예술대학교<br />호라이즌 스튜디오</span>
-            </div>
-          </aside>
-          <div class="visit-bottom">
-            <div class="visit-progress"><span id="visitProgress"></span></div>
-            <div class="visit-bottom-row">
-              <p>
-                <span id="visitMode">CAMPUS PLAN</span
-                ><span class="visit-bottom-divider">/</span>DESIGN → INFORMATION
-                → 8F
-              </p>
-              <span id="visitHint">스크롤해 길을 따라가세요 ↓</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 06 FOOTER — GPT drift_round_01 (footer-film.js) · UNCOMMON Studio footer: original Vidzflow film, fade-top mask and four-column information. -->
-      <footer class="film-footer" id="footer" aria-labelledby="footerSlogan">
-        <div class="footer-film" id="footerFilm">
-          <div class="footer-film-background" aria-hidden="true">
-            <video
-              id="footerVideo"
-              muted
-              loop
-              playsinline
-              preload="none"
-              poster="assets/figma-1102/footer.png"
-              data-src="media/uncommon-footer.mp4"
-              tabindex="-1"
-            ></video>
-          </div>
-          <div class="footer-content">
-            <div class="footer-title">
-              <h2 id="footerSlogan" class="footer-scattered">
-                <span>흐름 속에서,</span><span>나의 선택을</span
-                ><span>마주하다.</span>
-              </h2>
-            </div>
-            <div class="footer-information">
-              <div class="footer-top">
-                <nav class="footer-nav" aria-label="푸터 메뉴">
-                  <a href="#intro" data-goto="intro">LIMEN</a
-                  ><a href="#space" data-goto="space">SPACE</a>
-                </nav>
-                <div class="footer-column">
-                  <a href="#team" data-goto="team" class="footer-label"
-                    >TEAM SNOOZE</a
-                  >
-                  <div class="footer-dim footer-people">
-                    <div>
-                      <p>기획</p>
-                      <p>이채연</p>
-                    </div>
-                    <div>
-                      <p>영상</p>
-                      <p>김현기<br />배정훈<br />심혜민</p>
-                    </div>
-                    <div>
-                      <p>UI · UX</p>
-                      <p>김노은<br />조가연</p>
-                    </div>
-                    <div>
-                      <p>개발</p>
-                      <p>유기상</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="footer-column">
-                  <p class="footer-label">BETWEEN REALITY AND DREAM</p>
-                  <div class="footer-dim">
-                    <p class="footer-question">
-                      내가 고른 방향은 정말 나만의 선택일까?
-                    </p>
-                  </div>
-                </div>
-                <div class="footer-column">
-                  <a href="#visit" data-goto="visit" class="footer-label"
-                    >VISIT</a
-                  >
-                  <div class="footer-dim">
-                    <p>계원예술대학교 정보관 8층<br />호라이즌 스튜디오</p>
-                    <a
-                      class="footer-square-link"
-                      href="#visit"
-                      data-goto="visit"
-                      >오시는 길
-                      <img
-                        class="footer-design-arrow"
-                        src="assets/figma-1102/arrow.svg"
-                        alt=""
-                        aria-hidden="true"
-                    /></a>
-                  </div>
-                </div>
-              </div>
-              <div class="footer-bottom">
-                <div class="footer-identity">
-                  <a
-                    class="footer-brand"
-                    href="#intro"
-                    data-goto="intro"
-                    aria-label="LIMEN 처음으로"
-                    >LIMEN</a
-                  >
-                  <p>몰입형 인터랙티브 미디어아트<br />© 2026 TEAM SNOOZE</p>
-                </div>
-                <div class="footer-bottom-links">
-                  <button
-                    class="footer-film-toggle"
-                    id="footerFilmToggle"
-                    type="button"
-                    aria-pressed="false"
-                  >
-                    영상 멈춤 Ⅱ</button
-                  ><a href="#intro" data-goto="intro">BACK TO TOP ↑</a
-                  ><a
-                    class="footer-reference-credit"
-                    href="https://www.uncommon.nl/studio"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >REFERENCE FILM · UNCOMMON ↗</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </main>
-
-    <!-- dogstudio .showreel overlay -->
-    <div class="showreel" id="showreel">
-      <div class="showreel-backdrop" data-close></div>
-      <div class="showreel-wrapper">
-        <video
-          id="reelBig"
-          src="media/index-video.mp4?v=grade50"
-          poster="assets/figma-1102/index-video-poster.jpg"
-          playsinline
-          loop
-          controls
-        ></video
-        ><button class="showreel-close" data-close>Close ✕</button>
+  <!-- ───────── PROFILE (햄버거 → 위에서 내려오는 층, 별도 페이지 아님) ───────── -->
+  <div class="profile" id="profile" aria-hidden="true" inert>
+    <div class="pf-inner">
+      <div class="pf-head">
+        <p class="pf-lbl">TEAM SNOOZE / 팀 소개</p>
+        <h2 class="pf-title">현실과 꿈의 경계를<br />함께 만든 사람들</h2>
+        <p class="pf-sub">LIMEN · A SNOOZE PROJECT<br />계원예술대학교 2026</p>
       </div>
+      <ul class="pf-grid" id="pfGrid"></ul>
     </div>
+  </div>
 
-    <script src="./_shared/vendor/lenis.min.js"></script>
-    <script src="./_shared/vendor/gsap.min.js"></script>
-    <script type="module" src="team/team-figma.js?v=figma-1102-1"></script>
-    <script
-      type="module"
-      src="team/shared-flow-figma.js?v=nopause-1"
-    ></script>
-    <script type="module" src="main-layered.js?v=mapping-1103"></script>
-    <script type="module" src="slogan-hover.js"></script>
-    <script type="module" src="hero-layered-figma.js?v=edge-1"></script>
-    <script
-      type="module"
-      src="flow-copy-reveal.js?v=bright-reveal-clean-1"
-    ></script>
-    <script
-      type="module"
-      src="visit-entrance.js?v=visit-expand-clear-1"
-    ></script>
-  </body>
+  <main id="top">
+    <!-- 01 HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-word">
+        <img class="hero-limen" src="assets/svg/limen_word.svg" alt="LIMEN" />
+        <p class="hero-tag" data-reveal>Between<br />Reality and<br />Dream</p>
+      </div>
+      <figure class="hero-img hero-a" data-lag="0.22"><img src="assets/img/hero_a.jpg" alt="" /></figure>
+      <figure class="hero-img hero-b" data-lag="0.34"><img src="assets/img/hero_b.jpg" alt="" /></figure>
+      <figure class="hero-img hero-c" data-lag="0.14"><img src="assets/img/hero_c.jpg" alt="" /></figure>
+      <div class="hero-sign">
+        <span class="hs-brand">LIMEN<i></i></span>
+        <span class="hs-mid">A SNOOZE PROJECT</span>
+        <span class="hs-copy">© 2026 SNOOZE. ALL RIGHTS RESERVED.</span>
+      </div>
+    </section>
+
+    <!-- 02 기획 질문 — 스티키, 스크롤하는 동안 왼쪽부터 글자가 채워짐 (기존 INDEX 슬로건 켜짐과 같은 방식) -->
+    <section class="question" id="question">
+      <div class="q-sticky">
+        <i class="q-atmo" data-drift="0.35" aria-hidden="true"></i>
+        <h2 class="q-text" id="qText">내가 고른 방향은 정말 나만의 선택일까?</h2>
+      </div>
+    </section>
+
+    <!-- 03 기획 의도 — 오른쪽 글은 따로 붙어 있는 스티키, 왼쪽 사진만 올라오다가 글 위치에 닿으면 함께 올라감 -->
+    <section class="concept" id="concept">
+      <p class="lbl c-lbl" data-reveal>OUR CONCEPT / 기획 의도</p>
+      <div class="c-track" id="cTrack">
+        <div class="c-text" id="cText">
+          <h2 class="c-title" data-reveal>익숙한 흐름을 멈추고,<br />나의 선택을 바라보다.</h2>
+          <p class="c-body" data-reveal>외부의 신호와 타인의 움직임 속에서,<br />내가 고른 방향은 어디에서 시작되었을까요?</p>
+          <p class="c-body" data-reveal>LIMEN은 현실과 꿈의 경계에서<br />익숙한 흐름을 멈추고 나의 선택을 돌아봅니다.</p>
+        </div>
+      </div>
+      <div class="c-left">
+        <figure class="c-img" id="cImg" data-par="0.2"><img src="assets/img/concept_lily.png" alt="" /></figure>
+        <p class="c-cap" data-reveal>현실과 꿈 사이,<br />선택의 경계에 머무는 순간.</p>
+      </div>
+    </section>
+
+    <!-- 04 키워드 — 고정된 무대에서 FLOW → AWARENESS → CHOICE 글자별로 블러되며 올라가 사라지고 다음이 나타남, 왼쪽 이미지도 블러 교차 -->
+    <section class="keys" id="keys">
+      <div class="k-stage">
+        <div class="k-imgs" aria-hidden="true">
+          <img class="k-img" src="assets/img/scene_crowd.png" alt="" />
+          <img class="k-img" src="assets/img/scene_moth.png" alt="" />
+          <img class="k-img" src="assets/img/experience.png" alt="" />
+        </div>
+        <div class="k-copy">
+          <p class="lbl k-lbl">CORE CONCEPT / 세 가지 인식의 순간</p>
+          <div class="k-items" id="kItems">
+            <div class="k-item">
+              <h3 class="k-title" style="--c:#c0b7cc">FLOW</h3>
+              <p class="k-sub">흐름을 마주하다<br /><br />외부의 신호와 타인의 움직임 속에서<br />나를 둘러싼 흐름을 발견합니다.</p>
+            </div>
+            <div class="k-item">
+              <h3 class="k-title" style="--c:#eae7ef">AWARENESS</h3>
+              <p class="k-sub">영향을 알아차리다<br /><br />익숙한 감각을 잠시 멈추고,<br />선택에 스며든 영향을 바라봅니다.</p>
+            </div>
+            <div class="k-item">
+              <h3 class="k-title" style="--c:#d0c3e1">CHOICE</h3>
+              <p class="k-sub">나의 선택을 바라보다<br /><br />장면을 지나 다시 나에게 돌아와,<br />나만의 방향을 질문합니다.</p>
+            </div>
+          </div>
+          <ol class="k-dots" id="kDots" aria-hidden="true"><li></li><li></li><li></li></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 다섯 장면 — 피그마 배치 -->
+    <section class="scenes" id="scenes">
+      <h2 class="s-title" data-reveal>다섯 장면을 지나, 다시 나에게.</h2>
+      <div class="s-row">
+        <p class="lbl s-lbl" data-reveal>OUR JOURNEY<br />장면 구성</p>
+        <p class="s-body" data-reveal>작은 신호에서 이끌림으로,<br />관계에서 자각으로.<br /><br />다섯 장면을 따라가며<br />나의 선택에 남은 흔적을 되짚습니다.</p>
+        <div class="s-big">
+          <figure class="s-card">
+            <div class="s-img" data-par="0.16"><img src="assets/img/scene_firefly.png" alt="반딧불이 장면" style="object-position:50% 100%" /></div>
+            <figcaption data-reveal>01 / FIREFLY</figcaption>
+          </figure>
+          <figure class="s-card">
+            <div class="s-img" data-par="0.16"><img src="assets/img/scene_moth.png" alt="나방 장면" /></div>
+            <figcaption data-reveal>02 / MOTH</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="s-small">
+        <figure class="s-card">
+          <div class="s-img" data-par="0.14"><img src="assets/img/scene_spider.png" alt="거미 장면" /></div>
+          <figcaption data-reveal>03 / SPIDER<br /><em>연결된 관계를 인식하다</em></figcaption>
+        </figure>
+        <figure class="s-card">
+          <div class="s-img" data-par="0.14"><img src="assets/img/scene_crowd.png" alt="사람·군중 장면" /></div>
+          <figcaption data-reveal>04 / CROWD<br /><em>서로의 흐름을 마주하다</em></figcaption>
+        </figure>
+        <figure class="s-card">
+          <div class="s-img" data-par="0.14"><img src="assets/img/scene_ending.png" alt="엔딩 장면" /></div>
+          <figcaption data-reveal>05 / ENDING<br /><em>나의 선택을 다시 바라보다</em></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 06 관객 경험 — 피그마 배치 -->
+    <section class="exp" id="experience">
+      <p class="lbl" data-reveal>OUR EXPERIENCE / 관객 경험</p>
+      <div class="exp-row">
+        <h2 class="exp-title" data-reveal>나의 움직임이<br />하나의 장면이 되다.</h2>
+        <div class="exp-side">
+          <p class="exp-lead" data-reveal>관람에서 참여로, 감각에서 자각으로.</p>
+          <p class="exp-body" data-reveal>관객의 위치와 움직임이 빛과 영상에 반영됩니다.<br />나의 작은 움직임은 타인의 흐름과 만나<br />하나의 장면으로 이어집니다.</p>
+        </div>
+      </div>
+      <figure class="exp-img" data-par="0.1"><img src="assets/img/experience.png" alt="관객의 움직임에 반응하는 장면" /></figure>
+      <p class="lbl exp-foot" data-reveal>LIGHT · MOVEMENT · INTERACTION</p>
+    </section>
+
+    <!-- 07 INSIDE LIMEN — 기존 INDEX 공간 구조 설명 그대로 (space-layered.js · studio.js: 도면 → 모델 → 장비 차례 포커스) -->
+    <section class="space" id="space">
+      <div class="space-sticky" id="spStage">
+        <div class="sp-draw" id="spDraw">
+          <canvas id="spCanvas"></canvas>
+          <svg id="spSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+          <svg id="spTag" class="sp-tag-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="sp-chip" id="spChip"><span class="c-n"></span><span class="c-t"></span><span class="c-s"></span><span class="c-d"></span></div>
+        </div>
+        <div class="sp-head">
+          <p class="lbl">INSIDE LIMEN</p>
+          <h2 class="sp-h">관객의 움직임이<br />공간의 빛을 바꿉니다.</h2>
+          <p class="lbl sp-sub">INSIDE LIMEN / 전시 공간과 사용 장비</p>
+        </div>
+        <div class="sp-phase">
+          <div class="sp-count"><span class="mask"><b id="spNo">01</b></span>/04</div>
+          <p class="sp-name" id="spPhaseName">Space</p>
+        </div>
+        <aside class="sp-side">
+          <p class="sp-meta"><strong>계원예술대학교 정보관 8층</strong><span>호라이즌 스튜디오</span></p>
+          <ol class="sp-list" id="spList"></ol>
+        </aside>
+        <div class="sp-progress"><i id="spBar"></i></div>
+        <video id="spVideo" src="media/space-mapping.mp4" muted loop playsinline preload="metadata" hidden></video>
+      </div>
+    </section>
+
+    <!-- 08 방문 안내 — 피그마 배치 -->
+    <section class="visit" id="visit">
+      <p class="lbl" data-reveal>PLAN YOUR VISIT / 전시 안내</p>
+      <h2 class="v-title" data-reveal>현실과 꿈의 경계에서<br />당신을 기다립니다.</h2>
+      <div class="v-grid">
+        <div>
+          <p class="v-date" data-reveal>2026.11.20 — 11.22</p>
+          <p class="lbl v-k" data-reveal>OPENING HOURS</p>
+          <p class="v-hours" data-reveal>11월 20일&nbsp;&nbsp; 10:00 — 15:00<br />11월 21–22일&nbsp;&nbsp; 10:00 — 18:00</p>
+        </div>
+        <div>
+          <p class="lbl v-k" data-reveal>VENUE</p>
+          <p class="v-venue" data-reveal>계원예술대학교 정보관 8층<br />호라이즌 스튜디오</p>
+          <p class="lbl v-k v-k2" data-reveal>CAMPUS GUIDE / 캠퍼스 안내도</p>
+          <p class="v-guide" data-reveal>정보관으로 오신 뒤 8층 호라이즌 스튜디오로 이동해주세요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 FOOTER — 기존 INDEX 푸터 구조 그대로 (footer-film.js · footer-slogan-reveal.js) -->
+    <footer class="film-footer" id="footer" aria-labelledby="footerSlogan">
+      <div class="footer-film" id="footerFilm">
+        <div class="footer-film-background" aria-hidden="true">
+          <video id="footerVideo" muted loop playsinline preload="none" poster="assets/figma-1102/footer.png" data-src="media/uncommon-footer.mp4" tabindex="-1"></video>
+        </div>
+        <div class="footer-content">
+          <div class="footer-title">
+            <h2 id="footerSlogan" class="footer-scattered"><span>흐름 속에서,</span><span>나의 선택을</span><span>마주하다.</span></h2>
+          </div>
+          <div class="footer-information">
+            <div class="footer-top">
+              <div class="footer-column footer-brand-col">
+                <a href="#top" data-goto="top" class="footer-label">LIMEN</a>
+                <div class="footer-dim"><p>BETWEEN REALITY<br />AND DREAM</p></div>
+              </div>
+              <div class="footer-column">
+                <a href="#profile" data-open-profile class="footer-label">TEAM SNOOZE</a>
+                <div class="footer-dim">
+                  <p>유기상&nbsp;&nbsp;심혜민&nbsp;&nbsp;김현기&nbsp;&nbsp;조가연<br />김노은&nbsp;&nbsp;이채연&nbsp;&nbsp;배정훈</p>
+                  <a class="footer-square-link" href="#profile" data-open-profile>팀 소개 <img class="footer-design-arrow" src="assets/figma-1102/arrow.svg" alt="" aria-hidden="true" /></a>
+                </div>
+              </div>
+              <div class="footer-column">
+                <p class="footer-label">BETWEEN REALITY AND DREAM</p>
+                <div class="footer-dim"><p class="footer-question">내가 고른 방향은<br />정말 나만의 선택일까?</p></div>
+              </div>
+              <div class="footer-column">
+                <a href="#visit" data-goto="visit" class="footer-label">VISIT</a>
+                <div class="footer-dim">
+                  <p>계원예술대학교 정보관 8층<br />호라이즌 스튜디오</p>
+                  <a class="footer-square-link" href="#visit" data-goto="visit">오시는 길 <img class="footer-design-arrow" src="assets/figma-1102/arrow.svg" alt="" aria-hidden="true" /></a>
+                </div>
+              </div>
+            </div>
+            <div class="footer-bottom">
+              <p class="footer-copy">© 2026 SNOOZE. ALL RIGHTS RESERVED.</p>
+              <div class="footer-bottom-links">
+                <button class="footer-film-toggle" id="footerFilmToggle" type="button" aria-pressed="false">영상 멈춤 Ⅱ</button>
+                <a href="#top" data-goto="top">BACK TO TOP ↑</a>
+                <a class="footer-reference-credit" href="https://www.uncommon.nl/studio" target="_blank" rel="noopener noreferrer">REFERENCE FILM · UNCOMMON ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="js/footer-slogan-reveal.js" defer></script>
+  <script type="module" src="js/index.js"></script>
+</body>
 </html>

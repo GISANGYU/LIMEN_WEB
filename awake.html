@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LIMEN — Awake</title>
+  <meta name="description" content="LIMEN 전시용 AWAKE(관람 후) — 피그마 '웹 최종' LIMEN / AWAKE 프레임(2839:481) 레이아웃" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300&family=Cormorant+Garamond:wght@400&family=Anton&display=swap" rel="stylesheet" />
+  <!-- 헤더 · 프로필 층 · 기본 규칙은 INDEX 와 같은 파일을 그대로 쓴다 -->
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/awake.css" />
+</head>
+<body class="awake">
+  <!-- ───────── HEADER (INDEX 와 같은 구조) ───────── -->
+  <header class="hd" id="hd">
+    <a class="hd-logo" href="./" aria-label="LIMEN INDEX 로"><img src="assets/svg/logo_mark.svg" alt="LIMEN" width="55" height="53" /></a>
+    <nav class="hd-nav" aria-label="주 메뉴">
+      <a href="./">Index</a>
+      <a href="awake.html" data-goto="top" class="is-on" aria-current="page">Awake</a>
+    </nav>
+    <button class="hd-burger" id="burger" type="button" aria-controls="profile" aria-expanded="false" aria-label="팀 프로필 열기">
+      <i></i><i></i><i></i>
+    </button>
+  </header>
+
+  <div class="profile" id="profile" aria-hidden="true" inert>
+    <div class="pf-inner">
+      <div class="pf-head">
+        <p class="pf-lbl">TEAM SNOOZE / 팀 소개</p>
+        <h2 class="pf-title">현실과 꿈의 경계를<br />함께 만든 사람들</h2>
+        <p class="pf-sub">LIMEN · A SNOOZE PROJECT<br />계원예술대학교 2026</p>
+      </div>
+      <ul class="pf-grid" id="pfGrid"></ul>
+    </div>
+  </div>
+
+  <!-- 피그마 1920 좌표 그대로: 모든 요소는 --x/--y/--w (×100vw/1920) 로 놓는다 -->
+  <main class="aw" id="top">
+    <div class="aw-bg" aria-hidden="true"></div>
+
+    <!-- ═══════ 01 INTRO (0–1080) ═══════ -->
+    <section class="aw-intro" id="intro" aria-labelledby="awTitle">
+      <div class="ab intro-photo" style="--x:0;--y:0;--w:1920;--h:1080" aria-hidden="true">
+        <img src="assets/awake/intro-lily.jpg" alt="" />
+      </div>
+      <div class="ab intro-shade" style="--x:0;--y:0;--w:1920;--h:1080" aria-hidden="true"></div>
+      <p class="ab t noto c-d6 lh175" style="--x:120;--y:180;--fs:15" data-fig="2839:485">AFTER THE EXPERIENCE</p>
+      <p class="ab t inter c-d6 rt" style="--x:1390;--y:180;--w:410;--fs:15" data-fig="2839:489">A DIFFERENT WAY TO SEE</p>
+      <h1 class="ab t inter5 intro-title" id="awTitle" style="--x:120;--y:700;--fs:220" data-in="chars" data-fig="2839:486">Awake.</h1>
+      <p class="ab t noto5 c-ea lh16" style="--x:1530;--y:775;--fs:23" data-in="lines" data-fig="2839:487">감각의 전환,<br>다시 깨어나는 인식.</p>
+      <a class="ab t noto c-ea lh175 ul" href="#retrace" data-goto="retrace" style="--x:1530;--y:910;--fs:19" data-fig="2839:488">전시 여정 돌아보기 ↗</a>
+      <p class="ab t inter c-bb" style="--x:120;--y:1030;--fs:14" data-fig="2839:490">LIMEN / A MOMENT AFTER THE FLOW</p>
+      <a class="ab t inter c-bb rt" href="#retrace" data-goto="retrace" style="--x:1460;--y:1030;--w:340;--fs:14" data-fig="2839:491">SCROLL TO RETRACE ↓</a>
+    </section>
+
+    <!-- ═══════ 02 RETRACE — 다섯 장면 (1430–2195) ═══════ -->
+    <section class="aw-retrace" id="retrace" aria-labelledby="rtTitle">
+      <p class="ab t noto c-a7 lh175" style="--x:120;--y:1430;--fs:17" data-fig="2839:492">RETRACE / 반딧불이부터 엔딩까지</p>
+      <h2 class="ab t noto5 c-ea lh13" id="rtTitle" style="--x:120;--y:1520;--fs:54" data-in data-fig="2839:493">당신이 지나온 다섯 장면.</h2>
+      <p class="ab t noto c-a7 lh175" style="--x:1150;--y:1530;--fs:23" data-in="lines" data-fig="2839:494">기억에 남은 장면을 선택하고,<br>그 순간의 감각을 다시 만나보세요.</p>
+      <figure class="ab rt-card" style="--x:120;--y:1750;--w:312;--h:350;--d:0ms" data-fig="2839:495"><div class="frame"><img class="obj-b" src="assets/awake/scene-firefly.jpg" alt="반딧불이 장면" loading="lazy" /></div></figure>
+      <figure class="ab rt-card" style="--x:462;--y:1750;--w:312;--h:350;--d:90ms" data-fig="2839:498"><div class="frame"><img src="assets/awake/scene-moth.jpg" alt="나방 장면" loading="lazy" /></div></figure>
+      <figure class="ab rt-card" style="--x:804;--y:1750;--w:312;--h:350;--d:180ms" data-fig="2839:501"><div class="frame"><img src="assets/awake/scene-spider.jpg" alt="거미 장면" loading="lazy" /></div></figure>
+      <figure class="ab rt-card" style="--x:1146;--y:1750;--w:312;--h:350;--d:270ms" data-fig="2839:504"><div class="frame"><img src="assets/awake/scene-crowd.jpg" alt="사람·군중 장면" loading="lazy" /></div></figure>
+      <figure class="ab rt-card" style="--x:1488;--y:1750;--w:312;--h:350;--d:360ms" data-fig="2839:507"><div class="frame"><img src="assets/awake/scene-ending.jpg" alt="엔딩 장면" loading="lazy" /></div></figure>
+      <p class="ab t inter c-ea" style="--x:120;--y:2130;--fs:21;--d:0ms" data-fig="2839:496">01 / FIREFLY</p>
+      <p class="ab t inter c-ea" style="--x:462;--y:2130;--fs:21;--d:90ms" data-fig="2839:499">02 / MOTH</p>
+      <p class="ab t inter c-ea" style="--x:804;--y:2130;--fs:21;--d:180ms" data-fig="2839:502">03 / SPIDER</p>
+      <p class="ab t inter c-ea" style="--x:1146;--y:2130;--fs:21;--d:270ms" data-fig="2839:505">04 / CROWD</p>
+      <p class="ab t inter c-ea" style="--x:1488;--y:2130;--fs:21;--d:360ms" data-fig="2839:508">05 / ENDING</p>
+      <p class="ab t noto c-a7" style="--x:120;--y:2175;--fs:17;--lh:20;--d:60ms" data-fig="2839:497">작은 신호를 마주하다</p>
+      <p class="ab t noto c-a7" style="--x:462;--y:2175;--fs:17;--lh:20;--d:150ms" data-fig="2839:500">이끌림의 방향을 따라가다</p>
+      <p class="ab t noto c-a7" style="--x:804;--y:2175;--fs:17;--lh:20;--d:240ms" data-fig="2839:503">연결된 관계를 인식하다</p>
+      <p class="ab t noto c-a7" style="--x:1146;--y:2175;--fs:17;--lh:20;--d:330ms" data-fig="2839:506">서로의 흐름을 마주하다</p>
+      <p class="ab t noto c-a7" style="--x:1488;--y:2175;--fs:17;--lh:20;--d:420ms" data-fig="2839:509">나의 선택을 다시 바라보다</p>
+    </section>
+
+    <!-- ═══════ 03 다섯 장면, 다섯 개의 질문 (2670~) — 제목만 등장 · 왼쪽 사진은 헤더 밑에 붙어 있다가 다음 사진이 오면 밀려 올라감 · 오른쪽 글은 고정 + 원본 AWAKE 설명 ═══════ -->
+    <section class="aw-meaning" id="meaning" aria-labelledby="mnTitle">
+      <p class="ab t noto c-a7 lh175" style="--x:120;--y:2670;--fs:17" data-fig="2839:510">BEHIND THE SCENES / 장면에 담긴 의미</p>
+      <h2 class="ab t noto5 c-ea lh13" id="mnTitle" style="--x:120;--y:2760;--fs:54" data-in data-fig="2839:511">다섯 장면, 다섯 개의 질문.</h2>
+    </section>
+
+    <!-- 04 부터 푸터까지는 03 구간이 늘어난 만큼(--shift) 통째로 내려간다 -->
+    <div class="aw-after" id="awAfter">
+    <!-- ═══════ 04 FLOW → AWARENESS → CHOICE (5340–6540) — 왼쪽 큰 단어는 블러 등장, 오른쪽 뜻·설명은 블러 없이 위치·투명도만 ═══════ -->
+    <section class="aw-keys" id="keys" aria-labelledby="kyTitle">
+      <p class="ab t inter c-a7 lh175" style="--x:120;--y:5340;--fs:17" data-fig="2839:532">FLOW → AWARENESS → CHOICE</p>
+      <h2 class="ab t noto5 c-ea lh13" id="kyTitle" style="--x:120;--y:5430;--fs:54" data-fig="2839:533">경험을 지나, 의미를 발견하다.</h2>
+      <p class="ab t inter5 c-d0 lh13 key" style="--x:120;--y:5670;--fs:130" data-in="chars" data-fig="2839:534">FLOW</p>
+      <p class="ab t noto c-ea lh175" style="--x:1180;--y:5680;--fs:29;--d:240ms;--blur:0px" data-in data-fig="2839:535">흐름을 마주하다</p>
+      <p class="ab t noto c-a7 lh175" style="--x:1180;--y:5750;--fs:22;--d:360ms;--blur:0px" data-in data-fig="2839:536">나를 둘러싼 신호와 움직임을 바라봅니다.</p>
+      <p class="ab t inter5 c-d0 lh13 key" style="--x:120;--y:6030;--fs:102" data-in="chars" data-fig="2839:537">AWARENESS</p>
+      <p class="ab t noto c-ea lh175" style="--x:1180;--y:6040;--fs:29;--d:240ms;--blur:0px" data-in data-fig="2839:538">영향을 알아차리다</p>
+      <p class="ab t noto c-a7 lh175" style="--x:1180;--y:6110;--fs:22;--d:360ms;--blur:0px" data-in data-fig="2839:539">선택에 스며든 외부의 영향을 인식합니다.</p>
+      <p class="ab t inter5 c-d0 lh13 key" style="--x:120;--y:6390;--fs:130" data-in="chars" data-fig="2839:540">CHOICE</p>
+      <p class="ab t noto c-ea lh175" style="--x:1180;--y:6400;--fs:29;--d:240ms;--blur:0px" data-in data-fig="2839:541">나의 선택을 바라보다</p>
+      <p class="ab t noto c-a7 lh175" style="--x:1180;--y:6470;--fs:22;--d:360ms;--blur:0px" data-in data-fig="2839:542">알아차림을 바탕으로 나만의 방향을 질문합니다.</p>
+    </section>
+
+    <!-- ═══════ 05 색 (7278–8242) ═══════ -->
+    <section class="aw-ds" id="color" aria-label="색">
+      <div class="ab ds-panel" style="--x:54;--y:7278;--w:1799;--h:964;--bg:#15151e"></div>
+      <i class="ab ds-rule" style="--x:93;--y:7334;--w:382"></i>
+      <h3 class="ab t noto c-ea" style="--x:93;--y:7358;--fs:31;--lh:54">어둠 위에<br>빛을 쌓다.</h3>
+      <p class="ab t noto c-9c" style="--x:93;--y:7515;--fs:25;--lh:54">짙은 바탕에서 시작해 보랏빛의<br>층을 더합니다. 밝은 라벤더는<br>반응하는 순간과 중요한<br>메시지를 드러냅니다.</p>
+      <p class="ab t noto c-80" style="--x:93;--y:7812;--fs:24;--lh:48">스와치를 누르면<br>HEX 코드를 복사할 수 있습니다.</p>
+      <div class="ab sw-row" style="--x:527;--y:7333;--w:1305;--h:652" role="list">
+        <button class="sw" style="--c:#101118;--fg:#e9e7ef;--sub:#8b8795;--d:0ms" data-hex="#101118" role="listitem"><b>NIGHT</b><em>몰입을 위한 어둠</em><strong>#101118</strong><span>COPY HEX</span></button>
+        <button class="sw" style="--c:#171b74;--fg:#e4e5fb;--sub:#8b8fd2;--d:80ms" data-hex="#171B74" role="listitem"><b>DEEP BLUE</b><em>깊이를 만드는 색</em><strong>#171B74</strong><span>COPY HEX</span></button>
+        <button class="sw" style="--c:#5552b5;--fg:#ecebfb;--sub:#a9a7e3;--d:160ms" data-hex="#5552B5" role="listitem"><b>LIMEN VIOLET</b><em>시각 언어의 중심</em><strong>#5552B5</strong><span>COPY HEX</span></button>
+        <button class="sw" style="--c:#a6a1f4;--fg:#1d1a3c;--sub:#5b56a6;--d:240ms" data-hex="#A6A1F4" role="listitem"><b>LAVENDER</b><em>빛과 반응의 강조</em><strong>#A6A1F4</strong><span>COPY HEX</span></button>
+        <button class="sw" style="--c:#ebe8fe;--fg:#1f1d2c;--sub:#7b7891;--d:320ms" data-hex="#EBE8FE" role="listitem"><b>MIST</b><em>여백과 메시지</em><strong>#EBE8FE</strong><span>COPY HEX</span></button>
+      </div>
+      <div class="ab grad-bar" style="--x:527;--y:8018;--w:1305;--h:172"><span>DARKNESS</span><span>LIGHT</span></div>
+    </section>
+
+    <!-- ═══════ 06 서체 — 영문 (8365–9077) : 오른쪽 큰 AaBb 만 알파벳이 오류처럼 섞이며 나타남 ═══════ -->
+    <section class="aw-ds" id="type" aria-label="서체">
+      <div class="ab ds-panel" style="--x:85;--y:8365;--w:1761;--h:712;--bg:#1b1924"></div>
+      <p class="ab t inter ds-k" style="--x:113;--y:8419">TYPEFACE</p>
+      <p class="ab t inter ds-v" style="--x:113;--y:8468">Cormorant Garamond</p>
+      <p class="ab t inter ds-k" style="--x:113;--y:8558">WEIGHTS</p>
+      <p class="ab t inter ds-v" style="--x:113;--y:8607">Light / Regular</p>
+      <p class="ab t inter ds-k" style="--x:113;--y:8697">STYLE</p>
+      <p class="ab t inter ds-v" style="--x:113;--y:8746">Roman / Italic</p>
+      <i class="ab ds-rule" style="--x:540;--y:8479;--w:1288"></i>
+      <p class="ab t inter ds-abc" style="--x:540;--y:8526">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+      <p class="ab t inter ds-abc" style="--x:540;--y:8567">abcdefghijklmnopqrstuvwxyz</p>
+      <p class="ab t inter ds-abc" style="--x:540;--y:8607">0123456789 &amp; ! ?</p>
+      <p class="ab t aabb" style="--x:962;--y:8613" data-scramble="latin" aria-label="AaBb">AaBb</p>
+    </section>
+
+    <!-- ═══════ 07 서체 — 한글 (9253–9889) ═══════ -->
+    <section class="aw-ds" id="type-kr" aria-label="한글 서체">
+      <div class="ab ds-panel" style="--x:81;--y:9253;--w:1772;--h:636;--bg:#14151f"></div>
+      <i class="ab ds-rule" style="--x:489;--y:9307;--w:1315"></i>
+      <p class="ab t inter ds-k" style="--x:88;--y:9362">KOREAN</p>
+      <p class="ab t inter ds-v" style="--x:88;--y:9411">Noto Sans KR</p>
+      <p class="ab t inter ds-k" style="--x:88;--y:9501">LATIN</p>
+      <p class="ab t inter ds-v" style="--x:88;--y:9550">Inter</p>
+      <p class="ab t inter ds-k" style="--x:88;--y:9639">WEIGHTS</p>
+      <p class="ab t inter ds-v" style="--x:88;--y:9688">Light / Regular / Medium</p>
+      <p class="ab t serif ds-smp rt" style="--x:1004;--y:9353;--w:800;letter-spacing:.1em">가나다라마바사아자차카타파하</p>
+      <p class="ab t serif ds-smp rt" style="--x:1004;--y:9395;--w:800">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+      <p class="ab t serif ds-smp rt" style="--x:1004;--y:9438;--w:800;letter-spacing:.055em">abcdefghijklmnopqrstuvwxyz / 0123456789</p>
+      <p class="ab t ganada" style="--x:490;--y:9543" data-scramble="hangul" aria-label="가나다">가나다</p>
+    </section>
+
+    <!-- ═══════ 08 질감 (10052–10688) ═══════ -->
+    <section class="aw-ds" id="texture" aria-label="질감">
+      <figure class="ab tex" style="--x:74;--y:10052;--w:559.69;--h:536.06;--d:0ms" data-fig="2839:682"><img src="assets/awake/tex-halftone.jpg" alt="하프톤 질감" loading="lazy" /></figure>
+      <figure class="ab tex tex-blur" style="--x:680.94;--y:10052;--w:558.21;--h:536.06;--d:120ms" data-fig="2839:683"></figure>
+      <figure class="ab tex" style="--x:1286.41;--y:10052;--w:559.69;--h:536.06;--d:240ms" data-fig="2839:684"><img src="assets/awake/tex-grain.jpg" alt="그레인 질감" loading="lazy" /></figure>
+      <p class="ab t inter c-bd lh15" style="--x:74;--y:10635.32;--fs:15;--d:0ms" data-fig="2839:685">HALFTONE</p>
+      <p class="ab t inter c-bd lh15" style="--x:680.94;--y:10635.32;--fs:15;--d:120ms" data-fig="2839:686">BLUR</p>
+      <p class="ab t inter c-bd lh15" style="--x:1286.41;--y:10635.32;--fs:15;--d:240ms" data-fig="2839:687">GRAIN</p>
+    </section>
+
+    <!-- ═══════ 09 상징 (10900–11952) — odysseeclinic 식 포커싱 ═══════ -->
+    <section class="aw-ds" id="symbol" aria-label="상징">
+      <div class="ab ds-panel" style="--x:14;--y:10900;--w:1839;--h:1052;--bg:#09090e"></div>
+      <h3 class="ab t inter c-e8" style="--x:39;--y:10926;--fs:28">Symbol.</h3>
+      <ul class="sym-list">
+        <li class="ab sym" style="--x:488;--y:11139;--w:406;--d:0ms"><div class="sym-img"><img src="assets/awake/sym-firefly.jpg" alt="" /></div><p class="sym-ko">반딧불이</p><p class="sym-en">FIREFLY</p></li>
+        <li class="ab sym" style="--x:919;--y:11139;--w:406;--d:90ms"><div class="sym-img"><img src="assets/awake/sym-moth.jpg" alt="" /></div><p class="sym-ko">나방</p><p class="sym-en">MOTH</p></li>
+        <li class="ab sym" style="--x:1350;--y:11139;--w:406;--d:180ms"><div class="sym-img"><img src="assets/awake/sym-spider.jpg" alt="" /></div><p class="sym-ko">크리스탈 거미</p><p class="sym-en">CRYSTAL SPIDER</p></li>
+        <li class="ab sym" style="--x:919;--y:11504;--w:406;--d:270ms"><div class="sym-img"><img src="assets/awake/sym-threshold.jpg" alt="" /></div><p class="sym-ko">경계</p><p class="sym-en">THRESHOLD</p></li>
+        <li class="ab sym" style="--x:1350;--y:11504;--w:406;--d:360ms"><div class="sym-img"><img src="assets/awake/sym-others.jpg" alt="" /></div><p class="sym-ko">타인</p><p class="sym-en">OTHERS</p></li>
+      </ul>
+    </section>
+
+    <!-- ═══════ 10 POSTER ARCHIVE (12069–14171) — 인터랙션 없이 레이아웃만 ═══════ -->
+    <section class="aw-posters" id="posters" aria-labelledby="paTitle">
+      <p class="ab t inter c-a7 lh155 ct" style="--x:120;--y:12069;--w:1680;--fs:17" data-fig="2839:558">POSTER ARCHIVE</p>
+      <h2 class="ab t inter c-ea ct pa-title" id="paTitle" style="--x:120;--y:12149;--w:1680;--fs:146" data-fig="2839:559">LIMEN</h2>
+      <p class="ab t inter c-c8 lh16" style="--x:1270;--y:12164;--fs:23" data-fig="2839:663">006</p>
+      <p class="ab t inter c-a7 lh16" style="--x:120;--y:12354;--fs:16" data-fig="2839:664">COLLECTION / LIMEN 2026</p>
+      <p class="ab t inter c-a7 lh16" style="--x:1480;--y:12354;--fs:16" data-fig="2839:665">06 POSTERS</p>
+      <i class="ab pa-rule" style="--x:120;--y:12419;--w:1680"></i>
+      <i class="ab pa-rule" style="--x:120;--y:12983;--w:1680"></i>
+      <i class="ab pa-rule" style="--x:120;--y:13531;--w:1680"></i>
+      <i class="ab pa-rule" style="--x:120;--y:14108;--w:1680"></i>
+      <p class="ab t inter c-d0 lh16" style="--x:120;--y:12444;--fs:17" data-fig="2839:667">MAIN / FLOW</p>
+      <p class="ab t inter c-a7 lh16 pre" style="--x:120;--y:12509;--fs:17" data-fig="2839:668">01   Main poster<br>02   Flow</p>
+      <p class="ab t inter c-d0 lh16" style="--x:120;--y:13008;--fs:17" data-fig="2839:670">AWARENESS / CHOICE</p>
+      <p class="ab t inter c-a7 lh16 pre" style="--x:120;--y:13073;--fs:17" data-fig="2839:671">03   Awareness<br>04   Choice</p>
+      <p class="ab t inter c-d0 lh16" style="--x:120;--y:13556;--fs:17" data-fig="2839:673">SERIES / INTERSPACE</p>
+      <p class="ab t inter c-a7 lh16 pre" style="--x:120;--y:13621;--fs:17" data-fig="2839:674">05   Series poster<br>06   Interspace</p>
+
+      <p class="ab t inter c-a7 lh155 pcap" style="--x:500;--y:12481;--fs:15" data-fig="2839:632">01 / MAIN POSTER</p>
+      <p class="ab t inter c-a7 lh155 pcap" style="--x:1220;--y:12481;--fs:15" data-fig="2839:633">02 / FLOW</p>
+      <p class="ab t inter c-a7 lh155 pcap" style="--x:860;--y:13045;--fs:15" data-fig="2839:634">03 / AWARENESS</p>
+      <p class="ab t inter c-a7 lh155 pcap" style="--x:1500;--y:13045;--fs:15" data-fig="2839:635">04 / CHOICE</p>
+      <p class="ab t inter c-a7 lh155 pcap" style="--x:500;--y:13593;--fs:15" data-fig="2839:636">05 / SERIES POSTER</p>
+      <p class="ab t inter c-a7 lh155 pcap" style="--x:1110;--y:13593;--fs:15" data-fig="2839:637">06 / INTERSPACE</p>
+
+      <figure class="ab poster" style="--x:500;--y:12519;--w:300;--h:439.575" data-fig="2839:561"><img src="assets/awake/poster-01.jpg" alt="LIMEN 메인 포스터" loading="lazy" /></figure>
+      <figure class="ab poster" style="--x:1220;--y:12519;--w:280;--h:395.716" data-fig="2839:574"><img src="assets/awake/poster-02.jpg" alt="FLOW 포스터" loading="lazy" /></figure>
+      <figure class="ab poster" style="--x:860;--y:13083;--w:260;--h:367.45" data-fig="2839:580"><img src="assets/awake/poster-03.jpg" alt="AWARENESS 포스터" loading="lazy" /></figure>
+      <figure class="ab poster" style="--x:1500;--y:13083;--w:300;--h:423.981" data-fig="2839:589"><img src="assets/awake/poster-04.jpg" alt="CHOICE 포스터" loading="lazy" /></figure>
+      <figure class="ab poster" style="--x:500;--y:13631;--w:320;--h:452.246" data-fig="2839:598"><img src="assets/awake/poster-05.jpg" alt="AWARENESS 시리즈 포스터" loading="lazy" /></figure>
+      <figure class="ab poster" style="--x:1110;--y:13631;--w:300;--h:416.729" data-fig="2839:615"><img src="assets/awake/poster-06.jpg" alt="INTERSPACE 포스터" loading="lazy" /></figure>
+
+      <p class="ab t inter lh155 c-91" style="--x:120;--y:14148;--fs:15" data-fig="2839:560">VISUAL IDENTITY / TEAM SNOOZE</p>
+    </section>
+
+    <!-- ═══════ 11 가져갈 질문 (14569–15231) ═══════ -->
+    <section class="aw-question" id="question" aria-labelledby="qTitle">
+      <p class="ab t inter c-a7 lh175" style="--x:120;--y:14569;--fs:17" data-fig="2839:543">A QUESTION TO TAKE WITH YOU</p>
+      <h2 class="ab t noto5 c-ea lh135" id="qTitle" style="--x:290;--y:14809;--fs:76" data-in="lines" data-fig="2839:544">지금, 나의 선택은<br>어디로 향하고 있나요?</h2>
+      <p class="ab t noto c-a7 lh175" style="--x:960;--y:15139;--fs:26" data-in="lines" data-fig="2839:545">전시에서 마주한 감각을 떠올리며,<br>일상으로 돌아갈 당신의 방향을 생각해보세요.</p>
+    </section>
+
+    <!-- ═══════ 12 당신의 생각을 이곳에 남겨주세요 (15789–16928) — 드래그로 원형 회전 ═══════ -->
+    <section class="aw-thought" id="thought" aria-labelledby="thTitle">
+      <div class="ab pi-stage" id="piStage" style="--x:0;--y:15700;--w:1920;--h:780" aria-roledescription="회전 카드" aria-label="다섯 개의 질문 카드. 좌우로 끌어 돌려 보세요.">
+        <!-- 카드는 js/awake.js 가 원 궤도에 놓는다 (피그마 5장 위치·각도 −22°/−11°/0°/11°/22° 그대로) -->
+      </div>
+      <p class="ab t inter ct lh165 c-a7b" style="--x:120;--y:16504;--w:1680;--fs:17" data-fig="2839:555">LEAVE A THOUGHT</p>
+      <h2 class="ab t noto5 ct lh14 c-eae0" id="thTitle" style="--x:360;--y:16584;--w:1200;--fs:64" data-in="lines" data-fig="2839:556">당신의 생각을<br>이곳에 남겨주세요.</h2>
+      <p class="ab t noto ct lh175 c-b5" style="--x:360;--y:16844;--w:1200;--fs:24" data-in="lines" data-fig="2839:557">전시장 밖 포스터에 당신의 생각을 적어주세요.<br>다른 관람객의 생각도 함께 살펴볼 수 있습니다.</p>
+    </section>
+
+    <!-- ═══════ FOOTER — 배경은 INDEX 푸터와 같은 필름, 글은 피그마 ═══════ -->
+    <footer class="aw-footer" id="footer">
+      <div class="ab ft-film" id="ftFilm" style="--x:0;--y:16980;--w:1920;--h:1134" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="assets/figma-1102/footer.png" data-src="media/uncommon-footer.mp4" tabindex="-1"></video>
+      </div>
+      <i class="ab ft-rule" style="--x:120;--y:17369;--w:1680"></i>
+      <p class="ab t noto5 c-ea lh135" style="--x:120;--y:17449;--fs:48" data-in="lines" data-fig="2839:547">경험은 끝나도,<br>선택은 계속됩니다.</p>
+      <a class="ab t noto c-cf lh175 ul" href="./" style="--x:1260;--y:17509;--fs:25" data-fig="2839:548">전시의 시작으로, INDEX ↗</a>
+      <p class="ab t inter c-a7 lh175" style="--x:120;--y:17719;--fs:15" data-fig="2839:549">© 2026 SNOOZE. ALL RIGHTS RESERVED.</p>
+    </footer>
+    </div>
+  </main>
+
+  <script src="./_shared/vendor/lenis.min.js"></script>
+  <script type="module" src="js/awake.js"></script>
+</body>
+</html>

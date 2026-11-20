@@ -2,12 +2,12 @@
 // 11-19 2차 지시 반영: 인터랙션은 '제목 구간'에만.
 //  · [data-in]            제목·제목 설명만 화면에 들어오면 블러 14px→0, translateY −30px→0 (lines: 줄마다, chars: 글자마다)
 //                         라벨(RETRACE / … 등), 장면 사진·설명, 의미 5줄, 디자인 시스템 판, 포스터 아카이브는 고정
-//  · [data-scramble]      서체 판의 큰 AaBb · 가나다만 글자가 오류처럼 섞이다 0.7초에 걸쳐 제자리
+//  · [data-scramble]      서체 판의 큰 Aa 만 글자가 오류처럼 섞이다 0.7초에 걸쳐 제자리 (11-21 새 판: AaBb·가나다 → Aa)
 //  · 04 키워드             왼쪽 큰 단어만 블러 등장, 오른쪽 뜻·설명은 --blur:0px (위치·투명도만)
 //  · 02 다섯 장면          odysseeclinic 식 포커싱 — 마우스가 간 장면(사진·이름·설명)만 선명, 나머지는 흐림·투명 (예전 상징 구간에서 옮김)
 //  · 10 포스터 아카이브     cosmos.so/e/1494863811 구조 — 스크롤 트랙 + sticky 화면, 스크롤만큼 카메라가 z축으로 전진(포스터 6장이 깊이로 놓임),
 //                         흰 SVG 선이 공간 속을 구불구불 다가옴, 하단 상자 = 리모컨 + 지금 포스터 썸네일
-//  · 05 색                 그라데이션 위에서 마우스 오른쪽 위에 그 자리 색 동그라미 + HEX (돋보기)
+//  · 05 색                 11-21 새 피그마 판(2863:1334) — 견본 누르면 HEX 복사 (예전 그라데이션 띠·돋보기는 새 판에 없어 뺌)
 //  · 03 의미               사진·글 모두 고정 · 길어진 만큼 04~푸터를 --shift 로 내림
 //  · 12 남겨 주세요        평소 천천히 왼쪽→오른쪽 자동 회전 + 끌어서 돌리기, 가운데 카드에 초점(양옆은 살짝 흐림)
 //  · ?overlay              피그마 전체 캡처를 반투명으로 겹침 (O · [ ] · D) — 최종 상태로 고정, &live 면 움직임 유지
@@ -193,38 +193,13 @@ if (STILL) {
   scrambles.forEach((s) => { s.el._sc = s; io.observe(s.el); });
 }
 
-// ───────── 05 색 — 누르면 HEX 복사 (피그마 안내 문구 그대로)
+// ───────── 05 색 — 견본을 누르면 HEX 복사, 아래 HEX 자리에 잠깐 COPIED (11-21 새 판: 견본 글자는 이름 + HEX 뿐)
 $$('.sw').forEach((b) => b.addEventListener('click', async () => {
   const hex = b.dataset.hex, label = $('span', b);
   try { await navigator.clipboard.writeText(hex); label.textContent = 'COPIED ✓'; }
   catch { label.textContent = hex; }
-  b.classList.add('is-copied');
-  clearTimeout(b._t); b._t = setTimeout(() => { label.textContent = 'COPY HEX'; b.classList.remove('is-copied'); }, 1400);
+  clearTimeout(b._t); b._t = setTimeout(() => { label.textContent = hex; }, 1400);
 }));
-
-// ───────── 05 그라데이션 돋보기 — CSS 그라데이션과 같은 색 멈춤점으로 그 자리 색을 계산
-const GRAD = [[0, '#101118'], [.02, '#101118'], [.26, '#171b74'], [.52, '#5552b5'], [.80, '#a6a1f4'], [1, '#ebe8fe']].map(([p, h]) => [p, [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))]);
-function gradAt(x) {
-  x = clamp(x);
-  let k = 0; while (k < GRAD.length - 2 && x > GRAD[k + 1][0]) k++;
-  const [p0, c0] = GRAD[k], [p1, c1] = GRAD[k + 1];
-  const f = p1 > p0 ? clamp((x - p0) / (p1 - p0)) : 0;
-  return '#' + c0.map((v, i) => Math.round(lerp(v, c1[i], f)).toString(16).padStart(2, '0')).join('').toUpperCase();
-}
-const lens = document.createElement('div'); lens.className = 'lens'; lens.setAttribute('aria-hidden', 'true'); lens.innerHTML = '<i></i><b></b>';
-document.body.appendChild(lens);
-const gradBar = $('.grad-bar');
-let lensPos = null, lensTo = null;
-gradBar.addEventListener('pointermove', (e) => {
-  const r = gradBar.getBoundingClientRect();
-  const hex = gradAt((e.clientX - r.left) / r.width);
-  lens.style.setProperty('--lc', hex); $('b', lens).textContent = hex;
-  lensTo = [e.clientX + 18, e.clientY - 18 - 64];          // 마우스 오른쪽 위
-  if (!lensPos) lensPos = [...lensTo];
-  lens.classList.add('is-on');
-});
-gradBar.addEventListener('pointerleave', () => { lens.classList.remove('is-on'); lensPos = null; });
-addEventListener('wheel', () => lens.classList.remove('is-on'), { passive: true });
 
 // ───────── 02 당신이 지나온 다섯 장면 — 포커싱 (사진·이름·설명을 같은 번호 data-rt 로 묶음)
 const rtHost = $('[data-rt-host]'), rtEls = $$('[data-rt]');
@@ -457,11 +432,6 @@ function update(now) {
   if (STILL) return;
   // 인트로: 백합이 천천히 가라앉고 조금 늦게 따라옴
   if (sc < 1200 * u) introImg.style.transform = `translate3d(0, ${(sc * .28).toFixed(1)}px, 0) scale(${(1.06 - clamp(sc / (1080 * u)) * .04).toFixed(4)})`;
-  // 05 — 돋보기는 마우스를 살짝 늦게 따라감
-  if (lensPos && lensTo) {
-    lensPos[0] = lerp(lensPos[0], lensTo[0], .35); lensPos[1] = lerp(lensPos[1], lensTo[1], .35);
-    lens.style.setProperty('--lx', `${lensPos[0].toFixed(1)}px`); lens.style.setProperty('--ly', `${lensPos[1].toFixed(1)}px`);
-  }
   // 10 — 포스터 카메라 (보이는 동안만)
   { const r = paTrack.getBoundingClientRect(); if (r.bottom > -100 && r.top < vh + 100) { paCam = lerp(paCam, paTarget(), .14); paRender(); } }
   // 12 — 카드 회전: 자동(천천히) ↔ 끌기 ↔ 자리 잡기

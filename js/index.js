@@ -6,9 +6,9 @@
 //  · 02 질문: 스티키 동안 왼쪽부터 글자 채움 / 03 기획 의도: 오른쪽 글 스티키, 사진이 글 높이에 닿으면 함께 올라감
 //  · 04 키워드: 고정 무대, 글자별 블러+translateY ±50% 로 FLOW → AWARENESS → CHOICE, 왼쪽 이미지 블러 교차
 //  · 07 SPACE: 기존 INDEX 의 space-layered.js 를 그대로 (진행도만 여기서 넘김)
-import { initSpace } from './space-layered.js?v=1120b';
-import { createFooterFilm } from './footer-film.js?v=1120b';
-import { Smooth } from './smooth.js?v=1120b';
+import { initSpace } from './space-layered.js?v=1121b';
+import { createFooterFilm } from './footer-film.js?v=1121b';
+import { Smooth } from './smooth.js?v=1121b';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];

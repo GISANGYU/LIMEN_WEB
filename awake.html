@@ -7,10 +7,12 @@
   <meta name="description" content="LIMEN 전시용 AWAKE(관람 후) — 피그마 '웹 최종' LIMEN / AWAKE 프레임(2839:481) 레이아웃" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300&family=Cormorant+Garamond:wght@400&family=Anton&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&family=Anton&display=swap" rel="stylesheet" />
   <!-- 헤더 · 프로필 층 · 기본 규칙은 INDEX 와 같은 파일을 그대로 쓴다 -->
   <link rel="stylesheet" href="css/index.css" />
   <link rel="stylesheet" href="css/awake.css" />
+  <link rel="stylesheet" href="css/screen-scale.css" />
+  <link rel="stylesheet" href="css/header.css" />
 </head>
 <body class="awake">
   <!-- ───────── HEADER (INDEX 와 같은 구조) ───────── -->
@@ -99,55 +101,43 @@
       <p class="ab t noto c-a7 lh175" style="--x:1180;--y:6470;--fs:22;--d:360ms;--blur:0px" data-in data-fig="2839:542">알아차림을 바탕으로 나만의 방향을 질문합니다.</p>
     </section>
 
-    <!-- ═══════ 05 색 (7278–8242) ═══════ -->
-    <section class="aw-ds" id="color" aria-label="색">
-      <div class="ab ds-panel" style="--x:54;--y:7278;--w:1799;--h:964;--bg:#15151e"></div>
-      <i class="ab ds-rule" style="--x:93;--y:7334;--w:382"></i>
-      <h3 class="ab t noto5 c-ea lh14" style="--x:93;--y:7358;--fs:28">어둠 위에<br>빛을 쌓다.</h3>
-      <p class="ab t noto c-a7 lh175" style="--x:93;--y:7480;--fs:22">짙은 바탕에서 시작해 보랏빛의<br>층을 더합니다. 밝은 라벤더는<br>반응하는 순간과 중요한<br>메시지를 드러냅니다.</p>
-      <p class="ab t noto c-80 lh175" style="--x:93;--y:7692;--fs:17">스와치를 누르면<br>HEX 코드를 복사할 수 있습니다.</p>
-      <div class="ab sw-row" style="--x:527;--y:7333;--w:1305;--h:652" role="list">
-        <button class="sw" style="--c:#101118;--fg:#e9e7ef;--sub:#8b8795;--d:0ms" data-hex="#101118" role="listitem"><b>NIGHT</b><em>몰입을 위한 어둠</em><strong>#101118</strong><span>COPY HEX</span></button>
-        <button class="sw" style="--c:#171b74;--fg:#e4e5fb;--sub:#8b8fd2;--d:80ms" data-hex="#171B74" role="listitem"><b>DEEP BLUE</b><em>깊이를 만드는 색</em><strong>#171B74</strong><span>COPY HEX</span></button>
-        <button class="sw" style="--c:#5552b5;--fg:#ecebfb;--sub:#a9a7e3;--d:160ms" data-hex="#5552B5" role="listitem"><b>LIMEN VIOLET</b><em>시각 언어의 중심</em><strong>#5552B5</strong><span>COPY HEX</span></button>
-        <button class="sw" style="--c:#a6a1f4;--fg:#1d1a3c;--sub:#5b56a6;--d:240ms" data-hex="#A6A1F4" role="listitem"><b>LAVENDER</b><em>빛과 반응의 강조</em><strong>#A6A1F4</strong><span>COPY HEX</span></button>
-        <button class="sw" style="--c:#ebe8fe;--fg:#1f1d2c;--sub:#7b7891;--d:320ms" data-hex="#EBE8FE" role="listitem"><b>MIST</b><em>여백과 메시지</em><strong>#EBE8FE</strong><span>COPY HEX</span></button>
-      </div>
-      <div class="ab grad-bar" style="--x:527;--y:8018;--w:1305;--h:172"><span>DARKNESS</span><span>LIGHT</span></div>
+    <!-- ═══════ 05 색 · 06 서체 — 새 피그마 'awake' › Design system (2863:1334) 의 01 COLOR · 02 TYPOGRAPHY 만 (11-21)
+         판 y + 6738 = 페이지 y (판의 첫 구분선 540 → 7278). 판은 고정, 큰 Aa 만 글자 섞임. 견본을 누르면 HEX 복사 ═══════ -->
+    <section class="aw-ds" id="color" aria-labelledby="dsColorTitle">
+      <i class="ab ds-rule" style="--x:70;--y:7278;--w:1780" data-fig="2863:1339"></i>
+      <p class="ab t inter c-a3 lh135" style="--x:70;--y:7323;--fs:20" data-fig="2863:1340">01 / COLOR</p>
+      <h3 class="ab t noto c-ea lh135" id="dsColorTitle" style="--x:70;--y:7388;--fs:46" data-fig="2863:1341">빛의 온도와<br>어둠의 깊이.</h3>
+      <p class="ab t noto c-a3 lh135" style="--x:70;--y:7578;--fs:22" data-fig="2863:1342">차콜 위에 회보라의 층을 쌓고,<br>밝은 라벤더로 빛의 순간을 드러냅니다.</p>
+      <button type="button" class="ab sw" style="--x:790;--y:7348;--w:620;--h:280;--c:#0d0b11;--fg:#eae7ef" data-hex="#0D0B11" aria-label="NIGHT #0D0B11 복사" data-fig="2863:1343"><b>NIGHT</b><span>#0D0B11</span></button>
+      <button type="button" class="ab sw" style="--x:1430;--y:7348;--w:420;--h:280;--c:#1b1c69;--fg:#eae7ef" data-hex="#1B1C69" aria-label="DEEP BLUE #1B1C69 복사" data-fig="2863:1346"><b>DEEP BLUE</b><span>#1B1C69</span></button>
+      <button type="button" class="ab sw" style="--x:790;--y:7648;--w:410;--h:220;--c:#65538d;--fg:#eae7ef" data-hex="#65538D" aria-label="GRAY VIOLET #65538D 복사" data-fig="2863:1349"><b>GRAY VIOLET</b><span>#65538D</span></button>
+      <button type="button" class="ab sw" style="--x:1220;--y:7648;--w:300;--h:220;--c:#a38cbf;--fg:#eae7ef" data-hex="#A38CBF" aria-label="LAVENDER #A38CBF 복사" data-fig="2863:1352"><b>LAVENDER</b><span>#A38CBF</span></button>
+      <button type="button" class="ab sw" style="--x:1540;--y:7648;--w:310;--h:220;--c:#eae7ef;--fg:#0d0b11" data-hex="#EAE7EF" aria-label="LIGHT #EAE7EF 복사" data-fig="2863:1355"><b>LIGHT</b><span>#EAE7EF</span></button>
     </section>
 
-    <!-- ═══════ 06 서체 — 영문 (8365–9077) : 오른쪽 큰 AaBb 만 알파벳이 오류처럼 섞이며 나타남 ═══════ -->
-    <section class="aw-ds" id="type" aria-label="서체">
-      <div class="ab ds-panel" style="--x:85;--y:8365;--w:1761;--h:712;--bg:#1b1924"></div>
-      <p class="ab t inter ds-k" style="--x:113;--y:8419">TYPEFACE</p>
-      <p class="ab t inter ds-v" style="--x:113;--y:8468">Cormorant Garamond</p>
-      <p class="ab t inter ds-k" style="--x:113;--y:8558">WEIGHTS</p>
-      <p class="ab t inter ds-v" style="--x:113;--y:8607">Light / Regular</p>
-      <p class="ab t inter ds-k" style="--x:113;--y:8697">STYLE</p>
-      <p class="ab t inter ds-v" style="--x:113;--y:8746">Roman / Italic</p>
-      <i class="ab ds-rule" style="--x:540;--y:8479;--w:1288"></i>
-      <p class="ab t inter ds-abc" style="--x:540;--y:8526">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-      <p class="ab t inter ds-abc" style="--x:540;--y:8567">abcdefghijklmnopqrstuvwxyz</p>
-      <p class="ab t inter ds-abc" style="--x:540;--y:8607">0123456789 &amp; ! ?</p>
-      <p class="ab t aabb" style="--x:962;--y:8613" data-scramble="latin" aria-label="AaBb">AaBb</p>
+    <section class="aw-ds" id="type" aria-labelledby="dsTypeTitle">
+      <i class="ab ds-rule" style="--x:70;--y:7943;--w:1780" data-fig="2863:1358"></i>
+      <p class="ab t inter c-a3 lh135" style="--x:70;--y:7988;--fs:20" data-fig="2863:1359">02 / TYPOGRAPHY</p>
+      <h3 class="ab t inter c-ea lh135" id="dsTypeTitle" style="--x:70;--y:8058;--fs:118" data-fig="2863:1360">Inter</h3>
+      <p class="ab t noto c-a3 lh135" style="--x:75;--y:8228;--fs:38" data-fig="2863:1361">Noto Sans KR</p>
+      <p class="ab t inter c-a3 lh135 pre" style="--x:75;--y:8308;--fs:19" data-fig="2863:1362">Regular   /   Medium</p>
+      <p class="ab t noto c-ea lh135" style="--x:790;--y:8048;--fs:61" data-fig="2863:1363">내가 고른 방향은<br>정말 나만의 선택일까?</p>
+      <p class="ab t inter c-ea lh135" style="--x:70;--y:8398;--fs:200" data-scramble="latin" aria-label="Aa" data-fig="2863:1364">Aa</p>
+      <p class="ab t inter c-ea lh135" style="--x:790;--y:8298;--fs:64" data-fig="2863:1365">TITLE</p>
+      <p class="ab t inter c-a3 lh135" style="--x:1660;--y:8306;--fs:18">64 px</p>
+      <p class="ab t inter c-ea lh135" style="--x:790;--y:8400;--fs:44" data-fig="2863:1367">HEADING</p>
+      <p class="ab t inter c-a3 lh135" style="--x:1660;--y:8408;--fs:18">44 px</p>
+      <p class="ab t inter c-ea lh135" style="--x:790;--y:8482;--fs:28" data-fig="2863:1369">SUBHEADING</p>
+      <p class="ab t inter c-a3 lh135" style="--x:1660;--y:8490;--fs:18">28 px</p>
+      <p class="ab t inter c-ea lh135" style="--x:790;--y:8548;--fs:22" data-fig="2863:1371">BODY</p>
+      <p class="ab t inter c-a3 lh135" style="--x:1660;--y:8556;--fs:18">22 px</p>
+      <p class="ab t inter c-ea lh135" style="--x:790;--y:8608;--fs:16" data-fig="2863:1373">CAPTION</p>
+      <p class="ab t inter c-a3 lh135" style="--x:1660;--y:8616;--fs:18">16 px</p>
+      <i class="ab ds-rule" style="--x:70;--y:8768;--w:1780" data-fig="2863:1375"></i>
     </section>
 
-    <!-- ═══════ 07 서체 — 한글 (9253–9889) ═══════ -->
-    <section class="aw-ds" id="type-kr" aria-label="한글 서체">
-      <div class="ab ds-panel" style="--x:81;--y:9253;--w:1772;--h:636;--bg:#14151f"></div>
-      <i class="ab ds-rule" style="--x:489;--y:9307;--w:1315"></i>
-      <p class="ab t inter ds-k" style="--x:88;--y:9362">KOREAN</p>
-      <p class="ab t inter ds-v" style="--x:88;--y:9411">Noto Sans KR</p>
-      <p class="ab t inter ds-k" style="--x:88;--y:9501">LATIN</p>
-      <p class="ab t inter ds-v" style="--x:88;--y:9550">Inter</p>
-      <p class="ab t inter ds-k" style="--x:88;--y:9639">WEIGHTS</p>
-      <p class="ab t inter ds-v" style="--x:88;--y:9688">Light / Regular / Medium</p>
-      <p class="ab t serif ds-smp rt" style="--x:1004;--y:9353;--w:800;letter-spacing:.1em">가나다라마바사아자차카타파하</p>
-      <p class="ab t serif ds-smp rt" style="--x:1004;--y:9395;--w:800">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
-      <p class="ab t serif ds-smp rt" style="--x:1004;--y:9438;--w:800;letter-spacing:.055em">abcdefghijklmnopqrstuvwxyz / 0123456789</p>
-      <p class="ab t ganada" style="--x:490;--y:9543" data-scramble="hangul" aria-label="가나다">가나다</p>
-    </section>
-
+    <!-- 08 질감 ~ 푸터: 새 색·서체 판이 예전 3구간보다 짧아진 만큼(--up) 통째로 올라감 -->
+    <div class="aw-up">
     <!-- ═══════ 08 질감 (10052–10688) ═══════ -->
     <section class="aw-ds" id="texture" aria-label="질감">
       <figure class="ab tex" style="--x:74;--y:10052;--w:559.69;--h:536.06;--d:0ms" data-fig="2839:682"><img src="assets/awake/tex-halftone.jpg" alt="하프톤 질감" loading="lazy" /></figure>
@@ -247,9 +237,11 @@
     </footer>
     </div>
     </div>
+    </div>
   </main>
 
   <script src="./_shared/vendor/lenis.min.js"></script>
   <script type="module" src="js/awake.js"></script>
+  <script src="js/header.js" defer></script>
 </body>
 </html>

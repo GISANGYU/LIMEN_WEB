@@ -1,0 +1,47 @@
+/* ═══════ 큰 화면 보정 (11-20) — INDEX · AWAKE 공통, 각 페이지 CSS 맨 뒤에 붙임 ═══════
+   두 페이지는 --u(=화면 폭/1920)로 커지는데, 예전 INDEX 에서 가져온 SPACE·푸터 일부와
+   최대값(clamp)이 걸린 글자는 고정 px 라 1920 보다 큰 화면(시연 2560×1440)에서 안 커졌다.
+   1920 이하에서는 지금 그대로 두고, 1920 을 넘을 때만 같은 비율로 키운다. */
+@media (min-width: 1921px) {
+  /* INDEX — 12칸 격자 간격 (원래 24px · 바깥 여백 +4px 에서 멈춤) */
+  :root { --grid-gap: calc(24 * var(--u)); --grid-inset: calc(5vw + 4 * var(--u)); }
+
+  /* INDEX — 관객 경험 영상 'Watch the scenes' (원래 120px 에서 멈춤) */
+  .exp-link { font-size: calc(120 * var(--u)); }
+
+  /* INDEX — SPACE 왼쪽 아래 번호 · 이름 */
+  .sp-phase { max-width: calc(420 * var(--u)); }
+  .sp-count { font-size: calc(14 * var(--u)); }
+  .sp-count .mask { margin-right: calc(6 * var(--u)); }
+  .sp-count b { font-size: calc(76 * var(--u)); }
+  .sp-name { margin-top: calc(10 * var(--u)); font-size: calc(36 * var(--u)); }
+
+  /* INDEX — SPACE 도면 위 설명 칩 · 도면 글자 */
+  .sp-chip { column-gap: calc(10 * var(--u)); row-gap: calc(4 * var(--u)); padding: calc(12 * var(--u)) calc(20 * var(--u)) calc(14 * var(--u)) calc(12 * var(--u)); }
+  .sp-chip .c-n { min-width: calc(26 * var(--u)); height: calc(26 * var(--u)); padding: 0 calc(7 * var(--u)); font-size: calc(10 * var(--u)); }
+  .sp-chip .c-t { font-size: calc(17 * var(--u)); line-height: calc(26 * var(--u)); }
+  .sp-chip .c-d { font-size: calc(13 * var(--u)); }
+  .sp-chip .c-s { gap: calc(10 * var(--u)); font-size: calc(10 * var(--u)); letter-spacing: calc(2.4 * var(--u)); }
+  .sp-chip .c-s u i { width: calc(14 * var(--u)); height: calc(2 * var(--u)); }
+  #spSvg text { font-size: calc(10 * var(--u)); }
+  .sp-tag-svg text { font-size: calc(9 * var(--u)); letter-spacing: calc(2 * var(--u)); }
+
+  /* INDEX — SPACE 오른쪽 장비 목록 */
+  .figma-update .space .sp-side { padding: calc(96 * var(--u)) var(--grid-inset) calc(48 * var(--u)) calc(32 * var(--u)); }
+  .figma-update .sp-list li { padding: calc(14 * var(--u)) calc(16 * var(--u)); grid-template-columns: calc(39 * var(--u)) minmax(0, 1fr); }
+  .figma-update .sp-list li .no, .figma-update .sp-list li.on .no { width: calc(26 * var(--u)); height: calc(26 * var(--u)); border-radius: calc(13 * var(--u)); }
+
+  /* INDEX — 푸터 (예전 INDEX 푸터 그대로라 글자·간격이 px) */
+  .figma-update .footer-scattered span { font-size: calc(63 * var(--u)); }
+  .figma-update .footer-label, .figma-update .footer-nav { font-size: calc(19 * var(--u)); }
+  .figma-update .footer-dim, .figma-update .footer-question, .figma-update .footer-square-link { font-size: calc(19 * var(--u)); }
+  .figma-update .footer-people > div > p:first-child { font-size: calc(16 * var(--u)); }
+  .figma-update .footer-design-arrow { width: calc(20 * var(--u)); height: calc(20 * var(--u)); }
+  .footer-information { gap: calc(112 * var(--u)); }
+  .footer-bottom { gap: calc(24 * var(--u)); min-height: calc(126 * var(--u)); }
+  .footer-bottom-links { gap: calc(12 * var(--u)); font-size: calc(12 * var(--u)); }
+  .film-footer .footer-reference-credit { font-size: calc(10 * var(--u)); }
+
+  /* INDEX · AWAKE — 메뉴(프로필 층) 사진 번호 */
+  .pf-ph b { left: calc(10 * var(--u)); top: calc(8 * var(--u)); font-size: calc(11 * var(--u)); }
+}

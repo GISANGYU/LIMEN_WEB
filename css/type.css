@@ -1,0 +1,13 @@
+/* ═══════ 메인 글꼴 = Pretendard (11-22) — INDEX · AWAKE 공통, css/index.css 뒤에 붙임 ═══════
+   Inter(--inter) · Inter Tight(--sans) 자리를 index.css 의 --pret 로 바꾼다.
+   한글 본문 --noto(Noto Sans KR) · --heebo 는 그대로.
+   @font-face 는 index.css 맨 위(_shared/fonts/PretendardVariable.woff2). */
+:root {
+  --inter: var(--pret);
+  --sans: var(--pret);
+}
+
+/* Pretendard 영문이 Inter 보다 약 2.5% 넓어 폰 푸터 제목이 세 줄로 깨짐 → 폰 폭에서만 넓혀 둔 자간(.015em)을 0 으로 */
+@media (max-width: 820px) {
+  .figma-update .footer-label { letter-spacing: 0; }
+}

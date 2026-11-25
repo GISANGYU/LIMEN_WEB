@@ -257,6 +257,20 @@ const SPR = {
 
 /* ---------- 방명록 글 ---------- */
 const LS_KEY = 'limen_gb_proto_v1';
+const publishedIds = new Set();
+
+async function loadPublishedEntries() {
+  try {
+    const response = await fetch('archive/entries.json');
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const published = await response.json();
+    for (const entry of published) publishedIds.add(entry.id);
+    return published;
+  } catch (error) {
+    console.error('공개 방명록을 불러오지 못했습니다.', error);
+    return [];
+  }
+}
 
 // 사진은 용량이 커서 localStorage(약 5MB) 대신 IndexedDB 에 원본 화질로 둔다. 글 목록엔 hasPhoto 표시만.
 const PHOTO_DB = 'limen_gb_photos';
@@ -672,7 +686,7 @@ function talking() { const now = performance.now() / 1000; return chars.filter((
 function maybeStartTalk() {
   const now = performance.now() / 1000, cur = talking();
   if (cur.length >= maxTalk()) return;
-  const free = chars.filter((c) => c.talkUntil <= now && c.wake >= 1 &&
+  const free = chars.filter((c) => c.entry.msg && c.talkUntil <= now && c.wake >= 1 &&
     cur.every((o) => Math.abs(o.x - c.x) > 150 || Math.abs(o.y - c.y) > 90));
   if (free.length) talk(pick(Math.random, free), rand(3, 4.2));
 }
@@ -843,12 +857,16 @@ function renderList() {
     const body = document.createElement('div');
     body.className = 'list-text';
     const who = document.createElement('span'); who.className = 'who'; who.textContent = e.name || '익명';
-    const msg = document.createElement('span'); msg.textContent = e.msg;
-    body.append(who, msg); li.append(c, body);
+    body.appendChild(who);
+    if (e.msg) {
+      const msg = document.createElement('span'); msg.textContent = e.msg;
+      body.appendChild(msg);
+    }
+    li.append(c, body);
     li.className = 'has-detail';
     li.tabIndex = 0;
     li.setAttribute('role', 'button');
-    li.setAttribute('aria-label', `${e.name || '익명'}의 글 자세히 보기`);
+    li.setAttribute('aria-label', `${e.name || '익명'}의 방명록 자세히 보기`);
     li.addEventListener('click', () => openDetail(e));
     li.addEventListener('keydown', (ev) => {
       if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openDetail(e); }
@@ -890,6 +908,7 @@ async function openDetail(entry, look) {
   $('#detailName').textContent = entry.name || '익명';
   $('#detailTime').textContent = detailTime(entry.t);
   $('#detailMsg').textContent = entry.msg || '';
+  $('#detailMsg').hidden = !entry.msg;
   const img = $('#detailPhoto');
   $('#detailPhotoWrap').hidden = !entry.photo;
   if (entry.photo) img.src = entry.photo; else img.removeAttribute('src');
@@ -1106,6 +1125,7 @@ form.addEventListener('submit', async (ev) => {
   };
   if (draftPhoto) entry.photo = draftPhoto;
   try {
+    await entriesReady;
     await saveEntry(entry);
   } catch {
     status.textContent = draftPhoto
@@ -1136,14 +1156,15 @@ $('#listBtn').addEventListener('click', () => {
 $('#backup').hidden = false;
 $('#backupSave').addEventListener('click', () => {
   const d = new Date(), p2 = (n) => String(n).padStart(2, '0');
-  const data = { app: 'LIMEN-guestbook', version: 1, savedAt: d.toISOString(), entries };
+  const localEntries = entries.filter((e) => !publishedIds.has(e.id));
+  const data = { app: 'LIMEN-guestbook', version: 1, savedAt: d.toISOString(), entries: localEntries };
   const url = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
   const a = document.createElement('a');
   a.href = url;
   a.download = `LIMEN방명록_백업_${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}_${p2(d.getHours())}${p2(d.getMinutes())}.json`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
-  $('#backupStatus').textContent = `글 ${entries.length}개(사진 ${entries.filter((e) => e.photo).length}장)를 백업 파일로 저장했어요.`;
+  $('#backupStatus').textContent = `글 ${localEntries.length}개(사진 ${localEntries.filter((e) => e.photo).length}장)를 백업 파일로 저장했어요.`;
 });
 $('#backupLoad').addEventListener('click', () => $('#backupFile').click());
 $('#backupFile').addEventListener('change', async (ev) => {
@@ -1154,6 +1175,7 @@ $('#backupFile').addEventListener('change', async (ev) => {
     const data = JSON.parse(await file.text());
     const list = Array.isArray(data) ? data : data.entries;
     if (!Array.isArray(list)) throw new Error('형식');
+    await entriesReady;
     const have = new Set(entries.map((e) => e.id));
     const add = list.filter((e) => e && e.id && typeof e.msg === 'string' && !have.has(e.id))
       .sort((a, b) => (a.t || 0) - (b.t || 0));
@@ -1175,7 +1197,11 @@ window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resi
 
 /* ---------- 시작 ---------- */
 resize();
-loadEntries().then((list) => { entries = list; start(); });
+const entriesReady = Promise.all([loadPublishedEntries(), loadEntries()]).then(([published, saved]) => {
+  entries = [...published, ...saved.filter((entry) => !publishedIds.has(entry.id))]
+    .sort((a, b) => (a.t || 0) - (b.t || 0));
+  return start();
+});
 requestAnimationFrame(loop);
 
 // 검증용

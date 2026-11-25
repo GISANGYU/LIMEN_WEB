@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060a22">
+<title>LIMEN 방명록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<main id="field">
+  <canvas id="cv"></canvas>
+  <div id="bubbles"></div>
+</main>
+
+<header class="top">
+  <div class="brand">
+    <img src="assets/limen-logo.svg" alt="LIMEN">
+    <span class="sub">GUESTBOOK</span>
+  </div>
+</header>
+
+<div id="hud">
+  <span id="count"></span>
+</div>
+<button id="more" class="chip" type="button">✦ 한 명 더</button>
+<button id="listBtn" class="chip" type="button">목록</button>
+
+<form id="form" autocomplete="off">
+  <input id="name" maxlength="8" placeholder="이름">
+  <input id="msg" maxlength="40" placeholder="이곳에 머문 한 마디" required>
+  <button type="submit">남기기</button>
+</form>
+
+<aside id="list" hidden>
+  <div class="listHead"><b>머물다 간 한 마디</b><button id="listClose" type="button">닫기</button></div>
+  <ol id="listItems"></ol>
+  <p class="note">프로토타입이라 글은 이 브라우저에만 저장돼요. 실제 판은 DB에 저장해요.</p>
+</aside>
+
+<script src="main.js"></script>
+</body>
+</html>

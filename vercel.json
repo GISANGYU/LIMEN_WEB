@@ -1,0 +1,44 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "(www\\.)?snooze\\.design"
+        }
+      ],
+      "destination": "/limen/",
+      "permanent": false
+    },
+    {
+      "source": "/limen",
+      "destination": "/limen/",
+      "permanent": true
+    },
+    {
+      "source": "/guestbook",
+      "destination": "/guestbook/",
+      "permanent": true
+    },
+    {
+      "source": "/guestbook-v1",
+      "destination": "/guestbook-v1/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/limen/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/limen/(.*)/",
+      "destination": "/$1/index.html"
+    },
+    {
+      "source": "/limen/:path*",
+      "destination": "/:path*"
+    }
+  ]
+}

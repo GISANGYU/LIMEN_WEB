@@ -261,7 +261,7 @@ const publishedIds = new Set();
 
 async function loadPublishedEntries() {
   try {
-    const response = await fetch('archive/entries.json');
+    const response = await fetch('archive/entries.json', { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const published = await response.json();
     for (const entry of published) publishedIds.add(entry.id);

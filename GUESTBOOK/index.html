@@ -601,7 +601,8 @@ function drawShoot(dt) {
 const maxChars = () => (W < 600 ? 18 : 30);
 // const maxTalk = () => (W < 600 ? 1 : 2);   // 한 번에 말하는 캐릭터 수 (걷는 모습이 보이게 적게)
 
-const maxTalk = () => 3;
+const maxTalk = () => 4;   // 한 화면에 말풍선 최대 4개
+const minTalk = () => 3;   // 최소 3개는 늘 떠 있게
 function spawnPos() { return [rand(28, W - 28), rand(minY(), BOTTOM)]; }
 
 function preparePhotoCard(src, ch) {
@@ -688,7 +689,11 @@ function maybeStartTalk() {
   if (cur.length >= maxTalk()) return;
   const free = chars.filter((c) => c.entry.msg && c.talkUntil <= now && c.wake >= 1 &&
     cur.every((o) => Math.abs(o.x - c.x) > 150 || Math.abs(o.y - c.y) > 90));
-  if (free.length) talk(pick(Math.random, free), rand(3, 4.2));
+  let pool = free;
+  if (!pool.length) {   // 자리가 좁으면 거리 조건을 풀고라도 채운다
+    pool = chars.filter((c) => c.entry.msg && c.talkUntil <= now && c.wake >= 1);
+  }
+  if (pool.length) talk(pick(Math.random, pool), rand(6, 9));
 }
 
 /* ---------- 움직임 ---------- */
@@ -727,7 +732,11 @@ function update(dt) {
     ch.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
   }
   talkClock -= dt;
-  if (talkClock <= 0) { talkClock = rand(5, 9); maybeStartTalk(); }   // 5~9초에 한 번 말을 건다
+  if (talkClock <= 0) {   // 3개 미만이면 바로 채우고, 3개 이상이면 가끔 4번째를 띄운다
+    const n = talking().length;
+    if (n < minTalk()) { maybeStartTalk(); talkClock = rand(0.4, 1.2); }
+    else { if (Math.random() < 0.5) maybeStartTalk(); talkClock = rand(2, 4); }
+  }
 }
 
 /* ---------- 그리기 ---------- */

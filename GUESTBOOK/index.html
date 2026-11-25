@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060a22">
+<title>LIMEN 방명록</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css?v=20261121-backup">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<main id="field">
+  <canvas id="cv"></canvas>
+  <div id="bubbles"></div>
+</main>
+
+<header class="top">
+  <div class="brand">
+    <img src="assets/limen-logo.svg" alt="LIMEN">
+    <span class="sub">방명록</span>
+  </div>
+  <div class="yard-tools">
+    <div id="hud" role="status">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.4" r="3.1"/><path d="M5 20v-1.4a7 7 0 0 1 14 0V20"/></svg>
+      <span class="sr-only">마당의 캐릭터 수</span>
+      <span id="count">0</span>
+    </div>
+  </div>
+</header>
+
+<div class="dock" id="dock">
+  <p class="yard-empty" id="yardEmpty" hidden>아직 남긴 글이 없어요.</p>
+  <button class="action action-primary" id="composeBtn" type="button" aria-haspopup="dialog">
+    글 쓰기
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+  </button>
+  <button class="text-action" id="listBtn" type="button" aria-controls="list" aria-expanded="false">
+    방명록 보기
+  </button>
+</div>
+
+<dialog id="composer" aria-labelledby="composeTitle" aria-describedby="composeIntro">
+  <header class="composer-head">
+    <div>
+      <h1 id="composeTitle" tabindex="-1" autofocus>한 마디 남기기</h1>
+      <p id="composeIntro">전시를 보고 느낀 점을 적어 주세요.</p>
+    </div>
+    <button class="action action-close" id="composeClose" type="button" aria-label="글쓰기 닫기">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </header>
+
+  <form id="form" autocomplete="off">
+    <div class="composer-grid">
+      <section class="camera" id="camera" aria-labelledby="cameraTitle">
+        <h2 id="cameraTitle">사진 <span>선택</span></h2>
+        <div class="camera-stage">
+          <video id="cameraVideo" autoplay muted playsinline aria-label="카메라 미리보기" hidden></video>
+          <img id="photoPreview" alt="방명록에 첨부할 사진" hidden>
+          <div class="camera-placeholder" id="cameraPlaceholder">
+            <div class="viewfinder" aria-hidden="true"></div>
+            <button class="action action-quiet" id="cameraStart" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h4l2-3h6l2 3h4v11H3Z"/><circle cx="12" cy="13" r="3"/></svg>
+              <span id="cameraStartLabel">카메라 열기</span>
+            </button>
+          </div>
+          <div class="camera-controls" id="cameraLive" hidden>
+            <button class="action action-quiet" id="cameraCapture" type="button">촬영하기</button>
+            <button class="action action-quiet" id="cameraStop" type="button">카메라 닫기</button>
+          </div>
+          <div class="camera-controls" id="cameraReview" hidden>
+            <button class="action action-quiet" id="cameraRetake" type="button">다시 촬영</button>
+            <button class="action action-quiet" id="photoRemove" type="button">첨부 취소</button>
+          </div>
+        </div>
+        <p class="camera-note" id="cameraStatus" role="status"></p>
+      </section>
+
+      <section class="compose-fields" aria-label="방명록 글">
+        <label for="name">이름 <span>선택</span></label>
+        <input id="name" type="text" maxlength="8" placeholder="이름 또는 닉네임">
+        <div class="message-label">
+          <label for="msg">내용</label>
+          <span id="messageLength">0 / 40</span>
+        </div>
+        <textarea id="msg" maxlength="40" placeholder="이곳에 머문 한 마디" aria-describedby="messageLength" required></textarea>
+      </section>
+    </div>
+    <footer class="composer-footer">
+      <p class="compose-status" id="composeStatus" role="status"></p>
+      <button class="action action-primary" id="composeSubmit" type="submit">
+        글 남기기
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+      </button>
+    </footer>
+  </form>
+</dialog>
+<p class="sr-only" id="postStatus" role="status"></p>
+
+<dialog id="detail" aria-labelledby="detailName">
+  <header class="detail-head">
+    <canvas id="detailFace" width="168" height="168" aria-hidden="true"></canvas>
+    <div class="detail-who">
+      <h2 id="detailName" tabindex="-1">익명</h2>
+      <p id="detailTime"></p>
+    </div>
+    <button class="action action-close" id="detailClose" type="button" aria-label="글 닫기">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+  </header>
+  <figure class="detail-photo" id="detailPhotoWrap" hidden>
+    <img id="detailPhoto" alt="함께 남긴 사진">
+  </figure>
+  <p class="detail-msg" id="detailMsg"></p>
+</dialog>
+
+<aside id="list" hidden>
+  <div class="listHead"><h2>남긴 글</h2><button class="text-action" id="listClose" type="button">마당으로</button></div>
+  <p class="list-empty" id="listEmpty" hidden>아직 남긴 글이 없어요.</p>
+  <ol id="listItems"></ol>
+  <div class="backup" id="backup" hidden>
+    <button class="text-action" id="backupSave" type="button">백업 파일 저장</button>
+    <button class="text-action" id="backupLoad" type="button">백업 불러오기</button>
+    <input type="file" id="backupFile" accept=".json,application/json" hidden>
+    <p class="backup-status" id="backupStatus" role="status"></p>
+  </div>
+</aside>
+
+<script>
+/* LIMEN 방명록 프로토타입 (v4, 2026-11-08)
+ * 방명록 글 하나 = 빛 정령 하나. 글 id 를 시드로 써서 같은 글은 언제나 같은 캐릭터가 된다.
+ * 배경: 남색 밤 들판 · 반딧불이 · 사선 빛줄기 (v2 컨셉 그대로) 를 픽셀 대신 에어브러시 질감으로.
+ *   하늘(오로라 띠·별) → 지평선 빛 → 겹겹 언덕 → 원근이 있는 풀밭 → 앞쪽 안개
+ *   캐릭터는 아래(앞)로 올수록 조금 커진다.
+ */
+(() => {
+'use strict';
+const $ = (s) => document.querySelector(s);
+const field = $('#field'), cv = $('#cv'), ctx = cv.getContext('2d'), bubLayer = $('#bubbles');
+
+/* ---------- 시드 난수 ---------- */
+function hash32(str) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995); h ^= h >>> 15;
+  return h >>> 0;
+}
+function rng(seedStr) {
+  let a = hash32(String(seedStr));
+  return () => {
+    a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const pick = (r, arr) => arr[Math.floor(r() * arr.length)];
+const rand = (a, b) => a + Math.random() * (b - a);
+const lerp = (a, b, t) => a + (b - a) * t;
+
+/* ---------- 이미지 ---------- */
+const imgCache = new Map();
+function loadImg(src) {
+  if (!imgCache.has(src)) {
+    imgCache.set(src, new Promise((res, rej) => {
+      const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src;
+    }));
+  }
+  return imgCache.get(src);
+}
+
+/* ---------- 얼굴 레이어 ---------- */
+function drawExpression(ctx, pose, expression, blink = false) {
+  ctx.strokeStyle = ctx.fillStyle = '#f5fcff';
+  ctx.lineCap = 'round';
+  const primaryEyes = pose.profile ? 1 : 2;
+  for (let i = 0; i < pose.eyes.length; i++) {
+    const [x, y] = pose.eyes[i];
+    const small = i >= primaryEyes;
+    const r = small ? 0.8 : expression === 'surprised' ? 2.15 : 1.65;
+    ctx.beginPath();
+    if (blink && !small) {
+      ctx.lineWidth = 1.2;
+      ctx.moveTo(x - 1.5, y);
+      ctx.lineTo(x + 1.5, y);
+      ctx.stroke();
+    } else if (expression === 'smile' && !small) {
+      ctx.lineWidth = 1.45;
+      ctx.moveTo(x - 1.85, y + 0.55);
+      ctx.quadraticCurveTo(x, y - 2.5, x + 1.85, y + 0.55);
+      ctx.stroke();
+    } else {
+      ctx.ellipse(x, y, r, expression === 'surprised' ? r * 1.1 : r, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  const [x, y] = pose.mouth;
+  const w = pose.profile ? 0.7 : 1;
+  ctx.beginPath();
+  ctx.lineWidth = 1.35;
+  if (expression === 'surprised') {
+    ctx.ellipse(x, y + 0.45, 2 * w, 2.15, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  } else if (expression === 'smile') {
+    ctx.moveTo(x - 3.3 * w, y - 0.8);
+    ctx.quadraticCurveTo(x, y + 0.4, x + 3.3 * w, y - 0.8);
+    ctx.quadraticCurveTo(x, y + 6, x - 3.3 * w, y - 0.8);
+    ctx.fill();
+  } else {
+    ctx.moveTo(x - 2.55 * w, y - 0.65);
+    ctx.quadraticCurveTo(x - 1.35 * w, y + 1.85, x, y - 0.2);
+    ctx.quadraticCurveTo(x + 1.35 * w, y + 1.85, x + 2.55 * w, y - 0.65);
+    ctx.stroke();
+  }
+}
+
+/* ---------- 빛 정령 ----------
+ * 시트 규격: 768×512 = 6열 × 4행, 한 칸 128×128, 투명 배경
+ *   열 0~1 서 있기(1 = 숨쉬기·눈 깜빡), 열 2~5 걷기 4프레임
+ *   행 0 정면 · 1 왼쪽 · 2 오른쪽 · 3 뒷모습, 발끝 y = 120
+ * 목록: assets/glow/index.json [{id, name, top}] — top = 머리 꼭대기 y (말풍선 위치)
+ */
+let GLOW_INDEX = null;
+async function loadGlowIndex() {
+  if (!GLOW_INDEX) GLOW_INDEX = fetch('assets/glow/index.json').then((r) => r.json());
+  return GLOW_INDEX;
+}
+const SPR = {
+  frame: 128, footY: 120, topY: 56, walkFrames: 4, fps: 8, speed: 38, poolW: 30, hitW: 22,
+  base: () => (W >= 900 ? 0.75 : 0.56),
+  async make(seed) {
+    const list = await loadGlowIndex();
+    const c = pick(rng('glow:' + seed), list);
+    const sheet = await loadImg(`assets/glow/${c.id}/walk.png`);
+    return { sheet, label: c.name, top: c.top, face: c.face };
+  },
+  src(ch) {
+    const row = { down: 0, left: 1, right: 2, up: 3 }[ch.dir];
+    // 서 있을 땐 3.2초에 한 번 0.25초 동안 숨쉬기 프레임(눈 깜빡)
+    const f = ch.moving ? 2 + (Math.floor(ch.anim * this.fps) % this.walkFrames) : ((ch.anim % 3.2) > 2.95 ? 1 : 0);
+    return [f * 128, row * 128];
+  },
+  face(look, c2) {
+    c2.imageSmoothingEnabled = true;
+    c2.drawImage(look.sheet, 22, 36, 84, 84, 0, 0, c2.canvas.width, c2.canvas.height);
+    if (look.face) {
+      c2.save();
+      c2.scale(c2.canvas.width / 84, c2.canvas.height / 84);
+      c2.translate(-22, -36);
+      drawExpression(c2, look.face.front[0], 'cute');
+      c2.restore();
+    }
+  },
+};
+
+/* ---------- 방명록 글 ---------- */
+const LS_KEY = 'limen_gb_proto_v1';
+
+// 사진은 용량이 커서 localStorage(약 5MB) 대신 IndexedDB 에 원본 화질로 둔다. 글 목록엔 hasPhoto 표시만.
+const PHOTO_DB = 'limen_gb_photos';
+function photoStore(mode) {
+  return new Promise((res, rej) => {
+    const rq = indexedDB.open(PHOTO_DB, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore('photos');
+    rq.onsuccess = () => res(rq.result.transaction('photos', mode).objectStore('photos'));
+    rq.onerror = () => rej(rq.error);
+  });
+}
+const idbReq = (r) => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+async function putPhoto(id, dataUrl) { await idbReq((await photoStore('readwrite')).put(dataUrl, id)); }
+async function getPhoto(id) { try { return await idbReq((await photoStore('readonly')).get(id)); } catch { return ''; } }
+
+async function loadEntries() {
+  let saved = [];
+  try {
+    saved = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    if (!Array.isArray(saved)) saved = [];
+  } catch { saved = []; }
+  await Promise.all(saved.filter((e) => e.hasPhoto && !e.photo).map(async (e) => {
+    const ph = await getPhoto(e.id); if (ph) e.photo = ph;
+  }));
+  return saved;
+}
+async function saveEntry(e) {
+  const rec = { ...e };
+  if (e.photo) {
+    try { await putPhoto(e.id, e.photo); delete rec.photo; rec.hasPhoto = true; } catch { /* IndexedDB 가 없으면 글 안에 그대로 둔다 */ }
+  }
+  const mine = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+  mine.push(rec);
+  localStorage.setItem(LS_KEY, JSON.stringify(mine.slice(-5000)));   // 지우지 않고 보존 (마당엔 최근 것만 나옴)
+}
+// 공개 웹(QR)에서는 관객 휴대폰에 파일이 생기지 않도록 하지 않는다.
+function saveToDisk(e) {
+  if (!e.photo) return;
+  const d = new Date(e.t || Date.now()), p2 = (n) => String(n).padStart(2, '0');
+  const who = (e.name || '익명').replace(/[\\/:*?"<>|\s]+/g, '_');
+  const a = document.createElement('a');
+  a.href = e.photo;
+  a.download = `LIMEN방명록_${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}_${p2(d.getHours())}${p2(d.getMinutes())}${p2(d.getSeconds())}_${who}.jpg`;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- 상태 ---------- */
+let W = 0, H = 0, DPR = 1, HZ = 0;          // HZ = 지평선 y
+let TOP = 120, BOTTOM = 0;                   // 걸어다닐 수 있는 세로 범위
+let scene = null, sky = null, vignette = null;
+let chars = [], entries = [], talkClock = 0, flies = [], mists = [], shoot = null, shootClock = 6;
+let T = 0;
+
+// 미리 그려 두는 빛 스프라이트
+function glowSprite(size, stops) {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const x = c.getContext('2d'), g = x.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  stops.forEach(([o, col]) => g.addColorStop(o, col));
+  x.fillStyle = g; x.fillRect(0, 0, size, size);
+  return c;
+}
+const GLOW_MINT = glowSprite(64, [[0, 'rgba(190,255,240,1)'], [0.18, 'rgba(111,240,216,.55)'], [0.5, 'rgba(111,240,216,.12)'], [1, 'rgba(111,240,216,0)']]);
+const GLOW_LAV = glowSprite(64, [[0, 'rgba(235,230,255,1)'], [0.18, 'rgba(181,166,255,.55)'], [0.5, 'rgba(181,166,255,.12)'], [1, 'rgba(181,166,255,0)']]);
+const POOL = glowSprite(64, [[0, 'rgba(181,166,255,.5)'], [0.45, 'rgba(140,130,255,.16)'], [1, 'rgba(120,110,255,0)']]);
+const SOFT = glowSprite(128, [[0, 'rgba(255,255,255,1)'], [0.35, 'rgba(255,255,255,.45)'], [1, 'rgba(255,255,255,0)']]);
+
+/* ---------- 크기 · 범위 ---------- */
+function resize() {
+  const r = field.getBoundingClientRect();
+  W = Math.round(r.width); H = Math.round(r.height);
+  DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  // 위쪽 버튼 아래부터 하단 버튼 위까지만 걷는다
+  TOP = $('.top').getBoundingClientRect().bottom + 8;
+  const dockTop = $('#dock').getBoundingClientRect().top;
+  // 하단 버튼의 스타일이 늦게 적용되어도 캐릭터를 화면 밖에 배치하지 않는다.
+  BOTTOM = (dockTop > TOP + 36 && dockTop <= H ? dockTop : H - 64) - 10;
+  HZ = Math.max(H * 0.2, Math.min(H * 0.42, minY() - 26)); // 걷는 곳은 모두 땅 위
+  scene = makeScene(); sky = makeAurora(); vignette = makeVignette();
+  makeFlies(); makeMists();
+  for (const ch of chars) { ch.x = clampX(ch.x); ch.y = clampY(ch.y); ch.tx = ch.x; ch.ty = ch.y; }
+}
+const clampX = (x) => Math.max(24, Math.min(W - 24, x));
+const minY = () => Math.min(TOP + (SPR.footY - SPR.topY) * SPR.base() * 0.85 + 58, BOTTOM - 40); // 머리 위 말풍선 두 줄 자리
+const clampY = (y) => Math.max(minY(), Math.min(BOTTOM, y));
+// 원근: 지평선 쪽(멀리)은 작게, 앞쪽은 크게
+const depthOf = (y) => Math.max(0, Math.min(1, (y - HZ) / Math.max(1, H - HZ)));
+const scaleAt = (y) => SPR.base() * lerp(0.74, 1.12, depthOf(y));
+
+function newCanvas() {
+  const c = document.createElement('canvas'); c.width = Math.round(W * DPR); c.height = Math.round(H * DPR);
+  const x = c.getContext('2d'); x.scale(DPR, DPR);
+  return [c, x];
+}
+// 부드러운 빛 덩어리 하나 (가로세로 따로)
+function dab(x, cxp, cyp, rx, ry, color, alpha) {
+  x.save(); x.globalAlpha = alpha; x.translate(cxp, cyp); x.scale(rx / 64, ry / 64);
+  x.drawImage(tint(color), -64, -64, 128, 128);
+  x.restore();
+}
+const tintCache = new Map();
+function tint(color) {
+  if (!tintCache.has(color)) {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const x = c.getContext('2d'); x.drawImage(SOFT, 0, 0);
+    x.globalCompositeOperation = 'source-in'; x.fillStyle = color; x.fillRect(0, 0, 128, 128);
+    tintCache.set(color, c);
+  }
+  return tintCache.get(color);
+}
+
+/* ---------- 배경 (한 번 그려 둠) ---------- */
+function makeScene() {
+  const [c, x] = newCanvas();
+  const r = rng('limen-night');
+
+  // 하늘: 위는 깊은 남색, 지평선으로 갈수록 라벤더 빛
+  const g = x.createLinearGradient(0, 0, 0, HZ);
+  g.addColorStop(0, '#050822'); g.addColorStop(0.5, '#0e1550'); g.addColorStop(0.85, '#2a2f8a'); g.addColorStop(1, '#5a55c6');
+  x.fillStyle = g; x.fillRect(0, 0, W, HZ + 1);
+
+  // 별: 작고 둥근 빛 점
+  const stars = Math.round((W * HZ) / 2600);
+  for (let i = 0; i < stars; i++) {
+    const sx = r() * W, sy = Math.pow(r(), 1.4) * HZ * 0.92, s = 0.4 + r() * 1.1;
+    x.globalAlpha = 0.25 + r() * 0.6 * (1 - sy / HZ);
+    x.fillStyle = r() < 0.75 ? '#e9eff3' : '#cfc6ff';
+    x.beginPath(); x.arc(sx, sy, s, 0, Math.PI * 2); x.fill();
+    if (s > 1.2) dab(x, sx, sy, 6, 6, '#b5a6ff', 0.25);
+  }
+  x.globalAlpha = 1;
+
+  // 지평선 빛 (멀리서 번지는 라벤더 · 민트)
+  x.globalCompositeOperation = 'lighter';
+  dab(x, W * 0.58, HZ, W * 0.75, HZ * 0.55, '#6c5fe0', 0.55);
+  dab(x, W * 0.2, HZ + 4, W * 0.35, HZ * 0.25, '#4fb8d8', 0.22);
+  x.globalCompositeOperation = 'source-over';
+
+  // 겹겹 언덕: 먼 것일수록 밝고 흐리다 (공기 원근)
+  const hills = [
+    { off: -HZ * 0.08, amp: HZ * 0.22, f: 1.1, top: '#3b3aa0', bot: '#272b78', rim: 'rgba(205,195,255,.22)' },
+    { off: -HZ * 0.02, amp: HZ * 0.15, f: 1.7, top: '#2b2d80', bot: '#1c225f', rim: 'rgba(181,166,255,.18)' },
+    { off: HZ * 0.03, amp: HZ * 0.09, f: 2.6, top: '#1f2468', bot: '#161c50', rim: 'rgba(160,150,255,.14)' },
+  ];
+  hills.forEach((hl, i) => {
+    const ph = r() * 10, ph2 = r() * 10;
+    const yAt = (px) => HZ + hl.off - hl.amp * (0.6 * Math.sin(px / W * Math.PI * hl.f + ph) + 0.4 * Math.sin(px / W * Math.PI * hl.f * 2.3 + ph2) + 0.4);
+    x.beginPath(); x.moveTo(0, H);
+    for (let px = 0; px <= W + 8; px += 8) x.lineTo(px, yAt(px));
+    x.lineTo(W, H); x.closePath();
+    const hg = x.createLinearGradient(0, HZ + hl.off - hl.amp * 1.4, 0, HZ + 40);
+    hg.addColorStop(0, hl.top); hg.addColorStop(1, hl.bot);
+    x.fillStyle = hg; x.fill();
+    // 능선 빛 테두리
+    x.save(); x.beginPath();
+    for (let px = 0; px <= W + 8; px += 8) (px ? x.lineTo(px, yAt(px)) : x.moveTo(px, yAt(px)));
+    x.strokeStyle = hl.rim; x.lineWidth = 0.8; x.shadowColor = '#b5a6ff'; x.shadowBlur = 14; x.stroke(); x.restore();
+    // 언덕 사이 안개
+    x.globalCompositeOperation = 'lighter';
+    for (let k = 0; k < 6; k++) dab(x, r() * W, HZ + hl.off + 6, W * (0.12 + r() * 0.14), 10 + i * 3, '#8a80ff', 0.07);
+    x.globalCompositeOperation = 'source-over';
+  });
+
+  // 땅: 앞으로 올수록 어두운 남색
+  const gy = HZ + HZ * 0.03;
+  // 맨 앞 언덕 색에서 이어지게: 경계가 보이지 않도록 위쪽은 투명에서 시작
+  const gg = x.createLinearGradient(0, gy, 0, H);
+  gg.addColorStop(0, 'rgba(22,28,80,0)'); gg.addColorStop(0.12, 'rgba(20,26,76,1)'); gg.addColorStop(0.45, '#111750'); gg.addColorStop(1, '#060a24');
+  x.fillStyle = gg; x.fillRect(0, gy, W, H - gy);
+  // 땅 위 지평선 안개
+  x.globalCompositeOperation = 'lighter';
+  // 지평선 안개: 위아래 모두 투명에서 시작해 경계선이 생기지 않게
+  const fh = (H - gy) * 0.24, ftop = gy - HZ * 0.25;
+  const fog = x.createLinearGradient(0, ftop, 0, gy + fh);
+  fog.addColorStop(0, 'rgba(140,128,255,0)'); fog.addColorStop((gy - ftop) / (gy + fh - ftop), 'rgba(140,128,255,.22)'); fog.addColorStop(1, 'rgba(140,128,255,0)');
+  x.fillStyle = fog; x.fillRect(0, ftop, W, gy + fh - ftop);
+  x.globalCompositeOperation = 'source-over';
+
+  // 풀: 원근에 따라 아래로 갈수록 크고 진하게, 붓으로 그은 가는 잎
+  const blades = Math.round(W * (H - gy) / 260);
+  x.lineCap = 'round';
+  for (let i = 0; i < blades; i++) {
+    const d = Math.pow(r(), 0.8), px = r() * W, py = gy + d * (H - gy);
+    const len = 2.5 + d * 15, lean = (r() - 0.5) * len * 0.9;
+    const mint = r() < 0.18;
+    x.strokeStyle = mint ? `rgba(111,240,216,${0.05 + d * 0.16})` : `rgba(150,145,255,${0.05 + d * 0.2})`;
+    x.lineWidth = 0.5 + d * 1.4;
+    for (let b = -1; b <= 1; b++) {
+      x.beginPath(); x.moveTo(px + b * len * 0.15, py);
+      x.quadraticCurveTo(px + b * len * 0.2 + lean * 0.3, py - len * 0.6, px + b * len * 0.35 + lean, py - len * (b ? 0.8 : 1));
+      x.stroke();
+    }
+  }
+  // 빛 꽃: 둥근 빛 점 (앞쪽일수록 크다)
+  x.globalCompositeOperation = 'lighter';
+  const flowers = Math.round(W * (H - gy) / 9000);
+  for (let i = 0; i < flowers; i++) {
+    const d = Math.pow(r(), 0.7), px = r() * W, py = gy + 4 + d * (H - gy - 4);
+    const col = r() < 0.55 ? '#b5a6ff' : '#6ff0d8', s = 1 + d * 3.2;
+    dab(x, px, py, s * 4.5, s * 3.4, col, 0.35);
+    x.fillStyle = 'rgba(240,245,255,.85)'; x.beginPath(); x.arc(px, py, s * 0.55, 0, Math.PI * 2); x.fill();
+  }
+
+  // 하늘에서 내려오는 사선 빛줄기 (메인 SLOGAN 구간 느낌)
+  [[0.26, -0.34, 0.14, 0.09], [0.42, -0.3, 0.07, 0.06], [0.78, 0.22, 0.1, 0.045]].forEach(([bx, rot, bw, a]) => {
+    x.save(); x.translate(W * bx, -40); x.rotate(rot);
+    const bm = x.createLinearGradient(-W * bw, 0, W * bw, 0);
+    bm.addColorStop(0, 'rgba(170,165,255,0)'); bm.addColorStop(0.5, `rgba(170,165,255,${a})`); bm.addColorStop(1, 'rgba(170,165,255,0)');
+    const fade = x.createLinearGradient(0, 0, 0, H * 1.3);
+    x.fillStyle = bm; x.fillRect(-W * bw, 0, W * bw * 2, H * 1.3);
+    x.restore();
+  });
+  x.globalCompositeOperation = 'source-over';
+
+  // 에어브러시 알갱이 (캐릭터 질감과 맞춤)
+  const n = document.createElement('canvas'); n.width = n.height = 160;
+  const nx = n.getContext('2d'), id = nx.createImageData(160, 160);
+  for (let i = 0; i < id.data.length; i += 4) {
+    const v = r() * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255;
+  }
+  nx.putImageData(id, 0, 0);
+  x.globalAlpha = 0.045; x.globalCompositeOperation = 'overlay';
+  x.fillStyle = x.createPattern(n, 'repeat'); x.fillRect(0, 0, W, H);
+  x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+  return c;
+}
+
+// 오로라 띠: 하늘 위로 천천히 일렁인다 (따로 그려서 투명도만 움직임)
+function makeAurora() {
+  const [c, x] = newCanvas();
+  const r = rng('aurora');
+  x.globalCompositeOperation = 'lighter';
+  const bands = [['#7d6bff', 0.05, 0.3], ['#6ff0d8', 0.035, 0.48], ['#b5a6ff', 0.04, 0.18]];
+  bands.forEach(([col, a, yk]) => {
+    const p0 = r() * 6, amp = HZ * (0.12 + r() * 0.1), y0 = HZ * yk + HZ * 0.1;
+    for (let i = 0; i <= 90; i++) {
+      const t = i / 90, px = t * W * 1.1 - W * 0.05;
+      const py = y0 + Math.sin(t * Math.PI * 1.6 + p0) * amp + Math.sin(t * Math.PI * 4 + p0 * 2) * amp * 0.25;
+      dab(x, px, py, W * 0.06 + 30, HZ * (0.16 + 0.08 * Math.sin(t * 9 + p0)), col, a);
+    }
+  });
+  return c;
+}
+function makeVignette() {
+  const [c, x] = newCanvas();
+  const g = x.createRadialGradient(W / 2, H * 0.55, Math.min(W, H) * 0.3, W / 2, H * 0.55, Math.max(W, H) * 0.82);
+  g.addColorStop(0, 'rgba(3,5,20,0)'); g.addColorStop(1, 'rgba(3,5,20,.55)');
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  return c;
+}
+
+// 땅 위를 천천히 흐르는 안개 덩어리
+function makeMists() {
+  mists = [];
+  for (let i = 0; i < 6; i++) {
+    const d = 0.15 + Math.random() * 0.8;
+    mists.push({ x: Math.random() * W, y: HZ + d * (H - HZ), rx: W * rand(0.18, 0.32), ry: 14 + d * 26, v: rand(4, 10) * (Math.random() < 0.5 ? -1 : 1), a: rand(0.05, 0.09) });
+  }
+}
+function drawMists(dt) {
+  ctx.globalCompositeOperation = 'lighter';
+  for (const m of mists) {
+    m.x += m.v * dt;
+    if (m.x < -m.rx) m.x = W + m.rx; if (m.x > W + m.rx) m.x = -m.rx;
+    dab(ctx, m.x, m.y, m.rx, m.ry, '#8f86ff', m.a);
+  }
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+/* 반딧불이: 각자 깜빡이다가 이웃 박자에 조금씩 맞춰 간다 */
+function makeFlies() {
+  const n = Math.round(Math.min(90, Math.max(22, (W * H) / 13000)));
+  flies = [];
+  for (let i = 0; i < n; i++) {
+    flies.push({
+      x: Math.random() * W, y: rand(HZ * 0.6, H * 0.97), a: Math.random() * Math.PI * 2,
+      sp: rand(6, 16), ph: Math.random(), f: rand(0.38, 0.52), mint: Math.random() < 0.7, sz: rand(12, 24),
+    });
+  }
+}
+function updateFlies(dt) {
+  let sx = 0, sy = 0;
+  for (const f of flies) { sx += Math.cos(f.ph * 6.283); sy += Math.sin(f.ph * 6.283); }
+  const R = Math.hypot(sx, sy) / flies.length, psi = Math.atan2(sy, sx);
+  for (const f of flies) {
+    f.ph += dt * (f.f + 0.2 * R * Math.sin(psi - f.ph * 6.283));
+    f.ph -= Math.floor(f.ph);
+    f.a += rand(-1.6, 1.6) * dt;
+    f.x += Math.cos(f.a) * f.sp * dt; f.y += Math.sin(f.a) * f.sp * 0.6 * dt;
+    if (f.x < -20) f.x = W + 20; if (f.x > W + 20) f.x = -20;
+    if (f.y < HZ * 0.55) f.a = Math.abs(f.a); if (f.y > H * 0.97) f.a = -Math.abs(f.a);
+  }
+}
+function drawFlies() {
+  ctx.globalCompositeOperation = 'lighter';
+  for (const f of flies) {
+    const b = Math.pow(Math.max(0, Math.sin(f.ph * 6.283)), 3) * 0.9 + 0.1;
+    const k = lerp(0.6, 1.25, depthOf(f.y)), s = f.sz * (0.6 + b * 0.6) * k;
+    ctx.globalAlpha = b;
+    ctx.drawImage(f.mint ? GLOW_MINT : GLOW_LAV, f.x - s / 2, f.y - s / 2, s, s);
+    ctx.fillStyle = f.mint ? '#d8fff6' : '#efeaff';
+    ctx.beginPath(); ctx.arc(f.x, f.y, 1.1 * k, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+// 가끔 지나가는 별똥별
+function drawShoot(dt) {
+  shootClock -= dt;
+  if (!shoot && shootClock <= 0) {
+    shoot = { x: rand(W * 0.2, W * 0.9), y: rand(HZ * 0.05, HZ * 0.4), t: 0, life: rand(0.8, 1.2), ang: rand(2.6, 2.9) };
+    shootClock = rand(9, 16);
+  }
+  if (!shoot) return;
+  shoot.t += dt;
+  const k = shoot.t / shoot.life; if (k >= 1) { shoot = null; return; }
+  const len = 120, dx = Math.cos(shoot.ang), dy = Math.sin(shoot.ang);
+  const hx = shoot.x + dx * k * W * 0.35, hy = shoot.y + dy * k * W * 0.35;
+  const g = ctx.createLinearGradient(hx, hy, hx - dx * len, hy - dy * len);
+  const a = Math.sin(k * Math.PI);
+  g.addColorStop(0, `rgba(240,245,255,${0.9 * a})`); g.addColorStop(1, 'rgba(181,166,255,0)');
+  ctx.strokeStyle = g; ctx.lineWidth = 1.4; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx - dx * len, hy - dy * len); ctx.stroke();
+}
+
+/* ---------- 캐릭터 ---------- */
+const maxChars = () => (W < 600 ? 18 : 30);
+// const maxTalk = () => (W < 600 ? 1 : 2);   // 한 번에 말하는 캐릭터 수 (걷는 모습이 보이게 적게)
+
+const maxTalk = () => 3;
+function spawnPos() { return [rand(28, W - 28), rand(minY(), BOTTOM)]; }
+
+function preparePhotoCard(src, ch) {
+  const image = new Image();
+  image.onload = () => {
+    const card = document.createElement('canvas');
+    card.width = 112; card.height = 120;
+    const x = card.getContext('2d');
+    x.scale(4, 4);
+    x.lineWidth = 1;
+    x.fillStyle = '#f2ebff';
+    x.strokeStyle = '#41476e';
+    x.beginPath();
+    x.roundRect(1, 1, 26, 28, 3);
+    x.fill(); x.stroke();
+    const size = Math.min(image.naturalWidth, image.naturalHeight);
+    x.drawImage(image, (image.naturalWidth - size) / 2, (image.naturalHeight - size) / 2, size, size, 3, 3, 22, 22);
+    // 사진 모서리를 잡고 있는 작은 빛 덩어리
+    x.fillStyle = '#c9d4ff';
+    x.beginPath();
+    x.ellipse(1.9, 19, 1.7, 2.6, -.12, 0, 2 * Math.PI);
+    x.moveTo(27.8, 19);
+    x.ellipse(26.1, 19, 1.7, 2.6, .12, 0, 2 * Math.PI);
+    x.fill();
+    ch.photoCard = card;
+  };
+  image.src = src;
+}
+
+async function addChar(entry, opts = {}) {
+  const look = await SPR.make(entry.seed || entry.id);
+  const [x, y] = spawnPos();
+  const ch = {
+    entry, look, x, y, tx: x, ty: y, dir: 'down', moving: false, anim: Math.random() * 3,
+    wait: rand(0.2, 2.5), speed: SPR.speed * rand(0.85, 1.2),
+    talkUntil: 0, bubble: null, isNew: !!opts.isNew, sparks: [],
+    // 새 글: 빛 한 점이 내려와(orb 0→1) 터지고 캐릭터가 깨어난다(wake 0→1)
+    orb: opts.drop ? 0 : 1, wake: opts.drop ? 0 : 1, orbX: rand(W * 0.2, W * 0.8),
+    surprisedUntil: 0,
+  };
+  if (entry.photo) preparePhotoCard(entry.photo, ch);
+  chars.push(ch);
+  if (chars.length > maxChars()) {
+    const old = chars.shift(); if (old.bubble) old.bubble.remove();
+  }
+  updateHud();
+  return ch;
+}
+
+async function start() {
+  const list = entries.slice(-maxChars());
+  await Promise.all(list.map((e) => addChar(e)));
+  updateHud();
+  renderList();
+}
+
+/* ---------- 말풍선 ---------- */
+function talk(ch, secs) {
+  if (!ch.bubble) {
+    const b = document.createElement('div'); b.className = 'bubble';
+    const who = document.createElement('span'); who.className = 'who'; who.textContent = ch.entry.name || '익명';
+    const txt = document.createElement('span'); txt.textContent = ch.entry.msg;
+    const tail = document.createElement('i'); tail.className = 'tail';
+    b.append(who, txt, tail);
+    bubLayer.appendChild(b);
+    ch.bubble = b; ch.tail = tail;
+  }
+  ch.bubble.classList.toggle('new', ch.isNew);
+  ch.bubble.classList.add('on');
+  ch.bw = ch.bubble.offsetWidth; ch.bh = ch.bubble.offsetHeight;
+  ch.talkUntil = performance.now() / 1000 + secs;
+  ch.wait = Math.max(ch.wait, secs);      // 말할 땐 멈춰서
+  ch.moving = false; ch.dir = 'down';     // 정면을 본다
+  ch.tx = ch.x; ch.ty = ch.y;
+}
+function hush(ch) {
+  if (ch.bubble) ch.bubble.classList.remove('on');
+  ch.talkUntil = 0; ch.isNew = false;
+}
+function talking() { const now = performance.now() / 1000; return chars.filter((c) => c.talkUntil > now); }
+
+function maybeStartTalk() {
+  const now = performance.now() / 1000, cur = talking();
+  if (cur.length >= maxTalk()) return;
+  const free = chars.filter((c) => c.talkUntil <= now && c.wake >= 1 &&
+    cur.every((o) => Math.abs(o.x - c.x) > 150 || Math.abs(o.y - c.y) > 90));
+  if (free.length) talk(pick(Math.random, free), rand(3, 4.2));
+}
+
+/* ---------- 움직임 ---------- */
+function newTarget(ch) {
+  const hop = W < 600 ? 120 : 200;
+  ch.tx = clampX(ch.x + rand(-hop, hop));
+  ch.ty = clampY(ch.y + rand(-hop, hop) * 0.6);
+}
+
+function update(dt) {
+  const now = performance.now() / 1000;
+  updateFlies(dt);
+  for (const ch of chars) {
+    ch.sparks = ch.sparks.filter((p) => (p.t += dt) < p.life);
+    if (ch.orb < 1) {
+      ch.orb = Math.min(1, ch.orb + dt / 1.1);
+      if (ch.orb >= 1) { // 착지: 빛 조각이 흩어진다
+        ch.surprisedUntil = T + 1;
+        for (let i = 0; i < 16; i++) {
+          const a = (i / 16) * Math.PI * 2 + rand(-0.2, 0.2);
+          ch.sparks.push({ a, v: rand(40, 110), t: 0, life: rand(0.5, 0.9), mint: Math.random() < 0.6 });
+        }
+      }
+      continue;
+    }
+    if (ch.wake < 1) { ch.wake = Math.min(1, ch.wake + dt / 0.6); continue; }
+    if (ch.talkUntil && ch.talkUntil <= now) hush(ch);
+    ch.anim += dt;
+    if (ch.wait > 0) { ch.wait -= dt; ch.moving = false; if (ch.wait <= 0) newTarget(ch); continue; }
+    const dx = ch.tx - ch.x, dy = ch.ty - ch.y, d = Math.hypot(dx, dy);
+    if (d < 2) { ch.moving = false; ch.wait = rand(0.6, 3); continue; }
+    // 멀리 있을수록 느리게 보이게 (원근)
+    const step = Math.min(d, ch.speed * lerp(0.7, 1.15, depthOf(ch.y)) * dt);
+    ch.x += (dx / d) * step; ch.y += (dy / d) * step;
+    ch.moving = true;
+    ch.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
+  }
+  talkClock -= dt;
+  if (talkClock <= 0) { talkClock = rand(5, 9); maybeStartTalk(); }   // 5~9초에 한 번 말을 건다
+}
+
+/* ---------- 그리기 ---------- */
+function drawCarriedPhoto(ch, scale) {
+  const offset = { down: 6, left: -12, right: 12, up: 16 }[ch.dir];
+  const sway = ch.moving ? Math.sin(ch.anim * Math.PI * 4) : 0;
+  ctx.save();
+  ctx.translate(ch.x + offset * scale, ch.y - (23 + sway * 1.4) * scale);
+  ctx.rotate(offset * .008 + sway * .065);
+  ctx.drawImage(ch.photoCard, -14 * scale, -15 * scale, 28 * scale, 30 * scale);
+  ctx.restore();
+}
+
+function drawChars(sorted, alpha = 1) {
+  const F = SPR.frame;
+  for (const ch of sorted) {
+    if (ch.orb < 1) continue;
+    const s = scaleAt(ch.y), [sx, sy] = SPR.src(ch);
+    ctx.globalAlpha = ch.wake * alpha;
+    const left = ch.x - (F / 2) * s, top = ch.y - SPR.footY * s;
+    ctx.drawImage(ch.look.sheet, sx, sy, F, F, left, top, F * s, F * s);
+    if (alpha !== 1) continue;
+    if (ch.photoCard) drawCarriedPhoto(ch, s);
+    if (!ch.look.face || sy === F * 3) continue;
+    const pose = ch.look.face[sy === 0 ? 'front' : 'side'][sx / F];
+    const expression = ch.talkUntil ? 'smile' : T < ch.surprisedUntil ? 'surprised' : 'cute';
+    ctx.save();
+    ctx.translate(left, top);
+    ctx.scale(s, s);
+    if (sy === F * 2) { ctx.translate(F, 0); ctx.scale(-1, 1); }
+    drawExpression(ctx, pose, expression, expression === 'cute' && sx === F);
+    ctx.restore();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function draw(dt) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(scene, 0, 0);
+  // 오로라는 천천히 숨쉬듯 밝아졌다 어두워진다
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.globalAlpha = 0.65 + 0.35 * Math.sin(T * 0.25);
+  ctx.drawImage(sky, 0, 0);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  drawShoot(dt);
+  drawMists(dt);
+
+  const sorted = chars.slice().sort((a, b) => a.y - b.y);
+  // 1) 발밑 빛 웅덩이
+  ctx.globalCompositeOperation = 'lighter';
+  for (const ch of sorted) {
+    if (ch.orb < 1) continue;
+    const pw = SPR.poolW * scaleAt(ch.y);
+    ctx.globalAlpha = 0.55 * ch.wake + (ch.talkUntil ? 0.35 : 0);
+    ctx.drawImage(POOL, ch.x - pw, ch.y - pw * 0.32, pw * 2, pw * 0.64);
+  }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(vignette, 0, 0, W, H);
+
+  // 2) 빛 정령: 그린 뒤 빛을 한 번 더 더한다
+  drawChars(sorted);
+  ctx.globalCompositeOperation = 'lighter';
+  drawChars(sorted, 0.15);
+  ctx.globalCompositeOperation = 'source-over';
+
+  // 3) 반딧불이 · 내려오는 빛 · 흩어지는 조각 · 깨어나는 빛
+  drawFlies();
+  ctx.globalCompositeOperation = 'lighter';
+  for (const ch of chars) {
+    if (ch.orb < 1) {
+      const t = ch.orb, e = 1 - Math.pow(1 - t, 3);
+      const ox = ch.orbX + (ch.x - ch.orbX) * e, oy = -30 + (ch.y - 20 + 30) * e;
+      for (let k = 0; k < 6; k++) { // 꼬리
+        const tt = Math.max(0, e - k * 0.035), tx = ch.orbX + (ch.x - ch.orbX) * tt, ty = -30 + (ch.y - 20 + 30) * tt;
+        ctx.globalAlpha = 0.5 - k * 0.07; ctx.drawImage(GLOW_MINT, tx - 18, ty - 18, 36, 36);
+      }
+      ctx.globalAlpha = 1; ctx.drawImage(GLOW_MINT, ox - 30, oy - 30, 60, 60);
+      ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(ox, oy, 2.4, 0, Math.PI * 2); ctx.fill();
+    } else if (ch.wake < 1) {
+      ctx.globalAlpha = 1 - ch.wake;
+      const r = 50 + ch.wake * 40;
+      ctx.drawImage(GLOW_LAV, ch.x - r, ch.y - 20 - r, r * 2, r * 2);
+    }
+    for (const p of ch.sparks) {
+      const k = p.t / p.life, d = p.v * p.t;
+      ctx.globalAlpha = 1 - k;
+      ctx.fillStyle = p.mint ? '#a8fff0' : '#d9d2ff';
+      ctx.beginPath(); ctx.arc(ch.x + Math.cos(p.a) * d, ch.y - 20 + Math.sin(p.a) * d * 0.7 + 30 * k * k, 1.6, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+
+  // 말풍선 위치
+  for (const ch of chars) {
+    if (!ch.bubble || !ch.talkUntil) continue;
+    const headY = ch.y - (SPR.footY - (ch.look.top ?? SPR.topY)) * scaleAt(ch.y);
+    let left = ch.x - ch.bw / 2;
+    left = Math.max(8, Math.min(W - ch.bw - 8, left));
+    const top = Math.max(TOP, headY - ch.bh - 14);
+    ch.bubble.style.transform = `translate(${Math.round(left)}px, ${Math.round(top)}px)`;
+    ch.tail.style.left = `${Math.round(Math.max(10, Math.min(ch.bw - 10, ch.x - left)))}px`;
+  }
+}
+
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt;
+  update(dt); draw(dt);
+  requestAnimationFrame(loop);
+}
+
+/* ---------- 화면 ---------- */
+function updateHud() {
+  $('#count').textContent = chars.length;
+  $('#yardEmpty').hidden = entries.length > 0;
+}
+
+function renderList() {
+  const ol = $('#listItems'); ol.textContent = '';
+  $('#listEmpty').hidden = entries.length > 0;
+  for (const e of entries.slice().reverse()) {
+    const li = document.createElement('li');
+    const c = document.createElement('canvas'); c.width = 80; c.height = 80;
+    const x = c.getContext('2d');
+    const body = document.createElement('div');
+    body.className = 'list-text';
+    const who = document.createElement('span'); who.className = 'who'; who.textContent = e.name || '익명';
+    const msg = document.createElement('span'); msg.textContent = e.msg;
+    body.append(who, msg); li.append(c, body);
+    li.className = 'has-detail';
+    li.tabIndex = 0;
+    li.setAttribute('role', 'button');
+    li.setAttribute('aria-label', `${e.name || '익명'}의 글 자세히 보기`);
+    li.addEventListener('click', () => openDetail(e));
+    li.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openDetail(e); }
+    });
+    if (e.photo) {
+      const photo = document.createElement('img');
+      photo.className = 'list-photo';
+      photo.loading = 'lazy';
+      photo.alt = '첨부 사진';
+      photo.src = e.photo;
+      li.appendChild(photo);
+    }
+    ol.appendChild(li);
+    SPR.make(e.seed || e.id).then((look) => SPR.face(look, x));
+  }
+}
+
+cv.addEventListener('pointerdown', (ev) => {
+  const r = cv.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
+  const hit = chars.slice().sort((a, b) => b.y - a.y).find((ch) => {
+    const s = scaleAt(ch.y);
+    return Math.abs(px - ch.x) < SPR.hitW * s && py < ch.y + 4 && py > ch.y - (SPR.footY - (ch.look.top ?? SPR.topY)) * s - 6;
+  });
+  if (!hit) return;
+  const cur = talking().filter((c) => c !== hit);
+  if (cur.length >= maxTalk()) hush(cur.sort((a, b) => a.talkUntil - b.talkUntil)[0]);
+  talk(hit, 5);
+  openDetail(hit.entry, hit.look);
+});
+
+/* ---------- 글 자세히 보기 ---------- */
+const detail = $('#detail');
+const detailTime = (t) => {
+  if (!t) return '';
+  const d = new Date(t), p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+};
+async function openDetail(entry, look) {
+  $('#detailName').textContent = entry.name || '익명';
+  $('#detailTime').textContent = detailTime(entry.t);
+  $('#detailMsg').textContent = entry.msg || '';
+  const img = $('#detailPhoto');
+  $('#detailPhotoWrap').hidden = !entry.photo;
+  if (entry.photo) img.src = entry.photo; else img.removeAttribute('src');
+  const fc = $('#detailFace').getContext('2d');
+  fc.clearRect(0, 0, fc.canvas.width, fc.canvas.height);
+  if (!detail.open) detail.showModal();
+  $('#detailName').focus();
+  SPR.face(look || await SPR.make(entry.seed || entry.id), fc);
+}
+$('#detailClose').addEventListener('click', () => detail.close());
+detail.addEventListener('click', (ev) => { // 창 바깥(배경)을 누르면 닫힘
+  const r = detail.getBoundingClientRect();
+  if (ev.target === detail && (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom)) detail.close();
+});
+
+/* ---------- 방명록 작성 창과 카메라 ---------- */
+const composer = $('#composer');
+const form = $('#form');
+const messageInput = $('#msg');
+const cameraVideo = $('#cameraVideo');
+const cameraStart = $('#cameraStart');
+const cameraCapture = $('#cameraCapture');
+const photoPreview = $('#photoPreview');
+const cameraStatus = $('#cameraStatus');
+const photoNote = '';
+let cameraStream = null;
+let cameraRequest = 0;
+let draftPhoto = '';
+
+function showCameraState(state, note = photoNote) {
+  cameraVideo.hidden = state !== 'live';
+  cameraCapture.disabled = state !== 'live' || cameraVideo.readyState < 2;
+  photoPreview.hidden = state !== 'photo';
+  $('#cameraPlaceholder').hidden = state === 'live' || state === 'photo';
+  $('#cameraLive').hidden = state !== 'live';
+  $('#cameraReview').hidden = state !== 'photo';
+  cameraStart.disabled = state === 'loading';
+  $('#cameraStartLabel').textContent = state === 'loading' ? '카메라 연결 중…' : '카메라 열기';
+  cameraStatus.textContent = note;
+}
+
+function stopCamera() {
+  cameraRequest++;
+  if (cameraStream) cameraStream.getTracks().forEach((track) => track.stop());
+  cameraStream = null;
+  cameraVideo.srcObject = null;
+}
+
+function showCameraDraft(note) {
+  if (draftPhoto) {
+    photoPreview.src = draftPhoto;
+  } else {
+    photoPreview.removeAttribute('src');
+  }
+  showCameraState(draftPhoto ? 'photo' : 'idle', note);
+}
+
+function cameraErrorNote(name, openingPreview) {
+  if (openingPreview) return '카메라는 연결됐지만 미리보기를 재생하지 못했어요. 다시 열어 주  세요.';
+  switch (name) {
+    case 'NotAllowedError':
+    case 'SecurityError':
+      return 'Chrome의 이 사이트 카메라 권한과 Windows의 데스크톱 앱 카메라 권한을 확인해 주세요.';
+    case 'NotFoundError':
+      return 'Chrome이 사용할 수 있는 카메라를 찾지 못했어요. Windows 카메라 앱에서 장치가 보이는지 확인해 주세요.';
+    case 'NotReadableError':
+    case 'AbortError':
+      return '카메라에서 영상을 받지 못했어요. 카메라 앱이나 화상회의 탭을 닫고 다시 열어 주세요.';
+    case 'OverconstrainedError':
+      return 'Chrome이 선택한 카메라를 사용할 수 없어요. Chrome 설정에서 기본 카메라를 확인해 주세요.';
+    default:
+      return '카메라를 시작하지 못했어요. Windows 카메라 앱에서 미리보기가 되는지 확인해 주세요.';
+  }
+}
+
+async function requestCamera(request) {
+  // 선명한 사진을 위해 카메라가 낼 수 있는 높은 해상도를 먼저 요청한다.
+  const video = {
+    width: { ideal: 1920 }, height: { ideal: 1080 },
+    ...(window.matchMedia('(pointer: coarse)').matches ? { facingMode: { ideal: 'user' } } : {}),
+  };
+  try {
+    return await navigator.mediaDevices.getUserMedia({ video, audio: false });
+  } catch (error) {
+    if (!['AbortError', 'NotReadableError'].includes(error?.name) || request !== cameraRequest || !composer.open) {
+      throw error;
+    }
+    console.warn('방명록 카메라', '기본 영상 설정', error.name, error.message);
+    showCameraState('loading', '더 낮은 해상도로 카메라를 다시 연결하는 중이에요.');
+    return navigator.mediaDevices.getUserMedia({
+      video: {
+        ...(video.facingMode ? { facingMode: video.facingMode } : {}),
+        width: { ideal: 320 },
+        height: { ideal: 240 },
+        frameRate: { ideal: 15 },
+      },
+      audio: false,
+    });
+  }
+}
+
+async function startCamera() {
+  if (!navigator.mediaDevices?.getUserMedia) {
+    showCameraDraft('이 주소에서는 카메라를 쓸 수 없어요. HTTPS 주소에서 열고 브라우저의 카메라 권한을 확인해 주세요.');
+    return;
+  }
+  stopCamera();
+  const request = cameraRequest;
+  showCameraState('loading', '카메라를 연결하는 중이에요. Chrome이 물으면 사용을 허용해 주세요.');
+  let openingPreview = false;
+  try {
+    const stream = await requestCamera(request);
+    if (request !== cameraRequest || !composer.open) {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+    cameraStream = stream;
+    const [track] = stream.getVideoTracks();
+    track.addEventListener('ended', () => {
+      if (request !== cameraRequest) return;
+      stopCamera();
+      showCameraDraft('카메라 연결이 끊겼어요. 다시 켤 수 있어요.');
+    }, { once: true });
+    openingPreview = true;
+    cameraVideo.hidden = false;
+    cameraVideo.srcObject = stream;
+    await cameraVideo.play();
+    if (request !== cameraRequest || !composer.open) return;
+    showCameraState('live', '얼굴을 화면 가운데에 맞추고 사진을 찍어 주세요.');
+    if (!cameraCapture.disabled) cameraCapture.focus();
+  } catch (error) {
+    if (request !== cameraRequest || !composer.open) return;
+    stopCamera();
+    const name = error?.name || 'UnknownError';
+    console.warn('방명록 카메라', openingPreview ? '미리보기' : '장치 연결', name, error?.message);
+    showCameraDraft(cameraErrorNote(name, openingPreview));
+  }
+}
+
+function capturePhoto() {
+  if (!cameraStream || !cameraVideo.videoWidth || cameraVideo.readyState < 2) return;
+  const { videoWidth, videoHeight, clientWidth, clientHeight } = cameraVideo;
+  // 화면에 보이는 비율과 좌우 반전을 사진에도 그대로 반영한다.
+  const ratio = clientWidth / clientHeight;
+  const cropWidth = Math.min(videoWidth, videoHeight * ratio);
+  const cropHeight = cropWidth / ratio;
+  const photo = document.createElement('canvas');
+  // 카메라 원본 해상도 그대로(최대 가로 1920) — 확대하지 않는다
+  photo.width = Math.round(Math.min(cropWidth, 1920));
+  photo.height = Math.round(photo.width / ratio);
+  const x = photo.getContext('2d');
+  x.translate(photo.width, 0);
+  x.scale(-1, 1);
+  x.imageSmoothingQuality = 'high';
+  x.drawImage(cameraVideo, (videoWidth - cropWidth) / 2, (videoHeight - cropHeight) / 2,
+    cropWidth, cropHeight, 0, 0, photo.width, photo.height);
+  draftPhoto = photo.toDataURL('image/jpeg', .92);
+  stopCamera();
+  showCameraDraft('사진이 첨부됐어요.');
+  $('#cameraRetake').focus({ preventScroll: true });
+}
+
+function updateMessageLength() {
+  $('#messageLength').textContent = `${messageInput.value.length} / ${messageInput.maxLength}`;
+}
+
+$('#composeBtn').addEventListener('click', () => {
+  $('#composeStatus').textContent = '';
+  composer.showModal();
+});
+$('#composeClose').addEventListener('click', () => composer.close());
+composer.addEventListener('close', () => {
+  stopCamera();
+  showCameraDraft();
+});
+window.addEventListener('pagehide', () => {
+  stopCamera();
+  showCameraDraft();
+});
+cameraStart.addEventListener('click', startCamera);
+$('#cameraRetake').addEventListener('click', startCamera);
+cameraVideo.addEventListener('loadeddata', () => {
+  if (cameraStream && composer.open) cameraCapture.disabled = false;
+});
+cameraCapture.addEventListener('click', capturePhoto);
+$('#cameraStop').addEventListener('click', () => {
+  stopCamera();
+  showCameraDraft();
+  $(draftPhoto ? '#cameraRetake' : '#cameraStart').focus();
+});
+$('#photoRemove').addEventListener('click', () => {
+  draftPhoto = '';
+  showCameraDraft();
+  cameraStart.focus();
+});
+messageInput.addEventListener('input', () => {
+  $('#composeStatus').textContent = '';
+  updateMessageLength();
+});
+form.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const msg = messageInput.value.trim();
+  const status = $('#composeStatus');
+  if (!msg) {
+    status.textContent = '내용을 입력해 주세요.';
+    messageInput.focus();
+    return;
+  }
+  const entry = {
+    id: 'u-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    name: $('#name').value.trim().slice(0, 8),
+    msg: msg.slice(0, 40),
+    t: Date.now(),
+  };
+  if (draftPhoto) entry.photo = draftPhoto;
+  try {
+    await saveEntry(entry);
+  } catch {
+    status.textContent = draftPhoto
+      ? '저장 공간을 확인하거나 사진을 빼고 다시 시도해 주세요.'
+      : '이 브라우저에 저장할 수 없어요.';
+    return;
+  }
+  entries.push(entry);
+  saveToDisk(entry);
+  form.reset();
+  draftPhoto = '';
+  updateMessageLength();
+  $('#postStatus').textContent = entry.photo ? '사진과 글을 등록했어요.' : '방명록에 등록했어요.';
+  composer.close();
+  addChar(entry, { drop: true, isNew: true }).then((ch) => {
+    setTimeout(() => { if (chars.includes(ch)) talk(ch, 7); }, 1750);
+  });
+  renderList();
+});
+
+$('#listBtn').addEventListener('click', () => {
+  $('#list').hidden = false;
+  $('#listBtn').setAttribute('aria-expanded', 'true');
+  $('#listClose').focus();
+});
+/* ---------- 백업 (이 컴퓨터에서 띄웠을 때만 보임) ---------- */
+// 백업 파일 = 글 + 사진 전부가 든 json 하나. 새 버전으로 바꾸거나 주소(포트)가 달라져도 불러오면 그대로 이어진다.
+$('#backup').hidden = false;
+$('#backupSave').addEventListener('click', () => {
+  const d = new Date(), p2 = (n) => String(n).padStart(2, '0');
+  const data = { app: 'LIMEN-guestbook', version: 1, savedAt: d.toISOString(), entries };
+  const url = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `LIMEN방명록_백업_${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}_${p2(d.getHours())}${p2(d.getMinutes())}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  $('#backupStatus').textContent = `글 ${entries.length}개(사진 ${entries.filter((e) => e.photo).length}장)를 백업 파일로 저장했어요.`;
+});
+$('#backupLoad').addEventListener('click', () => $('#backupFile').click());
+$('#backupFile').addEventListener('change', async (ev) => {
+  const file = ev.target.files[0]; ev.target.value = '';
+  if (!file) return;
+  const status = $('#backupStatus');
+  try {
+    const data = JSON.parse(await file.text());
+    const list = Array.isArray(data) ? data : data.entries;
+    if (!Array.isArray(list)) throw new Error('형식');
+    const have = new Set(entries.map((e) => e.id));
+    const add = list.filter((e) => e && e.id && typeof e.msg === 'string' && !have.has(e.id))
+      .sort((a, b) => (a.t || 0) - (b.t || 0));
+    for (const e of add) await saveEntry(e);
+    status.textContent = add.length ? `글 ${add.length}개를 불러왔어요. 잠시 뒤 새로고침돼요.` : '새로 불러올 글이 없어요. (이미 다 있어요)';
+    if (add.length) setTimeout(() => location.reload(), 900);
+  } catch {
+    status.textContent = '백업 파일을 읽지 못했어요. LIMEN방명록_백업_….json 파일인지 확인해 주세요.';
+  }
+});
+
+$('#listClose').addEventListener('click', () => {
+  $('#list').hidden = true;
+  $('#listBtn').setAttribute('aria-expanded', 'false');
+  $('#listBtn').focus();
+});
+let rt = 0;
+window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 120); });
+
+/* ---------- 시작 ---------- */
+resize();
+loadEntries().then((list) => { entries = list; start(); });
+requestAnimationFrame(loop);
+
+// 검증용
+window.__gb = { get chars() { return chars; }, get style() { return 'glow'; }, talk };
+})();
+
+</script>
+</body>
+</html>
